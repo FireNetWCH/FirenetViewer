@@ -1,0 +1,11 @@
+PySide6
+QT-PyQt-PySide-Custom-Widgets
+pyinstaller
+reportlab
+matplotlib
+pandas
+openpyxl
+PyMuPDF
+Pillow
+pytesseract
+libratom

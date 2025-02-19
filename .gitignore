@@ -1,0 +1,7 @@
+Qss/icons/
+venv/
+**/__pycache__/
+logs/*
+nazwa_bazy.db
+logs/custom_widgets.log
+.qt_for_python/
