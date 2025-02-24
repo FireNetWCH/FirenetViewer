@@ -19,7 +19,9 @@ from Custom_Widgets import *
 from Custom_Widgets.QAppSettings import QAppSettings
 from src.multi_tag_dialog import MultiTagInputDialog
 from src.multi_tag_selector import MultiTagSelector
-from src.pdf_viewer import display_pdf_content
+from src.viewers.pdf_viewer import display_pdf_content
+from src.viewers.img_viewer import display_img_content
+from src.viewers.video_viewer import display_vidoe_content
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -463,11 +465,13 @@ class GUIFunctions:
                     content = file.read()
                 self.ui.label_11.setText(content)
             elif ext == '.pdf':
-                display_pdf_content(self, file_path)
-            elif ext in ['.jpg', '.jpeg']:
-                self.display_image_message("Selected file is in progress.")
+                display_pdf_content(self,0,1, file_path)
+            elif ext in ['.jpg','.jpeg','.png','.gif','.bmp','.ppm']:
+                display_img_content(self,file_path)
             elif ext == '.pst':
                 self.display_image_message("PST files are in progress.")
+            elif ext in ['.mp4','.avi','.mkv','.mov','.wmv','.flv','ogv']:
+                display_vidoe_content(self,file_path)
             else:
                 self.ui.label_11.setText("Selected file type is not supported.")
         except Exception as e:
