@@ -22,6 +22,7 @@ from src.multi_tag_selector import MultiTagSelector
 from src.viewers.pdf_viewer import display_pdf_content
 from src.viewers.img_viewer import display_img_content
 from src.viewers.video_viewer import display_vidoe_content
+from src.viewers.dir_viewers import display_dir_content
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -470,8 +471,10 @@ class GUIFunctions:
                 display_img_content(self,file_path)
             elif ext == '.pst':
                 self.display_image_message("PST files are in progress.")
-            elif ext in ['.mp4','.avi','.mkv','.mov','.wmv','.flv','ogv']:
+            elif ext in ['.mp4','.avi','.mkv','.mov','.wmv','.flv','.ogv']:
                 display_vidoe_content(self,file_path)
+            elif os.path.isdir(file_path):
+                display_dir_content(self,file_path)
             else:
                 self.ui.label_11.setText("Selected file type is not supported.")
         except Exception as e:
