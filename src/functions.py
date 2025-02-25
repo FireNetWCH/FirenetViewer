@@ -19,7 +19,11 @@ from Custom_Widgets import *
 from Custom_Widgets.QAppSettings import QAppSettings
 from src.multi_tag_dialog import MultiTagInputDialog
 from src.multi_tag_selector import MultiTagSelector
-from src.pdf_viewer import display_pdf_content
+from src.gui_function import display_file_content
+# from src.viewers.pdf_viewer import display_pdf_content
+# from src.viewers.img_viewer import display_img_content
+# from src.viewers.video_viewer import display_vidoe_content
+# from src.viewers.dir_viewers import display_dir_content
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -452,26 +456,30 @@ class GUIFunctions:
         selected_indexes = self.tree_view.selectedIndexes()
         if selected_indexes:
             selected_file_path = self.file_system_model.filePath(selected_indexes[0])
-            self.display_file_content(selected_file_path)
+            display_file_content(self,selected_file_path)
 
-    def display_file_content(self, file_path: str) -> None:
-        """W zależności od rozszerzenia, wyświetla zawartość pliku lub komunikat o braku wsparcia."""
-        try:
-            _, ext = os.path.splitext(file_path.lower())
-            if ext in ['.txt', '.csv', '.py', '.log']:
-                with open(file_path, 'r', encoding='utf-8') as file:
-                    content = file.read()
-                self.ui.label_11.setText(content)
-            elif ext == '.pdf':
-                display_pdf_content(self, file_path)
-            elif ext in ['.jpg', '.jpeg']:
-                self.display_image_message("Selected file is in progress.")
-            elif ext == '.pst':
-                self.display_image_message("PST files are in progress.")
-            else:
-                self.ui.label_11.setText("Selected file type is not supported.")
-        except Exception as e:
-            self.ui.label_11.setText(f"Could not read file: {e}")
+    # def display_file_content(self, file_path: str) -> None:
+    #     """W zależności od rozszerzenia, wyświetla zawartość pliku lub komunikat o braku wsparcia."""
+    #     try:
+    #         _, ext = os.path.splitext(file_path.lower())
+    #         if ext in ['.txt', '.csv', '.py', '.log']:
+    #             with open(file_path, 'r', encoding='utf-8') as file:
+    #                 content = file.read()
+    #             self.ui.label_11.setText(content)
+    #         elif ext == '.pdf':
+    #             display_pdf_content(self,0,1, file_path)
+    #         elif ext in ['.jpg','.jpeg','.png','.gif','.bmp','.ppm']:
+    #             display_img_content(self,file_path)
+    #         elif ext == '.pst':
+    #             self.display_image_message("PST files are in progress.")
+    #         elif ext in ['.mp4','.avi','.mkv','.mov','.wmv','.flv','.ogv']:
+    #             display_vidoe_content(self,file_path)
+    #         elif os.path.isdir(file_path):
+    #             display_dir_content(self,file_path)
+    #         else:
+    #             self.ui.label_11.setText("Selected file type is not supported.")
+    #     except Exception as e:
+    #         self.ui.label_11.setText(f"Could not read file: {e}")
 
     def display_image_message(self, message: str) -> None:
         """Wyświetla komunikat (np. informujący o niedostępnej funkcjonalności)."""
