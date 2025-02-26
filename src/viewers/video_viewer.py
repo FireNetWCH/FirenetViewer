@@ -2,6 +2,8 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout,QPushButton
 from PySide6.QtMultimedia import QMediaPlayer, QCamera,QAudioOutput
 from PySide6.QtCore import QUrl
 from PySide6.QtMultimediaWidgets import QVideoWidget
+from src.viewers.explorer_function import view_cleaer
+
 class VideoViewer(QVideoWidget):
     def __init__(self,parent = None):
         super().__init__()
@@ -41,13 +43,7 @@ def display_vidoe_content(context,vieo_path):
     mute_btn.clicked.connect(video_viewer.mute_vide)
 
     layout = context.ui.reportsPage.layout()
-    if layout is None:
-        layout = QVBoxLayout(context.ui.reportsPage)
-        context.ui.reportsPage.setLayout(layout)
-    for i in reversed(range(layout.count())):
-        widget_to_remove = layout.itemAt(i).widget()
-        if widget_to_remove:
-            widget_to_remove.setParent(None)
+    view_cleaer(layout,context)
     layout.addWidget(play_btn)
     layout.addWidget(restart_btn)
     layout.addWidget(mute_btn)

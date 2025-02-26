@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import QGraphicsView,QGraphicsScene,QScrollArea,QWidget,QPushButton,QVBoxLayout,QGraphicsPixmapItem
 from PySide6.QtGui import QPixmap,QPainter
 from PySide6.QtCore import Qt
+from src.viewers.explorer_function import view_cleaer
 
 
 class IMGViewer(QGraphicsView):
@@ -50,15 +51,7 @@ def display_img_content(context, file_path: str) -> None:
         rigth_rotate_image_btn.clicked.connect(lambda: img_viewer.rotate(-90))
 
         layout = context.ui.reportsPage.layout()
-        if layout is None:
-            layout = QVBoxLayout(context.ui.reportsPage)
-            context.ui.reportsPage.setLayout(layout)
-
-        
-        for i in reversed(range(layout.count())):
-            widget_to_remove = layout.itemAt(i).widget()
-            if widget_to_remove:
-                widget_to_remove.setParent(None)
+        view_cleaer(layout,context)
 
         layout.addWidget(scroll_area)
         layout.addWidget(left_rotate_image_btn)

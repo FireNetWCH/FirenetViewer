@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsPixmapItem
 from PySide6.QtGui import QPixmap, QImage, QPainter, QWheelEvent
 from PySide6.QtCore import Qt
 import fitz
+from src.viewers.explorer_function import view_cleaer
 
 class PDFViewer(QGraphicsView):
     def __init__(self,scene,zoom = 1.25, parent=None, pdf_document=None, current_page=0):
@@ -90,14 +91,7 @@ def display_pdf_content(context, num_page,zoom,file_path: str) -> None:
 
 
         scroll_area.setWidget(pdf_view)
-        layout = context.ui.reportsPage.layout()
-        if layout is None:
-            layout = QVBoxLayout(context.ui.reportsPage)
-            context.ui.reportsPage.setLayout(layout)
-        for i in reversed(range(layout.count())):
-            widget_to_remove = layout.itemAt(i).widget()
-            if widget_to_remove:
-                widget_to_remove.setParent(None)
+        view_cleaer(layout,context)
 
         layout.addWidget(scroll_area)
         layout.addWidget(prev_btn)

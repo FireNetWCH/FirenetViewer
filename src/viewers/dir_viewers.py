@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import QWidget,QFileSystemModel,QVBoxLayout,QTableView,QListView,QSizePolicy,QPushButton
 from PySide6.QtCore import QSize
+from src.viewers.explorer_function import view_cleaer
 class DirViewers(QWidget):
     def __init__(self,parent = None):
         super().__init__()
@@ -29,12 +30,11 @@ class DirViewers(QWidget):
         file_path = self.file_system_model.filePath(index)
         
         if self.file_system_model.isDir(index):  
-            print(f"Przechodzę do katalogu: {file_path}")
             self.set_directory(file_path)
+            parent.ui.label_11.setText(file_path)
         else:
-            import src.gui_function as g
-            g.display_file_content(parent,file_path)
-            print(f"Kliknięto plik: {file_path}")
+            import src.viewers.display_chenger as g
+            g.display_file_content(self,file_path)
         
 def display_dir_content(context,dir_path):
     dir_viewers = DirViewers()
@@ -47,18 +47,22 @@ def display_dir_content(context,dir_path):
     dir_viewers.list_view.clicked.connect(lambda index: dir_viewers.itme_list_clicked(index, context))
     
     layout = context.ui.reportsPage.layout()
-    if layout is None:
-        layout = QVBoxLayout(context.ui.reportsPage)
-        context.ui.reportsPage.setLayout(layout)
-    for i in reversed(range(layout.count())):
-        widget_to_remove = layout.itemAt(i).widget()
-        if widget_to_remove:
-            widget_to_remove.setParent(None)
+    view_cleaer(layout,context)
+    # if layout is None:
+    #     layout = QVBoxLayout(context.ui.reportsPage)
+    #     context.ui.reportsPage.setLayout(layout)
+    # for i in reversed(range(layout.count())):
+    #     widget_to_remove = layout.itemAt(i).widget()
+    #     print(widget_to_remove.objectName())
+    #     if widget_to_remove:
+    #         widget_to_remove.setParent(None)
 
+    #context.verticalLayout_13.addWidget(prev_btn)
     
     layout.addWidget(dir_viewers,stretch=1)
     layout.addWidget(prev_btn)
     layout.addWidget(next_btn)
+    
    
 
     
