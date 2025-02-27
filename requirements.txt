@@ -9,3 +9,6 @@ PyMuPDF
 Pillow
 pytesseract
 libratom
+mammoth
+xlrd
+odf

@@ -38,6 +38,7 @@ class GUIFunctions:
         self.current_sort_order: Dict[int, Any] = {}
         self.histor = histor_stack()
         self.back_hisotry = histor_stack()
+        self.active_path =""
         self._setup_ui()
         self._connect_to_database("nazwa_bazy.db")
         self.load_data_from_database()

@@ -632,13 +632,6 @@ class Ui_MainWindow(object):
         self.notificationsPage.setObjectName(u"notificationsPage")
         self.verticalLayout_16 = QVBoxLayout(self.notificationsPage)
         self.verticalLayout_16.setObjectName(u"verticalLayout_16")
-        self.label_14 = QLabel(self.notificationsPage)
-        self.label_14.setObjectName(u"label_14")
-        self.label_14.setScaledContents(True)
-        self.label_14.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-        self.verticalLayout_16.addWidget(self.label_14)
-
         self.rightMenuPages.addWidget(self.notificationsPage)
         self.morePage = QWidget()
         self.morePage.setObjectName(u"morePage")
@@ -725,7 +718,7 @@ class Ui_MainWindow(object):
 
         self.menuBtn.setDefault(False)
         self.centerMenuPages.setCurrentIndex(0)
-        self.mainPages.setCurrentIndex(2)
+        self.mainPages.setCurrentIndex(3)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -805,7 +798,6 @@ class Ui_MainWindow(object):
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"ChartsPage", None))
         self.label_13.setText(QCoreApplication.translate("MainWindow", u"Right Menu", None))
         self.closeRightMenuBtn.setText("")
-        self.label_14.setText(QCoreApplication.translate("MainWindow", u"Notifications", None))
         self.label_15.setText(QCoreApplication.translate("MainWindow", u"morePage", None))
         self.label_16.setText(QCoreApplication.translate("MainWindow", u"Profile", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"Copyright sth", None))

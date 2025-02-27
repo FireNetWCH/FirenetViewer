@@ -2,6 +2,8 @@ from src.viewers.pdf_viewer import display_pdf_content
 from src.viewers.img_viewer import display_img_content
 from src.viewers.video_viewer import display_vidoe_content
 from src.viewers.dir_viewers import display_dir_content
+from src.viewers.docx_viewers import display_docx_content
+from src.viewers.table_viewers import display_table_content
 import os
 
 def display_file_content(self, file_path: str,history_flag = 1) -> None:
@@ -12,14 +14,21 @@ def display_file_content(self, file_path: str,history_flag = 1) -> None:
         try:
             print(file_path)
             _, ext = os.path.splitext(file_path.lower())
-            if ext in ['.txt', '.csv', '.py', '.log']:
-                with open(file_path, 'r', encoding='utf-8') as file:
-                    content = file.read()
-                    if isinstance(content, list):
-                        content = "\n".join(content)
+            if ext in ['.txt', '.py', '.log','.doc','.dot']:
+                display_docx_content(self,file_path)
                 self.ui.label_11.setText(file_path)
                 if history_flag == 1:
                     self.history.append_history(file_path)
+            elif ext == '.docx':
+                display_pdf_content(self,0,1, file_path)
+                self.ui.label_11.setText(file_path)
+                if history_flag == 1:
+                    self.histor.append_history(file_path)
+            elif ext in['.csv','.xlsx','.xls','.odf','.ods','.xlsm','.xlsb','.odt']:
+                display_table_content(self, file_path,ext)
+                self.ui.label_11.setText(file_path)
+                if history_flag == 1:
+                    self.histor.append_history(file_path)      
             elif ext == '.pdf':
                 display_pdf_content(self,0,1, file_path)
                 self.ui.label_11.setText(file_path)
@@ -35,7 +44,7 @@ def display_file_content(self, file_path: str,history_flag = 1) -> None:
                 self.ui.label_11.setText(file_path)
                 if history_flag == 1:
                     self.histor.append_history(file_path)
-            elif ext in ['.mp4','.avi','.mkv','.mov','.wmv','.flv','.ogv']:
+            elif ext in ['.mp3','.mp4','.avi','.mkv','.mov','.wmv','.flv','.ogv']:
                 display_vidoe_content(self,file_path)
                 self.ui.label_11.setText(file_path)
                 if history_flag == 1:
@@ -46,7 +55,7 @@ def display_file_content(self, file_path: str,history_flag = 1) -> None:
                 if history_flag == 1:
                     self.histor.append_history(file_path)
             else:
-                self.ui.label_11.setText("Selected file type is not supported.")
+                self.ui.label_11.setText(file_path)
         except Exception as e:
             self.ui.label_11.setText(f"Could not read file: {e}")
             

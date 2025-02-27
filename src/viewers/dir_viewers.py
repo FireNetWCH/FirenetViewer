@@ -34,7 +34,7 @@ class DirViewers(QWidget):
             parent.ui.label_11.setText(file_path)
         else:
             import src.viewers.display_chenger as g
-            g.display_file_content(self,file_path)
+            g.display_file_content(parent,file_path)
         
 def display_dir_content(context,dir_path):
     dir_viewers = DirViewers()
