@@ -14,6 +14,7 @@ Monitorowanie zmienianych komponentów z QT do GUI:
 
 Wykonanie exec file: 
 * pyinstaller main.spec
+* set PYDEVD_DISABLE_FILE_VALIDATION=1
 
 **TODO:**
 1. Add ToolTips to a project for every button in the navbar

@@ -10,7 +10,7 @@ a = Analysis(
     hooksconfig={},
     runtime_hooks=[],
     excludes=['PyQt5', 'PySide2', 'PyQt6'],
-    noarchive=False,
+    noarchive=True,
 )
 
 pyz = PYZ(a.pure)
@@ -23,15 +23,14 @@ exe = EXE(
     name='FirenetViewer',
     debug=False,
     bootloader_ignore_signals=False,
-    strip=False,
-    upx=True,
+    strip=True,
+    upx=False,
     console=False,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon='/Users/wojciech/Documents/FirenetProjects/firenetViewer2/Qss/icons/Icons/font_awesome/brands/brave.png'
 )
 
 coll = COLLECT(

@@ -2,7 +2,7 @@ from PySide6.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsPixmapItem
 from PySide6.QtGui import QPixmap, QImage, QPainter, QWheelEvent
 from PySide6.QtCore import Qt
 import fitz
-from src.viewers.explorer_function import view_cleaer
+from src.viewers.explorer_function import view_cleaer,MetaDataTableWiget
 
 class PDFViewer(QGraphicsView):
     def __init__(self,scene,zoom = 1.25, parent=None, pdf_document=None, current_page=0):
@@ -75,7 +75,7 @@ def display_pdf_content(context, num_page,zoom,file_path: str) -> None:
         next_btn = QPushButton("Następna strona")
         zoom_btn = QPushButton("ZOOM +")
         rezoom_btn = QPushButton("ZOOM -")
-
+        meta_data_system_file = MetaDataTableWiget(file_path)
 
         layout = QVBoxLayout(container_widget)
 
@@ -92,6 +92,9 @@ def display_pdf_content(context, num_page,zoom,file_path: str) -> None:
 
         scroll_area.setWidget(pdf_view)
         view_cleaer(layout,context)
+
+        layoutRP = context.ui.rightMenu.layout()
+        layoutRP.addWidget(meta_data_system_file)
 
         layout.addWidget(scroll_area)
         layout.addWidget(prev_btn)

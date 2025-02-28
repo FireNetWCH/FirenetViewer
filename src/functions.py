@@ -1,26 +1,24 @@
-import os
 import sqlite3
 import logging
 from typing import Any, List, Dict, Optional
 import pandas as pd
 from PySide6.QtCore import Qt, QSettings, QDir, QPoint
-from PySide6.QtGui import QFont, QFontDatabase, QAction, QPixmap, QImage, QPainter
+from PySide6.QtGui import QFont, QFontDatabase, QAction
 from PySide6.QtWidgets import (
     QCheckBox, QPushButton, QGraphicsScene, QTableWidgetItem, QMenu, QFileSystemModel,
-    QTreeView, QVBoxLayout, QFileDialog, QGraphicsView, QGraphicsPixmapItem, QWidget, QMainWindow
+    QTreeView, QVBoxLayout, QFileDialog, QMainWindow
 )
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
-import fitz
 
 from Custom_Widgets import *
 from Custom_Widgets.QAppSettings import QAppSettings
 from src.multi_tag_dialog import MultiTagInputDialog
 from src.multi_tag_selector import MultiTagSelector
 from src.viewers.display_chenger import display_file_content
-from src.viewers.explorer_function import prev_item,go_back,go_forward,histor_stack
+from src.viewers.explorer_function import prev_item,histor_stack
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -90,11 +88,11 @@ class GUIFunctions:
         #główne przyciski
         self.ui.up_btn.clicked.connect(lambda :display_file_content(self,prev_item(self,self.ui.label_11.text())))
 
-        
-        self.ui.left_btn.clicked.connect(lambda: go_back(self))
-        
-        self.ui.rigth_btn.clicked.connect(lambda: go_forward(self))
-        
+        #Przyciski do obsługi histoiri przeglądania
+        # self.ui.left_btn.clicked.connect()
+        # self.ui.rigth_btn.clicked.connect()
+        self.ui.left_btn.hide()
+        self.ui.rigth_btn.hide()        
         # Konfiguracja menu nagłówka tabeli
         header = self.ui.tableWidget.horizontalHeader()
         header.setContextMenuPolicy(Qt.CustomContextMenu)
@@ -440,6 +438,8 @@ class GUIFunctions:
 
     def replace_label_with_treeview(self, directory: str) -> None:
         """Zamienia etykietę na widok drzewa katalogów."""
+        self.ui.label_11.setText(directory)
+        display_file_content(self,directory)
         self.file_system_model.setRootPath(directory)
         self.file_system_model.setFilter(QDir.AllEntries | QDir.NoDotAndDotDot)
         self.tree_view.setRootIndex(self.file_system_model.index(directory))
@@ -464,6 +464,7 @@ class GUIFunctions:
         if selected_indexes:
             selected_file_path = self.file_system_model.filePath(selected_indexes[0])
             display_file_content(self,selected_file_path)
+            self.ui.label_11.setText(selected_file_path)
 
     def display_image_message(self, message: str) -> None:
         """Wyświetla komunikat (np. informujący o niedostępnej funkcjonalności)."""

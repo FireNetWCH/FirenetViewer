@@ -1,7 +1,6 @@
-from PySide6.QtWidgets import QGraphicsView,QGraphicsScene,QScrollArea,QWidget,QPushButton,QVBoxLayout,QGraphicsPixmapItem,QTableWidget,QTableWidgetItem
+from PySide6.QtWidgets import QGraphicsView,QGraphicsScene,QScrollArea,QPushButton,QGraphicsPixmapItem,QTableWidget,QTableWidgetItem
 from PySide6.QtGui import QPixmap,QPainter
-from PySide6.QtCore import Qt
-from src.viewers.explorer_function import view_cleaer,get_image_metadata
+from src.viewers.explorer_function import view_cleaer,get_image_metadata,MetaDataTableWiget
 
 
 class IMGViewer(QGraphicsView):
@@ -33,9 +32,11 @@ def display_img_content(context, file_path: str) -> None:
     """Wyświetla obraz w aplikacji"""
     try:
         scene = QGraphicsScene()
-        img_viewer = IMGViewer(scene) 
+        img_viewer = IMGViewer(scene)
+        # meta_data_dictonery = get_system_metadata(file_path)
+        meta_data_system_file = MetaDataTableWiget(file_path)
         meta_data = get_image_metadata(file_path)
-        print(meta_data)
+
         img_viewer.metaDataWiget.setRowCount(len(meta_data))
         
         for row, (tag, value) in enumerate(meta_data.items()):
@@ -63,7 +64,6 @@ def display_img_content(context, file_path: str) -> None:
 
         layout = context.ui.reportsPage.layout()
         layoutRP = context.ui.rightMenu.layout()
-        print(layoutRP)
         view_cleaer(layout,context)
 
         layout.addWidget(scroll_area)
@@ -72,6 +72,7 @@ def display_img_content(context, file_path: str) -> None:
         layout.addWidget(zoom_btn)
         layout.addWidget(rezoom_btn)
         layoutRP.addWidget(img_viewer.metaDataWiget)
+        layoutRP.addWidget(meta_data_system_file)
     except Exception as e:
         print(f"Error displaying image: {e}")
         context.ui.label_11.setText(f"Nie można wyświetlić obrazu: {e}")

@@ -1,8 +1,8 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout,QPushButton
-from PySide6.QtMultimedia import QMediaPlayer, QCamera,QAudioOutput
+from PySide6.QtWidgets import QPushButton
+from PySide6.QtMultimedia import QMediaPlayer,QAudioOutput
 from PySide6.QtCore import QUrl
 from PySide6.QtMultimediaWidgets import QVideoWidget
-from src.viewers.explorer_function import view_cleaer
+from src.viewers.explorer_function import view_cleaer, MetaDataTableWiget
 
 class VideoViewer(QVideoWidget):
     def __init__(self,parent = None):
@@ -42,8 +42,12 @@ def display_vidoe_content(context,vieo_path):
     restart_btn.clicked.connect(video_viewer.restart_video)
     mute_btn.clicked.connect(video_viewer.mute_vide)
 
+    meta_data_system_file = MetaDataTableWiget(vieo_path)
+
     layout = context.ui.reportsPage.layout()
     view_cleaer(layout,context)
+    layoutRP = context.ui.rightMenu.layout()
+    layoutRP.addWidget(meta_data_system_file)
     layout.addWidget(play_btn)
     layout.addWidget(restart_btn)
     layout.addWidget(mute_btn)

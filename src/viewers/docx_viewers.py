@@ -1,6 +1,5 @@
 from PySide6.QtWidgets import QTextBrowser
-from PySide6.QtCore import QUrl
-from src.viewers.explorer_function import view_cleaer
+from src.viewers.explorer_function import view_cleaer, MetaDataTableWiget
 import mammoth
 class DocxViewers (QTextBrowser):
     def __init__(self,parent = None):
@@ -13,5 +12,10 @@ def display_docx_content(context,docx_path):
     with open(docx_path, "rb") as docx_file:
         result = mammoth.convert_to_html(docx_file)
         docx_viewers.setHtml(result.value)
+    meta_data_system_file = MetaDataTableWiget(docx_path)
     view_cleaer(layout,context)
+    layoutRP = context.ui.rightMenu.layout()
+    layoutRP.addWidget(meta_data_system_file)
     layout.addWidget(docx_viewers)
+
+
