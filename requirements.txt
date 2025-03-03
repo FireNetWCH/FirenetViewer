@@ -8,4 +8,4 @@ openpyxl
 PyMuPDF
 Pillow
 pytesseract
-libratom
+libratom==0.7.1
