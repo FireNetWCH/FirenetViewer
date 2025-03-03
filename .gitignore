@@ -1,5 +1,6 @@
 Qss/icons/
 venv/
+venv3.11/
 **/__pycache__/
 logs/*
 nazwa_bazy.db
