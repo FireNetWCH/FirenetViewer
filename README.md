@@ -25,3 +25,12 @@ https://stackoverflow.com/questions/77364550/attributeerror-module-pkgutil-has-n
 **OR**
 python3.11 -m venv venv -> tworzenie środowiska z python 3.11
 source venv3.11/bin/activate -> włączenie środowiska z python 3.11
+
+**EXEC FILES**
+Pamiętaj, aby skopiować foldery:
+= fonts
+= generated-files
+= json-styles
+= Qss
+
+do dist/main
