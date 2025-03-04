@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QTableWidget,QTableWidgetItem
+from PySide6.QtWidgets import QTableWidget,QTableWidgetItem,QTabWidget,QVBoxLayout,QPushButton,QWidget
 import pandas as pd
 from src.viewers.explorer_function import view_cleaer, MetaDataTableWiget
 
@@ -35,4 +35,11 @@ def display_table_content(context,path_file,ext):
     view_cleaer(layout,context)
     layoutRP = context.ui.rightMenu.layout()
     layoutRP.addWidget(meta_data_system_file)
-    layout.addWidget(table_viewer)
+
+    tab_content = QWidget()
+    tab_layout = QVBoxLayout(tab_content)
+    tab_layout.addWidget(table_viewer)
+    q_tab = context.ui.reportsPage.findChild(QWidget,"function_bar").findChild(QWidget,"tabWidget")
+    
+    q_tab.addTab(tab_content,"Image")
+    q_tab.setCurrentWidget(tab_content)

@@ -18,8 +18,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QGraphicsView,
     QHBoxLayout, QHeaderView, QLabel, QLineEdit,
     QMainWindow, QProgressBar, QPushButton, QSizePolicy,
-    QSpacerItem, QTableWidget, QTableWidgetItem, QTreeView,
-    QVBoxLayout, QWidget)
+    QSpacerItem, QTabWidget, QTableWidget, QTableWidgetItem,
+    QTreeView, QVBoxLayout, QWidget)
 
 from Custom_Widgets.QCustomQStackedWidget import QCustomQStackedWidget
 from Custom_Widgets.QCustomSlideMenu import QCustomSlideMenu
@@ -154,7 +154,7 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.widget_3, 0, Qt.AlignmentFlag.AlignBottom)
 
 
-        self.horizontalLayout.addWidget(self.leftMenu, 0, Qt.AlignmentFlag.AlignLeft)
+        self.horizontalLayout.addWidget(self.leftMenu)
 
         self.centerMenu = QCustomSlideMenu(self.centralwidget)
         self.centerMenu.setObjectName(u"centerMenu")
@@ -545,37 +545,77 @@ class Ui_MainWindow(object):
         self.verticalLayout_13.setObjectName(u"verticalLayout_13")
         self.function_bar = QFrame(self.reportsPage)
         self.function_bar.setObjectName(u"function_bar")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.function_bar.sizePolicy().hasHeightForWidth())
+        self.function_bar.setSizePolicy(sizePolicy2)
+        self.function_bar.setMinimumSize(QSize(679, 288))
         self.function_bar.setContextMenuPolicy(Qt.ContextMenuPolicy.NoContextMenu)
-        self.horizontalLayout_4 = QHBoxLayout(self.function_bar)
+        self.function_bar.setAutoFillBackground(True)
+        self.verticalLayout_20 = QVBoxLayout(self.function_bar)
+        self.verticalLayout_20.setObjectName(u"verticalLayout_20")
+        self.frame_4 = QFrame(self.function_bar)
+        self.frame_4.setObjectName(u"frame_4")
+        self.frame_4.setEnabled(True)
+        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.frame_4.sizePolicy().hasHeightForWidth())
+        self.frame_4.setSizePolicy(sizePolicy3)
+        self.frame_4.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_4.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_4 = QHBoxLayout(self.frame_4)
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.left_btn = QPushButton(self.function_bar)
+        self.left_btn = QPushButton(self.frame_4)
         self.left_btn.setObjectName(u"left_btn")
+        sizePolicy3.setHeightForWidth(self.left_btn.sizePolicy().hasHeightForWidth())
+        self.left_btn.setSizePolicy(sizePolicy3)
+        self.left_btn.setAutoDefault(False)
+        self.left_btn.setFlat(False)
 
         self.horizontalLayout_4.addWidget(self.left_btn)
 
-        self.rigth_btn = QPushButton(self.function_bar)
+        self.rigth_btn = QPushButton(self.frame_4)
         self.rigth_btn.setObjectName(u"rigth_btn")
+        self.rigth_btn.setEnabled(True)
+        sizePolicy3.setHeightForWidth(self.rigth_btn.sizePolicy().hasHeightForWidth())
+        self.rigth_btn.setSizePolicy(sizePolicy3)
 
         self.horizontalLayout_4.addWidget(self.rigth_btn)
 
-        self.up_btn = QPushButton(self.function_bar)
+        self.up_btn = QPushButton(self.frame_4)
         self.up_btn.setObjectName(u"up_btn")
+        sizePolicy3.setHeightForWidth(self.up_btn.sizePolicy().hasHeightForWidth())
+        self.up_btn.setSizePolicy(sizePolicy3)
+        self.up_btn.setAutoDefault(False)
+        self.up_btn.setFlat(False)
 
         self.horizontalLayout_4.addWidget(self.up_btn)
 
+
+        self.verticalLayout_20.addWidget(self.frame_4)
+
         self.label_11 = QLabel(self.function_bar)
         self.label_11.setObjectName(u"label_11")
+        sizePolicy3.setHeightForWidth(self.label_11.sizePolicy().hasHeightForWidth())
+        self.label_11.setSizePolicy(sizePolicy3)
+        self.label_11.setAutoFillBackground(False)
+        self.label_11.setFrameShape(QFrame.Shape.NoFrame)
+        self.label_11.setFrameShadow(QFrame.Shadow.Plain)
         self.label_11.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.label_11.setWordWrap(False)
 
-        self.horizontalLayout_4.addWidget(self.label_11)
+        self.verticalLayout_20.addWidget(self.label_11)
+
+        self.tabWidget = QTabWidget(self.function_bar)
+        self.tabWidget.setObjectName(u"tabWidget")
+        self.tabWidget.setTabsClosable(True)
+
+        self.verticalLayout_20.addWidget(self.tabWidget)
 
 
         self.verticalLayout_13.addWidget(self.function_bar)
-
-        self.graphicsView_2 = QGraphicsView(self.reportsPage)
-        self.graphicsView_2.setObjectName(u"graphicsView_2")
-
-        self.verticalLayout_13.addWidget(self.graphicsView_2)
 
         self.mainPages.addWidget(self.reportsPage)
         self.chartPage = QWidget()
@@ -717,8 +757,11 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.menuBtn.setDefault(False)
-        self.centerMenuPages.setCurrentIndex(0)
-        self.mainPages.setCurrentIndex(3)
+        self.centerMenuPages.setCurrentIndex(2)
+        self.mainPages.setCurrentIndex(2)
+        self.left_btn.setDefault(True)
+        self.rigth_btn.setDefault(True)
+        self.up_btn.setDefault(True)
 
 
         QMetaObject.connectSlotsByName(MainWindow)

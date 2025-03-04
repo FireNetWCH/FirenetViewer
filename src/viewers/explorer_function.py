@@ -6,6 +6,7 @@ import time
 
 def view_cleaer(layout,context):
     layout_rm = context.ui.rightMenu.layout()
+
     if layout_rm is None:
         layout_rm = QVBoxLayout(context.ui.rightMenu)
         context.ui.rightMenu.setLayout(layout_rm)

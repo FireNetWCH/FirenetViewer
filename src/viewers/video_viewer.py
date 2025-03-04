@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QPushButton
+from PySide6.QtWidgets import QPushButton,QWidget,QVBoxLayout
 from PySide6.QtMultimedia import QMediaPlayer,QAudioOutput
 from PySide6.QtCore import QUrl
 from PySide6.QtMultimediaWidgets import QVideoWidget
@@ -48,8 +48,16 @@ def display_vidoe_content(context,vieo_path):
     view_cleaer(layout,context)
     layoutRP = context.ui.rightMenu.layout()
     layoutRP.addWidget(meta_data_system_file)
-    layout.addWidget(play_btn)
-    layout.addWidget(restart_btn)
-    layout.addWidget(mute_btn)
-    layout.addWidget(video_viewer)
+    q_tab = context.ui.reportsPage.findChild(QWidget,"function_bar").findChild(QWidget,"tabWidget")
+    tab_content = QWidget()
+    tab_layout = QVBoxLayout(tab_content)
+
+
+    tab_layout.addWidget(play_btn)
+    tab_layout.addWidget(restart_btn)
+    tab_layout.addWidget(mute_btn)
+    tab_layout.addWidget(video_viewer)
+
+    q_tab.addTab(tab_content,"Multimedia")
+    q_tab.setCurrentWidget(tab_content)
     video_viewer.show()

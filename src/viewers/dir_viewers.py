@@ -15,8 +15,8 @@ class DirViewers(QWidget):
         self.list_view.setGridSize(QSize(100, 100))
         self.list_view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self.uper_path = ""
-
+        self.list_view.doubleClicked.connect(lambda index: self.itemDoubleClicked(index, parent))
+        self.list_view.clicked.connect(lambda index: self.itemOneClicked(index,parent))
         layout = QVBoxLayout(self)
         layout.addWidget(self.list_view)
         self.setLayout(layout)
@@ -42,13 +42,13 @@ class DirViewers(QWidget):
                 widget_to_remove = layout_rm.itemAt(i).widget()
                 widget_to_remove.deleteLater() 
             layout_rm.addWidget(meta_data_system_file)
-
             g.display_file_content(parent,file_path)
 
     def itemOneClicked(self,index,parent):
         file_path = self.file_system_model.filePath(index)
         meta_data_table_wiget = MetaDataTableWiget(file_path)
         self.setMetadataRightWidget(parent,meta_data_table_wiget)
+        
 
     def setMetadataRightWidget(self,context,wiget):
         layout_rm = context.ui.rightMenu.layout()
@@ -60,8 +60,7 @@ class DirViewers(QWidget):
             widget_to_remove.deleteLater() 
         layout_rm.addWidget(wiget)
         
-def display_dir_content(context,dir_path):
-    dir_viewers = DirViewers()
+def display_dir_content(context,dir_viewers,dir_path):
     dir_viewers.file_system_model.setRootPath(dir_path)
     dir_viewers.set_directory(dir_path)
     meta_data_system_file = MetaDataTableWiget(dir_path)
@@ -73,9 +72,9 @@ def display_dir_content(context,dir_path):
     dir_viewers.list_view.clicked.connect(lambda index: dir_viewers.itemOneClicked(index,context))
     layout = context.ui.reportsPage.layout()
     view_cleaer(layout,context)
+    context.ui.reportsPage.findChild(QWidget,"function_bar").findChild(QWidget,"tabWidget").addTab(dir_viewers,"last_patch_part")
     layoutRP = context.ui.rightMenu.layout()
     layoutRP.addWidget(meta_data_system_file)
-    layout.addWidget(dir_viewers,stretch=1)
     layout.addWidget(prev_btn)
     layout.addWidget(next_btn)
     

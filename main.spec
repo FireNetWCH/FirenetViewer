@@ -9,8 +9,8 @@ a = Analysis(
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=['PyQt5', 'PySide2', 'PyQt6'],
-    noarchive=True,
+    excludes=['PyQt5', 'PySide2', 'PyQt6','numpy.array_api','FixTk', 'tcl', 'tk', '_tkinter', 'tkinter', 'Tkinter'],
+    noarchive=False,
 )
 
 pyz = PYZ(a.pure)
@@ -21,16 +21,17 @@ exe = EXE(
     [],
     exclude_binaries=True,
     name='FirenetViewer',
-    debug=False,
+    debug=True,
     bootloader_ignore_signals=False,
-    strip=True,
-    upx=False,
+    strip=False,
+    upx=True,
     console=False,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+
 )
 
 coll = COLLECT(
@@ -40,5 +41,5 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='main',
+    name='main'
 )

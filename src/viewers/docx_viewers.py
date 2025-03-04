@@ -16,6 +16,8 @@ def display_docx_content(context,docx_path):
     view_cleaer(layout,context)
     layoutRP = context.ui.rightMenu.layout()
     layoutRP.addWidget(meta_data_system_file)
+    
     layout.addWidget(docx_viewers)
+    
 
 

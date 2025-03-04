@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QGraphicsView,QGraphicsScene,QScrollArea,QPushButton,QGraphicsPixmapItem,QTableWidget,QTableWidgetItem
+from PySide6.QtWidgets import QGraphicsView,QGraphicsScene,QScrollArea,QPushButton,QGraphicsPixmapItem,QTableWidget,QTableWidgetItem,QWidget,QVBoxLayout
 from PySide6.QtGui import QPixmap,QPainter
 from src.viewers.explorer_function import view_cleaer,get_image_metadata,MetaDataTableWiget
 
@@ -66,11 +66,21 @@ def display_img_content(context, file_path: str) -> None:
         layoutRP = context.ui.rightMenu.layout()
         view_cleaer(layout,context)
 
-        layout.addWidget(scroll_area)
-        layout.addWidget(left_rotate_image_btn)
-        layout.addWidget(rigth_rotate_image_btn)
-        layout.addWidget(zoom_btn)
-        layout.addWidget(rezoom_btn)
+        q_tab = context.ui.reportsPage.findChild(QWidget,"function_bar").findChild(QWidget,"tabWidget")
+        tab_content = QWidget()
+        tab_layout = QVBoxLayout(tab_content)
+
+
+        tab_layout.addWidget(scroll_area)
+        tab_layout.addWidget(left_rotate_image_btn)
+        tab_layout.addWidget(rigth_rotate_image_btn)
+        tab_layout.addWidget(zoom_btn)
+        tab_layout.addWidget(rezoom_btn)
+        
+        
+        q_tab.addTab(tab_content,"Exel")
+        q_tab.setCurrentWidget(tab_content)
+
         layoutRP.addWidget(img_viewer.metaDataWiget)
         layoutRP.addWidget(meta_data_system_file)
     except Exception as e:

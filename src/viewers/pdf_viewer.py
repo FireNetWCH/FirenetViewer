@@ -92,15 +92,21 @@ def display_pdf_content(context, num_page,zoom,file_path: str) -> None:
 
         scroll_area.setWidget(pdf_view)
         view_cleaer(layout,context)
+        q_tab = context.ui.reportsPage.findChild(QWidget,"function_bar").findChild(QWidget,"tabWidget")
+        tab_content = QWidget()
+        tab_layout = QVBoxLayout(tab_content)
 
         layoutRP = context.ui.rightMenu.layout()
         layoutRP.addWidget(meta_data_system_file)
 
-        layout.addWidget(scroll_area)
-        layout.addWidget(prev_btn)
-        layout.addWidget(next_btn)
-        layout.addWidget(zoom_btn)
-        layout.addWidget(rezoom_btn)
+        tab_layout.addWidget(scroll_area)
+        tab_layout.addWidget(prev_btn)
+        tab_layout.addWidget(next_btn)
+        tab_layout.addWidget(zoom_btn)
+        tab_layout.addWidget(rezoom_btn)
+
+        q_tab.addTab(tab_content,"Exel")
+        q_tab.setCurrentWidget(tab_content)
     except Exception as e:
         print(f"Error displaying PDF: {e}")
         context.ui.label_11.setText(f"Nie można wyświetlić PDF: {e}")

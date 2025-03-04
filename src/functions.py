@@ -6,7 +6,7 @@ from PySide6.QtCore import Qt, QSettings, QDir, QPoint
 from PySide6.QtGui import QFont, QFontDatabase, QAction
 from PySide6.QtWidgets import (
     QCheckBox, QPushButton, QGraphicsScene, QTableWidgetItem, QMenu, QFileSystemModel,
-    QTreeView, QVBoxLayout, QFileDialog, QMainWindow
+    QTreeView, QVBoxLayout, QFileDialog, QMainWindow,QTabBar
 )
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -19,7 +19,7 @@ from src.multi_tag_dialog import MultiTagInputDialog
 from src.multi_tag_selector import MultiTagSelector
 from src.viewers.display_chenger import display_file_content
 from src.viewers.explorer_function import prev_item,histor_stack
-
+from src.viewers.dir_viewers import DirViewers
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
@@ -41,6 +41,7 @@ class GUIFunctions:
         self._connect_to_database("nazwa_bazy.db")
         self.load_data_from_database()
         self.load_data_and_plot()
+        self.organizationName = "FireNet"
 
     def _setup_ui(self) -> None:
         """Inicjalizacja interfejsu – ustawienia czcionki, motywu oraz połączenia sygnałów."""
@@ -59,6 +60,11 @@ class GUIFunctions:
         layout = QVBoxLayout(self.main)
         layout.addWidget(self.tree_view)
 
+        #Dodanie pierwszej strony do eksploratora plikow
+        self.explorer = DirViewers(parent=self)
+        self.ui.reportsPage.findChild(QWidget,"function_bar").findChild(QWidget,"tabWidget").addTab(self.explorer,"last_patch_part")
+        tab_bar = self.ui.reportsPage.findChild(QWidget,"function_bar").findChild(QWidget,"tabWidget").tabBar()
+        tab_bar.setTabButton(0, QTabBar.RightSide, None)  
     def _connect_signals(self) -> None:
         """Łączy sygnały z odpowiednimi metodami."""
         # Menu (centralne i boczne)
@@ -87,7 +93,9 @@ class GUIFunctions:
         
         #główne przyciski
         self.ui.up_btn.clicked.connect(lambda :display_file_content(self,prev_item(self,self.ui.label_11.text())))
-
+        #Podłączenie zamknięcia karty exploratora 
+        self.ui.tabWidget.tabCloseRequested.connect(lambda index: self.ui.tabWidget.removeTab(index))
+        
         #Przyciski do obsługi histoiri przeglądania
         # self.ui.left_btn.clicked.connect()
         # self.ui.rigth_btn.clicked.connect()

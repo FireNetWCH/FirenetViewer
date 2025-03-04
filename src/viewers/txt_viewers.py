@@ -1,6 +1,6 @@
-from PySide6.QtWidgets import QTextEdit
-from src.viewers.explorer_function import view_cleaer, MetaDataTableWiget
-import olefile
+from PySide6.QtWidgets import QTextEdit,QWidget
+from src.viewers.explorer_function import view_cleaer, MetaDataTableWiget,QVBoxLayout
+#import olefile
 import re
 import string
 class TxtViewers (QTextEdit):
@@ -19,24 +19,34 @@ def display_txt_content(context,txt_path,ext):
         except Exception as e:
             print(f"ERROR TXT: {e}")
     else:
-        with olefile.OleFileIO(txt_path) as ole:
-            if ole.exists("WordDocument"):
-                data = ole.openstream("WordDocument").read()
-                text = data.decode("utf-16", errors="ignore")
-                text = re.sub(r'[^0-9a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ\s'+re.escape(string.punctuation)+']', '', text)
-                txt_viewers.setText(text)
-                ole.close()
-                #efekt wmiare podobny bez wykorzystania olefile
-                # with open(txt_path, "rb") as file:
-                # content = file.read() 
-                # text = content.decode("utf-16", errors="ignore")
-                # text = re.sub(r'[^0-9a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ\s'+re.escape(string.punctuation)+']', '', text)
-                # txt_viewers.setText(text)
-            else:
-                return "Brak strumienia 'WordDocument' w pliku"
+        # with olefile.OleFileIO(txt_path) as ole:
+        #     if ole.exists("WordDocument"):
+        #         data = ole.openstream("WordDocument").read()
+        #         text = data.decode("utf-16", errors="ignore")
+        #         text = re.sub(r'[^0-9a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ\s'+re.escape(string.punctuation)+']', '', text)
+        #         txt_viewers.setText(text)
+        #         ole.close()
+        #         #efekt wmiare podobny bez wykorzystania olefile
+        #         # with open(txt_path, "rb") as file:
+        #         # content = file.read() 
+        #         # text = content.decode("utf-16", errors="ignore")
+        #         # text = re.sub(r'[^0-9a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ\s'+re.escape(string.punctuation)+']', '', text)
+        #         # txt_viewers.setText(text)
+        #     else:
+        return "Brak strumienia 'WordDocument' w pliku"
     meta_data_system_file = MetaDataTableWiget(txt_path)
     view_cleaer(layout,context)
+    q_tab = context.ui.reportsPage.findChild(QWidget,"function_bar").findChild(QWidget,"tabWidget")
+    tab_content = QWidget()
+    tab_layout = QVBoxLayout(tab_content)
+
+
     layoutRP = context.ui.rightMenu.layout()
     layoutRP.addWidget(meta_data_system_file)
-    layout.addWidget(txt_viewers)
+
+    q_tab.addTab(tab_content,"Text")
+    q_tab.setCurrentWidget(tab_content)
+    
+
+    tab_layout.addWidget(txt_viewers)
 

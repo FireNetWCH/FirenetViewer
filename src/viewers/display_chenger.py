@@ -51,7 +51,7 @@ def display_file_content(self, file_path: str,history_flag = 1) -> None:
                 # if history_flag == 1:
                 #     self.histor.append_history(file_path)
             elif os.path.isdir(file_path):
-                display_dir_content(self,file_path)
+                self.explorer.set_directory(file_path)
                 self.ui.label_11.setText(file_path)
                 # if history_flag == 1:
                 #     self.histor.append_history(file_path)
