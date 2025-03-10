@@ -7,3 +7,5 @@ logs/custom_widgets.log
 .qt_for_python/
 /build
 /dist
+test.py
+test2.py
