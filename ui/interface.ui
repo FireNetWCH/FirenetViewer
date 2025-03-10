@@ -172,7 +172,7 @@
              <string>Analiza grafów</string>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="../Qss/icons/_icons.qrc">
               <normaloff>:/font_awesome/solid/icons/font_awesome/solid/chart-pie.png</normaloff>:/font_awesome/solid/icons/font_awesome/solid/chart-pie.png</iconset>
             </property>
            </widget>
@@ -253,11 +253,10 @@
           <item>
            <widget class="QPushButton" name="helpBtn">
             <property name="text">
-             <string>Pomoc</string>
+             <string>E-mails</string>
             </property>
             <property name="icon">
-             <iconset resource="../Qss/icons/_icons.qrc">
-              <normaloff>:/feather/icons/feather/help-circle.png</normaloff>:/feather/icons/feather/help-circle.png</iconset>
+             <iconset theme="QIcon::ThemeIcon::MailMarkUnread"/>
             </property>
            </widget>
           </item>
@@ -307,7 +306,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="../Qss/icons/_icons.qrc">
               <normaloff>:/font_awesome/solid/icons/font_awesome/solid/circle-xmark.png</normaloff>:/font_awesome/solid/icons/font_awesome/solid/circle-xmark.png</iconset>
             </property>
            </widget>
@@ -318,7 +317,7 @@
        <item alignment="Qt::AlignmentFlag::AlignHCenter">
         <widget class="QCustomQStackedWidget" name="centerMenuPages">
          <property name="currentIndex">
-          <number>0</number>
+          <number>3</number>
          </property>
          <widget class="QWidget" name="settingsPage">
           <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -434,15 +433,8 @@
          </widget>
          <widget class="QWidget" name="helpPage">
           <layout class="QVBoxLayout" name="verticalLayout_8">
-           <item alignment="Qt::AlignmentFlag::AlignVCenter">
-            <widget class="QLabel" name="label_5">
-             <property name="text">
-              <string>Help</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignmentFlag::AlignCenter</set>
-             </property>
-            </widget>
+           <item>
+            <widget class="QTreeView" name="mailView"/>
            </item>
           </layout>
          </widget>
@@ -870,7 +862,7 @@
                        <string/>
                       </property>
                       <property name="icon">
-                       <iconset>
+                       <iconset resource="../Qss/icons/_icons.qrc">
                         <normaloff>:/font_awesome/regular/icons/font_awesome/regular/file-pdf.png</normaloff>:/font_awesome/regular/icons/font_awesome/regular/file-pdf.png</iconset>
                       </property>
                      </widget>
@@ -884,7 +876,7 @@
                        <string/>
                       </property>
                       <property name="icon">
-                       <iconset>
+                       <iconset resource="../Qss/icons/_icons.qrc">
                         <normaloff>:/font_awesome/regular/icons/font_awesome/regular/file-excel.png</normaloff>:/font_awesome/regular/icons/font_awesome/regular/file-excel.png</iconset>
                       </property>
                      </widget>
@@ -928,7 +920,7 @@
                  </item>
                 </layout>
                </widget>
-               <widget class="QWidget" name="reportsPage">
+               <widget class="QWidget" name="widget_9">
                 <layout class="QVBoxLayout" name="verticalLayout_13">
                  <item>
                   <widget class="QLabel" name="label_11">

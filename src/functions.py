@@ -7,7 +7,7 @@ from PySide6.QtCore import Qt, QSettings, QDir, QPoint
 from PySide6.QtGui import QFont, QFontDatabase, QAction, QPixmap, QImage, QPainter
 from PySide6.QtWidgets import (
     QCheckBox, QPushButton, QGraphicsScene, QTableWidgetItem, QMenu, QFileSystemModel,
-    QTreeView, QVBoxLayout, QFileDialog, QGraphicsView, QGraphicsPixmapItem, QWidget, QMainWindow
+    QTreeView, QVBoxLayout, QFileDialog, QGraphicsView, QTreeWidgetItem, QTreeWidget, QMainWindow
 )
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -41,9 +41,11 @@ class GUIFunctions:
         self.current_sort_order: Dict[int, Any] = {}
 
         self._setup_ui()
-        self._connect_to_database("nazwa_bazy.db")
+        self._connect_to_database("emails_kukulka.sqlite")
         self.load_data_from_database()
         self.load_data_and_plot()
+        
+        self.display_folders_in_help_page()
 
     def _setup_ui(self) -> None:
         """Inicjalizacja interfejsu – ustawienia czcionki, motywu oraz połączenia sygnałów."""
@@ -494,3 +496,51 @@ class GUIFunctions:
     def process_pst_file(self, pst_file: str) -> None:
         """Przetwarza plik PST (implementację uzupełnij według potrzeb)."""
         logger.info(f"Przetwarzanie pliku PST: {pst_file}")
+
+    def display_folders_in_help_page(self):
+        self.folders_tree = QTreeWidget()
+        self.folders_tree.setHeaderLabel("Struktura folderów (z bazy)")
+        layout = self.ui.helpPage.layout()
+        if layout is None:
+            layout = QVBoxLayout(self.ui.helpPage)
+            self.ui.helpPage.setLayout(layout)
+        else:
+            for i in reversed(range(layout.count())):
+                w = layout.itemAt(i).widget()
+                if w:
+                    w.setParent(None)
+        layout.addWidget(self.folders_tree)
+        self.load_folders_data_into_tree()
+
+    def load_folders_data_into_tree(self):
+        if not self.db_connection:
+            return
+        try:
+            cursor = self.db_connection.cursor()
+            cursor.execute("SELECT path FROM folders")
+            rows = cursor.fetchall()
+            tree_dict = {}
+            for row in rows:
+                full_path = row[0]
+                parts = full_path.split("\\")
+                current_level = tree_dict
+
+                for part in parts:
+                    if part not in current_level:
+                        current_level[part] = {}
+                    current_level = current_level[part]
+            self.folders_tree.clear()
+            self.add_items_to_tree(self.folders_tree, tree_dict)
+
+        except sqlite3.Error as e:
+            print(f"Błąd zapytania do bazy: {e}")
+
+    def add_items_to_tree(self, parent, tree_level: dict):
+        for folder_name, subfolders in tree_level.items():
+            item = QTreeWidgetItem([folder_name])
+            if isinstance(parent, QTreeWidget):
+                parent.addTopLevelItem(item)
+            else:
+                parent.addChild(item)
+            if subfolders:
+                self.add_items_to_tree(item, subfolders)

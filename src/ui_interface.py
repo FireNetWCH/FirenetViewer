@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1264, 471)
+        MainWindow.resize(1306, 755)
         font = QFont()
         font.setPointSize(10)
         MainWindow.setFont(font)
@@ -261,11 +261,10 @@ class Ui_MainWindow(object):
         self.helpPage.setObjectName(u"helpPage")
         self.verticalLayout_8 = QVBoxLayout(self.helpPage)
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
-        self.label_5 = QLabel(self.helpPage)
-        self.label_5.setObjectName(u"label_5")
-        self.label_5.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.mailView = QTreeView(self.helpPage)
+        self.mailView.setObjectName(u"mailView")
 
-        self.verticalLayout_8.addWidget(self.label_5, 0, Qt.AlignmentFlag.AlignVCenter)
+        self.verticalLayout_8.addWidget(self.mailView)
 
         self.centerMenuPages.addWidget(self.helpPage)
 
@@ -542,11 +541,6 @@ class Ui_MainWindow(object):
         self.reportsPage.setObjectName(u"reportsPage")
         self.verticalLayout_13 = QVBoxLayout(self.reportsPage)
         self.verticalLayout_13.setObjectName(u"verticalLayout_13")
-        self.graphicsView_2 = QGraphicsView(self.reportsPage)
-        self.graphicsView_2.setObjectName(u"graphicsView_2")
-
-        self.verticalLayout_13.addWidget(self.graphicsView_2)
-
         self.label_11 = QLabel(self.reportsPage)
         self.label_11.setObjectName(u"label_11")
         self.label_11.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -699,7 +693,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.menuBtn.setDefault(False)
-        self.centerMenuPages.setCurrentIndex(0)
+        self.centerMenuPages.setCurrentIndex(3)
         self.mainPages.setCurrentIndex(2)
 
 
@@ -709,21 +703,20 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.menuBtn.setText("")
-        self.homeBtn.setText(QCoreApplication.translate("MainWindow", u"Home", None))
-        self.dataBtn.setText(QCoreApplication.translate("MainWindow", u"Data analysis", None))
-        self.reportsBtn.setText(QCoreApplication.translate("MainWindow", u"Reports", None))
-        self.graphsBtn.setText(QCoreApplication.translate("MainWindow", u"Graphs", None))
-        self.fileBtn.setText(QCoreApplication.translate("MainWindow", u"File reader", None))
-        self.settingsBtn.setText(QCoreApplication.translate("MainWindow", u"Settings", None))
-        self.infoBtn.setText(QCoreApplication.translate("MainWindow", u"Information", None))
-        self.helpBtn.setText(QCoreApplication.translate("MainWindow", u"Help", None))
+        self.homeBtn.setText(QCoreApplication.translate("MainWindow", u"Strona g\u0142\u00f3wna", None))
+        self.dataBtn.setText(QCoreApplication.translate("MainWindow", u"Tabele", None))
+        self.reportsBtn.setText(QCoreApplication.translate("MainWindow", u"Odczytane pliki", None))
+        self.graphsBtn.setText(QCoreApplication.translate("MainWindow", u"Analiza graf\u00f3w", None))
+        self.fileBtn.setText(QCoreApplication.translate("MainWindow", u"Czytnik plik\u00f3w", None))
+        self.settingsBtn.setText(QCoreApplication.translate("MainWindow", u"Ustawienia", None))
+        self.infoBtn.setText(QCoreApplication.translate("MainWindow", u"Informacje", None))
+        self.helpBtn.setText(QCoreApplication.translate("MainWindow", u"E-mails", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Center menu", None))
         self.closeCenterMenuBtn.setText("")
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Settings", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Theme", None))
         self.pst_files_btn.setText(QCoreApplication.translate("MainWindow", u"Dodaj plik .pst", None))
         self.select_directory.setText(QCoreApplication.translate("MainWindow", u"Dodaj katalog", None))
-        self.label_5.setText(QCoreApplication.translate("MainWindow", u"Help", None))
         self.titleTxt.setText(QCoreApplication.translate("MainWindow", u"FirenetViewer", None))
         self.notificationBtn.setText("")
         self.moreBtn.setText("")
@@ -773,7 +766,7 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"Flagi", None));
         ___qtablewidgetitem5 = self.tableWidget.horizontalHeaderItem(5)
         ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"Tagi", None));
-        self.label_11.setText(QCoreApplication.translate("MainWindow", u"Analiza danych", None))
+        self.label_11.setText("")
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"ChartsPage", None))
         self.label_13.setText(QCoreApplication.translate("MainWindow", u"Right Menu", None))
         self.closeRightMenuBtn.setText("")
