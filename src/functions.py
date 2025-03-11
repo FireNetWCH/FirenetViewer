@@ -20,6 +20,7 @@ from src.multi_tag_selector import MultiTagSelector
 from src.viewers.display_chenger import display_file_content
 from src.viewers.explorer_function import prev_item,histor_stack
 from src.viewers.dir_viewers import DirViewers
+from src.disc_inage_reader.disc_viewer import DiscViewers
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
@@ -64,6 +65,11 @@ class GUIFunctions:
         self.explorer = DirViewers(parent=self)
         self.ui.reportsPage.findChild(QWidget,"function_bar").findChild(QWidget,"tabWidget").addTab(self.explorer,"last_patch_part")
         tab_bar = self.ui.reportsPage.findChild(QWidget,"function_bar").findChild(QWidget,"tabWidget").tabBar()
+        tab_bar.setTabButton(0, QTabBar.RightSide, None)
+
+        self.disc_imgae_explorer = DiscViewers(parent=self)
+        self.ui.disgImagePage.findChild(QWidget,"frame_5").findChild(QWidget,"tabWidget_2").addTab(self.disc_imgae_explorer,"DISC_IMG")
+        tab_bar = self.ui.disgImagePage.findChild(QWidget,"frame_5").findChild(QWidget,"tabWidget_2").tabBar()
         tab_bar.setTabButton(0, QTabBar.RightSide, None)  
     def _connect_signals(self) -> None:
         """Łączy sygnały z odpowiednimi metodami."""
@@ -77,6 +83,13 @@ class GUIFunctions:
         self.ui.moreBtn.clicked.connect(lambda: self.ui.rightMenu.expandMenu())
         self.ui.profileBtn.clicked.connect(lambda: self.ui.rightMenu.expandMenu())
         self.ui.closeRightMenuBtn.clicked.connect(lambda: self.ui.rightMenu.collapseMenu())
+
+        #ładowanie mofelu obrazu dysku
+        #self.ui.select_img_disc_btn.clicked.connect(lambda)
+        #Left Menu 
+        #print(self.ui.mainPages)
+        
+        self.ui.eksploratorImgBtn.clicked.connect(lambda: self.ui.mainPages.setCurrentIndex(4))
 
         # Obsługa wyszukiwania i filtrów
         self.ui.searchBtn.clicked.connect(self.show_search_results)
@@ -93,6 +106,8 @@ class GUIFunctions:
         
         #główne przyciski
         self.ui.up_btn.clicked.connect(lambda :display_file_content(self,prev_item(self,self.ui.label_11.text())))
+        
+        self.ui.up_btn_2.clicked.connect(lambda : self.disc_imgae_explorer.prevItem())
         #Podłączenie zamknięcia karty exploratora 
         self.ui.tabWidget.tabCloseRequested.connect(lambda index: self.ui.tabWidget.removeTab(index))
         

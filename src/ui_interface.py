@@ -62,7 +62,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addWidget(self.menuBtn)
 
 
-        self.verticalLayout.addWidget(self.widget, 0, Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignTop)
+        self.verticalLayout.addWidget(self.widget)
 
         self.widget_2 = QWidget(self.leftMenu)
         self.widget_2.setObjectName(u"widget_2")
@@ -88,6 +88,11 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_3.addWidget(self.dataBtn)
 
+        self.eksploratorImgBtn = QPushButton(self.widget_2)
+        self.eksploratorImgBtn.setObjectName(u"eksploratorImgBtn")
+
+        self.verticalLayout_3.addWidget(self.eksploratorImgBtn)
+
         self.reportsBtn = QPushButton(self.widget_2)
         self.reportsBtn.setObjectName(u"reportsBtn")
         icon3 = QIcon()
@@ -105,7 +110,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.addWidget(self.graphsBtn)
 
 
-        self.verticalLayout.addWidget(self.widget_2, 0, Qt.AlignmentFlag.AlignTop)
+        self.verticalLayout.addWidget(self.widget_2)
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -151,7 +156,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.addWidget(self.helpBtn)
 
 
-        self.verticalLayout.addWidget(self.widget_3, 0, Qt.AlignmentFlag.AlignBottom)
+        self.verticalLayout.addWidget(self.widget_3)
 
 
         self.horizontalLayout.addWidget(self.leftMenu)
@@ -241,6 +246,11 @@ class Ui_MainWindow(object):
         self.pst_files_btn.setIcon(icon10)
 
         self.verticalLayout_19.addWidget(self.pst_files_btn)
+
+        self.select_img_disc_btn = QPushButton(self.informationPage)
+        self.select_img_disc_btn.setObjectName(u"select_img_disc_btn")
+
+        self.verticalLayout_19.addWidget(self.select_img_disc_btn)
 
         self.select_directory = QPushButton(self.informationPage)
         self.select_directory.setObjectName(u"select_directory")
@@ -634,6 +644,70 @@ class Ui_MainWindow(object):
         self.verticalLayout_14.addWidget(self.label_12)
 
         self.mainPages.addWidget(self.chartPage)
+        self.disgImagePage = QWidget()
+        self.disgImagePage.setObjectName(u"disgImagePage")
+        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+        sizePolicy4.setHorizontalStretch(0)
+        sizePolicy4.setVerticalStretch(0)
+        sizePolicy4.setHeightForWidth(self.disgImagePage.sizePolicy().hasHeightForWidth())
+        self.disgImagePage.setSizePolicy(sizePolicy4)
+        self.verticalLayout_25 = QVBoxLayout(self.disgImagePage)
+        self.verticalLayout_25.setObjectName(u"verticalLayout_25")
+        self.frame_5 = QFrame(self.disgImagePage)
+        self.frame_5.setObjectName(u"frame_5")
+        sizePolicy4.setHeightForWidth(self.frame_5.sizePolicy().hasHeightForWidth())
+        self.frame_5.setSizePolicy(sizePolicy4)
+        self.frame_5.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_5.setFrameShadow(QFrame.Shadow.Raised)
+        self.verticalLayout_21 = QVBoxLayout(self.frame_5)
+        self.verticalLayout_21.setObjectName(u"verticalLayout_21")
+        self.frame_6 = QFrame(self.frame_5)
+        self.frame_6.setObjectName(u"frame_6")
+        self.frame_6.setEnabled(True)
+        sizePolicy3.setHeightForWidth(self.frame_6.sizePolicy().hasHeightForWidth())
+        self.frame_6.setSizePolicy(sizePolicy3)
+        self.frame_6.setFrameShape(QFrame.Shape.StyledPanel)
+        self.frame_6.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_15 = QHBoxLayout(self.frame_6)
+        self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
+        self.left_btn_2 = QPushButton(self.frame_6)
+        self.left_btn_2.setObjectName(u"left_btn_2")
+        sizePolicy3.setHeightForWidth(self.left_btn_2.sizePolicy().hasHeightForWidth())
+        self.left_btn_2.setSizePolicy(sizePolicy3)
+        self.left_btn_2.setAutoDefault(False)
+        self.left_btn_2.setFlat(False)
+
+        self.horizontalLayout_15.addWidget(self.left_btn_2)
+
+        self.rigth_btn_2 = QPushButton(self.frame_6)
+        self.rigth_btn_2.setObjectName(u"rigth_btn_2")
+        self.rigth_btn_2.setEnabled(True)
+        sizePolicy3.setHeightForWidth(self.rigth_btn_2.sizePolicy().hasHeightForWidth())
+        self.rigth_btn_2.setSizePolicy(sizePolicy3)
+
+        self.horizontalLayout_15.addWidget(self.rigth_btn_2)
+
+        self.up_btn_2 = QPushButton(self.frame_6)
+        self.up_btn_2.setObjectName(u"up_btn_2")
+        sizePolicy3.setHeightForWidth(self.up_btn_2.sizePolicy().hasHeightForWidth())
+        self.up_btn_2.setSizePolicy(sizePolicy3)
+        self.up_btn_2.setAutoDefault(False)
+        self.up_btn_2.setFlat(False)
+
+        self.horizontalLayout_15.addWidget(self.up_btn_2)
+
+
+        self.verticalLayout_21.addWidget(self.frame_6)
+
+        self.tabWidget_2 = QTabWidget(self.frame_5)
+        self.tabWidget_2.setObjectName(u"tabWidget_2")
+
+        self.verticalLayout_21.addWidget(self.tabWidget_2)
+
+
+        self.verticalLayout_25.addWidget(self.frame_5)
+
+        self.mainPages.addWidget(self.disgImagePage)
 
         self.verticalLayout_10.addWidget(self.mainPages)
 
@@ -757,11 +831,15 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.menuBtn.setDefault(False)
-        self.centerMenuPages.setCurrentIndex(2)
-        self.mainPages.setCurrentIndex(2)
+        self.centerMenuPages.setCurrentIndex(1)
+        self.mainPages.setCurrentIndex(4)
         self.left_btn.setDefault(True)
         self.rigth_btn.setDefault(True)
         self.up_btn.setDefault(True)
+        self.left_btn_2.setDefault(True)
+        self.rigth_btn_2.setDefault(True)
+        self.up_btn_2.setDefault(True)
+        self.tabWidget_2.setCurrentIndex(-1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -772,6 +850,7 @@ class Ui_MainWindow(object):
         self.menuBtn.setText("")
         self.homeBtn.setText(QCoreApplication.translate("MainWindow", u"Home", None))
         self.dataBtn.setText(QCoreApplication.translate("MainWindow", u"Data analysis", None))
+        self.eksploratorImgBtn.setText(QCoreApplication.translate("MainWindow", u"Eksplorator Dysku", None))
         self.reportsBtn.setText(QCoreApplication.translate("MainWindow", u"Reports", None))
         self.graphsBtn.setText(QCoreApplication.translate("MainWindow", u"Graphs", None))
         self.fileBtn.setText(QCoreApplication.translate("MainWindow", u"File reader", None))
@@ -783,6 +862,7 @@ class Ui_MainWindow(object):
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"Settings", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Theme", None))
         self.pst_files_btn.setText(QCoreApplication.translate("MainWindow", u"Dodaj plik .pst", None))
+        self.select_img_disc_btn.setText(QCoreApplication.translate("MainWindow", u"Wybierz obraz dysku", None))
         self.select_directory.setText(QCoreApplication.translate("MainWindow", u"Dodaj katalog", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Help", None))
         self.titleTxt.setText(QCoreApplication.translate("MainWindow", u"FirenetViewer", None))
@@ -839,6 +919,9 @@ class Ui_MainWindow(object):
         self.up_btn.setText(QCoreApplication.translate("MainWindow", u"^", None))
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"Analiza danych", None))
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"ChartsPage", None))
+        self.left_btn_2.setText(QCoreApplication.translate("MainWindow", u"<-", None))
+        self.rigth_btn_2.setText(QCoreApplication.translate("MainWindow", u"->", None))
+        self.up_btn_2.setText(QCoreApplication.translate("MainWindow", u"^", None))
         self.label_13.setText(QCoreApplication.translate("MainWindow", u"Right Menu", None))
         self.closeRightMenuBtn.setText("")
         self.label_15.setText(QCoreApplication.translate("MainWindow", u"morePage", None))
