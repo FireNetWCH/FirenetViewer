@@ -8,16 +8,8 @@ class TableViewer(QTableWidget):
         super().__init__(parent)
         self
 
-def display_table_content(context,path_file,ext):
-    table_viewer = TableViewer()
-    if ext == ".csv":
-        df = pd.read_csv(path_file)
-    elif ext in['.xlsx','.xlsm','.xlsb',]:
-        df = pd.read_excel(path_file)
-    elif ext in ['.odf','.ods','.odt']:
-        df = pd.read_excel(path_file,engine="odf")
-    elif ext in ['.xls']:
-        df = pd.read_excel(path_file,engine="xlrd")    
+def display_table_content(context,df,ext):
+    table_viewer = TableViewer()    
     heder = df.columns.tolist() 
     
     
@@ -25,7 +17,7 @@ def display_table_content(context,path_file,ext):
     table_viewer.setColumnCount(len(heder))
     table_viewer.setHorizontalHeaderLabels(heder)
     table_viewer.setRowCount(len(df))
-    meta_data_system_file = MetaDataTableWiget(path_file)
+    #meta_data_system_file = MetaDataTableWiget(path_file)
     
     for row in range(len(df)):
         for col ,c_n in enumerate(df.columns):
@@ -33,13 +25,11 @@ def display_table_content(context,path_file,ext):
     table_viewer.show()
     layout = context.ui.reportsPage.layout()
     view_cleaer(layout,context)
-    layoutRP = context.ui.rightMenu.layout()
-    layoutRP.addWidget(meta_data_system_file)
+    #layoutRP = context.ui.rightMenu.layout()
+    #layoutRP.addWidget(meta_data_system_file)
 
     tab_content = QWidget()
     tab_layout = QVBoxLayout(tab_content)
     tab_layout.addWidget(table_viewer)
-    q_tab = context.ui.reportsPage.findChild(QWidget,"function_bar").findChild(QWidget,"tabWidget")
+    return tab_content
     
-    q_tab.addTab(tab_content,"Image")
-    q_tab.setCurrentWidget(tab_content)

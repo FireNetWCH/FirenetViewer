@@ -110,7 +110,7 @@ class GUIFunctions:
         self.ui.up_btn_2.clicked.connect(lambda : self.disc_imgae_explorer.prevItem())
         #Podłączenie zamknięcia karty exploratora 
         self.ui.tabWidget.tabCloseRequested.connect(lambda index: self.ui.tabWidget.removeTab(index))
-        
+        self.ui.tabWidget_2.tabCloseRequested.connect(lambda index: self.ui.tabWidget_2.removeTab(index))
         #Przyciski do obsługi histoiri przeglądania
         # self.ui.left_btn.clicked.connect()
         # self.ui.rigth_btn.clicked.connect()

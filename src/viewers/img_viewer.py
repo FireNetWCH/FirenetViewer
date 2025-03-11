@@ -28,25 +28,24 @@ class IMGViewer(QGraphicsView):
     def rezoom_image(self):
         self.scale(0.75,0.75)
         
-def display_img_content(context, file_path: str) -> None:
+def display_img_content(context, pixmap) -> None:
     """Wyświetla obraz w aplikacji"""
     try:
         scene = QGraphicsScene()
         img_viewer = IMGViewer(scene)
         # meta_data_dictonery = get_system_metadata(file_path)
-        meta_data_system_file = MetaDataTableWiget(file_path)
-        meta_data = get_image_metadata(file_path)
+        # meta_data_system_file = MetaDataTableWiget(file_path)
+        # meta_data = get_image_metadata(file_path)
 
-        img_viewer.metaDataWiget.setRowCount(len(meta_data))
+        # img_viewer.metaDataWiget.setRowCount(len(meta_data))
         
-        for row, (tag, value) in enumerate(meta_data.items()):
-                img_viewer.metaDataWiget.setItem(row, 0, QTableWidgetItem(str(tag)))
-                img_viewer.metaDataWiget.setItem(row, 1, QTableWidgetItem(str(value)))
+        # for row, (tag, value) in enumerate(meta_data.items()):
+        #         img_viewer.metaDataWiget.setItem(row, 0, QTableWidgetItem(str(tag)))
+        #         img_viewer.metaDataWiget.setItem(row, 1, QTableWidgetItem(str(value)))
 
-        if file_path:
-            pixmap = QPixmap(file_path)
-            if not pixmap.isNull():
-                img_viewer.add_image_to_scene(pixmap)
+        
+        
+        img_viewer.add_image_to_scene(pixmap)
 
         scroll_area = QScrollArea()
         scroll_area.setWidgetResizable(True)
@@ -65,8 +64,8 @@ def display_img_content(context, file_path: str) -> None:
         layout = context.ui.reportsPage.layout()
         layoutRP = context.ui.rightMenu.layout()
         view_cleaer(layout,context)
+        
 
-        q_tab = context.ui.reportsPage.findChild(QWidget,"function_bar").findChild(QWidget,"tabWidget")
         tab_content = QWidget()
         tab_layout = QVBoxLayout(tab_content)
 
@@ -77,12 +76,11 @@ def display_img_content(context, file_path: str) -> None:
         tab_layout.addWidget(zoom_btn)
         tab_layout.addWidget(rezoom_btn)
         
+        return tab_content
         
-        q_tab.addTab(tab_content,"Exel")
-        q_tab.setCurrentWidget(tab_content)
 
-        layoutRP.addWidget(img_viewer.metaDataWiget)
-        layoutRP.addWidget(meta_data_system_file)
+        # layoutRP.addWidget(img_viewer.metaDataWiget)
+        # layoutRP.addWidget(meta_data_system_file)
     except Exception as e:
         print(f"Error displaying image: {e}")
         context.ui.label_11.setText(f"Nie można wyświetlić obrazu: {e}")

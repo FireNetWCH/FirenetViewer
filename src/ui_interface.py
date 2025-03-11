@@ -701,6 +701,7 @@ class Ui_MainWindow(object):
 
         self.tabWidget_2 = QTabWidget(self.frame_5)
         self.tabWidget_2.setObjectName(u"tabWidget_2")
+        self.tabWidget_2.setTabsClosable(True)
 
         self.verticalLayout_21.addWidget(self.tabWidget_2)
 

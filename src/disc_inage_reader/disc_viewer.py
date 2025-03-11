@@ -21,9 +21,9 @@ class DiscViewers(QWidget):
         partitions = list(volume)
         first_partition = partitions[7]
         print(first_partition)
-        fs = pytsk3.FS_Info(img, offset=first_partition.start * 512)
+        self.fs = pytsk3.FS_Info(img, offset=first_partition.start * 512)
         
-        self.model = TSKFileSystemModel(fs)
+        self.model = TSKFileSystemModel(self.fs)
         self.list_view = QListView(self)
         self.list_view.setModel(self.model)
         self.list_view.setViewMode(QListView.IconMode) 
@@ -50,6 +50,10 @@ class DiscViewers(QWidget):
         item = index.internalPointer()
         if item.info.name.type == pytsk3.TSK_FS_NAME_TYPE_DIR:
             self.list_view.setRootIndex(index)
+        else:
+            import src.viewers.display_chenger as g
+            item = index.internalPointer()
+            g.display_file_content(parent,item,1,self.fs)
             
 
     # def itemOneClicked(self,index,parent):
