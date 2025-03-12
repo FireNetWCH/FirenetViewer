@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1264</width>
+    <width>1515</width>
     <height>471</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true" />
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="minimumSize">
@@ -44,7 +44,7 @@
     <property name="bottomMargin">
      <number>10</number>
     </property>
-    <item alignment="Qt::AlignmentFlag::AlignLeft">
+    <item>
      <widget class="QCustomSlideMenu" name="leftMenu" native="true">
       <layout class="QVBoxLayout" name="verticalLayout">
        <property name="spacing">
@@ -89,10 +89,10 @@
           <item>
            <widget class="QPushButton" name="menuBtn">
             <property name="text">
-             <string />
+             <string/>
             </property>
             <property name="icon">
-             <iconset resource="../Qss/icons/_icons.qrc">
+             <iconset>
               <normaloff>:/feather/icons/feather/menu.png</normaloff>:/feather/icons/feather/menu.png</iconset>
             </property>
             <property name="default">
@@ -139,7 +139,7 @@
              <string>Home</string>
             </property>
             <property name="icon">
-             <iconset resource="../Qss/icons/_icons.qrc">
+             <iconset>
               <normaloff>:/feather/icons/feather/home.png</normaloff>:/feather/icons/feather/home.png</iconset>
             </property>
            </widget>
@@ -150,7 +150,7 @@
              <string>Data analysis</string>
             </property>
             <property name="icon">
-             <iconset resource="../Qss/icons/_icons.qrc">
+             <iconset>
               <normaloff>:/feather/icons/feather/database.png</normaloff>:/feather/icons/feather/database.png</iconset>
             </property>
            </widget>
@@ -161,7 +161,7 @@
              <string>Reports</string>
             </property>
             <property name="icon">
-             <iconset resource="../Qss/icons/_icons.qrc">
+             <iconset>
               <normaloff>:/material_design/icons/material_design/report_problem.png</normaloff>:/material_design/icons/material_design/report_problem.png</iconset>
             </property>
            </widget>
@@ -172,7 +172,7 @@
              <string>Graphs</string>
             </property>
             <property name="icon">
-             <iconset resource="../Qss/icons/_icons.qrc">
+             <iconset>
               <normaloff>:/font_awesome/solid/icons/font_awesome/solid/chart-pie.png</normaloff>:/font_awesome/solid/icons/font_awesome/solid/chart-pie.png</iconset>
             </property>
            </widget>
@@ -223,7 +223,7 @@
              <string>File reader</string>
             </property>
             <property name="icon">
-             <iconset resource="../Qss/icons/_icons.qrc">
+             <iconset>
               <normaloff>:/feather/icons/feather/file.png</normaloff>:/feather/icons/feather/file.png</iconset>
             </property>
            </widget>
@@ -234,7 +234,7 @@
              <string>Settings</string>
             </property>
             <property name="icon">
-             <iconset resource="../Qss/icons/_icons.qrc">
+             <iconset>
               <normaloff>:/feather/icons/feather/settings.png</normaloff>:/feather/icons/feather/settings.png</iconset>
             </property>
            </widget>
@@ -245,7 +245,7 @@
              <string>Information</string>
             </property>
             <property name="icon">
-             <iconset resource="../Qss/icons/_icons.qrc">
+             <iconset>
               <normaloff>:/feather/icons/feather/info.png</normaloff>:/feather/icons/feather/info.png</iconset>
             </property>
            </widget>
@@ -256,7 +256,7 @@
              <string>Help</string>
             </property>
             <property name="icon">
-             <iconset resource="../Qss/icons/_icons.qrc">
+             <iconset>
               <normaloff>:/feather/icons/feather/help-circle.png</normaloff>:/feather/icons/feather/help-circle.png</iconset>
             </property>
            </widget>
@@ -304,10 +304,10 @@
              </size>
             </property>
             <property name="text">
-             <string />
+             <string/>
             </property>
             <property name="icon">
-             <iconset resource="../Qss/icons/_icons.qrc">
+             <iconset>
               <normaloff>:/font_awesome/solid/icons/font_awesome/solid/circle-xmark.png</normaloff>:/font_awesome/solid/icons/font_awesome/solid/circle-xmark.png</iconset>
             </property>
            </widget>
@@ -318,7 +318,7 @@
        <item alignment="Qt::AlignmentFlag::AlignHCenter">
         <widget class="QCustomQStackedWidget" name="centerMenuPages">
          <property name="currentIndex">
-          <number>0</number>
+          <number>3</number>
          </property>
          <widget class="QWidget" name="settingsPage">
           <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -365,7 +365,7 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QComboBox" name="themeList" />
+                  <widget class="QComboBox" name="themeList"/>
                  </item>
                 </layout>
                </widget>
@@ -396,7 +396,7 @@
               <string>Dodaj plik .pst</string>
              </property>
              <property name="icon">
-              <iconset resource="../Qss/icons/_icons.qrc">
+              <iconset>
                <normaloff>:/material_design/icons/material_design/attach_email.png</normaloff>:/material_design/icons/material_design/attach_email.png</iconset>
              </property>
             </widget>
@@ -407,7 +407,7 @@
               <string>Dodaj katalog</string>
              </property>
              <property name="icon">
-              <iconset resource="../Qss/icons/_icons.qrc">
+              <iconset>
                <normaloff>:/feather/icons/feather/upload.png</normaloff>:/feather/icons/feather/upload.png</iconset>
              </property>
             </widget>
@@ -475,7 +475,7 @@
        <property name="bottomMargin">
         <number>0</number>
        </property>
-       <item alignment="Qt::AlignmentFlag::AlignTop">
+       <item>
         <widget class="QWidget" name="header" native="true">
          <layout class="QHBoxLayout" name="horizontalLayout_8">
           <property name="spacing">
@@ -530,10 +530,10 @@
              <item>
               <widget class="QPushButton" name="notificationBtn">
                <property name="text">
-                <string />
+                <string/>
                </property>
                <property name="icon">
-                <iconset resource="../Qss/icons/_icons.qrc">
+                <iconset>
                  <normaloff>:/material_design/icons/material_design/notifications.png</normaloff>:/material_design/icons/material_design/notifications.png</iconset>
                </property>
               </widget>
@@ -541,10 +541,10 @@
              <item>
               <widget class="QPushButton" name="moreBtn">
                <property name="text">
-                <string />
+                <string/>
                </property>
                <property name="icon">
-                <iconset resource="../Qss/icons/_icons.qrc">
+                <iconset>
                  <normaloff>:/feather/icons/feather/more-horizontal.png</normaloff>:/feather/icons/feather/more-horizontal.png</iconset>
                </property>
               </widget>
@@ -552,10 +552,10 @@
              <item>
               <widget class="QPushButton" name="profileBtn">
                <property name="text">
-                <string />
+                <string/>
                </property>
                <property name="icon">
-                <iconset resource="../Qss/icons/_icons.qrc">
+                <iconset>
                  <normaloff>:/feather/icons/feather/user.png</normaloff>:/feather/icons/feather/user.png</iconset>
                </property>
               </widget>
@@ -614,10 +614,10 @@
                 </size>
                </property>
                <property name="text">
-                <string />
+                <string/>
                </property>
                <property name="pixmap">
-                <pixmap resource="../Qss/icons/_icons.qrc">:/feather/icons/feather/search.png</pixmap>
+                <pixmap>:/feather/icons/feather/search.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
@@ -674,10 +674,10 @@
              <item>
               <widget class="QPushButton" name="minimalizeBtn">
                <property name="text">
-                <string />
+                <string/>
                </property>
                <property name="icon">
-                <iconset resource="../Qss/icons/_icons.qrc">
+                <iconset>
                  <normaloff>:/feather/icons/feather/minus.png</normaloff>:/feather/icons/feather/minus.png</iconset>
                </property>
               </widget>
@@ -685,10 +685,10 @@
              <item>
               <widget class="QPushButton" name="restoreBtn">
                <property name="text">
-                <string />
+                <string/>
                </property>
                <property name="icon">
-                <iconset resource="../Qss/icons/_icons.qrc">
+                <iconset>
                  <normaloff>:/feather/icons/feather/square.png</normaloff>:/feather/icons/feather/square.png</iconset>
                </property>
               </widget>
@@ -696,10 +696,10 @@
              <item>
               <widget class="QPushButton" name="closeBtn">
                <property name="text">
-                <string />
+                <string/>
                </property>
                <property name="icon">
-                <iconset resource="../Qss/icons/_icons.qrc">
+                <iconset>
                  <normaloff>:/feather/icons/feather/x.png</normaloff>:/feather/icons/feather/x.png</iconset>
                </property>
               </widget>
@@ -752,7 +752,7 @@
              <item>
               <widget class="QCustomQStackedWidget" name="mainPages">
                <property name="currentIndex">
-                <number>2</number>
+                <number>1</number>
                </property>
                <widget class="QWidget" name="homePage">
                 <layout class="QVBoxLayout" name="verticalLayout_11">
@@ -772,7 +772,7 @@
                 <layout class="QVBoxLayout" name="verticalLayout_12">
                  <item>
                   <widget class="QWidget" name="widget_8" native="true">
-                   <layout class="QHBoxLayout" name="horizontalLayout_14" />
+                   <layout class="QHBoxLayout" name="horizontalLayout_14"/>
                   </widget>
                  </item>
                  <item>
@@ -798,7 +798,7 @@
                     <item>
                      <widget class="QLineEdit" name="seachSurname">
                       <property name="text">
-                       <string />
+                       <string/>
                       </property>
                       <property name="placeholderText">
                        <string>Wyszukaj po nazwisku</string>
@@ -825,10 +825,10 @@
                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Wyszukaj w tabeli&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                       </property>
                       <property name="text">
-                       <string />
+                       <string/>
                       </property>
                       <property name="icon">
-                       <iconset resource="../Qss/icons/_icons.qrc">
+                       <iconset>
                         <normaloff>:/feather/icons/feather/search.png</normaloff>:/feather/icons/feather/search.png</iconset>
                       </property>
                      </widget>
@@ -839,10 +839,10 @@
                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pokaż wszystkie zaznaczone flagi&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                       </property>
                       <property name="text">
-                       <string />
+                       <string/>
                       </property>
                       <property name="icon">
-                       <iconset resource="../Qss/icons/_icons.qrc">
+                       <iconset>
                         <normaloff>:/feather/icons/feather/flag.png</normaloff>:/feather/icons/feather/flag.png</iconset>
                       </property>
                      </widget>
@@ -853,10 +853,10 @@
                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pokaż całą tabelę&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                       </property>
                       <property name="text">
-                       <string />
+                       <string/>
                       </property>
                       <property name="icon">
-                       <iconset resource="../Qss/icons/_icons.qrc">
+                       <iconset>
                         <normaloff>:/material_design/icons/material_design/hide_source.png</normaloff>:/material_design/icons/material_design/hide_source.png</iconset>
                       </property>
                      </widget>
@@ -867,10 +867,10 @@
                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Eksportuj do PDF'a&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                       </property>
                       <property name="text">
-                       <string />
+                       <string/>
                       </property>
                       <property name="icon">
-                       <iconset resource="../Qss/icons/_icons.qrc">
+                       <iconset>
                         <normaloff>:/font_awesome/regular/icons/font_awesome/regular/file-pdf.png</normaloff>:/font_awesome/regular/icons/font_awesome/regular/file-pdf.png</iconset>
                       </property>
                      </widget>
@@ -881,11 +881,18 @@
                        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Eksportuj do excel'a&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                       </property>
                       <property name="text">
-                       <string />
+                       <string/>
                       </property>
                       <property name="icon">
-                       <iconset resource="../Qss/icons/_icons.qrc">
+                       <iconset>
                         <normaloff>:/font_awesome/regular/icons/font_awesome/regular/file-excel.png</normaloff>:/font_awesome/regular/icons/font_awesome/regular/file-excel.png</iconset>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="detailsBtn">
+                      <property name="text">
+                       <string>P/U</string>
                       </property>
                      </widget>
                     </item>
@@ -893,45 +900,202 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QTableWidget" name="tableWidget">
-                   <column>
-                    <property name="text">
-                     <string>Imie</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>Nazwisko</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>Data urodzenia</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>Wiek</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>Flagi</string>
-                    </property>
-                   </column>
-                   <column>
-                    <property name="text">
-                     <string>Tagi</string>
-                    </property>
-                   </column>
-                  </widget>
+                  <layout class="QHBoxLayout" name="horizontalLayout_15">
+                   <item>
+                    <widget class="QTableWidget" name="tableWidget">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                       <horstretch>1</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <column>
+                      <property name="text">
+                       <string>Id</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>Imie</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>Nazwisko</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>Data urodzenia</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>Wiek</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>Flagi</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>Tagi</string>
+                      </property>
+                     </column>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTabWidget" name="EmailtabWidget">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                       <horstretch>1</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <widget class="QWidget" name="EmailtabWidgetPage1">
+                      <attribute name="title">
+                       <string/>
+                      </attribute>
+                      <layout class="QHBoxLayout" name="horizontalLayout_17">
+                       <item>
+                        <widget class="QScrollArea" name="scrollArea">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="widgetResizable">
+                          <bool>true</bool>
+                         </property>
+                         <widget class="QWidget" name="scrollAreaWidgetContents">
+                          <property name="geometry">
+                           <rect>
+                            <x>0</x>
+                            <y>0</y>
+                            <width>392</width>
+                            <height>210</height>
+                           </rect>
+                          </property>
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <layout class="QVBoxLayout" name="verticalLayout_20">
+                           <item>
+                            <layout class="QVBoxLayout" name="emailLayouts">
+                             <item>
+                              <widget class="QListWidget" name="listAttachments">
+                               <property name="sizePolicy">
+                                <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                                 <horstretch>0</horstretch>
+                                 <verstretch>0</verstretch>
+                                </sizepolicy>
+                               </property>
+                               <property name="frameShape">
+                                <enum>QFrame::Shape::Box</enum>
+                               </property>
+                               <property name="frameShadow">
+                                <enum>QFrame::Shadow::Sunken</enum>
+                               </property>
+                               <property name="lineWidth">
+                                <number>1</number>
+                               </property>
+                               <property name="midLineWidth">
+                                <number>1</number>
+                               </property>
+                               <property name="flow">
+                                <enum>QListView::Flow::LeftToRight</enum>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <widget class="QLabel" name="sender">
+                               <property name="sizePolicy">
+                                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                                 <horstretch>0</horstretch>
+                                 <verstretch>0</verstretch>
+                                </sizepolicy>
+                               </property>
+                               <property name="text">
+                                <string>sender</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <widget class="QLabel" name="cc">
+                               <property name="sizePolicy">
+                                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                                 <horstretch>0</horstretch>
+                                 <verstretch>0</verstretch>
+                                </sizepolicy>
+                               </property>
+                               <property name="text">
+                                <string>cc</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <widget class="QLabel" name="subject">
+                               <property name="sizePolicy">
+                                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                                 <horstretch>0</horstretch>
+                                 <verstretch>0</verstretch>
+                                </sizepolicy>
+                               </property>
+                               <property name="text">
+                                <string>subject</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <widget class="QLabel" name="date">
+                               <property name="sizePolicy">
+                                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                                 <horstretch>0</horstretch>
+                                 <verstretch>0</verstretch>
+                                </sizepolicy>
+                               </property>
+                               <property name="text">
+                                <string>date</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <widget class="QLabel" name="body">
+                               <property name="sizePolicy">
+                                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                                 <horstretch>0</horstretch>
+                                 <verstretch>0</verstretch>
+                                </sizepolicy>
+                               </property>
+                               <property name="text">
+                                <string>body</string>
+                               </property>
+                              </widget>
+                             </item>
+                            </layout>
+                           </item>
+                          </layout>
+                         </widget>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </widget>
+                   </item>
+                  </layout>
                  </item>
                 </layout>
                </widget>
                <widget class="QWidget" name="reportsPage">
                 <layout class="QVBoxLayout" name="verticalLayout_13">
                  <item>
-                  <widget class="QGraphicsView" name="graphicsView_2" />
+                  <widget class="QGraphicsView" name="graphicsView_2"/>
                  </item>
                  <item>
                   <widget class="QLabel" name="label_11">
@@ -948,7 +1112,7 @@
                <widget class="QWidget" name="chartPage">
                 <layout class="QVBoxLayout" name="verticalLayout_14">
                  <item>
-                  <widget class="QGraphicsView" name="graphicsView" />
+                  <widget class="QGraphicsView" name="graphicsView"/>
                  </item>
                  <item>
                   <widget class="QLabel" name="label_12">
@@ -1001,10 +1165,10 @@
                 <item>
                  <widget class="QPushButton" name="closeRightMenuBtn">
                   <property name="text">
-                   <string />
+                   <string/>
                   </property>
                   <property name="icon">
-                   <iconset resource="../Qss/icons/_icons.qrc">
+                   <iconset>
                     <normaloff>:/feather/icons/feather/x-circle.png</normaloff>:/feather/icons/feather/x-circle.png</iconset>
                   </property>
                  </widget>
@@ -1064,7 +1228,7 @@
          </layout>
         </widget>
        </item>
-       <item alignment="Qt::AlignmentFlag::AlignBottom">
+       <item>
         <widget class="QWidget" name="footer" native="true">
          <layout class="QHBoxLayout" name="horizontalLayout_5">
           <property name="spacing">
@@ -1168,6 +1332,7 @@
    <header>Custom_Widgets.QCustomQStackedWidget.h</header>
    <container>1</container>
   </customwidget>
- <customwidget><class>QPushButton</class><extends>QPushButton</extends><header location="global">Custom_Widgets.Theme.h</header><container>1</container></customwidget><customwidget><class>QLabel</class><extends>QLabel</extends><header location="global">Custom_Widgets.Theme.h</header><container>1</container></customwidget></customwidgets>
- <connections />
+ </customwidgets>
+ <resources/>
+ <connections/>
 </ui>

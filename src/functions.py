@@ -4,10 +4,10 @@ import logging
 from typing import Any, List, Dict, Optional
 import pandas as pd
 from PySide6.QtCore import Qt, QSettings, QDir, QPoint
-from PySide6.QtGui import QFont, QFontDatabase, QAction, QPixmap, QImage, QPainter
+from PySide6.QtGui import QFont, QFontDatabase, QAction,QStandardItem, QPixmap, QImage, QPainter
 from PySide6.QtWidgets import (
     QCheckBox, QPushButton, QGraphicsScene, QTableWidgetItem, QMenu, QFileSystemModel,
-    QTreeView, QVBoxLayout, QFileDialog, QGraphicsView, QTreeWidgetItem, QTreeWidget, QMainWindow
+    QTreeView, QVBoxLayout, QFileDialog, QGraphicsView, QTreeWidgetItem,QListWidgetItem, QTreeWidget, QMainWindow,QListWidget
 )
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -36,22 +36,23 @@ class GUIFunctions:
         self.ui = main_window.ui
         self.db_connection: Optional[sqlite3.Connection] = None
         self.active_filters: Dict[int, str] = {0: "", 1: "", 2: "", 3: ""}
-        self.columns_hidden: List[bool] = [False] * 6
+        self.columns_hidden: List[bool] = [False] * 7
         self.filtering_active: bool = False
         self.current_sort_order: Dict[int, Any] = {}
-
-        self._setup_ui()
         self._connect_to_database("emails_kukulka.sqlite")
+        self._setup_ui()
+        
         self.load_data_from_database()
         self.load_data_and_plot()
         
-        self.display_folders_in_help_page()
+        
 
     def _setup_ui(self) -> None:
         """Inicjalizacja interfejsu – ustawienia czcionki, motywu oraz połączenia sygnałów."""
         self.enable_column_rearrangement()
         self.load_product_sans_font()
         self.initialize_app_theme()
+        self.display_folders_in_help_page()
         self._connect_signals()
 
         # Konfiguracja widoku drzewa katalogów
@@ -90,10 +91,18 @@ class GUIFunctions:
         self.ui.export_excel.clicked.connect(self.export_to_excel)
         self.ui.pst_files_btn.clicked.connect(self.upload_pst_file)
 
+        # Obsługa Event Tabeli Email
+        self.ui.tableWidget.cellClicked.connect(self.load_clicked_email)
+
+        # Obłsuga kliknięcia w drzewo katalogów Email
+        tw = self.ui.helpPage.findChild(QTreeWidget,"folders_tree")
+        tw.itemClicked.connect(self.tree_email_dir_clicked)
+
         # Konfiguracja menu nagłówka tabeli
         header = self.ui.tableWidget.horizontalHeader()
         header.setContextMenuPolicy(Qt.CustomContextMenu)
         header.customContextMenuRequested.connect(self.show_column_menu)
+
 
     def _connect_to_database(self, db_name: str) -> None:
         """Nawiązuje połączenie z bazą danych SQLite."""
@@ -103,51 +112,128 @@ class GUIFunctions:
         except sqlite3.Error as e:
             logger.error(f"Błąd podczas łączenia z bazą danych: {e}")
             self.db_connection = None
+    
+    def load_clicked_email(self,row,column):
+        id = self.ui.tableWidget.item(row,0).text()
+        query =f'''
+        SELECT * from emails WHERE id = {id}
+        '''
+        
+        body_label = self.ui.EmailtabWidget.findChild(QLabel, "body")
+        subject_label = self.ui.EmailtabWidget.findChild(QLabel, "subject")
+        sender_label = self.ui.EmailtabWidget.findChild(QLabel, "sender")
+        date_label = self.ui.EmailtabWidget.findChild(QLabel, "date")
+        cc_label = self.ui.EmailtabWidget.findChild(QLabel, "cc")
+        
+        cursor = self.db_connection.cursor()
+        cursor.execute(query)
+        emai_value = cursor.fetchall()
+
+        query_attachments = f'''SELECT * FROM attachments WHERE email_id ={emai_value[0][9]}'''
+        cursor.execute(query_attachments)
+        attachments_value = cursor.fetchall()
+        listAttachments = self.ui.EmailtabWidget.findChild(QListWidget, "listAttachments")
+        for _, file_name, extra_value in attachments_value:
+            item = QListWidgetItem(file_name)  
+            item.setData(extra_value, Qt.UserRole)  
+            listAttachments.addItem(item)
+            item.setSizeHint(item.sizeHint())
+        print(attachments_value)
+        if isinstance(emai_value[0][8],str):
+            body_label.setText(emai_value[0][8])
+        else:
+            body_label.setText(emai_value[0][8].decode("utf-8"))
+
+        subject_label.setText(emai_value[0][7])
+        sender_label.setText(emai_value[0][3])
+        date_label.setText(emai_value[0][1])
+        cc_label.setText(emai_value[0][5])
+        
+    def tree_email_dir_clicked(self,item ,column):
+        item.data(0,1)
+        query= f'''
+        SELECT e.id, e.sender_name, e.cc, e.subject, e.date, e.flag, e.folder_id,
+                   GROUP_CONCAT(t.tag_name) AS tags 
+            FROM emails e 
+            LEFT JOIN email_tags et ON e.id = et.email_id
+            LEFT JOIN tags t ON et.tag_id = t.id
+			WHERE folder_id = {item.data(0,1)}
+            GROUP BY e.id
+        '''
+        cursor = self.db_connection.cursor()
+        cursor.execute(query)
+        data = cursor.fetchall()
+        self.ui.tableWidget.setRowCount(len(data))
+        self.ui.tableWidget.setColumnCount(7)
+        #ustanie liczby kolumn usuwa zawartość tabeli ale nie usuwa nagłówka 
+        self.ui.tableWidget.setRowCount(0)
+        self.ui.tableWidget.setRowCount(len(data))
+        self.create_main_email_tale(data)
+     
 
     def load_data_from_database(self) -> None:
         """
         Wczytuje dane z bazy SQLite i wypełnia tabelę widżetem.
         Używa zapytania SQL z lewym łączeniem, aby zebrać informacje o użytkownikach oraz ich tagach.
         """
+        
         if not self.db_connection:
             logger.error("Brak połączenia z bazą danych.")
             return
 
         query = '''
-            SELECT u.id, u.first_name, u.second_name, u.date_of_birth, u.age, u.flag,
+            SELECT e.id, e.sender_name, e.cc, e.subject, e.date, e.flag,
                    GROUP_CONCAT(t.tag_name) AS tags 
-            FROM users u
-            LEFT JOIN user_tags ut ON u.id = ut.user_id
-            LEFT JOIN tags t ON ut.tag_id = t.id
-            GROUP BY u.id
+            FROM emails e
+            LEFT JOIN email_tags et ON e.id = et.email_id
+            LEFT JOIN tags t ON et.tag_id = t.id
+            GROUP BY e.id
         '''
         try:
             cursor = self.db_connection.cursor()
             cursor.execute(query)
             data = cursor.fetchall()
             self.ui.tableWidget.setRowCount(len(data))
-            self.ui.tableWidget.setColumnCount(6)
+            self.ui.tableWidget.setColumnCount(7)
+            self.create_main_email_tale(data)
 
-            for row_idx, row_data in enumerate(data):
-                user_id = row_data[0]
-                for col_idx, cell_data in enumerate(row_data[1:]):
-                    if col_idx == 4:
-                        checkbox = QCheckBox()
-                        checkbox.setChecked(bool(cell_data))
-                        checkbox.stateChanged.connect(
-                            lambda state, uid=user_id: self.update_flag(uid, state)
-                        )
-                        self.ui.tableWidget.setCellWidget(row_idx, col_idx, checkbox)
-                    elif col_idx == 5:
-                        btn = QPushButton("Pokaż tagi")
-                        btn.clicked.connect(lambda _, uid=user_id: self.open_tag_selector(uid))
-                        self.ui.tableWidget.setCellWidget(row_idx, col_idx, btn)
-                    else:
-                        item = QTableWidgetItem(str(cell_data) if cell_data else "")
-                        self.ui.tableWidget.setItem(row_idx, col_idx, item)
-            logger.info("Dane zostały załadowane do tabeli.")
         except sqlite3.Error as e:
-            logger.error(f"Błąd podczas wykonywania zapytania: {e}")
+                logger.error(f"Błąd podczas wykonywania zapytania: {e}")
+
+
+    def create_main_email_tale(self,data):
+        for row_idx, row_data in enumerate(data):
+            user_id = row_data[0]
+            #dodanie ukrytej kolumn col = 0 przechowującej id(emaila)
+            item_id = QTableWidgetItem(str(user_id))
+            self.ui.tableWidget.setItem(row_idx, 0, item_id)
+            self.ui.tableWidget.setColumnHidden(0, True)
+
+            for col_idx, cell_data in enumerate(row_data[1:]):
+                #przesunięcie o 1 bo kolumne 0 zejmuje ukryta kolumna zawierająca id
+                real_col_idx = col_idx + 1 
+                if real_col_idx == 4:
+                    if isinstance(cell_data, bytes): 
+                        cell_data = cell_data.decode("utf-8") 
+                    elif cell_data is None:  
+                        cell_data = ""
+                if real_col_idx == 5:
+                    checkbox = QCheckBox()
+                    checkbox.setChecked(bool(cell_data))
+                    checkbox.stateChanged.connect(
+                        lambda state, uid=user_id: self.update_flag(uid, state)
+                    )
+                    self.ui.tableWidget.setCellWidget(row_idx, real_col_idx, checkbox)
+                elif real_col_idx == 6:
+                    btn = QPushButton("Pokaż tagi")
+                    btn.clicked.connect(lambda _, uid=user_id: self.open_tag_selector(uid))
+                    self.ui.tableWidget.setCellWidget(row_idx, real_col_idx, btn)
+                else:
+                    item = QTableWidgetItem(str(cell_data) if cell_data else "")
+                    self.ui.tableWidget.setItem(row_idx, real_col_idx, item)
+
+        logger.info("Dane zostały załadowane do tabeli.")
+        # print(f"Liczba kolumn w tabeli: {self.ui.tableWidget.columnCount()}")
 
     def open_tag_selector(self, user_id: int) -> None:
         """Otwiera okno dialogowe do edycji tagów użytkownika."""
@@ -161,7 +247,7 @@ class GUIFunctions:
         flag_value = 1 if state else 0
         try:
             cursor = self.db_connection.cursor()
-            cursor.execute("UPDATE users SET flag = ? WHERE id = ?", (flag_value, user_id))
+            cursor.execute("UPDATE email SET flag = ? WHERE id = ?", (flag_value, user_id))
             self.db_connection.commit()
             logger.info(f"Updated flag for user ID {user_id} to {flag_value}.")
         except sqlite3.Error as e:
@@ -500,6 +586,7 @@ class GUIFunctions:
     def display_folders_in_help_page(self):
         self.folders_tree = QTreeWidget()
         self.folders_tree.setHeaderLabel("Struktura folderów (z bazy)")
+        self.folders_tree.setObjectName("folders_tree")
         layout = self.ui.helpPage.layout()
         if layout is None:
             layout = QVBoxLayout(self.ui.helpPage)
@@ -511,36 +598,39 @@ class GUIFunctions:
                     w.setParent(None)
         layout.addWidget(self.folders_tree)
         self.load_folders_data_into_tree()
+        
 
     def load_folders_data_into_tree(self):
         if not self.db_connection:
             return
         try:
             cursor = self.db_connection.cursor()
-            cursor.execute("SELECT path FROM folders")
+            cursor.execute("SELECT path, id FROM folders")
             rows = cursor.fetchall()
             tree_dict = {}
             for row in rows:
                 full_path = row[0]
+                dir_id = row[1]
                 parts = full_path.split("\\")
                 current_level = tree_dict
 
                 for part in parts:
                     if part not in current_level:
-                        current_level[part] = {}
-                    current_level = current_level[part]
+                        current_level[part] = {"id": dir_id, "subfolders": {}}
+                    current_level = current_level[part]["subfolders"]
             self.folders_tree.clear()
-            self.add_items_to_tree(self.folders_tree, tree_dict)
-
+            self.add_items_to_tree(self.folders_tree,tree_dict)
+            
         except sqlite3.Error as e:
             print(f"Błąd zapytania do bazy: {e}")
 
     def add_items_to_tree(self, parent, tree_level: dict):
-        for folder_name, subfolders in tree_level.items():
+        for folder_name, folder_data in tree_level.items():
             item = QTreeWidgetItem([folder_name])
+            item.setData(0, 1, folder_data["id"])
             if isinstance(parent, QTreeWidget):
                 parent.addTopLevelItem(item)
             else:
                 parent.addChild(item)
-            if subfolders:
-                self.add_items_to_tree(item, subfolders)
+            if folder_data["subfolders"]:
+                self.add_items_to_tree(item, folder_data["subfolders"])
