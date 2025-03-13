@@ -15,12 +15,12 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QGraphicsView,
-    QHBoxLayout, QHeaderView, QLabel, QLineEdit,
-    QListView, QListWidget, QListWidgetItem, QMainWindow,
-    QProgressBar, QPushButton, QScrollArea, QSizePolicy,
-    QSpacerItem, QTabWidget, QTableWidget, QTableWidgetItem,
-    QTreeView, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QComboBox, QDateEdit, QFrame,
+    QGraphicsView, QHBoxLayout, QHeaderView, QLabel,
+    QLineEdit, QListView, QListWidget, QListWidgetItem,
+    QMainWindow, QProgressBar, QPushButton, QScrollArea,
+    QSizePolicy, QSpacerItem, QTabWidget, QTableWidget,
+    QTableWidgetItem, QTreeView, QVBoxLayout, QWidget)
 
 from Custom_Widgets.QCustomQStackedWidget import QCustomQStackedWidget
 from Custom_Widgets.QCustomSlideMenu import QCustomSlideMenu
@@ -442,6 +442,11 @@ class Ui_MainWindow(object):
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
         self.widget_8 = QWidget(self.dataAnalysisPage)
         self.widget_8.setObjectName(u"widget_8")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.widget_8.sizePolicy().hasHeightForWidth())
+        self.widget_8.setSizePolicy(sizePolicy2)
         self.horizontalLayout_14 = QHBoxLayout(self.widget_8)
         self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
 
@@ -449,12 +454,16 @@ class Ui_MainWindow(object):
 
         self.label_10 = QLabel(self.dataAnalysisPage)
         self.label_10.setObjectName(u"label_10")
+        sizePolicy2.setHeightForWidth(self.label_10.sizePolicy().hasHeightForWidth())
+        self.label_10.setSizePolicy(sizePolicy2)
         self.label_10.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.verticalLayout_12.addWidget(self.label_10)
 
         self.widget_7 = QWidget(self.dataAnalysisPage)
         self.widget_7.setObjectName(u"widget_7")
+        sizePolicy2.setHeightForWidth(self.widget_7.sizePolicy().hasHeightForWidth())
+        self.widget_7.setSizePolicy(sizePolicy2)
         self.horizontalLayout_13 = QHBoxLayout(self.widget_7)
         self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
         self.seachName = QLineEdit(self.widget_7)
@@ -472,10 +481,24 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_13.addWidget(self.searchDate)
 
-        self.serachOld = QLineEdit(self.widget_7)
-        self.serachOld.setObjectName(u"serachOld")
+        self.seachOd = QDateEdit(self.widget_7)
+        self.seachOd.setObjectName(u"seachOd")
+        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.seachOd.sizePolicy().hasHeightForWidth())
+        self.seachOd.setSizePolicy(sizePolicy3)
+        self.seachOd.setDateTime(QDateTime(QDate(1990, 1, 1), QTime(0, 0, 0)))
 
-        self.horizontalLayout_13.addWidget(self.serachOld)
+        self.horizontalLayout_13.addWidget(self.seachOd)
+
+        self.seachDo = QDateEdit(self.widget_7)
+        self.seachDo.setObjectName(u"seachDo")
+        sizePolicy3.setHeightForWidth(self.seachDo.sizePolicy().hasHeightForWidth())
+        self.seachDo.setSizePolicy(sizePolicy3)
+        self.seachDo.setDateTime(QDateTime(QDate(2026, 1, 1), QTime(0, 0, 0)))
+
+        self.horizontalLayout_13.addWidget(self.seachDo)
 
         self.filter_table_btn = QPushButton(self.widget_7)
         self.filter_table_btn.setObjectName(u"filter_table_btn")
@@ -545,35 +568,41 @@ class Ui_MainWindow(object):
         __qtablewidgetitem6 = QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(6, __qtablewidgetitem6)
         self.tableWidget.setObjectName(u"tableWidget")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        sizePolicy2.setHorizontalStretch(1)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.tableWidget.sizePolicy().hasHeightForWidth())
-        self.tableWidget.setSizePolicy(sizePolicy2)
+        self.tableWidget.setEnabled(True)
+        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        sizePolicy4.setHorizontalStretch(1)
+        sizePolicy4.setVerticalStretch(0)
+        sizePolicy4.setHeightForWidth(self.tableWidget.sizePolicy().hasHeightForWidth())
+        self.tableWidget.setSizePolicy(sizePolicy4)
+        self.tableWidget.horizontalHeader().setCascadingSectionResizes(True)
+        self.tableWidget.horizontalHeader().setStretchLastSection(True)
+        self.tableWidget.verticalHeader().setCascadingSectionResizes(True)
 
         self.horizontalLayout_15.addWidget(self.tableWidget)
 
         self.EmailtabWidget = QTabWidget(self.dataAnalysisPage)
         self.EmailtabWidget.setObjectName(u"EmailtabWidget")
-        sizePolicy2.setHeightForWidth(self.EmailtabWidget.sizePolicy().hasHeightForWidth())
-        self.EmailtabWidget.setSizePolicy(sizePolicy2)
+        sizePolicy4.setHeightForWidth(self.EmailtabWidget.sizePolicy().hasHeightForWidth())
+        self.EmailtabWidget.setSizePolicy(sizePolicy4)
         self.EmailtabWidgetPage1 = QWidget()
         self.EmailtabWidgetPage1.setObjectName(u"EmailtabWidgetPage1")
+        sizePolicy1.setHeightForWidth(self.EmailtabWidgetPage1.sizePolicy().hasHeightForWidth())
+        self.EmailtabWidgetPage1.setSizePolicy(sizePolicy1)
         self.horizontalLayout_17 = QHBoxLayout(self.EmailtabWidgetPage1)
         self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
         self.scrollArea = QScrollArea(self.EmailtabWidgetPage1)
         self.scrollArea.setObjectName(u"scrollArea")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        sizePolicy3.setHorizontalStretch(0)
-        sizePolicy3.setVerticalStretch(0)
-        sizePolicy3.setHeightForWidth(self.scrollArea.sizePolicy().hasHeightForWidth())
-        self.scrollArea.setSizePolicy(sizePolicy3)
+        sizePolicy5 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        sizePolicy5.setHorizontalStretch(0)
+        sizePolicy5.setVerticalStretch(0)
+        sizePolicy5.setHeightForWidth(self.scrollArea.sizePolicy().hasHeightForWidth())
+        self.scrollArea.setSizePolicy(sizePolicy5)
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 392, 210))
-        sizePolicy3.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
-        self.scrollAreaWidgetContents.setSizePolicy(sizePolicy3)
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 414, 210))
+        sizePolicy5.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
+        self.scrollAreaWidgetContents.setSizePolicy(sizePolicy5)
         self.verticalLayout_20 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_20.setObjectName(u"verticalLayout_20")
         self.emailLayouts = QVBoxLayout()
@@ -606,11 +635,8 @@ class Ui_MainWindow(object):
 
         self.subject = QLabel(self.scrollAreaWidgetContents)
         self.subject.setObjectName(u"subject")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-        sizePolicy4.setHorizontalStretch(0)
-        sizePolicy4.setVerticalStretch(0)
-        sizePolicy4.setHeightForWidth(self.subject.sizePolicy().hasHeightForWidth())
-        self.subject.setSizePolicy(sizePolicy4)
+        sizePolicy3.setHeightForWidth(self.subject.sizePolicy().hasHeightForWidth())
+        self.subject.setSizePolicy(sizePolicy3)
 
         self.emailLayouts.addWidget(self.subject)
 
@@ -841,11 +867,10 @@ class Ui_MainWindow(object):
         self.closeBtn.setText("")
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"Home Page", None))
         self.label_10.setText(QCoreApplication.translate("MainWindow", u"Analiza danych", None))
-        self.seachName.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Wyszukaj po imieniu", None))
+        self.seachName.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Wyszukaj po nadawcy", None))
         self.seachSurname.setText("")
-        self.seachSurname.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Wyszukaj po nazwisku", None))
-        self.searchDate.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Wyszukaj po dacie urodzenia", None))
-        self.serachOld.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Wyszukaj po wieku", None))
+        self.seachSurname.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Wyszukaj po odbiorcy", None))
+        self.searchDate.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Wyszukaj po dacie temacie", None))
 #if QT_CONFIG(tooltip)
         self.filter_table_btn.setToolTip(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>Wyszukaj w tabeli</p></body></html>", None))
 #endif // QT_CONFIG(tooltip)
@@ -870,13 +895,13 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"Id", None));
         ___qtablewidgetitem1 = self.tableWidget.horizontalHeaderItem(1)
-        ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"Imie", None));
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"Nazawca", None));
         ___qtablewidgetitem2 = self.tableWidget.horizontalHeaderItem(2)
-        ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"Nazwisko", None));
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"Odbiorca", None));
         ___qtablewidgetitem3 = self.tableWidget.horizontalHeaderItem(3)
-        ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"Data urodzenia", None));
+        ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"Temat", None));
         ___qtablewidgetitem4 = self.tableWidget.horizontalHeaderItem(4)
-        ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"Wiek", None));
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"Data nadani", None));
         ___qtablewidgetitem5 = self.tableWidget.horizontalHeaderItem(5)
         ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"Flagi", None));
         ___qtablewidgetitem6 = self.tableWidget.horizontalHeaderItem(6)

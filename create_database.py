@@ -17,7 +17,7 @@ def create_database(db_name):
         );
     ''')
 
-    # Przykładowe tagi
+    
     tags = [
         ('Important',),
         ('Work',),

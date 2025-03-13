@@ -772,11 +772,23 @@
                 <layout class="QVBoxLayout" name="verticalLayout_12">
                  <item>
                   <widget class="QWidget" name="widget_8" native="true">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <layout class="QHBoxLayout" name="horizontalLayout_14"/>
                   </widget>
                  </item>
                  <item>
                   <widget class="QLabel" name="label_10">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="text">
                     <string>Analiza danych</string>
                    </property>
@@ -787,11 +799,17 @@
                  </item>
                  <item>
                   <widget class="QWidget" name="widget_7" native="true">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <layout class="QHBoxLayout" name="horizontalLayout_13">
                     <item>
                      <widget class="QLineEdit" name="seachName">
                       <property name="placeholderText">
-                       <string>Wyszukaj po imieniu</string>
+                       <string>Wyszukaj po nadawcy</string>
                       </property>
                      </widget>
                     </item>
@@ -801,21 +819,54 @@
                        <string/>
                       </property>
                       <property name="placeholderText">
-                       <string>Wyszukaj po nazwisku</string>
+                       <string>Wyszukaj po odbiorcy</string>
                       </property>
                      </widget>
                     </item>
                     <item>
                      <widget class="QLineEdit" name="searchDate">
                       <property name="placeholderText">
-                       <string>Wyszukaj po dacie urodzenia</string>
+                       <string>Wyszukaj po dacie temacie</string>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QLineEdit" name="serachOld">
-                      <property name="placeholderText">
-                       <string>Wyszukaj po wieku</string>
+                     <widget class="QDateEdit" name="seachOd">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="dateTime">
+                       <datetime>
+                        <hour>23</hour>
+                        <minute>0</minute>
+                        <second>0</second>
+                        <year>1989</year>
+                        <month>12</month>
+                        <day>31</day>
+                       </datetime>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QDateEdit" name="seachDo">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="dateTime">
+                       <datetime>
+                        <hour>23</hour>
+                        <minute>0</minute>
+                        <second>0</second>
+                        <year>2025</year>
+                        <month>12</month>
+                        <day>31</day>
+                       </datetime>
                       </property>
                      </widget>
                     </item>
@@ -903,12 +954,24 @@
                   <layout class="QHBoxLayout" name="horizontalLayout_15">
                    <item>
                     <widget class="QTableWidget" name="tableWidget">
+                     <property name="enabled">
+                      <bool>true</bool>
+                     </property>
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                        <horstretch>1</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
                      </property>
+                     <attribute name="horizontalHeaderCascadingSectionResizes">
+                      <bool>true</bool>
+                     </attribute>
+                     <attribute name="horizontalHeaderStretchLastSection">
+                      <bool>true</bool>
+                     </attribute>
+                     <attribute name="verticalHeaderCascadingSectionResizes">
+                      <bool>true</bool>
+                     </attribute>
                      <column>
                       <property name="text">
                        <string>Id</string>
@@ -916,22 +979,22 @@
                      </column>
                      <column>
                       <property name="text">
-                       <string>Imie</string>
+                       <string>Nazawca</string>
                       </property>
                      </column>
                      <column>
                       <property name="text">
-                       <string>Nazwisko</string>
+                       <string>Odbiorca</string>
                       </property>
                      </column>
                      <column>
                       <property name="text">
-                       <string>Data urodzenia</string>
+                       <string>Temat</string>
                       </property>
                      </column>
                      <column>
                       <property name="text">
-                       <string>Wiek</string>
+                       <string>Data nadani</string>
                       </property>
                      </column>
                      <column>
@@ -955,6 +1018,12 @@
                       </sizepolicy>
                      </property>
                      <widget class="QWidget" name="EmailtabWidgetPage1">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
                       <attribute name="title">
                        <string/>
                       </attribute>
@@ -975,7 +1044,7 @@
                            <rect>
                             <x>0</x>
                             <y>0</y>
-                            <width>392</width>
+                            <width>414</width>
                             <height>210</height>
                            </rect>
                           </property>

@@ -6,3 +6,6 @@ logs/*
 nazwa_bazy.db
 logs/custom_widgets.log
 .qt_for_python/
+emails_kukulka.db
+emails_kukulka.sqlite
+empty_emails_kukulka.sqlite

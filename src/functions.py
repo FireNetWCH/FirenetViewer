@@ -6,8 +6,8 @@ import pandas as pd
 from PySide6.QtCore import Qt, QSettings, QDir, QPoint
 from PySide6.QtGui import QFont, QFontDatabase, QAction,QStandardItem, QPixmap, QImage, QPainter
 from PySide6.QtWidgets import (
-    QCheckBox, QPushButton, QGraphicsScene, QTableWidgetItem, QMenu, QFileSystemModel,
-    QTreeView, QVBoxLayout, QFileDialog, QGraphicsView, QTreeWidgetItem,QListWidgetItem, QTreeWidget, QMainWindow,QListWidget
+    QCheckBox, QPushButton, QGraphicsScene, QTableWidgetItem, QMenu, QFileSystemModel,QSplitter,
+    QTreeView, QVBoxLayout, QFileDialog, QGraphicsView, QTreeWidgetItem,QListWidgetItem, QTreeWidget, QMainWindow,QListWidget,QHeaderView
 )
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -20,6 +20,9 @@ from Custom_Widgets.QAppSettings import QAppSettings
 from src.multi_tag_dialog import MultiTagInputDialog
 from src.multi_tag_selector import MultiTagSelector
 from src.gui_function import display_file_content
+from src.key_press_filter import KeyPressFilter
+from datetime import datetime
+
 # from src.viewers.pdf_viewer import display_pdf_content
 # from src.viewers.img_viewer import display_img_content
 # from src.viewers.video_viewer import display_vidoe_content
@@ -35,13 +38,23 @@ class GUIFunctions:
         self.main = main_window
         self.ui = main_window.ui
         self.db_connection: Optional[sqlite3.Connection] = None
-        self.active_filters: Dict[int, str] = {0: "", 1: "", 2: "", 3: ""}
+        self.active_filters: Dict[int, str] = {1: "", 2: "", 3: "", 4: "", 5:""}
         self.columns_hidden: List[bool] = [False] * 7
         self.filtering_active: bool = False
         self.current_sort_order: Dict[int, Any] = {}
+        #self.key_filter = KeyPressFilter()
         self._connect_to_database("emails_kukulka.sqlite")
         self._setup_ui()
+        header = self.ui.tableWidget.horizontalHeader()
+        print(header)
+        for col in range(self.ui.tableWidget.columnCount()):
+            header.setSectionResizeMode(col, QHeaderView.Stretch)
+        splitter = QSplitter(Qt.Horizontal)
+        dada_layout = self.ui.dataAnalysisPage.layout()
+        splitter.addWidget(self.ui.tableWidget)
+        splitter.addWidget(self.ui.EmailtabWidget)
         
+        dada_layout.addWidget(splitter)
         self.load_data_from_database()
         self.load_data_and_plot()
         
@@ -53,6 +66,7 @@ class GUIFunctions:
         self.load_product_sans_font()
         self.initialize_app_theme()
         self.display_folders_in_help_page()
+        
         self._connect_signals()
 
         # Konfiguracja widoku drzewa katalogów
@@ -83,26 +97,46 @@ class GUIFunctions:
         self.ui.seachName.returnPressed.connect(self.search_by_first_name)
         self.ui.seachSurname.returnPressed.connect(self.search_by_last_name)
         self.ui.searchDate.returnPressed.connect(self.search_by_birth_date)
-        self.ui.serachOld.returnPressed.connect(self.search_by_age)
-        self.ui.filter_table_btn.clicked.connect(self.apply_filters)
+        self.ui.filter_table_btn.clicked.connect(self.join_search)
+        #self.ui.seachOd.returnPressed.connect(self.search_by_for)
+        #self.ui.filter_table_btn.clicked.connect(self.apply_filters)
         self.ui.show_table_btn.clicked.connect(self.show_all_columns)
         self.ui.show_flags_btn.clicked.connect(self.toggle_filter_flags)
         self.ui.export_pdf.clicked.connect(self.export_to_pdf)
         self.ui.export_excel.clicked.connect(self.export_to_excel)
         self.ui.pst_files_btn.clicked.connect(self.upload_pst_file)
-
+        self.ui.tableWidget.hideColumn(0)
+        self.ui.tableWidget.setColumnWidth(0, 1)
         # Obsługa Event Tabeli Email
         self.ui.tableWidget.cellClicked.connect(self.load_clicked_email)
+        self.ui.tableWidget.cellActivated.connect(self._get_id_flags_item_email)
+        #self.ui.tableWidget.cellActivated.connect(self._get_id_flags_item_email)
+        self.key_filter = KeyPressFilter(self.ui.tableWidget, self._get_id_flags_item_email,self.load_clicked_email)
+        self.ui.tableWidget.installEventFilter(self.key_filter)
 
         # Obłsuga kliknięcia w drzewo katalogów Email
         tw = self.ui.helpPage.findChild(QTreeWidget,"folders_tree")
         tw.itemClicked.connect(self.tree_email_dir_clicked)
-
+        # Obsługa wyświetlania mutlimediów z załącznków email
+        la = self.ui.EmailtabWidget.findChild(QListWidget,"listAttachments")
+        la.itemClicked.connect(self.email_tab_add_media_page)
         # Konfiguracja menu nagłówka tabeli
         header = self.ui.tableWidget.horizontalHeader()
         header.setContextMenuPolicy(Qt.CustomContextMenu)
         header.customContextMenuRequested.connect(self.show_column_menu)
 
+    def _get_id_flags_item_email(self,row,column):
+        id = self.ui.tableWidget.item(row,0).text()
+        check_box = self.ui.tableWidget.cellWidget(row,5)
+        flags = int(check_box.isChecked())
+        if flags == 1:
+            flags = 0
+            check_box.setChecked(False)
+        else:
+            flags = 1
+            check_box.setChecked(True)
+        self.update_flag(id,flags)
+        
 
     def _connect_to_database(self, db_name: str) -> None:
         """Nawiązuje połączenie z bazą danych SQLite."""
@@ -129,16 +163,17 @@ class GUIFunctions:
         cursor.execute(query)
         emai_value = cursor.fetchall()
 
-        query_attachments = f'''SELECT * FROM attachments WHERE email_id ={emai_value[0][9]}'''
+        query_attachments = f'''SELECT * FROM attachments WHERE email_id ={emai_value[0][0]}'''
         cursor.execute(query_attachments)
         attachments_value = cursor.fetchall()
         listAttachments = self.ui.EmailtabWidget.findChild(QListWidget, "listAttachments")
+
+        listAttachments.clear()
         for _, file_name, extra_value in attachments_value:
             item = QListWidgetItem(file_name)  
             item.setData(extra_value, Qt.UserRole)  
             listAttachments.addItem(item)
             item.setSizeHint(item.sizeHint())
-        print(attachments_value)
         if isinstance(emai_value[0][8],str):
             body_label.setText(emai_value[0][8])
         else:
@@ -151,13 +186,17 @@ class GUIFunctions:
         
     def tree_email_dir_clicked(self,item ,column):
         item.data(0,1)
+        if item.data(0,1) == 1:
+            string = ""
+        else:
+            string = f"WHERE folder_id = {item.data(0,1)}"
         query= f'''
         SELECT e.id, e.sender_name, e.cc, e.subject, e.date, e.flag, e.folder_id,
                    GROUP_CONCAT(t.tag_name) AS tags 
             FROM emails e 
             LEFT JOIN email_tags et ON e.id = et.email_id
             LEFT JOIN tags t ON et.tag_id = t.id
-			WHERE folder_id = {item.data(0,1)}
+			{string}
             GROUP BY e.id
         '''
         cursor = self.db_connection.cursor()
@@ -165,7 +204,7 @@ class GUIFunctions:
         data = cursor.fetchall()
         self.ui.tableWidget.setRowCount(len(data))
         self.ui.tableWidget.setColumnCount(7)
-        #ustanie liczby kolumn usuwa zawartość tabeli ale nie usuwa nagłówka 
+        # ustanie liczby kolumn usuwa zawartość tabeli ale nie usuwa nagłówka 
         self.ui.tableWidget.setRowCount(0)
         self.ui.tableWidget.setRowCount(len(data))
         self.create_main_email_tale(data)
@@ -200,6 +239,8 @@ class GUIFunctions:
         except sqlite3.Error as e:
                 logger.error(f"Błąd podczas wykonywania zapytania: {e}")
 
+    def email_tab_add_media_page(self,item):
+        print("item.")
 
     def create_main_email_tale(self,data):
         for row_idx, row_data in enumerate(data):
@@ -217,6 +258,7 @@ class GUIFunctions:
                         cell_data = cell_data.decode("utf-8") 
                     elif cell_data is None:  
                         cell_data = ""
+                    item.setFlags(item.flags() & ~Qt.ItemIsEditable)
                 if real_col_idx == 5:
                     checkbox = QCheckBox()
                     checkbox.setChecked(bool(cell_data))
@@ -231,6 +273,7 @@ class GUIFunctions:
                 else:
                     item = QTableWidgetItem(str(cell_data) if cell_data else "")
                     self.ui.tableWidget.setItem(row_idx, real_col_idx, item)
+                    item.setFlags(item.flags() & ~Qt.ItemIsEditable)
 
         logger.info("Dane zostały załadowane do tabeli.")
         # print(f"Liczba kolumn w tabeli: {self.ui.tableWidget.columnCount()}")
@@ -244,15 +287,16 @@ class GUIFunctions:
 
     def update_flag(self, user_id: int, state: int) -> None:
         """Aktualizuje flagę użytkownika w bazie danych."""
+        
         flag_value = 1 if state else 0
         try:
             cursor = self.db_connection.cursor()
-            cursor.execute("UPDATE email SET flag = ? WHERE id = ?", (flag_value, user_id))
+            cursor.execute("UPDATE emails SET flag = ? WHERE id = ?", (flag_value, user_id))
             self.db_connection.commit()
             logger.info(f"Updated flag for user ID {user_id} to {flag_value}.")
         except sqlite3.Error as e:
             logger.error(f"Błąd podczas aktualizacji flagi: {e}")
-
+            print(f"Błąd podczas aktualizacji flagi: {e}")
     def update_tag(self, user_id: int, tag_name: str) -> None:
         """Aktualizuje tag przypisany do użytkownika."""
         try:
@@ -319,19 +363,33 @@ class GUIFunctions:
         self.main.setFont(product_sans)
 
     def search_by_first_name(self) -> None:
-        self.active_filters[0] = self.ui.seachName.text().lower()
+        self.active_filters[1] = self.ui.seachName.text().lower()
         self.apply_filters()
 
     def search_by_last_name(self) -> None:
-        self.active_filters[1] = self.ui.seachSurname.text().lower()
+        self.active_filters[2] = self.ui.seachSurname.text().lower()
         self.apply_filters()
 
     def search_by_birth_date(self) -> None:
-        self.active_filters[2] = self.ui.searchDate.text().lower()
+        self.active_filters[3] = self.ui.searchDate.text().lower()
+        self.apply_filters()
+        
+    def search_by_for(self) -> None:
+        self.active_filters[4] = self.ui.seachOd.text().lower()
+        print(self.active_filters[4])
+       
+    
+    def search_by_to(self) -> None:
+        self.active_filters[5] = self.ui.seachDo.text().lower()
+        
         self.apply_filters()
 
-    def search_by_age(self) -> None:
-        self.active_filters[3] = self.ui.serachOld.text().lower()
+    def join_search(self):
+        self.search_by_birth_date()
+        self.search_by_first_name()
+        self.search_by_last_name()
+        self.search_by_for()
+        self.search_by_to()
         self.apply_filters()
 
     def apply_filters(self) -> None:
@@ -342,11 +400,23 @@ class GUIFunctions:
         for row in range(self.ui.tableWidget.rowCount()):
             row_matches = True
             for column, query in self.active_filters.items():
-                if query:
-                    item = self.ui.tableWidget.item(row, column)
-                    if not (item and query in item.text().lower()):
-                        row_matches = False
+                if column < 4:
+                    if query:
+                        item = self.ui.tableWidget.item(row, column)
+                        if not (item and query in item.text().lower()):
+                            row_matches = False
+                            break
+                if column == 4:
+                    if query:
+                        item = self.ui.tableWidget.item(row, column)
+                        datatime_object = datetime.strptime(item.text().split(' ')[0], '%Y-%m-%d')
+                        time_from = datetime.strptime(query.split(' ')[0], '%d.%m.%Y')
+                        time_to = datetime.strptime(self.active_filters[5].split(' ')[0], '%d.%m.%Y')
+                        if not ((datatime_object>time_from)and(datatime_object<time_to)):
+                            row_matches = False
                         break
+
+
             self.ui.tableWidget.setRowHidden(row, not row_matches)
 
     def show_column_menu(self, position: QPoint) -> None:
