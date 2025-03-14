@@ -15,12 +15,13 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QComboBox, QDateEdit, QFrame,
-    QGraphicsView, QHBoxLayout, QHeaderView, QLabel,
-    QLineEdit, QListView, QListWidget, QListWidgetItem,
-    QMainWindow, QProgressBar, QPushButton, QScrollArea,
-    QSizePolicy, QSpacerItem, QTabWidget, QTableWidget,
-    QTableWidgetItem, QTreeView, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QDateEdit,
+    QFrame, QGraphicsView, QHBoxLayout, QHeaderView,
+    QLabel, QLineEdit, QListView, QListWidget,
+    QListWidgetItem, QMainWindow, QProgressBar, QPushButton,
+    QScrollArea, QSizePolicy, QSpacerItem, QTabWidget,
+    QTableWidget, QTableWidgetItem, QTreeView, QVBoxLayout,
+    QWidget)
 
 from Custom_Widgets.QCustomQStackedWidget import QCustomQStackedWidget
 from Custom_Widgets.QCustomSlideMenu import QCustomSlideMenu
@@ -29,7 +30,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1515, 471)
+        MainWindow.resize(1421, 558)
         font = QFont()
         font.setPointSize(10)
         MainWindow.setFont(font)
@@ -481,22 +482,34 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_13.addWidget(self.searchDate)
 
+        self.searchBody = QLineEdit(self.widget_7)
+        self.searchBody.setObjectName(u"searchBody")
+
+        self.horizontalLayout_13.addWidget(self.searchBody)
+
+        self.checkBoxData = QCheckBox(self.widget_7)
+        self.checkBoxData.setObjectName(u"checkBoxData")
+
+        self.horizontalLayout_13.addWidget(self.checkBoxData)
+
         self.seachOd = QDateEdit(self.widget_7)
         self.seachOd.setObjectName(u"seachOd")
+        self.seachOd.setEnabled(False)
         sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
         sizePolicy3.setHorizontalStretch(0)
         sizePolicy3.setVerticalStretch(0)
         sizePolicy3.setHeightForWidth(self.seachOd.sizePolicy().hasHeightForWidth())
         self.seachOd.setSizePolicy(sizePolicy3)
-        self.seachOd.setDateTime(QDateTime(QDate(1989, 12, 31), QTime(23, 0, 0)))
+        self.seachOd.setDateTime(QDateTime(QDate(1989, 12, 31), QTime(22, 0, 0)))
 
         self.horizontalLayout_13.addWidget(self.seachOd)
 
         self.seachDo = QDateEdit(self.widget_7)
         self.seachDo.setObjectName(u"seachDo")
+        self.seachDo.setEnabled(False)
         sizePolicy3.setHeightForWidth(self.seachDo.sizePolicy().hasHeightForWidth())
         self.seachDo.setSizePolicy(sizePolicy3)
-        self.seachDo.setDateTime(QDateTime(QDate(2025, 12, 31), QTime(23, 0, 0)))
+        self.seachDo.setDateTime(QDateTime(QDate(2025, 12, 31), QTime(22, 0, 0)))
 
         self.horizontalLayout_13.addWidget(self.seachDo)
 
@@ -548,6 +561,30 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_12.addWidget(self.widget_7)
 
+        self.widget_9 = QWidget(self.dataAnalysisPage)
+        self.widget_9.setObjectName(u"widget_9")
+        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        sizePolicy4.setHorizontalStretch(0)
+        sizePolicy4.setVerticalStretch(0)
+        sizePolicy4.setHeightForWidth(self.widget_9.sizePolicy().hasHeightForWidth())
+        self.widget_9.setSizePolicy(sizePolicy4)
+        self.horizontalLayout_4 = QHBoxLayout(self.widget_9)
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.prevEmailTableBtn = QPushButton(self.widget_9)
+        self.prevEmailTableBtn.setObjectName(u"prevEmailTableBtn")
+        sizePolicy4.setHeightForWidth(self.prevEmailTableBtn.sizePolicy().hasHeightForWidth())
+        self.prevEmailTableBtn.setSizePolicy(sizePolicy4)
+
+        self.horizontalLayout_4.addWidget(self.prevEmailTableBtn)
+
+        self.nextEmailTableBtn = QPushButton(self.widget_9)
+        self.nextEmailTableBtn.setObjectName(u"nextEmailTableBtn")
+
+        self.horizontalLayout_4.addWidget(self.nextEmailTableBtn)
+
+
+        self.verticalLayout_12.addWidget(self.widget_9)
+
         self.horizontalLayout_15 = QHBoxLayout()
         self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
         self.tableWidget = QTableWidget(self.dataAnalysisPage)
@@ -569,11 +606,11 @@ class Ui_MainWindow(object):
         self.tableWidget.setHorizontalHeaderItem(6, __qtablewidgetitem6)
         self.tableWidget.setObjectName(u"tableWidget")
         self.tableWidget.setEnabled(True)
-        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        sizePolicy4.setHorizontalStretch(1)
-        sizePolicy4.setVerticalStretch(0)
-        sizePolicy4.setHeightForWidth(self.tableWidget.sizePolicy().hasHeightForWidth())
-        self.tableWidget.setSizePolicy(sizePolicy4)
+        sizePolicy5 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        sizePolicy5.setHorizontalStretch(1)
+        sizePolicy5.setVerticalStretch(0)
+        sizePolicy5.setHeightForWidth(self.tableWidget.sizePolicy().hasHeightForWidth())
+        self.tableWidget.setSizePolicy(sizePolicy5)
         self.tableWidget.horizontalHeader().setCascadingSectionResizes(True)
         self.tableWidget.horizontalHeader().setStretchLastSection(True)
         self.tableWidget.verticalHeader().setCascadingSectionResizes(True)
@@ -582,8 +619,8 @@ class Ui_MainWindow(object):
 
         self.EmailtabWidget = QTabWidget(self.dataAnalysisPage)
         self.EmailtabWidget.setObjectName(u"EmailtabWidget")
-        sizePolicy4.setHeightForWidth(self.EmailtabWidget.sizePolicy().hasHeightForWidth())
-        self.EmailtabWidget.setSizePolicy(sizePolicy4)
+        sizePolicy5.setHeightForWidth(self.EmailtabWidget.sizePolicy().hasHeightForWidth())
+        self.EmailtabWidget.setSizePolicy(sizePolicy5)
         self.EmailtabWidgetPage1 = QWidget()
         self.EmailtabWidgetPage1.setObjectName(u"EmailtabWidgetPage1")
         sizePolicy1.setHeightForWidth(self.EmailtabWidgetPage1.sizePolicy().hasHeightForWidth())
@@ -592,25 +629,29 @@ class Ui_MainWindow(object):
         self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
         self.scrollArea = QScrollArea(self.EmailtabWidgetPage1)
         self.scrollArea.setObjectName(u"scrollArea")
-        sizePolicy5 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        sizePolicy5.setHorizontalStretch(0)
-        sizePolicy5.setVerticalStretch(0)
-        sizePolicy5.setHeightForWidth(self.scrollArea.sizePolicy().hasHeightForWidth())
-        self.scrollArea.setSizePolicy(sizePolicy5)
+        sizePolicy6 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        sizePolicy6.setHorizontalStretch(0)
+        sizePolicy6.setVerticalStretch(0)
+        sizePolicy6.setHeightForWidth(self.scrollArea.sizePolicy().hasHeightForWidth())
+        self.scrollArea.setSizePolicy(sizePolicy6)
+        self.scrollArea.setFrameShape(QFrame.Shape.Box)
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 414, 210))
-        sizePolicy5.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
-        self.scrollAreaWidgetContents.setSizePolicy(sizePolicy5)
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 386, 227))
+        sizePolicy6.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
+        self.scrollAreaWidgetContents.setSizePolicy(sizePolicy6)
         self.verticalLayout_20 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_20.setObjectName(u"verticalLayout_20")
         self.emailLayouts = QVBoxLayout()
         self.emailLayouts.setObjectName(u"emailLayouts")
         self.listAttachments = QListWidget(self.scrollAreaWidgetContents)
         self.listAttachments.setObjectName(u"listAttachments")
-        sizePolicy1.setHeightForWidth(self.listAttachments.sizePolicy().hasHeightForWidth())
-        self.listAttachments.setSizePolicy(sizePolicy1)
+        sizePolicy7 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+        sizePolicy7.setHorizontalStretch(0)
+        sizePolicy7.setVerticalStretch(0)
+        sizePolicy7.setHeightForWidth(self.listAttachments.sizePolicy().hasHeightForWidth())
+        self.listAttachments.setSizePolicy(sizePolicy7)
         self.listAttachments.setFrameShape(QFrame.Shape.Box)
         self.listAttachments.setFrameShadow(QFrame.Shadow.Sunken)
         self.listAttachments.setLineWidth(1)
@@ -621,15 +662,17 @@ class Ui_MainWindow(object):
 
         self.sender = QLabel(self.scrollAreaWidgetContents)
         self.sender.setObjectName(u"sender")
-        sizePolicy.setHeightForWidth(self.sender.sizePolicy().hasHeightForWidth())
-        self.sender.setSizePolicy(sizePolicy)
+        sizePolicy2.setHeightForWidth(self.sender.sizePolicy().hasHeightForWidth())
+        self.sender.setSizePolicy(sizePolicy2)
+        self.sender.setFrameShape(QFrame.Shape.Panel)
 
         self.emailLayouts.addWidget(self.sender)
 
         self.cc = QLabel(self.scrollAreaWidgetContents)
         self.cc.setObjectName(u"cc")
-        sizePolicy.setHeightForWidth(self.cc.sizePolicy().hasHeightForWidth())
-        self.cc.setSizePolicy(sizePolicy)
+        sizePolicy3.setHeightForWidth(self.cc.sizePolicy().hasHeightForWidth())
+        self.cc.setSizePolicy(sizePolicy3)
+        self.cc.setFrameShape(QFrame.Shape.WinPanel)
 
         self.emailLayouts.addWidget(self.cc)
 
@@ -637,13 +680,16 @@ class Ui_MainWindow(object):
         self.subject.setObjectName(u"subject")
         sizePolicy3.setHeightForWidth(self.subject.sizePolicy().hasHeightForWidth())
         self.subject.setSizePolicy(sizePolicy3)
+        self.subject.setFrameShape(QFrame.Shape.StyledPanel)
 
         self.emailLayouts.addWidget(self.subject)
 
         self.date = QLabel(self.scrollAreaWidgetContents)
         self.date.setObjectName(u"date")
-        sizePolicy.setHeightForWidth(self.date.sizePolicy().hasHeightForWidth())
-        self.date.setSizePolicy(sizePolicy)
+        sizePolicy3.setHeightForWidth(self.date.sizePolicy().hasHeightForWidth())
+        self.date.setSizePolicy(sizePolicy3)
+        self.date.setContextMenuPolicy(Qt.ContextMenuPolicy.DefaultContextMenu)
+        self.date.setFrameShape(QFrame.Shape.StyledPanel)
 
         self.emailLayouts.addWidget(self.date)
 
@@ -651,6 +697,8 @@ class Ui_MainWindow(object):
         self.body.setObjectName(u"body")
         sizePolicy.setHeightForWidth(self.body.sizePolicy().hasHeightForWidth())
         self.body.setSizePolicy(sizePolicy)
+        self.body.setStyleSheet(u"")
+        self.body.setFrameShape(QFrame.Shape.Box)
 
         self.emailLayouts.addWidget(self.body)
 
@@ -855,7 +903,7 @@ class Ui_MainWindow(object):
         self.pst_files_btn.setText(QCoreApplication.translate("MainWindow", u"Dodaj plik .pst", None))
         self.select_directory.setText(QCoreApplication.translate("MainWindow", u"Dodaj katalog", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Help", None))
-        self.titleTxt.setText(QCoreApplication.translate("MainWindow", u"FirenetViewer", None))
+        self.titleTxt.setText(QCoreApplication.translate("MainWindow", u"FireNet E-mail Viewer", None))
         self.notificationBtn.setText("")
         self.moreBtn.setText("")
         self.profileBtn.setText("")
@@ -866,11 +914,13 @@ class Ui_MainWindow(object):
         self.restoreBtn.setText("")
         self.closeBtn.setText("")
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"Home Page", None))
-        self.label_10.setText(QCoreApplication.translate("MainWindow", u"Analiza danych", None))
-        self.seachName.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Wyszukaj po nadawcy", None))
+        self.label_10.setText(QCoreApplication.translate("MainWindow", u"Filtrowanie", None))
+        self.seachName.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Nadawca", None))
         self.seachSurname.setText("")
-        self.seachSurname.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Wyszukaj po odbiorcy", None))
-        self.searchDate.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Wyszukaj po dacie temacie", None))
+        self.seachSurname.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Odbiorca", None))
+        self.searchDate.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Wyszukaj w tytule", None))
+        self.searchBody.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Wyszukaj w tre\u015bci", None))
+        self.checkBoxData.setText(QCoreApplication.translate("MainWindow", u"Filtruj po dacie", None))
 #if QT_CONFIG(tooltip)
         self.filter_table_btn.setToolTip(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>Wyszukaj w tabeli</p></body></html>", None))
 #endif // QT_CONFIG(tooltip)
@@ -892,6 +942,8 @@ class Ui_MainWindow(object):
 #endif // QT_CONFIG(tooltip)
         self.export_excel.setText("")
         self.detailsBtn.setText(QCoreApplication.translate("MainWindow", u"P/U", None))
+        self.prevEmailTableBtn.setText(QCoreApplication.translate("MainWindow", u"<", None))
+        self.nextEmailTableBtn.setText(QCoreApplication.translate("MainWindow", u">", None))
         ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"Id", None));
         ___qtablewidgetitem1 = self.tableWidget.horizontalHeaderItem(1)
@@ -906,11 +958,11 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"Flagi", None));
         ___qtablewidgetitem6 = self.tableWidget.horizontalHeaderItem(6)
         ___qtablewidgetitem6.setText(QCoreApplication.translate("MainWindow", u"Tagi", None));
-        self.sender.setText(QCoreApplication.translate("MainWindow", u"sender", None))
-        self.cc.setText(QCoreApplication.translate("MainWindow", u"cc", None))
-        self.subject.setText(QCoreApplication.translate("MainWindow", u"subject", None))
-        self.date.setText(QCoreApplication.translate("MainWindow", u"date", None))
-        self.body.setText(QCoreApplication.translate("MainWindow", u"body", None))
+        self.sender.setText("")
+        self.cc.setText("")
+        self.subject.setText("")
+        self.date.setText("")
+        self.body.setText("")
         self.EmailtabWidget.setTabText(self.EmailtabWidget.indexOf(self.EmailtabWidgetPage1), "")
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"Analiza danych", None))
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"ChartsPage", None))

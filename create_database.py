@@ -49,4 +49,4 @@ def create_database(db_name):
     connection.close()
 
 if __name__ == "__main__":
-    create_database("emails_kukulka.sqlite")
+    create_database("D:\\SQL\\blewandowski@robertpabich\\blewandowski@robertpabich.sqlite")

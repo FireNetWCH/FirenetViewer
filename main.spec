@@ -31,7 +31,6 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon='/Users/wojciech/Documents/FirenetProjects/firenetViewer2/Qss/icons/Icons/font_awesome/brands/brave.png'
 )
 
 coll = COLLECT(

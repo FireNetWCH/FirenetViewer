@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1515</width>
-    <height>471</height>
+    <width>1421</width>
+    <height>558</height>
    </rect>
   </property>
   <property name="font">
@@ -502,7 +502,7 @@
              </font>
             </property>
             <property name="text">
-             <string>FirenetViewer</string>
+             <string>FireNet E-mail Viewer</string>
             </property>
            </widget>
           </item>
@@ -790,7 +790,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>Analiza danych</string>
+                    <string>Filtrowanie</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -809,7 +809,7 @@
                     <item>
                      <widget class="QLineEdit" name="seachName">
                       <property name="placeholderText">
-                       <string>Wyszukaj po nadawcy</string>
+                       <string>Nadawca</string>
                       </property>
                      </widget>
                     </item>
@@ -819,19 +819,36 @@
                        <string/>
                       </property>
                       <property name="placeholderText">
-                       <string>Wyszukaj po odbiorcy</string>
+                       <string>Odbiorca</string>
                       </property>
                      </widget>
                     </item>
                     <item>
                      <widget class="QLineEdit" name="searchDate">
                       <property name="placeholderText">
-                       <string>Wyszukaj po dacie temacie</string>
+                       <string>Wyszukaj w tytule</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLineEdit" name="searchBody">
+                      <property name="placeholderText">
+                       <string>Wyszukaj w treści</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="checkBoxData">
+                      <property name="text">
+                       <string>Filtruj po dacie</string>
                       </property>
                      </widget>
                     </item>
                     <item>
                      <widget class="QDateEdit" name="seachOd">
+                      <property name="enabled">
+                       <bool>false</bool>
+                      </property>
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                         <horstretch>0</horstretch>
@@ -840,7 +857,7 @@
                       </property>
                       <property name="dateTime">
                        <datetime>
-                        <hour>23</hour>
+                        <hour>22</hour>
                         <minute>0</minute>
                         <second>0</second>
                         <year>1989</year>
@@ -852,6 +869,9 @@
                     </item>
                     <item>
                      <widget class="QDateEdit" name="seachDo">
+                      <property name="enabled">
+                       <bool>false</bool>
+                      </property>
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                         <horstretch>0</horstretch>
@@ -860,7 +880,7 @@
                       </property>
                       <property name="dateTime">
                        <datetime>
-                        <hour>23</hour>
+                        <hour>22</hour>
                         <minute>0</minute>
                         <second>0</second>
                         <year>2025</year>
@@ -944,6 +964,38 @@
                      <widget class="QPushButton" name="detailsBtn">
                       <property name="text">
                        <string>P/U</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QWidget" name="widget_9" native="true">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <layout class="QHBoxLayout" name="horizontalLayout_4">
+                    <item>
+                     <widget class="QPushButton" name="prevEmailTableBtn">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="text">
+                       <string>&lt;</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="nextEmailTableBtn">
+                      <property name="text">
+                       <string>&gt;</string>
                       </property>
                      </widget>
                     </item>
@@ -1036,6 +1088,9 @@
                            <verstretch>0</verstretch>
                           </sizepolicy>
                          </property>
+                         <property name="frameShape">
+                          <enum>QFrame::Shape::Box</enum>
+                         </property>
                          <property name="widgetResizable">
                           <bool>true</bool>
                          </property>
@@ -1044,8 +1099,8 @@
                            <rect>
                             <x>0</x>
                             <y>0</y>
-                            <width>414</width>
-                            <height>210</height>
+                            <width>386</width>
+                            <height>227</height>
                            </rect>
                           </property>
                           <property name="sizePolicy">
@@ -1060,7 +1115,7 @@
                              <item>
                               <widget class="QListWidget" name="listAttachments">
                                <property name="sizePolicy">
-                                <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                                  <horstretch>0</horstretch>
                                  <verstretch>0</verstretch>
                                 </sizepolicy>
@@ -1085,26 +1140,32 @@
                              <item>
                               <widget class="QLabel" name="sender">
                                <property name="sizePolicy">
-                                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                                  <horstretch>0</horstretch>
                                  <verstretch>0</verstretch>
                                 </sizepolicy>
                                </property>
+                               <property name="frameShape">
+                                <enum>QFrame::Shape::Panel</enum>
+                               </property>
                                <property name="text">
-                                <string>sender</string>
+                                <string/>
                                </property>
                               </widget>
                              </item>
                              <item>
                               <widget class="QLabel" name="cc">
                                <property name="sizePolicy">
-                                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                                  <horstretch>0</horstretch>
                                  <verstretch>0</verstretch>
                                 </sizepolicy>
                                </property>
+                               <property name="frameShape">
+                                <enum>QFrame::Shape::WinPanel</enum>
+                               </property>
                                <property name="text">
-                                <string>cc</string>
+                                <string/>
                                </property>
                               </widget>
                              </item>
@@ -1116,21 +1177,30 @@
                                  <verstretch>0</verstretch>
                                 </sizepolicy>
                                </property>
+                               <property name="frameShape">
+                                <enum>QFrame::Shape::StyledPanel</enum>
+                               </property>
                                <property name="text">
-                                <string>subject</string>
+                                <string/>
                                </property>
                               </widget>
                              </item>
                              <item>
                               <widget class="QLabel" name="date">
                                <property name="sizePolicy">
-                                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                                  <horstretch>0</horstretch>
                                  <verstretch>0</verstretch>
                                 </sizepolicy>
                                </property>
+                               <property name="contextMenuPolicy">
+                                <enum>Qt::ContextMenuPolicy::DefaultContextMenu</enum>
+                               </property>
+                               <property name="frameShape">
+                                <enum>QFrame::Shape::StyledPanel</enum>
+                               </property>
                                <property name="text">
-                                <string>date</string>
+                                <string/>
                                </property>
                               </widget>
                              </item>
@@ -1142,8 +1212,14 @@
                                  <verstretch>0</verstretch>
                                 </sizepolicy>
                                </property>
+                               <property name="styleSheet">
+                                <string notr="true"/>
+                               </property>
+                               <property name="frameShape">
+                                <enum>QFrame::Shape::Box</enum>
+                               </property>
                                <property name="text">
-                                <string>body</string>
+                                <string/>
                                </property>
                               </widget>
                              </item>

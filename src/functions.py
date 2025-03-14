@@ -6,7 +6,7 @@ import pandas as pd
 from PySide6.QtCore import Qt, QSettings, QDir, QPoint
 from PySide6.QtGui import QFont, QFontDatabase, QAction,QStandardItem, QPixmap, QImage, QPainter
 from PySide6.QtWidgets import (
-    QCheckBox, QPushButton, QGraphicsScene, QTableWidgetItem, QMenu, QFileSystemModel,QSplitter,
+    QCheckBox, QPushButton, QGraphicsScene, QTableWidgetItem, QMenu, QFileSystemModel,QSplitter,QFrame,
     QTreeView, QVBoxLayout, QFileDialog, QGraphicsView, QTreeWidgetItem,QListWidgetItem, QTreeWidget, QMainWindow,QListWidget,QHeaderView
 )
 import matplotlib.pyplot as plt
@@ -22,7 +22,7 @@ from src.multi_tag_selector import MultiTagSelector
 from src.gui_function import display_file_content
 from src.key_press_filter import KeyPressFilter
 from datetime import datetime
-
+import json
 # from src.viewers.pdf_viewer import display_pdf_content
 # from src.viewers.img_viewer import display_img_content
 # from src.viewers.video_viewer import display_vidoe_content
@@ -38,15 +38,21 @@ class GUIFunctions:
         self.main = main_window
         self.ui = main_window.ui
         self.db_connection: Optional[sqlite3.Connection] = None
-        self.active_filters: Dict[int, str] = {1: "", 2: "", 3: "", 4: "", 5:""}
+        self.active_filters: Dict[str, str] = {'sender_name': "", "cc": "", "subject": "", "date_fr": "", 'date_to':"","folder_id" : "1","body":""}
         self.columns_hidden: List[bool] = [False] * 7
         self.filtering_active: bool = False
         self.current_sort_order: Dict[int, Any] = {}
+        file_config = open(".\\config.json")
+        config = json.load(file_config)
+        base_path = config['path']
+        self.path = base_path
+        self.current_page = 0
+        self.emails_per_page = 500
         #self.key_filter = KeyPressFilter()
-        self._connect_to_database("emails_kukulka.sqlite")
-        self._setup_ui()
+        self._connect_to_database("D:\\SQL\\archiw_rpabich_2020\\archiw_rpabich_2020.sqlite")
+        self._setup_ui(self.path)
+
         header = self.ui.tableWidget.horizontalHeader()
-        print(header)
         for col in range(self.ui.tableWidget.columnCount()):
             header.setSectionResizeMode(col, QHeaderView.Stretch)
         splitter = QSplitter(Qt.Horizontal)
@@ -56,17 +62,17 @@ class GUIFunctions:
         
         dada_layout.addWidget(splitter)
         self.load_data_from_database()
-        self.load_data_and_plot()
-        
+        #self.load_data_and_plot()
         
 
-    def _setup_ui(self) -> None:
+
+    def _setup_ui(self,path_database) -> None:
         """Inicjalizacja interfejsu – ustawienia czcionki, motywu oraz połączenia sygnałów."""
         self.enable_column_rearrangement()
         self.load_product_sans_font()
         self.initialize_app_theme()
         self.display_folders_in_help_page()
-        
+        self.display_database(path_database)
         self._connect_signals()
 
         # Konfiguracja widoku drzewa katalogów
@@ -94,36 +100,48 @@ class GUIFunctions:
 
         # Obsługa wyszukiwania i filtrów
         self.ui.searchBtn.clicked.connect(self.show_search_results)
-        self.ui.seachName.returnPressed.connect(self.search_by_first_name)
-        self.ui.seachSurname.returnPressed.connect(self.search_by_last_name)
-        self.ui.searchDate.returnPressed.connect(self.search_by_birth_date)
         self.ui.filter_table_btn.clicked.connect(self.join_search)
-        #self.ui.seachOd.returnPressed.connect(self.search_by_for)
-        #self.ui.filter_table_btn.clicked.connect(self.apply_filters)
         self.ui.show_table_btn.clicked.connect(self.show_all_columns)
         self.ui.show_flags_btn.clicked.connect(self.toggle_filter_flags)
         self.ui.export_pdf.clicked.connect(self.export_to_pdf)
         self.ui.export_excel.clicked.connect(self.export_to_excel)
         self.ui.pst_files_btn.clicked.connect(self.upload_pst_file)
-        self.ui.tableWidget.hideColumn(0)
-        self.ui.tableWidget.setColumnWidth(0, 1)
+        self.ui.checkBoxData.checkStateChanged.connect(self.date_state_box)
+        
+
+
         # Obsługa Event Tabeli Email
         self.ui.tableWidget.cellClicked.connect(self.load_clicked_email)
         self.ui.tableWidget.cellActivated.connect(self._get_id_flags_item_email)
-        #self.ui.tableWidget.cellActivated.connect(self._get_id_flags_item_email)
         self.key_filter = KeyPressFilter(self.ui.tableWidget, self._get_id_flags_item_email,self.load_clicked_email)
         self.ui.tableWidget.installEventFilter(self.key_filter)
-
+        self.ui.prevEmailTableBtn.clicked.connect(self.previous_page)
+        self.ui.nextEmailTableBtn.clicked.connect(self.next_page)
         # Obłsuga kliknięcia w drzewo katalogów Email
         tw = self.ui.helpPage.findChild(QTreeWidget,"folders_tree")
         tw.itemClicked.connect(self.tree_email_dir_clicked)
+
+        # Obsługa Wyboru Bazy Emaili
+        db_list = self.ui.helpPage.findChild(QListWidget, "db_list")
+        db_list.itemClicked.connect(self.selec_sqlit_db)
+
         # Obsługa wyświetlania mutlimediów z załącznków email
         la = self.ui.EmailtabWidget.findChild(QListWidget,"listAttachments")
         la.itemClicked.connect(self.email_tab_add_media_page)
+
+
         # Konfiguracja menu nagłówka tabeli
         header = self.ui.tableWidget.horizontalHeader()
         header.setContextMenuPolicy(Qt.CustomContextMenu)
         header.customContextMenuRequested.connect(self.show_column_menu)
+    def next_page(self):
+        self.current_page += 1
+        self.load_data_from_database()
+
+    def previous_page(self):
+        if self.current_page > 0:
+            self.current_page -= 1
+        self.load_data_from_database()
 
     def _get_id_flags_item_email(self,row,column):
         id = self.ui.tableWidget.item(row,0).text()
@@ -137,6 +155,23 @@ class GUIFunctions:
             check_box.setChecked(True)
         self.update_flag(id,flags)
         
+    def date_state_box(self):
+        pom = self.ui.checkBoxData.isChecked()
+        self.ui.seachOd.setEnabled(pom)
+        self.ui.seachDo.setEnabled(pom)
+
+
+    def selec_sqlit_db(self,item):
+        print(os.path.join(self.path,item.text().split('.')[0],item.text()))
+        if not self.db_connection is None: 
+            self.db_connection.close()
+            print("zamknięto polaczenie")
+        self._connect_to_database(os.path.join(self.path,item.text().split('.')[0],item.text()))
+        self.load_data_from_database()
+        self.display_folders_in_help_page()
+        tw = self.ui.helpPage.findChild(QTreeWidget,"folders_tree")
+        tw.itemClicked.connect(self.tree_email_dir_clicked)
+        self.clear_filtr()
 
     def _connect_to_database(self, db_name: str) -> None:
         """Nawiązuje połączenie z bazą danych SQLite."""
@@ -183,62 +218,64 @@ class GUIFunctions:
         sender_label.setText(emai_value[0][3])
         date_label.setText(emai_value[0][1])
         cc_label.setText(emai_value[0][5])
+        cc_label.setFrameStyle(QFrame.Box | QFrame.Plain)
+        cc_label.setLineWidth(2)
+        cc_label.setStyleSheet("border: 2px solid red; background-color: yellow; padding: 5px;")
+
+    def clear_filtr(self):
+        self.ui.seachName.setText("")
+        self.ui.seachSurname.setText("")
+        self.ui.searchDate.setText("")
+        self.ui.searchBody.setText("")
+        self.active_filters["sender_name"] = ""
+        self.active_filters["cc"] = ""
+        self.active_filters["subject"] = ""
+        self.active_filters["body"] = ""
         
     def tree_email_dir_clicked(self,item ,column):
-        item.data(0,1)
-        if item.data(0,1) == 1:
-            string = ""
-        else:
-            string = f"WHERE folder_id = {item.data(0,1)}"
-        query= f'''
-        SELECT e.id, e.sender_name, e.cc, e.subject, e.date, e.flag, e.folder_id,
-                   GROUP_CONCAT(t.tag_name) AS tags 
-            FROM emails e 
-            LEFT JOIN email_tags et ON e.id = et.email_id
-            LEFT JOIN tags t ON et.tag_id = t.id
-			{string}
-            GROUP BY e.id
-        '''
-        cursor = self.db_connection.cursor()
-        cursor.execute(query)
-        data = cursor.fetchall()
-        self.ui.tableWidget.setRowCount(len(data))
-        self.ui.tableWidget.setColumnCount(7)
-        # ustanie liczby kolumn usuwa zawartość tabeli ale nie usuwa nagłówka 
-        self.ui.tableWidget.setRowCount(0)
-        self.ui.tableWidget.setRowCount(len(data))
-        self.create_main_email_tale(data)
-     
+        self.active_filters["folder_id"] = item.data(0,1)
+        self.clear_filtr()
+
+        self.load_data_from_database()
+        self.current_page = 0
+        
 
     def load_data_from_database(self) -> None:
         """
         Wczytuje dane z bazy SQLite i wypełnia tabelę widżetem.
         Używa zapytania SQL z lewym łączeniem, aby zebrać informacje o użytkownikach oraz ich tagach.
         """
-        
+        # określa który pakiet email trzeba pobrać  
+        offset = self.current_page * self.emails_per_page
         if not self.db_connection:
             logger.error("Brak połączenia z bazą danych.")
             return
-
-        query = '''
+        
+        query = f'''
             SELECT e.id, e.sender_name, e.cc, e.subject, e.date, e.flag,
                    GROUP_CONCAT(t.tag_name) AS tags 
             FROM emails e
             LEFT JOIN email_tags et ON e.id = et.email_id
             LEFT JOIN tags t ON et.tag_id = t.id
+            {self.apply_filters()}
             GROUP BY e.id
+            LIMIT {self.emails_per_page} OFFSET {offset}
         '''
+        print(query)
         try:
             cursor = self.db_connection.cursor()
             cursor.execute(query)
+            print(f"{cursor.arraysize}")
             data = cursor.fetchall()
+            
             self.ui.tableWidget.setRowCount(len(data))
             self.ui.tableWidget.setColumnCount(7)
+            print(data)
             self.create_main_email_tale(data)
-
+            self.ui.tableWidget.verticalHeader().setVisible(False)
         except sqlite3.Error as e:
                 logger.error(f"Błąd podczas wykonywania zapytania: {e}")
-
+                print(f"Błąd podczas wykonywania zapytania: {e}")
     def email_tab_add_media_page(self,item):
         print("item.")
 
@@ -248,7 +285,7 @@ class GUIFunctions:
             #dodanie ukrytej kolumn col = 0 przechowującej id(emaila)
             item_id = QTableWidgetItem(str(user_id))
             self.ui.tableWidget.setItem(row_idx, 0, item_id)
-            self.ui.tableWidget.setColumnHidden(0, True)
+            
 
             for col_idx, cell_data in enumerate(row_data[1:]):
                 #przesunięcie o 1 bo kolumne 0 zejmuje ukryta kolumna zawierająca id
@@ -274,7 +311,11 @@ class GUIFunctions:
                     item = QTableWidgetItem(str(cell_data) if cell_data else "")
                     self.ui.tableWidget.setItem(row_idx, real_col_idx, item)
                     item.setFlags(item.flags() & ~Qt.ItemIsEditable)
-
+        
+        self.ui.tableWidget.horizontalHeader().setSectionResizeMode(0, QHeaderView.Fixed)
+        self.ui.tableWidget.setColumnWidth(0, 50)
+        self.ui.tableWidget.horizontalHeader().setSectionResizeMode(5, QHeaderView.Fixed)
+        self.ui.tableWidget.setColumnWidth(5, 50)
         logger.info("Dane zostały załadowane do tabeli.")
         # print(f"Liczba kolumn w tabeli: {self.ui.tableWidget.columnCount()}")
 
@@ -293,7 +334,7 @@ class GUIFunctions:
             cursor = self.db_connection.cursor()
             cursor.execute("UPDATE emails SET flag = ? WHERE id = ?", (flag_value, user_id))
             self.db_connection.commit()
-            logger.info(f"Updated flag for user ID {user_id} to {flag_value}.")
+            logger.info(f"Updated flag for emails ID {user_id} to {flag_value}.")
         except sqlite3.Error as e:
             logger.error(f"Błąd podczas aktualizacji flagi: {e}")
             print(f"Błąd podczas aktualizacji flagi: {e}")
@@ -304,9 +345,9 @@ class GUIFunctions:
             cursor.execute("SELECT id FROM tags WHERE tag_name = ?", (tag_name,))
             tag_id = cursor.fetchone()
             if tag_id:
-                cursor.execute("UPDATE users SET tag_id = ? WHERE id = ?", (tag_id[0], user_id))
+                cursor.execute("UPDATE emails SET tag_id = ? WHERE id = ?", (tag_id[0], user_id))
                 self.db_connection.commit()
-                logger.info(f"Updated tag for user ID {user_id} to {tag_name}.")
+                logger.info(f"Updated tag for emails ID {user_id} to {tag_name}.")
             else:
                 logger.warning(f"Tag name '{tag_name}' not found.")
         except sqlite3.Error as e:
@@ -362,62 +403,49 @@ class GUIFunctions:
         product_sans = QFont(font_families[0] if font_families else 'Sans Serif')
         self.main.setFont(product_sans)
 
-    def search_by_first_name(self) -> None:
-        self.active_filters[1] = self.ui.seachName.text().lower()
-        self.apply_filters()
-
-    def search_by_last_name(self) -> None:
-        self.active_filters[2] = self.ui.seachSurname.text().lower()
-        self.apply_filters()
-
-    def search_by_birth_date(self) -> None:
-        self.active_filters[3] = self.ui.searchDate.text().lower()
-        self.apply_filters()
-        
-    def search_by_for(self) -> None:
-        self.active_filters[4] = self.ui.seachOd.text().lower()
-        print(self.active_filters[4])
-       
-    
-    def search_by_to(self) -> None:
-        self.active_filters[5] = self.ui.seachDo.text().lower()
-        
-        self.apply_filters()
+    def load_filtr_dict(self) -> None:
+        self.active_filters["sender_name"] = self.ui.seachName.text().lower()
+        self.active_filters["cc"] = self.ui.seachSurname.text().lower()
+        self.active_filters["subject"] = self.ui.searchDate.text().lower()
+        self.active_filters["date_fr"] = self.ui.seachOd.text().lower()
+        self.active_filters["date_to"] = self.ui.seachDo.text().lower()
+        self.active_filters["body"] = self.ui.searchBody.text().lower()
 
     def join_search(self):
-        self.search_by_birth_date()
-        self.search_by_first_name()
-        self.search_by_last_name()
-        self.search_by_for()
-        self.search_by_to()
-        self.apply_filters()
+        self.load_filtr_dict()
+        self.load_data_from_database()
+
 
     def apply_filters(self) -> None:
         """
-        Przechodzi przez wszystkie wiersze tabeli i ukrywa te,
-        które nie spełniają kryteriów aktywnych filtrów.
+        Zwraca fragmęt zapytania SQL zawierający filtry 
         """
-        for row in range(self.ui.tableWidget.rowCount()):
-            row_matches = True
-            for column, query in self.active_filters.items():
-                if column < 4:
-                    if query:
-                        item = self.ui.tableWidget.item(row, column)
-                        if not (item and query in item.text().lower()):
-                            row_matches = False
-                            break
-                if column == 4:
-                    if query:
-                        item = self.ui.tableWidget.item(row, column)
-                        datatime_object = datetime.strptime(item.text().split(' ')[0], '%Y-%m-%d')
-                        time_from = datetime.strptime(query.split(' ')[0], '%d.%m.%Y')
-                        time_to = datetime.strptime(self.active_filters[5].split(' ')[0], '%d.%m.%Y')
-                        if not ((datatime_object>time_from)and(datatime_object<time_to)):
-                            row_matches = False
-                        break
-
-
-            self.ui.tableWidget.setRowHidden(row, not row_matches)
+        query_part = ""
+        firtFiltr = True
+        print(self.active_filters)
+        for key, value in self.active_filters.items():
+            if key == "folder_id" and str(value) == "1":
+                print(f"{key} +{value}")
+            elif (key == "date_fr"):
+                print(f"{key} +{value}")
+            elif key == "date_to":
+                if self.ui.checkBoxData.isChecked():
+                    start_date = datetime.strptime(self.active_filters['date_fr'], "%d.%m.%Y").strftime("%Y-%m-%d")
+                    end_date = datetime.strptime(self.active_filters['date_to'], "%d.%m.%Y").strftime("%Y-%m-%d")
+                    if firtFiltr:
+                        query_part = f"WHERE date BETWEEN '{start_date}' AND '{end_date}' "
+                        firtFiltr = False
+                    else:
+                        query_part = f"AND date BETWEEN '{start_date}' AND '{end_date}' "
+            else:
+                if value != "" :
+                    if firtFiltr:
+                        query_part = f"WHERE {key} LIKE '%{value}%' COLLATE NOCASE "
+                        firtFiltr = False
+                    else:
+                        query_part = query_part + f"AND {key} LIKE '%{value}%' COLLATE NOCASE "
+            
+        return query_part    
 
     def show_column_menu(self, position: QPoint) -> None:
         """Wyświetla menu kontekstowe dla nagłówka kolumny."""
@@ -463,18 +491,6 @@ class GUIFunctions:
         header = self.ui.tableWidget.horizontalHeader()
         header.setSectionsMovable(True)
         header.setDragEnabled(True)
-
-    def load_data_and_plot(self) -> None:
-        """Wczytuje dane (wiek użytkowników) i tworzy wykres."""
-        if not self.db_connection:
-            return
-        try:
-            cursor = self.db_connection.cursor()
-            cursor.execute("SELECT age FROM users")
-            ages = [row[0] for row in cursor.fetchall()]
-            self.plot_data(ages)
-        except sqlite3.Error as e:
-            logger.error(f"Error fetching data: {e}")
 
     def plot_data(self, ages: List[int]) -> None:
         """Tworzy histogram wieku użytkowników i wyświetla go na widżecie."""
@@ -664,7 +680,8 @@ class GUIFunctions:
         else:
             for i in reversed(range(layout.count())):
                 w = layout.itemAt(i).widget()
-                if w:
+                print(w.objectName)
+                if (w) and not (isinstance(w ,QListWidget)):
                     w.setParent(None)
         layout.addWidget(self.folders_tree)
         self.load_folders_data_into_tree()
@@ -704,3 +721,24 @@ class GUIFunctions:
                 parent.addChild(item)
             if folder_data["subfolders"]:
                 self.add_items_to_tree(item, folder_data["subfolders"])
+
+    def display_database(self,path_to_dir):
+        self.list_widget = QListWidget()
+        self.list_widget.setObjectName("db_list")
+        sql_list_file = []
+        dir_content =  os.scandir(path_to_dir)
+        for file in dir_content:
+            if os.path.isdir(os.path.join(path_to_dir,file)):
+                list_file = os.scandir(os.path.join(path_to_dir,file))
+                for sq_file in list_file:
+                    if os.path.isfile(os.path.join(path_to_dir,file,sq_file)) :
+                        _, ext = os.path.splitext(sq_file.name.lower())
+                        if ext == '.sqlite':
+                            sql_list_file.append(sq_file.name)
+
+
+
+        print(sql_list_file)
+        self.list_widget.addItems(sql_list_file)    
+        layout = self.ui.helpPage.layout()
+        layout.addWidget(self.list_widget)
