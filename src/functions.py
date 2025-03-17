@@ -6,7 +6,7 @@ import pandas as pd
 from PySide6.QtCore import Qt, QSettings, QDir, QPoint
 from PySide6.QtGui import QFont, QFontDatabase, QAction,QStandardItem, QPixmap, QImage, QPainter
 from PySide6.QtWidgets import (
-    QCheckBox, QPushButton, QGraphicsScene, QTableWidgetItem, QMenu, QFileSystemModel,QSplitter,QFrame,
+    QCheckBox, QPushButton, QGraphicsScene, QTableWidgetItem, QMenu, QFileSystemModel,QSplitter,QFrame,QApplication,
     QTreeView, QVBoxLayout, QFileDialog, QGraphicsView, QTreeWidgetItem,QListWidgetItem, QTreeWidget, QMainWindow,QListWidget,QHeaderView
 )
 import matplotlib.pyplot as plt
@@ -22,7 +22,10 @@ from src.multi_tag_selector import MultiTagSelector
 from src.gui_function import display_file_content
 from src.key_press_filter import KeyPressFilter
 from datetime import datetime
+import math
 import json
+import shutil
+
 # from src.viewers.pdf_viewer import display_pdf_content
 # from src.viewers.img_viewer import display_img_content
 # from src.viewers.video_viewer import display_vidoe_content
@@ -46,10 +49,14 @@ class GUIFunctions:
         config = json.load(file_config)
         base_path = config['path']
         self.path = base_path
+        self.sql_name = ""
+        self.id_selected_email = 0
+        self.max_page = 0
+        self.all_emails_count = 0
         self.current_page = 0
         self.emails_per_page = 500
         #self.key_filter = KeyPressFilter()
-        self._connect_to_database("D:\\SQL\\archiw_rpabich_2020\\archiw_rpabich_2020.sqlite")
+        #self._connect_to_database("D:\\SQL\\archiw_rpabich_2020\\archiw_rpabich_2020.sqlite")
         self._setup_ui(self.path)
 
         header = self.ui.tableWidget.horizontalHeader()
@@ -61,7 +68,7 @@ class GUIFunctions:
         splitter.addWidget(self.ui.EmailtabWidget)
         
         dada_layout.addWidget(splitter)
-        self.load_data_from_database()
+        #self.load_data_from_database()
         #self.load_data_and_plot()
         
 
@@ -101,6 +108,10 @@ class GUIFunctions:
         # Obsługa wyszukiwania i filtrów
         self.ui.searchBtn.clicked.connect(self.show_search_results)
         self.ui.filter_table_btn.clicked.connect(self.join_search)
+        self.ui.seachSurname.returnPressed.connect(self.join_search)
+        self.ui.seachName.returnPressed.connect(self.join_search)
+        self.ui.searchBody.returnPressed.connect(self.join_search)
+        self.ui.searchDate.returnPressed.connect(self.join_search)
         self.ui.show_table_btn.clicked.connect(self.show_all_columns)
         self.ui.show_flags_btn.clicked.connect(self.toggle_filter_flags)
         self.ui.export_pdf.clicked.connect(self.export_to_pdf)
@@ -127,15 +138,35 @@ class GUIFunctions:
 
         # Obsługa wyświetlania mutlimediów z załącznków email
         la = self.ui.EmailtabWidget.findChild(QListWidget,"listAttachments")
-        la.itemClicked.connect(self.email_tab_add_media_page)
+        la.itemClicked.connect(self.email_copy_attachments)
 
 
         # Konfiguracja menu nagłówka tabeli
         header = self.ui.tableWidget.horizontalHeader()
         header.setContextMenuPolicy(Qt.CustomContextMenu)
         header.customContextMenuRequested.connect(self.show_column_menu)
+
+        self.ui.dataAnalysisPage.setStyleSheet("""
+       QTabWidget {
+        border: 0px solid black;
+    }
+""")
+
+        self.ui.EmailtabWidget.setStyleSheet("""
+    QFrame {
+        border: 1px solid black;
+    }
+    QLabel {
+        border: 0px solid black;
+    }
+       QTabWidget {
+        border: 0px solid black;
+    }
+""")
+
     def next_page(self):
-        self.current_page += 1
+        if self.current_page < self.max_page-1:
+            self.current_page += 1
         self.load_data_from_database()
 
     def previous_page(self):
@@ -166,7 +197,12 @@ class GUIFunctions:
         if not self.db_connection is None: 
             self.db_connection.close()
             print("zamknięto polaczenie")
-        self._connect_to_database(os.path.join(self.path,item.text().split('.')[0],item.text()))
+        db_path = os.path.join(self.path,item.text().split('.')[0],item.text())
+        self._connect_to_database(db_path)
+        sql_name = db_path.split('\\')[-1]
+        sql_name = sql_name.removesuffix('.sqlite')
+        self.sql_name = sql_name
+        self.ui.dataAnalysisPage.findChild(QLabel,"sqlEmailDbName").setText(sql_name)
         self.load_data_from_database()
         self.display_folders_in_help_page()
         tw = self.ui.helpPage.findChild(QTreeWidget,"folders_tree")
@@ -184,10 +220,11 @@ class GUIFunctions:
     
     def load_clicked_email(self,row,column):
         id = self.ui.tableWidget.item(row,0).text()
+        self.id_selected_email = id
         query =f'''
         SELECT * from emails WHERE id = {id}
         '''
-        
+
         body_label = self.ui.EmailtabWidget.findChild(QLabel, "body")
         subject_label = self.ui.EmailtabWidget.findChild(QLabel, "subject")
         sender_label = self.ui.EmailtabWidget.findChild(QLabel, "sender")
@@ -202,13 +239,14 @@ class GUIFunctions:
         cursor.execute(query_attachments)
         attachments_value = cursor.fetchall()
         listAttachments = self.ui.EmailtabWidget.findChild(QListWidget, "listAttachments")
-
         listAttachments.clear()
         for _, file_name, extra_value in attachments_value:
-            item = QListWidgetItem(file_name)  
-            item.setData(extra_value, Qt.UserRole)  
+            item = QListWidgetItem(f"{file_name}")  
+            #item.setData(extra_value) 
             listAttachments.addItem(item)
-            item.setSizeHint(item.sizeHint())
+            print(item)
+        listAttachments.setFixedHeight(60)
+        
         if isinstance(emai_value[0][8],str):
             body_label.setText(emai_value[0][8])
         else:
@@ -218,9 +256,9 @@ class GUIFunctions:
         sender_label.setText(emai_value[0][3])
         date_label.setText(emai_value[0][1])
         cc_label.setText(emai_value[0][5])
-        cc_label.setFrameStyle(QFrame.Box | QFrame.Plain)
-        cc_label.setLineWidth(2)
-        cc_label.setStyleSheet("border: 2px solid red; background-color: yellow; padding: 5px;")
+        # cc_label.setFrameStyle(QFrame.Box | QFrame.Plain)
+        # cc_label.setLineWidth(2)
+        # cc_label.setStyleSheet("border: 2px solid red; background-color: yellow; padding: 5px;")
 
     def clear_filtr(self):
         self.ui.seachName.setText("")
@@ -235,6 +273,7 @@ class GUIFunctions:
     def tree_email_dir_clicked(self,item ,column):
         self.active_filters["folder_id"] = item.data(0,1)
         self.clear_filtr()
+        
 
         self.load_data_from_database()
         self.current_page = 0
@@ -245,6 +284,7 @@ class GUIFunctions:
         Wczytuje dane z bazy SQLite i wypełnia tabelę widżetem.
         Używa zapytania SQL z lewym łączeniem, aby zebrać informacje o użytkownikach oraz ich tagach.
         """
+        QApplication.setOverrideCursor(Qt.WaitCursor)
         # określa który pakiet email trzeba pobrać  
         offset = self.current_page * self.emails_per_page
         if not self.db_connection:
@@ -261,23 +301,42 @@ class GUIFunctions:
             GROUP BY e.id
             LIMIT {self.emails_per_page} OFFSET {offset}
         '''
-        print(query)
+        #print(query)
         try:
             cursor = self.db_connection.cursor()
             cursor.execute(query)
-            print(f"{cursor.arraysize}")
+            cursor.execute
+            #print(f"{cursor.arraysize}")
             data = cursor.fetchall()
+            cursor.execute(f'''SELECT COUNT(DISTINCT e.id) AS total_count FROM emails e
+            {self.apply_filters()}''')
+            emailc_count = cursor.fetchall()[0][0]
+            self.all_emails_count = emailc_count
+            self.max_page = math.ceil((int(self.all_emails_count)/int(self.emails_per_page)))
+            self.ui.dataAnalysisPage.findChild(QLabel,"pageNumberLabel").setText(f"{self.current_page+1}/{self.max_page}")
             
             self.ui.tableWidget.setRowCount(len(data))
             self.ui.tableWidget.setColumnCount(7)
-            print(data)
+            #print(data)
             self.create_main_email_tale(data)
             self.ui.tableWidget.verticalHeader().setVisible(False)
+            QApplication.restoreOverrideCursor()
         except sqlite3.Error as e:
                 logger.error(f"Błąd podczas wykonywania zapytania: {e}")
                 print(f"Błąd podczas wykonywania zapytania: {e}")
-    def email_tab_add_media_page(self,item):
-        print("item.")
+
+
+    def email_copy_attachments(self,item):
+        source_path = os.path.join(self.path,self.sql_name,"Attachments",str(self.id_selected_email),item.text())
+        destination_path, _ = QFileDialog.getSaveFileName(None, "Zapisz plik jako",item.text(), item.text().split('.')[-1])
+        try:
+         if destination_path:  
+            shutil.copy(source_path, destination_path)
+            print(f"Plik został skopiowany do: {destination_path}")
+            logger.info(f"Plik został skopiowany do: {destination_path}")
+        except Exception as e:
+            print(f"Błąd podczas kopiowania pliku: {e}")
+            logger.error(f"Błąd podczas kopiowania pliku: {e}")
 
     def create_main_email_tale(self,data):
         for row_idx, row_data in enumerate(data):
@@ -422,12 +481,18 @@ class GUIFunctions:
         """
         query_part = ""
         firtFiltr = True
-        print(self.active_filters)
+        #print(self.active_filters)
         for key, value in self.active_filters.items():
             if key == "folder_id" and str(value) == "1":
                 print(f"{key} +{value}")
             elif (key == "date_fr"):
                 print(f"{key} +{value}")
+            elif(key == "body"):
+                if value != "":
+                    if firtFiltr:
+                        query_part = f"WHERE REPLACE(body, X'200C', '') LIKE '%{value}%' COLLATE NOCASE"
+                    else:
+                        query_part = query_part + f"AND REPLACE(body, X'200C', '') LIKE '%{value}%' COLLATE NOCASE"
             elif key == "date_to":
                 if self.ui.checkBoxData.isChecked():
                     start_date = datetime.strptime(self.active_filters['date_fr'], "%d.%m.%Y").strftime("%Y-%m-%d")
@@ -436,7 +501,7 @@ class GUIFunctions:
                         query_part = f"WHERE date BETWEEN '{start_date}' AND '{end_date}' "
                         firtFiltr = False
                     else:
-                        query_part = f"AND date BETWEEN '{start_date}' AND '{end_date}' "
+                        query_part = query_part + f"AND date BETWEEN '{start_date}' AND '{end_date}' "
             else:
                 if value != "" :
                     if firtFiltr:
@@ -737,7 +802,15 @@ class GUIFunctions:
                             sql_list_file.append(sq_file.name)
 
 
-
+        if self.db_connection is None and len(sql_list_file) > 0 :
+            try:
+                self._connect_to_database(path_to_dir+"\\"+sql_list_file[0].split('.')[-2]+"\\"+sql_list_file[0])
+                self.load_data_from_database()
+                self.sql_name =sql_list_file[0].split('.')[-2]
+                self.ui.dataAnalysisPage.findChild(QLabel,"sqlEmailDbName").setText(self.sql_name)
+                logger.info(f"Połączono z pierwszą odnalezioną bazą SQLite: {self.sql_name}")
+            except Exception as e:
+                logger.error(f"Bład przy pierwszym łaczeniu do SQLite: {e}")
         print(sql_list_file)
         self.list_widget.addItems(sql_list_file)    
         layout = self.ui.helpPage.layout()

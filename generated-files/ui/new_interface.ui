@@ -771,199 +771,346 @@
                <widget class="QWidget" name="dataAnalysisPage">
                 <layout class="QVBoxLayout" name="verticalLayout_12">
                  <item>
-                  <widget class="QWidget" name="widget_8" native="true">
+                  <widget class="QFrame" name="frame_13">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
-                   <layout class="QHBoxLayout" name="horizontalLayout_14"/>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="label_10">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
+                   <property name="frameShape">
+                    <enum>QFrame::Shape::StyledPanel</enum>
                    </property>
-                   <property name="text">
-                    <string>Filtrowanie</string>
+                   <property name="frameShadow">
+                    <enum>QFrame::Shadow::Raised</enum>
                    </property>
-                   <property name="alignment">
-                    <set>Qt::AlignmentFlag::AlignCenter</set>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QWidget" name="widget_7" native="true">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <layout class="QHBoxLayout" name="horizontalLayout_13">
+                   <layout class="QHBoxLayout" name="horizontalLayout_18">
+                    <property name="topMargin">
+                     <number>2</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>2</number>
+                    </property>
                     <item>
-                     <widget class="QLineEdit" name="seachName">
-                      <property name="placeholderText">
-                       <string>Nadawca</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLineEdit" name="seachSurname">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="placeholderText">
-                       <string>Odbiorca</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLineEdit" name="searchDate">
-                      <property name="placeholderText">
-                       <string>Wyszukaj w tytule</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QLineEdit" name="searchBody">
-                      <property name="placeholderText">
-                       <string>Wyszukaj w treści</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QCheckBox" name="checkBoxData">
-                      <property name="text">
-                       <string>Filtruj po dacie</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QDateEdit" name="seachOd">
-                      <property name="enabled">
-                       <bool>false</bool>
-                      </property>
+                     <widget class="QFrame" name="frame_11">
                       <property name="sizePolicy">
-                       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                         <horstretch>0</horstretch>
                         <verstretch>0</verstretch>
                        </sizepolicy>
                       </property>
-                      <property name="dateTime">
-                       <datetime>
-                        <hour>22</hour>
-                        <minute>0</minute>
-                        <second>0</second>
-                        <year>1989</year>
-                        <month>12</month>
-                        <day>31</day>
-                       </datetime>
+                      <property name="frameShape">
+                       <enum>QFrame::Shape::StyledPanel</enum>
                       </property>
+                      <property name="frameShadow">
+                       <enum>QFrame::Shadow::Raised</enum>
+                      </property>
+                      <layout class="QVBoxLayout" name="verticalLayout_22">
+                       <property name="topMargin">
+                        <number>2</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>2</number>
+                       </property>
+                       <item>
+                        <widget class="QFrame" name="frame_12">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="frameShape">
+                          <enum>QFrame::Shape::StyledPanel</enum>
+                         </property>
+                         <property name="frameShadow">
+                          <enum>QFrame::Shadow::Raised</enum>
+                         </property>
+                         <layout class="QVBoxLayout" name="verticalLayout_23">
+                          <property name="topMargin">
+                           <number>2</number>
+                          </property>
+                          <property name="bottomMargin">
+                           <number>2</number>
+                          </property>
+                          <item>
+                           <widget class="QLabel" name="label_10">
+                            <property name="sizePolicy">
+                             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                              <horstretch>0</horstretch>
+                              <verstretch>0</verstretch>
+                             </sizepolicy>
+                            </property>
+                            <property name="text">
+                             <string>Filtrowanie</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignmentFlag::AlignCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QFrame" name="frame_10">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="frameShape">
+                          <enum>QFrame::Shape::StyledPanel</enum>
+                         </property>
+                         <property name="frameShadow">
+                          <enum>QFrame::Shadow::Raised</enum>
+                         </property>
+                         <layout class="QHBoxLayout" name="horizontalLayout_14">
+                          <property name="topMargin">
+                           <number>2</number>
+                          </property>
+                          <property name="bottomMargin">
+                           <number>2</number>
+                          </property>
+                          <item>
+                           <widget class="QLineEdit" name="seachSurname">
+                            <property name="text">
+                             <string/>
+                            </property>
+                            <property name="placeholderText">
+                             <string>Odbiorca</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLineEdit" name="seachName">
+                            <property name="placeholderText">
+                             <string>Nadawca</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLineEdit" name="searchBody">
+                            <property name="placeholderText">
+                             <string>Wyszukaj w treści</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLineEdit" name="searchDate">
+                            <property name="placeholderText">
+                             <string>Wyszukaj w tytule</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QCheckBox" name="checkBoxData">
+                            <property name="text">
+                             <string>Filtruj po dacie</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QDateEdit" name="seachOd">
+                            <property name="enabled">
+                             <bool>false</bool>
+                            </property>
+                            <property name="sizePolicy">
+                             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                              <horstretch>0</horstretch>
+                              <verstretch>0</verstretch>
+                             </sizepolicy>
+                            </property>
+                            <property name="dateTime">
+                             <datetime>
+                              <hour>20</hour>
+                              <minute>0</minute>
+                              <second>0</second>
+                              <year>1989</year>
+                              <month>12</month>
+                              <day>31</day>
+                             </datetime>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QDateEdit" name="seachDo">
+                            <property name="enabled">
+                             <bool>false</bool>
+                            </property>
+                            <property name="sizePolicy">
+                             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                              <horstretch>0</horstretch>
+                              <verstretch>0</verstretch>
+                             </sizepolicy>
+                            </property>
+                            <property name="dateTime">
+                             <datetime>
+                              <hour>20</hour>
+                              <minute>0</minute>
+                              <second>0</second>
+                              <year>2025</year>
+                              <month>12</month>
+                              <day>31</day>
+                             </datetime>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QPushButton" name="filter_table_btn">
+                            <property name="toolTip">
+                             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Wyszukaj w tabeli&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                            </property>
+                            <property name="text">
+                             <string/>
+                            </property>
+                            <property name="icon">
+                             <iconset>
+                              <normaloff>:/feather/icons/feather/search.png</normaloff>:/feather/icons/feather/search.png</iconset>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </widget>
+                       </item>
+                      </layout>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QDateEdit" name="seachDo">
-                      <property name="enabled">
-                       <bool>false</bool>
-                      </property>
+                     <widget class="QWidget" name="widget_7" native="true">
                       <property name="sizePolicy">
-                       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                         <horstretch>0</horstretch>
                         <verstretch>0</verstretch>
                        </sizepolicy>
                       </property>
-                      <property name="dateTime">
-                       <datetime>
-                        <hour>22</hour>
-                        <minute>0</minute>
-                        <second>0</second>
-                        <year>2025</year>
-                        <month>12</month>
-                        <day>31</day>
-                       </datetime>
+                      <layout class="QHBoxLayout" name="horizontalLayout_13">
+                       <property name="topMargin">
+                        <number>2</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>2</number>
+                       </property>
+                       <item>
+                        <widget class="QPushButton" name="show_flags_btn">
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pokaż wszystkie zaznaczone flagi&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                         <property name="icon">
+                          <iconset>
+                           <normaloff>:/feather/icons/feather/flag.png</normaloff>:/feather/icons/feather/flag.png</iconset>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QPushButton" name="show_table_btn">
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pokaż całą tabelę&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                         <property name="icon">
+                          <iconset>
+                           <normaloff>:/material_design/icons/material_design/hide_source.png</normaloff>:/material_design/icons/material_design/hide_source.png</iconset>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QPushButton" name="export_pdf">
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Eksportuj do PDF'a&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                         <property name="icon">
+                          <iconset>
+                           <normaloff>:/font_awesome/regular/icons/font_awesome/regular/file-pdf.png</normaloff>:/font_awesome/regular/icons/font_awesome/regular/file-pdf.png</iconset>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QPushButton" name="export_excel">
+                         <property name="toolTip">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Eksportuj do excel'a&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
+                         <property name="text">
+                          <string/>
+                         </property>
+                         <property name="icon">
+                          <iconset>
+                           <normaloff>:/font_awesome/regular/icons/font_awesome/regular/file-excel.png</normaloff>:/font_awesome/regular/icons/font_awesome/regular/file-excel.png</iconset>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QPushButton" name="detailsBtn">
+                         <property name="text">
+                          <string>P/U</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QFrame" name="frame_9">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::Shape::StyledPanel</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Shadow::Raised</enum>
+                   </property>
+                   <layout class="QHBoxLayout" name="horizontalLayout_16">
+                    <property name="leftMargin">
+                     <number>2</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>2</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>2</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>2</number>
+                    </property>
+                    <item>
+                     <widget class="QLabel" name="label_22">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="text">
+                       <string>Skrzynka: </string>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="filter_table_btn">
-                      <property name="toolTip">
-                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Wyszukaj w tabeli&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     <widget class="QLabel" name="sqlEmailDbName">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
                       </property>
                       <property name="text">
-                       <string/>
-                      </property>
-                      <property name="icon">
-                       <iconset>
-                        <normaloff>:/feather/icons/feather/search.png</normaloff>:/feather/icons/feather/search.png</iconset>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="show_flags_btn">
-                      <property name="toolTip">
-                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pokaż wszystkie zaznaczone flagi&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                      </property>
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="icon">
-                       <iconset>
-                        <normaloff>:/feather/icons/feather/flag.png</normaloff>:/feather/icons/feather/flag.png</iconset>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="show_table_btn">
-                      <property name="toolTip">
-                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pokaż całą tabelę&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                      </property>
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="icon">
-                       <iconset>
-                        <normaloff>:/material_design/icons/material_design/hide_source.png</normaloff>:/material_design/icons/material_design/hide_source.png</iconset>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="export_pdf">
-                      <property name="toolTip">
-                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Eksportuj do PDF'a&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                      </property>
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="icon">
-                       <iconset>
-                        <normaloff>:/font_awesome/regular/icons/font_awesome/regular/file-pdf.png</normaloff>:/font_awesome/regular/icons/font_awesome/regular/file-pdf.png</iconset>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="export_excel">
-                      <property name="toolTip">
-                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Eksportuj do excel'a&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                      </property>
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="icon">
-                       <iconset>
-                        <normaloff>:/font_awesome/regular/icons/font_awesome/regular/file-excel.png</normaloff>:/font_awesome/regular/icons/font_awesome/regular/file-excel.png</iconset>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="detailsBtn">
-                      <property name="text">
-                       <string>P/U</string>
+                       <string>Skrzynka</string>
                       </property>
                      </widget>
                     </item>
@@ -979,6 +1126,12 @@
                     </sizepolicy>
                    </property>
                    <layout class="QHBoxLayout" name="horizontalLayout_4">
+                    <property name="topMargin">
+                     <number>2</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>2</number>
+                    </property>
                     <item>
                      <widget class="QPushButton" name="prevEmailTableBtn">
                       <property name="sizePolicy">
@@ -999,6 +1152,20 @@
                       </property>
                      </widget>
                     </item>
+                    <item>
+                     <widget class="QLabel" name="label_20">
+                      <property name="text">
+                       <string>Strona : </string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="pageNumberLabel">
+                      <property name="text">
+                       <string>XXX</string>
+                      </property>
+                     </widget>
+                    </item>
                    </layout>
                   </widget>
                  </item>
@@ -1014,6 +1181,11 @@
                        <horstretch>1</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <pointsize>8</pointsize>
+                      </font>
                      </property>
                      <attribute name="horizontalHeaderCascadingSectionResizes">
                       <bool>true</bool>
@@ -1099,8 +1271,8 @@
                            <rect>
                             <x>0</x>
                             <y>0</y>
-                            <width>386</width>
-                            <height>227</height>
+                            <width>520</width>
+                            <height>262</height>
                            </rect>
                           </property>
                           <property name="sizePolicy">
@@ -1115,10 +1287,16 @@
                              <item>
                               <widget class="QListWidget" name="listAttachments">
                                <property name="sizePolicy">
-                                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                                  <horstretch>0</horstretch>
                                  <verstretch>0</verstretch>
                                 </sizepolicy>
+                               </property>
+                               <property name="minimumSize">
+                                <size>
+                                 <width>500</width>
+                                 <height>0</height>
+                                </size>
                                </property>
                                <property name="frameShape">
                                 <enum>QFrame::Shape::Box</enum>
@@ -1132,82 +1310,323 @@
                                <property name="midLineWidth">
                                 <number>1</number>
                                </property>
+                               <property name="autoScrollMargin">
+                                <number>5</number>
+                               </property>
                                <property name="flow">
                                 <enum>QListView::Flow::LeftToRight</enum>
                                </property>
-                              </widget>
-                             </item>
-                             <item>
-                              <widget class="QLabel" name="sender">
-                               <property name="sizePolicy">
-                                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                                 <horstretch>0</horstretch>
-                                 <verstretch>0</verstretch>
-                                </sizepolicy>
+                               <property name="modelColumn">
+                                <number>0</number>
                                </property>
-                               <property name="frameShape">
-                                <enum>QFrame::Shape::Panel</enum>
+                               <property name="uniformItemSizes">
+                                <bool>false</bool>
                                </property>
-                               <property name="text">
-                                <string/>
+                               <property name="batchSize">
+                                <number>100</number>
                                </property>
                               </widget>
                              </item>
                              <item>
-                              <widget class="QLabel" name="cc">
+                              <widget class="QFrame" name="frame_8">
                                <property name="sizePolicy">
-                                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                                  <horstretch>0</horstretch>
                                  <verstretch>0</verstretch>
                                 </sizepolicy>
                                </property>
-                               <property name="frameShape">
-                                <enum>QFrame::Shape::WinPanel</enum>
-                               </property>
-                               <property name="text">
-                                <string/>
-                               </property>
-                              </widget>
-                             </item>
-                             <item>
-                              <widget class="QLabel" name="subject">
-                               <property name="sizePolicy">
-                                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                                 <horstretch>0</horstretch>
-                                 <verstretch>0</verstretch>
-                                </sizepolicy>
+                               <property name="minimumSize">
+                                <size>
+                                 <width>500</width>
+                                 <height>0</height>
+                                </size>
                                </property>
                                <property name="frameShape">
                                 <enum>QFrame::Shape::StyledPanel</enum>
                                </property>
-                               <property name="text">
-                                <string/>
+                               <property name="frameShadow">
+                                <enum>QFrame::Shadow::Raised</enum>
                                </property>
-                              </widget>
-                             </item>
-                             <item>
-                              <widget class="QLabel" name="date">
-                               <property name="sizePolicy">
-                                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                                 <horstretch>0</horstretch>
-                                 <verstretch>0</verstretch>
-                                </sizepolicy>
-                               </property>
-                               <property name="contextMenuPolicy">
-                                <enum>Qt::ContextMenuPolicy::DefaultContextMenu</enum>
-                               </property>
-                               <property name="frameShape">
-                                <enum>QFrame::Shape::StyledPanel</enum>
-                               </property>
-                               <property name="text">
-                                <string/>
-                               </property>
+                               <layout class="QVBoxLayout" name="verticalLayout_21">
+                                <item>
+                                 <widget class="QFrame" name="frame_4">
+                                  <property name="sizePolicy">
+                                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                   </sizepolicy>
+                                  </property>
+                                  <property name="layoutDirection">
+                                   <enum>Qt::LayoutDirection::LeftToRight</enum>
+                                  </property>
+                                  <property name="frameShadow">
+                                   <enum>QFrame::Shadow::Plain</enum>
+                                  </property>
+                                  <layout class="QHBoxLayout" name="horizontalLayout_20" stretch="0,0">
+                                   <property name="leftMargin">
+                                    <number>2</number>
+                                   </property>
+                                   <property name="topMargin">
+                                    <number>2</number>
+                                   </property>
+                                   <property name="rightMargin">
+                                    <number>2</number>
+                                   </property>
+                                   <property name="bottomMargin">
+                                    <number>2</number>
+                                   </property>
+                                   <item>
+                                    <widget class="QLabel" name="label_4">
+                                     <property name="sizePolicy">
+                                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                       <horstretch>0</horstretch>
+                                       <verstretch>0</verstretch>
+                                      </sizepolicy>
+                                     </property>
+                                     <property name="text">
+                                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Nadawca:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                                     </property>
+                                    </widget>
+                                   </item>
+                                   <item>
+                                    <widget class="QLabel" name="sender">
+                                     <property name="sizePolicy">
+                                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                       <horstretch>0</horstretch>
+                                       <verstretch>0</verstretch>
+                                      </sizepolicy>
+                                     </property>
+                                     <property name="frameShape">
+                                      <enum>QFrame::Shape::Panel</enum>
+                                     </property>
+                                     <property name="text">
+                                      <string/>
+                                     </property>
+                                    </widget>
+                                   </item>
+                                  </layout>
+                                 </widget>
+                                </item>
+                                <item>
+                                 <widget class="QFrame" name="frame_5">
+                                  <property name="sizePolicy">
+                                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                   </sizepolicy>
+                                  </property>
+                                  <property name="minimumSize">
+                                   <size>
+                                    <width>0</width>
+                                    <height>0</height>
+                                   </size>
+                                  </property>
+                                  <property name="baseSize">
+                                   <size>
+                                    <width>0</width>
+                                    <height>0</height>
+                                   </size>
+                                  </property>
+                                  <property name="frameShape">
+                                   <enum>QFrame::Shape::StyledPanel</enum>
+                                  </property>
+                                  <property name="frameShadow">
+                                   <enum>QFrame::Shadow::Raised</enum>
+                                  </property>
+                                  <layout class="QHBoxLayout" name="horizontalLayout_19">
+                                   <property name="leftMargin">
+                                    <number>2</number>
+                                   </property>
+                                   <property name="topMargin">
+                                    <number>2</number>
+                                   </property>
+                                   <property name="rightMargin">
+                                    <number>2</number>
+                                   </property>
+                                   <property name="bottomMargin">
+                                    <number>2</number>
+                                   </property>
+                                   <item>
+                                    <widget class="QLabel" name="label_17">
+                                     <property name="sizePolicy">
+                                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                       <horstretch>0</horstretch>
+                                       <verstretch>0</verstretch>
+                                      </sizepolicy>
+                                     </property>
+                                     <property name="text">
+                                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Odbiorca:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                                     </property>
+                                    </widget>
+                                   </item>
+                                   <item>
+                                    <widget class="QLabel" name="cc">
+                                     <property name="sizePolicy">
+                                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                       <horstretch>0</horstretch>
+                                       <verstretch>0</verstretch>
+                                      </sizepolicy>
+                                     </property>
+                                     <property name="frameShape">
+                                      <enum>QFrame::Shape::Box</enum>
+                                     </property>
+                                     <property name="text">
+                                      <string/>
+                                     </property>
+                                    </widget>
+                                   </item>
+                                  </layout>
+                                 </widget>
+                                </item>
+                                <item>
+                                 <widget class="QFrame" name="frame_7">
+                                  <property name="sizePolicy">
+                                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                   </sizepolicy>
+                                  </property>
+                                  <property name="minimumSize">
+                                   <size>
+                                    <width>0</width>
+                                    <height>0</height>
+                                   </size>
+                                  </property>
+                                  <property name="baseSize">
+                                   <size>
+                                    <width>0</width>
+                                    <height>100</height>
+                                   </size>
+                                  </property>
+                                  <property name="frameShape">
+                                   <enum>QFrame::Shape::StyledPanel</enum>
+                                  </property>
+                                  <property name="frameShadow">
+                                   <enum>QFrame::Shadow::Raised</enum>
+                                  </property>
+                                  <layout class="QHBoxLayout" name="horizontalLayout_22">
+                                   <property name="spacing">
+                                    <number>2</number>
+                                   </property>
+                                   <property name="leftMargin">
+                                    <number>2</number>
+                                   </property>
+                                   <property name="topMargin">
+                                    <number>2</number>
+                                   </property>
+                                   <property name="rightMargin">
+                                    <number>2</number>
+                                   </property>
+                                   <property name="bottomMargin">
+                                    <number>2</number>
+                                   </property>
+                                   <item>
+                                    <widget class="QLabel" name="label_19">
+                                     <property name="sizePolicy">
+                                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                       <horstretch>0</horstretch>
+                                       <verstretch>0</verstretch>
+                                      </sizepolicy>
+                                     </property>
+                                     <property name="text">
+                                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Data wysłania:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                                     </property>
+                                    </widget>
+                                   </item>
+                                   <item>
+                                    <widget class="QLabel" name="date">
+                                     <property name="sizePolicy">
+                                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                       <horstretch>0</horstretch>
+                                       <verstretch>0</verstretch>
+                                      </sizepolicy>
+                                     </property>
+                                     <property name="contextMenuPolicy">
+                                      <enum>Qt::ContextMenuPolicy::DefaultContextMenu</enum>
+                                     </property>
+                                     <property name="frameShape">
+                                      <enum>QFrame::Shape::StyledPanel</enum>
+                                     </property>
+                                     <property name="text">
+                                      <string/>
+                                     </property>
+                                    </widget>
+                                   </item>
+                                  </layout>
+                                 </widget>
+                                </item>
+                                <item>
+                                 <widget class="QFrame" name="frame_6">
+                                  <property name="sizePolicy">
+                                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                   </sizepolicy>
+                                  </property>
+                                  <property name="minimumSize">
+                                   <size>
+                                    <width>0</width>
+                                    <height>0</height>
+                                   </size>
+                                  </property>
+                                  <property name="frameShape">
+                                   <enum>QFrame::Shape::StyledPanel</enum>
+                                  </property>
+                                  <property name="frameShadow">
+                                   <enum>QFrame::Shadow::Raised</enum>
+                                  </property>
+                                  <layout class="QHBoxLayout" name="horizontalLayout_21">
+                                   <property name="leftMargin">
+                                    <number>2</number>
+                                   </property>
+                                   <property name="topMargin">
+                                    <number>2</number>
+                                   </property>
+                                   <property name="rightMargin">
+                                    <number>2</number>
+                                   </property>
+                                   <property name="bottomMargin">
+                                    <number>2</number>
+                                   </property>
+                                   <item>
+                                    <widget class="QLabel" name="label_18">
+                                     <property name="sizePolicy">
+                                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                       <horstretch>0</horstretch>
+                                       <verstretch>0</verstretch>
+                                      </sizepolicy>
+                                     </property>
+                                     <property name="text">
+                                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Temat:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                                     </property>
+                                    </widget>
+                                   </item>
+                                   <item>
+                                    <widget class="QLabel" name="subject">
+                                     <property name="sizePolicy">
+                                      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                       <horstretch>0</horstretch>
+                                       <verstretch>0</verstretch>
+                                      </sizepolicy>
+                                     </property>
+                                     <property name="frameShape">
+                                      <enum>QFrame::Shape::StyledPanel</enum>
+                                     </property>
+                                     <property name="text">
+                                      <string/>
+                                     </property>
+                                    </widget>
+                                   </item>
+                                  </layout>
+                                 </widget>
+                                </item>
+                               </layout>
                               </widget>
                              </item>
                              <item>
                               <widget class="QLabel" name="body">
                                <property name="sizePolicy">
-                                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                                  <horstretch>0</horstretch>
                                  <verstretch>0</verstretch>
                                 </sizepolicy>
@@ -1220,6 +1639,9 @@
                                </property>
                                <property name="text">
                                 <string/>
+                               </property>
+                               <property name="wordWrap">
+                                <bool>true</bool>
                                </property>
                               </widget>
                              </item>

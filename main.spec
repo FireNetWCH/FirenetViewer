@@ -1,9 +1,13 @@
+from PyInstaller.utils.hooks import collect_dynamic_libs
+
 block_cipher = None
+
+lxml_binaries = collect_dynamic_libs('lxml')
 
 a = Analysis(
     ['main.py'],
     pathex=[],
-    binaries=[],
+    binaries=lxml_binaries,
     datas=[('nazwa_bazy.db', '.')],
     hiddenimports=['PySide6'],
     hookspath=[],

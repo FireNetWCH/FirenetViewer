@@ -9,3 +9,10 @@ logs/custom_widgets.log
 emails_kukulka.db
 emails_kukulka.sqlite
 empty_emails_kukulka.sqlite
+/build
+/build/main
+/dist
+archiw_rpabich_2020.sqlite
+/build/base_library.zip
+build/main/base_library.zip
+
