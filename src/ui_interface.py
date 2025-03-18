@@ -15,13 +15,12 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QDateEdit,
-    QFrame, QGraphicsView, QHBoxLayout, QHeaderView,
-    QLabel, QLineEdit, QListView, QListWidget,
-    QListWidgetItem, QMainWindow, QProgressBar, QPushButton,
-    QScrollArea, QSizePolicy, QSpacerItem, QTabWidget,
-    QTableWidget, QTableWidgetItem, QTreeView, QVBoxLayout,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QGraphicsView,
+    QHBoxLayout, QHeaderView, QLabel, QLayout,
+    QLineEdit, QListView, QListWidget, QListWidgetItem,
+    QMainWindow, QProgressBar, QPushButton, QScrollArea,
+    QSizePolicy, QSpacerItem, QTabWidget, QTableWidget,
+    QTableWidgetItem, QTreeView, QVBoxLayout, QWidget)
 
 from Custom_Widgets.QCustomQStackedWidget import QCustomQStackedWidget
 from Custom_Widgets.QCustomSlideMenu import QCustomSlideMenu
@@ -30,7 +29,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1421, 558)
+        MainWindow.resize(1421, 559)
         font = QFont()
         font.setPointSize(10)
         MainWindow.setFont(font)
@@ -440,28 +439,33 @@ class Ui_MainWindow(object):
         self.dataAnalysisPage = QWidget()
         self.dataAnalysisPage.setObjectName(u"dataAnalysisPage")
         self.verticalLayout_12 = QVBoxLayout(self.dataAnalysisPage)
+        self.verticalLayout_12.setSpacing(0)
         self.verticalLayout_12.setObjectName(u"verticalLayout_12")
-        self.frame_13 = QFrame(self.dataAnalysisPage)
-        self.frame_13.setObjectName(u"frame_13")
+        self.verticalLayout_12.setContentsMargins(9, 0, -1, 0)
+        self.serchEmailFrame = QFrame(self.dataAnalysisPage)
+        self.serchEmailFrame.setObjectName(u"serchEmailFrame")
         sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
         sizePolicy2.setHorizontalStretch(0)
         sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.frame_13.sizePolicy().hasHeightForWidth())
-        self.frame_13.setSizePolicy(sizePolicy2)
-        self.frame_13.setFrameShape(QFrame.Shape.StyledPanel)
-        self.frame_13.setFrameShadow(QFrame.Shadow.Raised)
-        self.horizontalLayout_18 = QHBoxLayout(self.frame_13)
+        sizePolicy2.setHeightForWidth(self.serchEmailFrame.sizePolicy().hasHeightForWidth())
+        self.serchEmailFrame.setSizePolicy(sizePolicy2)
+        self.serchEmailFrame.setFrameShape(QFrame.Shape.StyledPanel)
+        self.serchEmailFrame.setFrameShadow(QFrame.Shadow.Raised)
+        self.horizontalLayout_18 = QHBoxLayout(self.serchEmailFrame)
+        self.horizontalLayout_18.setSpacing(0)
         self.horizontalLayout_18.setObjectName(u"horizontalLayout_18")
-        self.horizontalLayout_18.setContentsMargins(-1, 2, -1, 2)
-        self.frame_11 = QFrame(self.frame_13)
+        self.horizontalLayout_18.setContentsMargins(0, 0, -1, 0)
+        self.frame_11 = QFrame(self.serchEmailFrame)
         self.frame_11.setObjectName(u"frame_11")
         sizePolicy2.setHeightForWidth(self.frame_11.sizePolicy().hasHeightForWidth())
         self.frame_11.setSizePolicy(sizePolicy2)
         self.frame_11.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_11.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_22 = QVBoxLayout(self.frame_11)
+        self.verticalLayout_22.setSpacing(0)
         self.verticalLayout_22.setObjectName(u"verticalLayout_22")
-        self.verticalLayout_22.setContentsMargins(-1, 2, -1, 2)
+        self.verticalLayout_22.setSizeConstraint(QLayout.SizeConstraint.SetDefaultConstraint)
+        self.verticalLayout_22.setContentsMargins(0, 0, -1, 0)
         self.frame_12 = QFrame(self.frame_11)
         self.frame_12.setObjectName(u"frame_12")
         sizePolicy2.setHeightForWidth(self.frame_12.sizePolicy().hasHeightForWidth())
@@ -484,13 +488,18 @@ class Ui_MainWindow(object):
 
         self.frame_10 = QFrame(self.frame_11)
         self.frame_10.setObjectName(u"frame_10")
-        sizePolicy2.setHeightForWidth(self.frame_10.sizePolicy().hasHeightForWidth())
-        self.frame_10.setSizePolicy(sizePolicy2)
+        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.frame_10.sizePolicy().hasHeightForWidth())
+        self.frame_10.setSizePolicy(sizePolicy3)
         self.frame_10.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_10.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_14 = QHBoxLayout(self.frame_10)
+        self.horizontalLayout_14.setSpacing(3)
         self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
-        self.horizontalLayout_14.setContentsMargins(-1, 2, -1, 2)
+        self.horizontalLayout_14.setSizeConstraint(QLayout.SizeConstraint.SetDefaultConstraint)
+        self.horizontalLayout_14.setContentsMargins(0, 0, -1, 0)
         self.seachSurname = QLineEdit(self.frame_10)
         self.seachSurname.setObjectName(u"seachSurname")
 
@@ -511,31 +520,36 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_14.addWidget(self.searchDate)
 
-        self.checkBoxData = QCheckBox(self.frame_10)
-        self.checkBoxData.setObjectName(u"checkBoxData")
+        self.startDataBtn = QPushButton(self.frame_10)
+        self.startDataBtn.setObjectName(u"startDataBtn")
+        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred)
+        sizePolicy4.setHorizontalStretch(0)
+        sizePolicy4.setVerticalStretch(0)
+        sizePolicy4.setHeightForWidth(self.startDataBtn.sizePolicy().hasHeightForWidth())
+        self.startDataBtn.setSizePolicy(sizePolicy4)
+        self.startDataBtn.setAutoFillBackground(False)
+        self.startDataBtn.setInputMethodHints(Qt.InputMethodHint.ImhNone)
+        self.startDataBtn.setAutoRepeatInterval(100)
+        self.startDataBtn.setAutoDefault(False)
 
-        self.horizontalLayout_14.addWidget(self.checkBoxData)
+        self.horizontalLayout_14.addWidget(self.startDataBtn)
 
-        self.seachOd = QDateEdit(self.frame_10)
-        self.seachOd.setObjectName(u"seachOd")
-        self.seachOd.setEnabled(False)
-        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-        sizePolicy3.setHorizontalStretch(0)
-        sizePolicy3.setVerticalStretch(0)
-        sizePolicy3.setHeightForWidth(self.seachOd.sizePolicy().hasHeightForWidth())
-        self.seachOd.setSizePolicy(sizePolicy3)
-        self.seachOd.setDateTime(QDateTime(QDate(1989, 12, 31), QTime(20, 0, 0)))
+        self.startDataLabel = QLineEdit(self.frame_10)
+        self.startDataLabel.setObjectName(u"startDataLabel")
+        self.startDataLabel.setReadOnly(True)
 
-        self.horizontalLayout_14.addWidget(self.seachOd)
+        self.horizontalLayout_14.addWidget(self.startDataLabel)
 
-        self.seachDo = QDateEdit(self.frame_10)
-        self.seachDo.setObjectName(u"seachDo")
-        self.seachDo.setEnabled(False)
-        sizePolicy3.setHeightForWidth(self.seachDo.sizePolicy().hasHeightForWidth())
-        self.seachDo.setSizePolicy(sizePolicy3)
-        self.seachDo.setDateTime(QDateTime(QDate(2025, 12, 31), QTime(20, 0, 0)))
+        self.endDataBtn = QPushButton(self.frame_10)
+        self.endDataBtn.setObjectName(u"endDataBtn")
 
-        self.horizontalLayout_14.addWidget(self.seachDo)
+        self.horizontalLayout_14.addWidget(self.endDataBtn)
+
+        self.endDataLabel = QLineEdit(self.frame_10)
+        self.endDataLabel.setObjectName(u"endDataLabel")
+        self.endDataLabel.setReadOnly(True)
+
+        self.horizontalLayout_14.addWidget(self.endDataLabel)
 
         self.filter_table_btn = QPushButton(self.frame_10)
         self.filter_table_btn.setObjectName(u"filter_table_btn")
@@ -545,13 +559,21 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_14.addWidget(self.filter_table_btn)
 
+        self.horizontalLayout_14.setStretch(0, 1)
+        self.horizontalLayout_14.setStretch(1, 1)
+        self.horizontalLayout_14.setStretch(2, 1)
+        self.horizontalLayout_14.setStretch(3, 1)
+        self.horizontalLayout_14.setStretch(4, 1)
+        self.horizontalLayout_14.setStretch(5, 1)
+        self.horizontalLayout_14.setStretch(6, 1)
+        self.horizontalLayout_14.setStretch(7, 1)
 
         self.verticalLayout_22.addWidget(self.frame_10)
 
 
         self.horizontalLayout_18.addWidget(self.frame_11)
 
-        self.widget_7 = QWidget(self.frame_13)
+        self.widget_7 = QWidget(self.serchEmailFrame)
         self.widget_7.setObjectName(u"widget_7")
         sizePolicy2.setHeightForWidth(self.widget_7.sizePolicy().hasHeightForWidth())
         self.widget_7.setSizePolicy(sizePolicy2)
@@ -599,34 +621,34 @@ class Ui_MainWindow(object):
         self.horizontalLayout_18.addWidget(self.widget_7)
 
 
-        self.verticalLayout_12.addWidget(self.frame_13)
+        self.verticalLayout_12.addWidget(self.serchEmailFrame)
 
         self.frame_9 = QFrame(self.dataAnalysisPage)
         self.frame_9.setObjectName(u"frame_9")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
-        sizePolicy4.setHorizontalStretch(0)
-        sizePolicy4.setVerticalStretch(0)
-        sizePolicy4.setHeightForWidth(self.frame_9.sizePolicy().hasHeightForWidth())
-        self.frame_9.setSizePolicy(sizePolicy4)
+        sizePolicy5 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        sizePolicy5.setHorizontalStretch(0)
+        sizePolicy5.setVerticalStretch(0)
+        sizePolicy5.setHeightForWidth(self.frame_9.sizePolicy().hasHeightForWidth())
+        self.frame_9.setSizePolicy(sizePolicy5)
         self.frame_9.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_9.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_16 = QHBoxLayout(self.frame_9)
         self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
-        self.horizontalLayout_16.setContentsMargins(2, 2, 2, 2)
+        self.horizontalLayout_16.setContentsMargins(2, 0, 2, 2)
         self.label_22 = QLabel(self.frame_9)
         self.label_22.setObjectName(u"label_22")
-        sizePolicy5 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
-        sizePolicy5.setHorizontalStretch(0)
-        sizePolicy5.setVerticalStretch(0)
-        sizePolicy5.setHeightForWidth(self.label_22.sizePolicy().hasHeightForWidth())
-        self.label_22.setSizePolicy(sizePolicy5)
+        sizePolicy6 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+        sizePolicy6.setHorizontalStretch(0)
+        sizePolicy6.setVerticalStretch(0)
+        sizePolicy6.setHeightForWidth(self.label_22.sizePolicy().hasHeightForWidth())
+        self.label_22.setSizePolicy(sizePolicy6)
 
         self.horizontalLayout_16.addWidget(self.label_22)
 
         self.sqlEmailDbName = QLabel(self.frame_9)
         self.sqlEmailDbName.setObjectName(u"sqlEmailDbName")
-        sizePolicy4.setHeightForWidth(self.sqlEmailDbName.sizePolicy().hasHeightForWidth())
-        self.sqlEmailDbName.setSizePolicy(sizePolicy4)
+        sizePolicy5.setHeightForWidth(self.sqlEmailDbName.sizePolicy().hasHeightForWidth())
+        self.sqlEmailDbName.setSizePolicy(sizePolicy5)
 
         self.horizontalLayout_16.addWidget(self.sqlEmailDbName)
 
@@ -635,32 +657,56 @@ class Ui_MainWindow(object):
 
         self.widget_9 = QWidget(self.dataAnalysisPage)
         self.widget_9.setObjectName(u"widget_9")
-        sizePolicy4.setHeightForWidth(self.widget_9.sizePolicy().hasHeightForWidth())
-        self.widget_9.setSizePolicy(sizePolicy4)
+        sizePolicy5.setHeightForWidth(self.widget_9.sizePolicy().hasHeightForWidth())
+        self.widget_9.setSizePolicy(sizePolicy5)
         self.horizontalLayout_4 = QHBoxLayout(self.widget_9)
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.horizontalLayout_4.setContentsMargins(-1, 2, -1, 2)
+        self.horizontalLayout_4.setContentsMargins(-1, 0, -1, 0)
         self.prevEmailTableBtn = QPushButton(self.widget_9)
         self.prevEmailTableBtn.setObjectName(u"prevEmailTableBtn")
-        sizePolicy4.setHeightForWidth(self.prevEmailTableBtn.sizePolicy().hasHeightForWidth())
-        self.prevEmailTableBtn.setSizePolicy(sizePolicy4)
+        sizePolicy5.setHeightForWidth(self.prevEmailTableBtn.sizePolicy().hasHeightForWidth())
+        self.prevEmailTableBtn.setSizePolicy(sizePolicy5)
 
         self.horizontalLayout_4.addWidget(self.prevEmailTableBtn)
 
         self.nextEmailTableBtn = QPushButton(self.widget_9)
         self.nextEmailTableBtn.setObjectName(u"nextEmailTableBtn")
+        sizePolicy5.setHeightForWidth(self.nextEmailTableBtn.sizePolicy().hasHeightForWidth())
+        self.nextEmailTableBtn.setSizePolicy(sizePolicy5)
 
         self.horizontalLayout_4.addWidget(self.nextEmailTableBtn)
 
         self.label_20 = QLabel(self.widget_9)
         self.label_20.setObjectName(u"label_20")
+        sizePolicy7 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
+        sizePolicy7.setHorizontalStretch(0)
+        sizePolicy7.setVerticalStretch(0)
+        sizePolicy7.setHeightForWidth(self.label_20.sizePolicy().hasHeightForWidth())
+        self.label_20.setSizePolicy(sizePolicy7)
 
         self.horizontalLayout_4.addWidget(self.label_20)
 
         self.pageNumberLabel = QLabel(self.widget_9)
         self.pageNumberLabel.setObjectName(u"pageNumberLabel")
+        sizePolicy7.setHeightForWidth(self.pageNumberLabel.sizePolicy().hasHeightForWidth())
+        self.pageNumberLabel.setSizePolicy(sizePolicy7)
 
         self.horizontalLayout_4.addWidget(self.pageNumberLabel)
+
+        self.showSearchPanelBtn = QPushButton(self.widget_9)
+        self.showSearchPanelBtn.setObjectName(u"showSearchPanelBtn")
+        sizePolicy4.setHeightForWidth(self.showSearchPanelBtn.sizePolicy().hasHeightForWidth())
+        self.showSearchPanelBtn.setSizePolicy(sizePolicy4)
+        self.showSearchPanelBtn.setMinimumSize(QSize(100, 0))
+        font2 = QFont()
+        font2.setPointSize(10)
+        font2.setBold(False)
+        font2.setHintingPreference(QFont.PreferDefaultHinting)
+        self.showSearchPanelBtn.setFont(font2)
+        self.showSearchPanelBtn.setAutoDefault(False)
+        self.showSearchPanelBtn.setFlat(False)
+
+        self.horizontalLayout_4.addWidget(self.showSearchPanelBtn)
 
 
         self.verticalLayout_12.addWidget(self.widget_9)
@@ -686,14 +732,14 @@ class Ui_MainWindow(object):
         self.tableWidget.setHorizontalHeaderItem(6, __qtablewidgetitem6)
         self.tableWidget.setObjectName(u"tableWidget")
         self.tableWidget.setEnabled(True)
-        sizePolicy6 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        sizePolicy6.setHorizontalStretch(1)
-        sizePolicy6.setVerticalStretch(0)
-        sizePolicy6.setHeightForWidth(self.tableWidget.sizePolicy().hasHeightForWidth())
-        self.tableWidget.setSizePolicy(sizePolicy6)
-        font2 = QFont()
-        font2.setPointSize(8)
-        self.tableWidget.setFont(font2)
+        sizePolicy8 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        sizePolicy8.setHorizontalStretch(1)
+        sizePolicy8.setVerticalStretch(0)
+        sizePolicy8.setHeightForWidth(self.tableWidget.sizePolicy().hasHeightForWidth())
+        self.tableWidget.setSizePolicy(sizePolicy8)
+        font3 = QFont()
+        font3.setPointSize(8)
+        self.tableWidget.setFont(font3)
         self.tableWidget.horizontalHeader().setCascadingSectionResizes(True)
         self.tableWidget.horizontalHeader().setStretchLastSection(True)
         self.tableWidget.verticalHeader().setCascadingSectionResizes(True)
@@ -702,8 +748,8 @@ class Ui_MainWindow(object):
 
         self.EmailtabWidget = QTabWidget(self.dataAnalysisPage)
         self.EmailtabWidget.setObjectName(u"EmailtabWidget")
-        sizePolicy6.setHeightForWidth(self.EmailtabWidget.sizePolicy().hasHeightForWidth())
-        self.EmailtabWidget.setSizePolicy(sizePolicy6)
+        sizePolicy8.setHeightForWidth(self.EmailtabWidget.sizePolicy().hasHeightForWidth())
+        self.EmailtabWidget.setSizePolicy(sizePolicy8)
         self.EmailtabWidgetPage1 = QWidget()
         self.EmailtabWidgetPage1.setObjectName(u"EmailtabWidgetPage1")
         sizePolicy1.setHeightForWidth(self.EmailtabWidgetPage1.sizePolicy().hasHeightForWidth())
@@ -712,29 +758,26 @@ class Ui_MainWindow(object):
         self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
         self.scrollArea = QScrollArea(self.EmailtabWidgetPage1)
         self.scrollArea.setObjectName(u"scrollArea")
-        sizePolicy7 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        sizePolicy7.setHorizontalStretch(0)
-        sizePolicy7.setVerticalStretch(0)
-        sizePolicy7.setHeightForWidth(self.scrollArea.sizePolicy().hasHeightForWidth())
-        self.scrollArea.setSizePolicy(sizePolicy7)
+        sizePolicy9 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        sizePolicy9.setHorizontalStretch(0)
+        sizePolicy9.setVerticalStretch(0)
+        sizePolicy9.setHeightForWidth(self.scrollArea.sizePolicy().hasHeightForWidth())
+        self.scrollArea.setSizePolicy(sizePolicy9)
         self.scrollArea.setFrameShape(QFrame.Shape.Box)
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 520, 262))
-        sizePolicy7.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
-        self.scrollAreaWidgetContents.setSizePolicy(sizePolicy7)
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 520, 274))
+        sizePolicy9.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
+        self.scrollAreaWidgetContents.setSizePolicy(sizePolicy9)
         self.verticalLayout_20 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_20.setObjectName(u"verticalLayout_20")
         self.emailLayouts = QVBoxLayout()
         self.emailLayouts.setObjectName(u"emailLayouts")
         self.listAttachments = QListWidget(self.scrollAreaWidgetContents)
         self.listAttachments.setObjectName(u"listAttachments")
-        sizePolicy8 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
-        sizePolicy8.setHorizontalStretch(0)
-        sizePolicy8.setVerticalStretch(0)
-        sizePolicy8.setHeightForWidth(self.listAttachments.sizePolicy().hasHeightForWidth())
-        self.listAttachments.setSizePolicy(sizePolicy8)
+        sizePolicy7.setHeightForWidth(self.listAttachments.sizePolicy().hasHeightForWidth())
+        self.listAttachments.setSizePolicy(sizePolicy7)
         self.listAttachments.setMinimumSize(QSize(500, 0))
         self.listAttachments.setFrameShape(QFrame.Shape.Box)
         self.listAttachments.setFrameShadow(QFrame.Shadow.Sunken)
@@ -750,8 +793,8 @@ class Ui_MainWindow(object):
 
         self.frame_8 = QFrame(self.scrollAreaWidgetContents)
         self.frame_8.setObjectName(u"frame_8")
-        sizePolicy4.setHeightForWidth(self.frame_8.sizePolicy().hasHeightForWidth())
-        self.frame_8.setSizePolicy(sizePolicy4)
+        sizePolicy5.setHeightForWidth(self.frame_8.sizePolicy().hasHeightForWidth())
+        self.frame_8.setSizePolicy(sizePolicy5)
         self.frame_8.setMinimumSize(QSize(500, 0))
         self.frame_8.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_8.setFrameShadow(QFrame.Shadow.Raised)
@@ -759,8 +802,8 @@ class Ui_MainWindow(object):
         self.verticalLayout_21.setObjectName(u"verticalLayout_21")
         self.frame_4 = QFrame(self.frame_8)
         self.frame_4.setObjectName(u"frame_4")
-        sizePolicy4.setHeightForWidth(self.frame_4.sizePolicy().hasHeightForWidth())
-        self.frame_4.setSizePolicy(sizePolicy4)
+        sizePolicy5.setHeightForWidth(self.frame_4.sizePolicy().hasHeightForWidth())
+        self.frame_4.setSizePolicy(sizePolicy5)
         self.frame_4.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.frame_4.setFrameShadow(QFrame.Shadow.Plain)
         self.horizontalLayout_20 = QHBoxLayout(self.frame_4)
@@ -768,16 +811,17 @@ class Ui_MainWindow(object):
         self.horizontalLayout_20.setContentsMargins(2, 2, 2, 2)
         self.label_4 = QLabel(self.frame_4)
         self.label_4.setObjectName(u"label_4")
-        sizePolicy4.setHeightForWidth(self.label_4.sizePolicy().hasHeightForWidth())
-        self.label_4.setSizePolicy(sizePolicy4)
+        sizePolicy5.setHeightForWidth(self.label_4.sizePolicy().hasHeightForWidth())
+        self.label_4.setSizePolicy(sizePolicy5)
 
         self.horizontalLayout_20.addWidget(self.label_4)
 
         self.sender = QLabel(self.frame_4)
         self.sender.setObjectName(u"sender")
-        sizePolicy4.setHeightForWidth(self.sender.sizePolicy().hasHeightForWidth())
-        self.sender.setSizePolicy(sizePolicy4)
+        sizePolicy5.setHeightForWidth(self.sender.sizePolicy().hasHeightForWidth())
+        self.sender.setSizePolicy(sizePolicy5)
         self.sender.setFrameShape(QFrame.Shape.Panel)
+        self.sender.setTextInteractionFlags(Qt.TextInteractionFlag.LinksAccessibleByMouse|Qt.TextInteractionFlag.TextSelectableByMouse)
 
         self.horizontalLayout_20.addWidget(self.sender)
 
@@ -786,8 +830,8 @@ class Ui_MainWindow(object):
 
         self.frame_5 = QFrame(self.frame_8)
         self.frame_5.setObjectName(u"frame_5")
-        sizePolicy4.setHeightForWidth(self.frame_5.sizePolicy().hasHeightForWidth())
-        self.frame_5.setSizePolicy(sizePolicy4)
+        sizePolicy5.setHeightForWidth(self.frame_5.sizePolicy().hasHeightForWidth())
+        self.frame_5.setSizePolicy(sizePolicy5)
         self.frame_5.setMinimumSize(QSize(0, 0))
         self.frame_5.setBaseSize(QSize(0, 0))
         self.frame_5.setFrameShape(QFrame.Shape.StyledPanel)
@@ -797,16 +841,17 @@ class Ui_MainWindow(object):
         self.horizontalLayout_19.setContentsMargins(2, 2, 2, 2)
         self.label_17 = QLabel(self.frame_5)
         self.label_17.setObjectName(u"label_17")
-        sizePolicy4.setHeightForWidth(self.label_17.sizePolicy().hasHeightForWidth())
-        self.label_17.setSizePolicy(sizePolicy4)
+        sizePolicy5.setHeightForWidth(self.label_17.sizePolicy().hasHeightForWidth())
+        self.label_17.setSizePolicy(sizePolicy5)
 
         self.horizontalLayout_19.addWidget(self.label_17)
 
         self.cc = QLabel(self.frame_5)
         self.cc.setObjectName(u"cc")
-        sizePolicy4.setHeightForWidth(self.cc.sizePolicy().hasHeightForWidth())
-        self.cc.setSizePolicy(sizePolicy4)
+        sizePolicy5.setHeightForWidth(self.cc.sizePolicy().hasHeightForWidth())
+        self.cc.setSizePolicy(sizePolicy5)
         self.cc.setFrameShape(QFrame.Shape.Box)
+        self.cc.setTextInteractionFlags(Qt.TextInteractionFlag.LinksAccessibleByMouse|Qt.TextInteractionFlag.TextSelectableByMouse)
 
         self.horizontalLayout_19.addWidget(self.cc)
 
@@ -815,8 +860,8 @@ class Ui_MainWindow(object):
 
         self.frame_7 = QFrame(self.frame_8)
         self.frame_7.setObjectName(u"frame_7")
-        sizePolicy4.setHeightForWidth(self.frame_7.sizePolicy().hasHeightForWidth())
-        self.frame_7.setSizePolicy(sizePolicy4)
+        sizePolicy5.setHeightForWidth(self.frame_7.sizePolicy().hasHeightForWidth())
+        self.frame_7.setSizePolicy(sizePolicy5)
         self.frame_7.setMinimumSize(QSize(0, 0))
         self.frame_7.setBaseSize(QSize(0, 100))
         self.frame_7.setFrameShape(QFrame.Shape.StyledPanel)
@@ -827,17 +872,18 @@ class Ui_MainWindow(object):
         self.horizontalLayout_22.setContentsMargins(2, 2, 2, 2)
         self.label_19 = QLabel(self.frame_7)
         self.label_19.setObjectName(u"label_19")
-        sizePolicy4.setHeightForWidth(self.label_19.sizePolicy().hasHeightForWidth())
-        self.label_19.setSizePolicy(sizePolicy4)
+        sizePolicy5.setHeightForWidth(self.label_19.sizePolicy().hasHeightForWidth())
+        self.label_19.setSizePolicy(sizePolicy5)
 
         self.horizontalLayout_22.addWidget(self.label_19)
 
         self.date = QLabel(self.frame_7)
         self.date.setObjectName(u"date")
-        sizePolicy4.setHeightForWidth(self.date.sizePolicy().hasHeightForWidth())
-        self.date.setSizePolicy(sizePolicy4)
+        sizePolicy5.setHeightForWidth(self.date.sizePolicy().hasHeightForWidth())
+        self.date.setSizePolicy(sizePolicy5)
         self.date.setContextMenuPolicy(Qt.ContextMenuPolicy.DefaultContextMenu)
         self.date.setFrameShape(QFrame.Shape.StyledPanel)
+        self.date.setTextInteractionFlags(Qt.TextInteractionFlag.LinksAccessibleByMouse|Qt.TextInteractionFlag.TextSelectableByMouse)
 
         self.horizontalLayout_22.addWidget(self.date)
 
@@ -846,8 +892,8 @@ class Ui_MainWindow(object):
 
         self.frame_6 = QFrame(self.frame_8)
         self.frame_6.setObjectName(u"frame_6")
-        sizePolicy4.setHeightForWidth(self.frame_6.sizePolicy().hasHeightForWidth())
-        self.frame_6.setSizePolicy(sizePolicy4)
+        sizePolicy5.setHeightForWidth(self.frame_6.sizePolicy().hasHeightForWidth())
+        self.frame_6.setSizePolicy(sizePolicy5)
         self.frame_6.setMinimumSize(QSize(0, 0))
         self.frame_6.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_6.setFrameShadow(QFrame.Shadow.Raised)
@@ -856,16 +902,17 @@ class Ui_MainWindow(object):
         self.horizontalLayout_21.setContentsMargins(2, 2, 2, 2)
         self.label_18 = QLabel(self.frame_6)
         self.label_18.setObjectName(u"label_18")
-        sizePolicy4.setHeightForWidth(self.label_18.sizePolicy().hasHeightForWidth())
-        self.label_18.setSizePolicy(sizePolicy4)
+        sizePolicy5.setHeightForWidth(self.label_18.sizePolicy().hasHeightForWidth())
+        self.label_18.setSizePolicy(sizePolicy5)
 
         self.horizontalLayout_21.addWidget(self.label_18)
 
         self.subject = QLabel(self.frame_6)
         self.subject.setObjectName(u"subject")
-        sizePolicy4.setHeightForWidth(self.subject.sizePolicy().hasHeightForWidth())
-        self.subject.setSizePolicy(sizePolicy4)
+        sizePolicy5.setHeightForWidth(self.subject.sizePolicy().hasHeightForWidth())
+        self.subject.setSizePolicy(sizePolicy5)
         self.subject.setFrameShape(QFrame.Shape.StyledPanel)
+        self.subject.setTextInteractionFlags(Qt.TextInteractionFlag.LinksAccessibleByMouse|Qt.TextInteractionFlag.TextSelectableByMouse)
 
         self.horizontalLayout_21.addWidget(self.subject)
 
@@ -877,11 +924,12 @@ class Ui_MainWindow(object):
 
         self.body = QLabel(self.scrollAreaWidgetContents)
         self.body.setObjectName(u"body")
-        sizePolicy5.setHeightForWidth(self.body.sizePolicy().hasHeightForWidth())
-        self.body.setSizePolicy(sizePolicy5)
+        sizePolicy6.setHeightForWidth(self.body.sizePolicy().hasHeightForWidth())
+        self.body.setSizePolicy(sizePolicy6)
         self.body.setStyleSheet(u"")
         self.body.setFrameShape(QFrame.Shape.Box)
         self.body.setWordWrap(True)
+        self.body.setTextInteractionFlags(Qt.TextInteractionFlag.LinksAccessibleByMouse|Qt.TextInteractionFlag.TextSelectableByMouse)
 
         self.emailLayouts.addWidget(self.body)
 
@@ -1061,8 +1109,9 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.menuBtn.setDefault(False)
-        self.centerMenuPages.setCurrentIndex(3)
+        self.centerMenuPages.setCurrentIndex(0)
         self.mainPages.setCurrentIndex(1)
+        self.startDataBtn.setDefault(False)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -1102,8 +1151,12 @@ class Ui_MainWindow(object):
         self.seachSurname.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Odbiorca", None))
         self.seachName.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Nadawca", None))
         self.searchBody.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Wyszukaj w tre\u015bci", None))
-        self.searchDate.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Wyszukaj w tytule", None))
-        self.checkBoxData.setText(QCoreApplication.translate("MainWindow", u"Filtruj po dacie", None))
+        self.searchDate.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Wyszukaj w temacie", None))
+        self.startDataBtn.setText(QCoreApplication.translate("MainWindow", u"Ustaw date od", None))
+        self.startDataLabel.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Data od", None))
+        self.endDataBtn.setText(QCoreApplication.translate("MainWindow", u"Ustaw date do", None))
+        self.endDataLabel.setText("")
+        self.endDataLabel.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Data Do", None))
 #if QT_CONFIG(tooltip)
         self.filter_table_btn.setToolTip(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>Wyszukaj w tabeli</p></body></html>", None))
 #endif // QT_CONFIG(tooltip)
@@ -1131,10 +1184,11 @@ class Ui_MainWindow(object):
         self.nextEmailTableBtn.setText(QCoreApplication.translate("MainWindow", u">", None))
         self.label_20.setText(QCoreApplication.translate("MainWindow", u"Strona : ", None))
         self.pageNumberLabel.setText(QCoreApplication.translate("MainWindow", u"XXX", None))
+        self.showSearchPanelBtn.setText(QCoreApplication.translate("MainWindow", u"Filtry  ", None))
         ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"Id", None));
         ___qtablewidgetitem1 = self.tableWidget.horizontalHeaderItem(1)
-        ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"Nazawca", None));
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"Nadawca", None));
         ___qtablewidgetitem2 = self.tableWidget.horizontalHeaderItem(2)
         ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"Odbiorca", None));
         ___qtablewidgetitem3 = self.tableWidget.horizontalHeaderItem(3)
@@ -1165,4 +1219,3 @@ class Ui_MainWindow(object):
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"Copyright sth", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"Theme progress", None))
     # retranslateUi
-

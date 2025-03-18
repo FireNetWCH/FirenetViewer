@@ -27,4 +27,8 @@ class KeyPressFilter(QObject):
                 column = current_index.column()
                 self.arrow_colback(row+1, column)
                 return False
+            if event.type() == 10:
+                event.ignore()  
+                return True
+        
         return super().eventFilter(obj, event)

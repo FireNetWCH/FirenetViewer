@@ -22,7 +22,7 @@ class MultiTagSelector(QDialog):
         self.tag_list.clear()
         cursor.execute("SELECT id, tag_name FROM tags")
         all_tags = cursor.fetchall()
-        cursor.execute("SELECT tag_id FROM user_tags WHERE user_id = ?", (self.user_id,))
+        cursor.execute("SELECT tag_id FROM email_tags WHERE email_id = ?", (self.user_id,))
         user_tags = {row[0] for row in cursor.fetchall()}
         for tag_id, tag_name in all_tags:
             item = QListWidgetItem(self.tag_list)
@@ -43,8 +43,8 @@ class MultiTagSelector(QDialog):
                 cursor.execute("SELECT id FROM tags WHERE tag_name = ?", (tag_name,))
                 tag_id = cursor.fetchone()[0]
                 selected_tag_ids.append(tag_id)
-        cursor.execute("DELETE FROM user_tags WHERE user_id = ?", (self.user_id,))
+        cursor.execute("DELETE FROM email_tags WHERE email_id = ?", (self.user_id,))
         for tag_id in selected_tag_ids:
-            cursor.execute("INSERT INTO user_tags (user_id, tag_id) VALUES (?, ?)", (self.user_id, tag_id))
+            cursor.execute("INSERT INTO email_tags (email_id, tag_id) VALUES (?, ?)", (self.user_id, tag_id))
         self.connection.commit()
         self.accept()

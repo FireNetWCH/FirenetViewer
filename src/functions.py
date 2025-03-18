@@ -3,24 +3,25 @@ import sqlite3
 import logging
 from typing import Any, List, Dict, Optional
 import pandas as pd
-from PySide6.QtCore import Qt, QSettings, QDir, QPoint
+from PySide6.QtCore import Qt, QSettings, QDir, QPoint,QEasingCurve,QRect
 from PySide6.QtGui import QFont, QFontDatabase, QAction,QStandardItem, QPixmap, QImage, QPainter
 from PySide6.QtWidgets import (
-    QCheckBox, QPushButton, QGraphicsScene, QTableWidgetItem, QMenu, QFileSystemModel,QSplitter,QFrame,QApplication,
-    QTreeView, QVBoxLayout, QFileDialog, QGraphicsView, QTreeWidgetItem,QListWidgetItem, QTreeWidget, QMainWindow,QListWidget,QHeaderView
+    QCheckBox, QPushButton, QGraphicsScene, QTableWidgetItem, QMenu, QFileSystemModel,QSplitter,QFrame,QApplication,QTableWidget,QDialog,QCalendarWidget,
+    QTreeView, QVBoxLayout, QFileDialog, QGraphicsView, QTreeWidgetItem,QListWidgetItem, QTreeWidget, QMainWindow,QListWidget,QHeaderView,QAbstractItemView
 )
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 import fitz
-
+from PySide6.QtCore import QPropertyAnimation as QAnimation
 from Custom_Widgets import *
 from Custom_Widgets.QAppSettings import QAppSettings
 from src.multi_tag_dialog import MultiTagInputDialog
 from src.multi_tag_selector import MultiTagSelector
 from src.gui_function import display_file_content
 from src.key_press_filter import KeyPressFilter
+from src.calendar_dialog_widget import get_selected_date
 from datetime import datetime
 import math
 import json
@@ -45,16 +46,21 @@ class GUIFunctions:
         self.columns_hidden: List[bool] = [False] * 7
         self.filtering_active: bool = False
         self.current_sort_order: Dict[int, Any] = {}
+
+        #Parametry do obsługi emeil
         file_config = open(".\\config.json")
         config = json.load(file_config)
         base_path = config['path']
         self.path = base_path
         self.sql_name = ""
         self.id_selected_email = 0
+        self.is_expanded_serch_frame = False
+
         self.max_page = 0
         self.all_emails_count = 0
         self.current_page = 0
         self.emails_per_page = 500
+
         #self.key_filter = KeyPressFilter()
         #self._connect_to_database("D:\\SQL\\archiw_rpabich_2020\\archiw_rpabich_2020.sqlite")
         self._setup_ui(self.path)
@@ -68,6 +74,17 @@ class GUIFunctions:
         splitter.addWidget(self.ui.EmailtabWidget)
         
         dada_layout.addWidget(splitter)
+
+        # splitter2 = QSplitter(Qt.Horizontal)
+        # dada_layout2 = self.ui.centralwidget.layout()
+        
+        # splitter2.addWidget(self.ui.centerMenu)
+        # splitter2.addWidget(self.ui.mainBody)
+        
+        
+        # dada_layout2.addWidget(splitter2)
+
+        
         #self.load_data_from_database()
         #self.load_data_and_plot()
         
@@ -91,6 +108,14 @@ class GUIFunctions:
         self.tree_view.setVisible(False)
         layout = QVBoxLayout(self.main)
         layout.addWidget(self.tree_view)
+
+        # Ustawie parametrów Ramki Wysukiwania Email i jej animacji
+        frame = self.ui.dataAnalysisPage.findChild(QFrame, "serchEmailFrame")
+        self.animation = QAnimation(frame, b'maximumHeight')
+        self.animation.setDuration(300)
+        self.animation.setEasingCurve(QEasingCurve.InOutQuad)
+        self.is_expanded_serch_frame = True
+
 
     def _connect_signals(self) -> None:
         """Łączy sygnały z odpowiednimi metodami."""
@@ -117,9 +142,14 @@ class GUIFunctions:
         self.ui.export_pdf.clicked.connect(self.export_to_pdf)
         self.ui.export_excel.clicked.connect(self.export_to_excel)
         self.ui.pst_files_btn.clicked.connect(self.upload_pst_file)
-        self.ui.checkBoxData.checkStateChanged.connect(self.date_state_box)
-        
+        #self.ui.checkBoxData.checkStateChanged.connect(self.date_state_box)
 
+        self.ui.startDataLabel.selectionChanged.connect(self.serch_by_date_start)
+        self.ui.endDataLabel.selectionChanged.connect(self.serch_by_date_end)
+        self.ui.startDataBtn.clicked.connect(self.serch_by_date_start)
+        self.ui.endDataBtn.clicked.connect(self.serch_by_date_end)
+        self.ui.startDataLabel.textChanged.connect(self.join_search)
+        self.ui.endDataLabel.textChanged.connect(self.join_search)
 
         # Obsługa Event Tabeli Email
         self.ui.tableWidget.cellClicked.connect(self.load_clicked_email)
@@ -128,6 +158,7 @@ class GUIFunctions:
         self.ui.tableWidget.installEventFilter(self.key_filter)
         self.ui.prevEmailTableBtn.clicked.connect(self.previous_page)
         self.ui.nextEmailTableBtn.clicked.connect(self.next_page)
+        self.ui.showSearchPanelBtn.clicked.connect(self.toggle_frame)
         # Obłsuga kliknięcia w drzewo katalogów Email
         tw = self.ui.helpPage.findChild(QTreeWidget,"folders_tree")
         tw.itemClicked.connect(self.tree_email_dir_clicked)
@@ -162,7 +193,57 @@ class GUIFunctions:
        QTabWidget {
         border: 0px solid black;
     }
+    QPushButton{
+           flat:False                                  }                                        
 """)
+        
+        self.ui.serchEmailFrame.setStyleSheet("""
+            QLineEdit{
+                        border: 1px solid black;}
+            QPushButton{border: 1px solid black
+                                              ;}
+        """)
+        
+        
+
+
+        self.ui.tableWidget.setStyleSheet("""
+    QTableWidget::item:selected {
+        background-color: lightblue;  /* Intensywny kolor zaznaczonego wiersza */
+        color: black;
+       /*border: 2px solid blue;   Ramka wokół zaznaczonego wiersza */
+    }
+
+    QTableWidget::item:selected:!active {
+        background-color: #A0C8FF;  /* Kolor dla nieaktywnego zaznaczenia */
+        color: black;
+        /*border: 2px solid #0078D7;   Podkreślenie, gdy tabela traci fokus */
+    }
+""")
+    def serch_by_date_start(self):
+        print(self)
+        date = get_selected_date(self)
+        if date is not None:
+            self.ui.startDataLabel.setText(date.toString("yyyy-MM-dd"))
+        else:
+            self.ui.startDataLabel.setText("")
+    def serch_by_date_end(self):
+        print(self)
+        date = get_selected_date(self)
+        if date is not None:
+            self.ui.endDataLabel.setText(date.toString("yyyy-MM-dd"))
+        else:
+            self.ui.endDataLabel.setText("")
+    def toggle_frame(self):
+        if self.is_expanded_serch_frame:
+            self.animation.setStartValue(self.ui.dataAnalysisPage.findChild(QFrame,"serchEmailFrame").height())
+            self.animation.setEndValue(0)
+        else:
+            self.animation.setStartValue(self.ui.dataAnalysisPage.findChild(QFrame,"serchEmailFrame").height())
+            self.animation.setEndValue(100) 
+        self.animation.start()
+
+        self.is_expanded_serch_frame = not self.is_expanded_serch_frame
 
     def next_page(self):
         if self.current_page < self.max_page-1:
@@ -246,11 +327,36 @@ class GUIFunctions:
             listAttachments.addItem(item)
             print(item)
         listAttachments.setFixedHeight(60)
+        search_term = self.active_filters['body']
+        pattern = re.compile(re.escape(search_term), re.IGNORECASE)
         
+
         if isinstance(emai_value[0][8],str):
-            body_label.setText(emai_value[0][8])
+            tekst = emai_value[0][8]
+            tekst_html = tekst.replace('\n', '<br>')
+            if(search_term ==""):
+                body_label.setText(tekst_html)
+            else:
+                print(search_term)
+                highlighted_content = pattern.sub(lambda match: f"<span style='background-color: yellow;'>{match.group()}</span>",tekst_html)
+                body_label.setTextFormat(Qt.TextFormat.RichText)    
+                body_label.setText(highlighted_content)
+                
+        
         else:
-            body_label.setText(emai_value[0][8].decode("utf-8"))
+            tekst = emai_value[0][8].decode("utf-8")
+            tekst_html = tekst.replace('\n', '<br>')
+
+            print("TEKST CZYSTY: "+emai_value[0][8].decode("utf-8"))
+            docoda_text = emai_value[0][8].decode("utf-8")
+            if(search_term ==""):
+                body_label.setText(tekst_html)
+            else:
+                print(search_term)
+                highlighted_content = pattern.sub(lambda match: f"<span style='background-color: yellow;'>{match.group()}</span>",tekst_html)
+                body_label.setTextFormat(Qt.TextFormat.RichText) 
+                body_label.setText(highlighted_content)
+                print(" TEKST OCZYSZCZONY : "+ highlighted_content)
 
         subject_label.setText(emai_value[0][7])
         sender_label.setText(emai_value[0][3])
@@ -301,7 +407,7 @@ class GUIFunctions:
             GROUP BY e.id
             LIMIT {self.emails_per_page} OFFSET {offset}
         '''
-        #print(query)
+        print(query)
         try:
             cursor = self.db_connection.cursor()
             cursor.execute(query)
@@ -344,7 +450,7 @@ class GUIFunctions:
             #dodanie ukrytej kolumn col = 0 przechowującej id(emaila)
             item_id = QTableWidgetItem(str(user_id))
             self.ui.tableWidget.setItem(row_idx, 0, item_id)
-            
+            self.ui.tableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
 
             for col_idx, cell_data in enumerate(row_data[1:]):
                 #przesunięcie o 1 bo kolumne 0 zejmuje ukryta kolumna zawierająca id
@@ -358,6 +464,7 @@ class GUIFunctions:
                 if real_col_idx == 5:
                     checkbox = QCheckBox()
                     checkbox.setChecked(bool(cell_data))
+                    checkbox.setFocusPolicy(Qt.NoFocus)
                     checkbox.stateChanged.connect(
                         lambda state, uid=user_id: self.update_flag(uid, state)
                     )
@@ -365,6 +472,7 @@ class GUIFunctions:
                 elif real_col_idx == 6:
                     btn = QPushButton("Pokaż tagi")
                     btn.clicked.connect(lambda _, uid=user_id: self.open_tag_selector(uid))
+                    btn.setFocusPolicy(Qt.NoFocus)
                     self.ui.tableWidget.setCellWidget(row_idx, real_col_idx, btn)
                 else:
                     item = QTableWidgetItem(str(cell_data) if cell_data else "")
@@ -466,8 +574,8 @@ class GUIFunctions:
         self.active_filters["sender_name"] = self.ui.seachName.text().lower()
         self.active_filters["cc"] = self.ui.seachSurname.text().lower()
         self.active_filters["subject"] = self.ui.searchDate.text().lower()
-        self.active_filters["date_fr"] = self.ui.seachOd.text().lower()
-        self.active_filters["date_to"] = self.ui.seachDo.text().lower()
+        self.active_filters["date_fr"] = self.ui.startDataLabel.text().lower()
+        self.active_filters["date_to"] = self.ui.endDataLabel.text().lower()
         self.active_filters["body"] = self.ui.searchBody.text().lower()
 
     def join_search(self):
@@ -486,22 +594,26 @@ class GUIFunctions:
             if key == "folder_id" and str(value) == "1":
                 print(f"{key} +{value}")
             elif (key == "date_fr"):
-                print(f"{key} +{value}")
+                if value != "":
+                    if firtFiltr:
+                        query_part = f"WHERE date > '{value}'"
+                        firtFiltr = False
+                    else:
+                        query_part = query_part +f"AND date > '{value}'"
+            elif (key == "date_to"):
+                if value != "":
+                    if firtFiltr:
+                        query_part = f"WHERE date < '{value}'"
+                        firtFiltr = False
+                    else:
+                        query_part = query_part +f"AND date < '{value}'"
             elif(key == "body"):
                 if value != "":
                     if firtFiltr:
                         query_part = f"WHERE REPLACE(body, X'200C', '') LIKE '%{value}%' COLLATE NOCASE"
-                    else:
-                        query_part = query_part + f"AND REPLACE(body, X'200C', '') LIKE '%{value}%' COLLATE NOCASE"
-            elif key == "date_to":
-                if self.ui.checkBoxData.isChecked():
-                    start_date = datetime.strptime(self.active_filters['date_fr'], "%d.%m.%Y").strftime("%Y-%m-%d")
-                    end_date = datetime.strptime(self.active_filters['date_to'], "%d.%m.%Y").strftime("%Y-%m-%d")
-                    if firtFiltr:
-                        query_part = f"WHERE date BETWEEN '{start_date}' AND '{end_date}' "
                         firtFiltr = False
                     else:
-                        query_part = query_part + f"AND date BETWEEN '{start_date}' AND '{end_date}' "
+                        query_part = query_part + f"AND REPLACE(body, X'200C', '') LIKE '%{value}%' COLLATE NOCASE"
             else:
                 if value != "" :
                     if firtFiltr:
@@ -509,7 +621,7 @@ class GUIFunctions:
                         firtFiltr = False
                     else:
                         query_part = query_part + f"AND {key} LIKE '%{value}%' COLLATE NOCASE "
-            
+
         return query_part    
 
     def show_column_menu(self, position: QPoint) -> None:
@@ -535,6 +647,9 @@ class GUIFunctions:
         menu.addSeparator()
         menu.addAction(hide_column_action)
         menu.exec(header.mapToGlobal(position))
+
+    def set_data(line_edit,text):
+        line_edit.setText(text)
 
     def sort_column(self, column_index: int, order: Any) -> None:
         """Sortuje tabelę według wybranej kolumny."""
@@ -815,3 +930,5 @@ class GUIFunctions:
         self.list_widget.addItems(sql_list_file)    
         layout = self.ui.helpPage.layout()
         layout.addWidget(self.list_widget)
+
+    
