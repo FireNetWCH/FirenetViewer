@@ -15,12 +15,13 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QGraphicsView,
-    QHBoxLayout, QHeaderView, QLabel, QLayout,
-    QLineEdit, QListView, QListWidget, QListWidgetItem,
-    QMainWindow, QProgressBar, QPushButton, QScrollArea,
-    QSizePolicy, QSpacerItem, QTabWidget, QTableWidget,
-    QTableWidgetItem, QTreeView, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QComboBox, QFrame,
+    QGraphicsView, QHBoxLayout, QHeaderView, QLabel,
+    QLayout, QLineEdit, QListView, QListWidget,
+    QListWidgetItem, QMainWindow, QProgressBar, QPushButton,
+    QScrollArea, QSizePolicy, QSpacerItem, QTabWidget,
+    QTableWidget, QTableWidgetItem, QTreeView, QVBoxLayout,
+    QWidget)
 
 from Custom_Widgets.QCustomQStackedWidget import QCustomQStackedWidget
 from Custom_Widgets.QCustomSlideMenu import QCustomSlideMenu
@@ -750,6 +751,7 @@ class Ui_MainWindow(object):
         self.EmailtabWidget.setObjectName(u"EmailtabWidget")
         sizePolicy8.setHeightForWidth(self.EmailtabWidget.sizePolicy().hasHeightForWidth())
         self.EmailtabWidget.setSizePolicy(sizePolicy8)
+        self.EmailtabWidget.setTabsClosable(True)
         self.EmailtabWidgetPage1 = QWidget()
         self.EmailtabWidgetPage1.setObjectName(u"EmailtabWidgetPage1")
         sizePolicy1.setHeightForWidth(self.EmailtabWidgetPage1.sizePolicy().hasHeightForWidth())
@@ -767,7 +769,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 520, 274))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 520, 337))
         sizePolicy9.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents.setSizePolicy(sizePolicy9)
         self.verticalLayout_20 = QVBoxLayout(self.scrollAreaWidgetContents)
@@ -776,13 +778,19 @@ class Ui_MainWindow(object):
         self.emailLayouts.setObjectName(u"emailLayouts")
         self.listAttachments = QListWidget(self.scrollAreaWidgetContents)
         self.listAttachments.setObjectName(u"listAttachments")
-        sizePolicy7.setHeightForWidth(self.listAttachments.sizePolicy().hasHeightForWidth())
-        self.listAttachments.setSizePolicy(sizePolicy7)
-        self.listAttachments.setMinimumSize(QSize(500, 0))
+        sizePolicy10 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+        sizePolicy10.setHorizontalStretch(0)
+        sizePolicy10.setVerticalStretch(0)
+        sizePolicy10.setHeightForWidth(self.listAttachments.sizePolicy().hasHeightForWidth())
+        self.listAttachments.setSizePolicy(sizePolicy10)
+        self.listAttachments.setMinimumSize(QSize(500, 150))
         self.listAttachments.setFrameShape(QFrame.Shape.Box)
         self.listAttachments.setFrameShadow(QFrame.Shadow.Sunken)
         self.listAttachments.setLineWidth(1)
         self.listAttachments.setMidLineWidth(1)
+        self.listAttachments.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.listAttachments.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.listAttachments.setSizeAdjustPolicy(QAbstractScrollArea.SizeAdjustPolicy.AdjustIgnored)
         self.listAttachments.setAutoScrollMargin(5)
         self.listAttachments.setFlow(QListView.Flow.LeftToRight)
         self.listAttachments.setModelColumn(0)
@@ -793,8 +801,11 @@ class Ui_MainWindow(object):
 
         self.frame_8 = QFrame(self.scrollAreaWidgetContents)
         self.frame_8.setObjectName(u"frame_8")
-        sizePolicy5.setHeightForWidth(self.frame_8.sizePolicy().hasHeightForWidth())
-        self.frame_8.setSizePolicy(sizePolicy5)
+        sizePolicy11 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+        sizePolicy11.setHorizontalStretch(0)
+        sizePolicy11.setVerticalStretch(0)
+        sizePolicy11.setHeightForWidth(self.frame_8.sizePolicy().hasHeightForWidth())
+        self.frame_8.setSizePolicy(sizePolicy11)
         self.frame_8.setMinimumSize(QSize(500, 0))
         self.frame_8.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_8.setFrameShadow(QFrame.Shadow.Raised)
@@ -1067,6 +1078,11 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_5.addWidget(self.label_6, 0, Qt.AlignmentFlag.AlignLeft)
 
+        self.standard = QPushButton(self.footer)
+        self.standard.setObjectName(u"standard")
+
+        self.horizontalLayout_5.addWidget(self.standard)
+
         self.frame = QFrame(self.footer)
         self.frame.setObjectName(u"frame")
         self.frame.setFrameShape(QFrame.Shape.StyledPanel)
@@ -1217,6 +1233,7 @@ class Ui_MainWindow(object):
         self.label_15.setText(QCoreApplication.translate("MainWindow", u"morePage", None))
         self.label_16.setText(QCoreApplication.translate("MainWindow", u"Profile", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"Copyright sth", None))
+        self.standard.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"Theme progress", None))
     # retranslateUi
 

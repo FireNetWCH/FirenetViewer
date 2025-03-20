@@ -3,6 +3,12 @@
   "ShowLogs": true,
   "LiveCompileQss": true,
   "CheckForMissingicons": true,
+  "QStyleSheetClasses": [
+        {
+            "style": "#customButton { background-color: #FFFFFF }"
+        }
+    ],
+  
   "QMainWindow": [
     {
       "tittle": "FirenetViewer",
@@ -27,6 +33,7 @@
       ]
     }
   ],
+  
   "QSettings": [
     {
       "ThemeSettings": [
@@ -95,7 +102,12 @@
 		  "notificationBtn",
 		  "moreBtn",
 		  "profileBtn",
-		  "closeRightMenuBtn"
+		  "closeRightMenuBtn",
+		  "startDataBtn",
+		  "endDataBtn",
+		  "filter_table_btn",
+		  "showSearchPanelBtn"
+
 		],
 		"Style": [
 		  {

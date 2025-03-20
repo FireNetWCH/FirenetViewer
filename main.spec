@@ -8,7 +8,7 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=lxml_binaries,
-    datas=[('nazwa_bazy.db', '.')],
+    datas=[('nazwa_bazy.db', '.',),('json-styles/style.json', 'json-styles')],
     hiddenimports=['PySide6'],
     hookspath=[],
     hooksconfig={},
@@ -35,14 +35,6 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    onefile=True
 )
 
-coll = COLLECT(
-    exe,
-    a.binaries,
-    a.datas,
-    strip=False,
-    upx=True,
-    upx_exclude=[],
-    name='main',
-)

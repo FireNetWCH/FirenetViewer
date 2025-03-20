@@ -30,3 +30,37 @@
 
 from PyInstaller.utils.hooks import collect_submodules
 collect_submodules('lxml')
+
+coll = COLLECT(
+    exe,
+    a.binaries,
+    a.datas,
+    strip=False,
+    upx=True,
+    upx_exclude=[],
+    name='main',
+)
+super().__init__(parent)
+        self.file_name = filename
+        self.file_path = file_path
+        layout = QHBoxLayout(self)
+        self.frame = QFrame()
+        self.frame.setFrameShape(QFrame.StyledPanel)
+        self.frame.setLineWidth(2)
+        self.frame.setMidLineWidth(0)
+        self.frame.setFrameShadow(QFrame.Sunken)
+        self.frame.setContentsMargins(1, 1, 1, 1)
+        frame_layout = QHBoxLayout(self.frame)
+        frame_layout.setContentsMargins(1, 1, 1, 1)
+        frame_layout.setSpacing(1)
+        self.label = QLabel(filename)
+        self.label.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        self.preview_button = QPushButton(QIcon("./Qss/icons/black/feather/link.png"), "")
+        self.preview_button.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        self.preview_button.clicked.connect(self.preview_file)
+        frame_layout.addWidget(self.label)
+        frame_layout.addWidget(self.preview_button)
+        frame_layout.addStretch()
+        layout.addWidget(self.frame)
+        self.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        self.setContentsMargins(1, 5, 1, 5)

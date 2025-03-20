@@ -6,7 +6,7 @@ import pandas as pd
 from PySide6.QtCore import Qt, QSettings, QDir, QPoint,QEasingCurve,QRect
 from PySide6.QtGui import QFont, QFontDatabase, QAction,QStandardItem, QPixmap, QImage, QPainter
 from PySide6.QtWidgets import (
-    QCheckBox, QPushButton, QGraphicsScene, QTableWidgetItem, QMenu, QFileSystemModel,QSplitter,QFrame,QApplication,QTableWidget,QDialog,QCalendarWidget,
+    QCheckBox, QPushButton, QGraphicsScene, QTableWidgetItem, QTabBar,QMenu, QFileSystemModel,QSplitter,QFrame,QApplication,QTableWidget,QDialog,QCalendarWidget,
     QTreeView, QVBoxLayout, QFileDialog, QGraphicsView, QTreeWidgetItem,QListWidgetItem, QTreeWidget, QMainWindow,QListWidget,QHeaderView,QAbstractItemView
 )
 import matplotlib.pyplot as plt
@@ -17,12 +17,14 @@ import fitz
 from PySide6.QtCore import QPropertyAnimation as QAnimation
 from Custom_Widgets import *
 from Custom_Widgets.QAppSettings import QAppSettings
+
 from src.multi_tag_dialog import MultiTagInputDialog
 from src.multi_tag_selector import MultiTagSelector
 from src.gui_function import display_file_content
 from src.key_press_filter import KeyPressFilter
 from src.calendar_dialog_widget import get_selected_date
-from datetime import datetime
+from src.atachment_list_widget import FileListItem
+
 import math
 import json
 import shutil
@@ -64,27 +66,12 @@ class GUIFunctions:
         #self.key_filter = KeyPressFilter()
         #self._connect_to_database("D:\\SQL\\archiw_rpabich_2020\\archiw_rpabich_2020.sqlite")
         self._setup_ui(self.path)
-
-        header = self.ui.tableWidget.horizontalHeader()
-        for col in range(self.ui.tableWidget.columnCount()):
-            header.setSectionResizeMode(col, QHeaderView.Stretch)
-        splitter = QSplitter(Qt.Horizontal)
-        dada_layout = self.ui.dataAnalysisPage.layout()
-        splitter.addWidget(self.ui.tableWidget)
-        splitter.addWidget(self.ui.EmailtabWidget)
-        
-        dada_layout.addWidget(splitter)
-
         # splitter2 = QSplitter(Qt.Horizontal)
         # dada_layout2 = self.ui.centralwidget.layout()
-        
         # splitter2.addWidget(self.ui.centerMenu)
         # splitter2.addWidget(self.ui.mainBody)
-        
-        
-        # dada_layout2.addWidget(splitter2)
-
-        
+        # splitter2.addWidget(self.ui.leftMenu)
+        # dada_layout2.addWidget(splitter2)       
         #self.load_data_from_database()
         #self.load_data_and_plot()
         
@@ -115,6 +102,20 @@ class GUIFunctions:
         self.animation.setDuration(300)
         self.animation.setEasingCurve(QEasingCurve.InOutQuad)
         self.is_expanded_serch_frame = True
+
+        # Konfiguracja widokui Email
+        header = self.ui.tableWidget.horizontalHeader()
+        for col in range(self.ui.tableWidget.columnCount()):
+            header.setSectionResizeMode(col, QHeaderView.Stretch)
+        splitter = QSplitter(Qt.Horizontal)
+        dada_layout = self.ui.dataAnalysisPage.layout()
+        splitter.addWidget(self.ui.tableWidget)
+        splitter.addWidget(self.ui.EmailtabWidget)
+        dada_layout.addWidget(splitter)
+        self.ui.EmailtabWidget.tabCloseRequested.connect(lambda index: self.ui.EmailtabWidget.removeTab(index))
+        tab_bar = self.ui.EmailtabWidget.tabBar()
+        tab_bar.setTabButton(0, QTabBar.RightSide, None)
+        # Obsługa zamknięcia karty i pominięcia dodanie do pierwszego widoku x
 
 
     def _connect_signals(self) -> None:
@@ -192,9 +193,7 @@ class GUIFunctions:
     }
        QTabWidget {
         border: 0px solid black;
-    }
-    QPushButton{
-           flat:False                                  }                                        
+    }                                                                   
 """)
         
         self.ui.serchEmailFrame.setStyleSheet("""
@@ -322,49 +321,34 @@ class GUIFunctions:
         listAttachments = self.ui.EmailtabWidget.findChild(QListWidget, "listAttachments")
         listAttachments.clear()
         for _, file_name, extra_value in attachments_value:
-            item = QListWidgetItem(f"{file_name}")  
-            #item.setData(extra_value) 
-            listAttachments.addItem(item)
-            print(item)
+            file_path = os.path.join(self.path,self.sql_name,"Attachments",str(self.id_selected_email),file_name)
+            widget = FileListItem(f"{file_name}",file_path,self.ui.EmailtabWidget)  
+            item = QListWidgetItem(listAttachments)
+            item.setSizeHint(widget.sizeHint())  
+            listAttachments.addItem(item)  
+            listAttachments.setItemWidget(item, widget)
         listAttachments.setFixedHeight(60)
         search_term = self.active_filters['body']
         pattern = re.compile(re.escape(search_term), re.IGNORECASE)
         
-
         if isinstance(emai_value[0][8],str):
             tekst = emai_value[0][8]
+        else:
+            tekst = emai_value[0][8].decode("utf-8")
+
             tekst_html = tekst.replace('\n', '<br>')
             if(search_term ==""):
                 body_label.setText(tekst_html)
             else:
-                print(search_term)
+                # print(search_term)
                 highlighted_content = pattern.sub(lambda match: f"<span style='background-color: yellow;'>{match.group()}</span>",tekst_html)
                 body_label.setTextFormat(Qt.TextFormat.RichText)    
                 body_label.setText(highlighted_content)
-                
-        
-        else:
-            tekst = emai_value[0][8].decode("utf-8")
-            tekst_html = tekst.replace('\n', '<br>')
-
-            print("TEKST CZYSTY: "+emai_value[0][8].decode("utf-8"))
-            docoda_text = emai_value[0][8].decode("utf-8")
-            if(search_term ==""):
-                body_label.setText(tekst_html)
-            else:
-                print(search_term)
-                highlighted_content = pattern.sub(lambda match: f"<span style='background-color: yellow;'>{match.group()}</span>",tekst_html)
-                body_label.setTextFormat(Qt.TextFormat.RichText) 
-                body_label.setText(highlighted_content)
-                print(" TEKST OCZYSZCZONY : "+ highlighted_content)
 
         subject_label.setText(emai_value[0][7])
         sender_label.setText(emai_value[0][3])
         date_label.setText(emai_value[0][1])
         cc_label.setText(emai_value[0][5])
-        # cc_label.setFrameStyle(QFrame.Box | QFrame.Plain)
-        # cc_label.setLineWidth(2)
-        # cc_label.setStyleSheet("border: 2px solid red; background-color: yellow; padding: 5px;")
 
     def clear_filtr(self):
         self.ui.seachName.setText("")
@@ -633,7 +617,7 @@ class GUIFunctions:
         sort_desc_action = QAction("Sortuj malejąco", self.main)
         hide_column_action = QAction("Ukryj kolumnę", self.main)
 
-        if column == 5:
+        if column == 6:
             add_tag_action = QAction("Dodaj tag", self.main)
             add_tag_action.triggered.connect(self.open_add_tag_dialog)
             menu.addAction(add_tag_action)
@@ -811,29 +795,6 @@ class GUIFunctions:
         if selected_indexes:
             selected_file_path = self.file_system_model.filePath(selected_indexes[0])
             display_file_content(self,selected_file_path)
-
-    # def display_file_content(self, file_path: str) -> None:
-    #     """W zależności od rozszerzenia, wyświetla zawartość pliku lub komunikat o braku wsparcia."""
-    #     try:
-    #         _, ext = os.path.splitext(file_path.lower())
-    #         if ext in ['.txt', '.csv', '.py', '.log']:
-    #             with open(file_path, 'r', encoding='utf-8') as file:
-    #                 content = file.read()
-    #             self.ui.label_11.setText(content)
-    #         elif ext == '.pdf':
-    #             display_pdf_content(self,0,1, file_path)
-    #         elif ext in ['.jpg','.jpeg','.png','.gif','.bmp','.ppm']:
-    #             display_img_content(self,file_path)
-    #         elif ext == '.pst':
-    #             self.display_image_message("PST files are in progress.")
-    #         elif ext in ['.mp4','.avi','.mkv','.mov','.wmv','.flv','.ogv']:
-    #             display_vidoe_content(self,file_path)
-    #         elif os.path.isdir(file_path):
-    #             display_dir_content(self,file_path)
-    #         else:
-    #             self.ui.label_11.setText("Selected file type is not supported.")
-    #     except Exception as e:
-    #         self.ui.label_11.setText(f"Could not read file: {e}")
 
     def display_image_message(self, message: str) -> None:
         """Wyświetla komunikat (np. informujący o niedostępnej funkcjonalności)."""

@@ -31,8 +31,6 @@ def display_vidoe_content(context,vieo_path):
     video_viewer = VideoViewer()
     video_viewer.player.setSource(QUrl(vieo_path))
     video_viewer.show()
-    #video_viewer.player.play()
-
     play_btn = QPushButton("|> / ||")
     restart_btn = QPushButton("|_|")
     mute_btn = QPushButton("Mute")
