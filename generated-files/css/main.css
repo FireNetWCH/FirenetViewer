@@ -1644,7 +1644,7 @@ PlotWidget {
   font-family: 'Sans Serif'; }
 
 QMainWindow, #centralwidget {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border-radius: 10px;
   border: 3px solid #D8D8D8; }
 
@@ -1653,6 +1653,18 @@ QPushButton, QLineEdit, QDateEdit {
   border-radius: 10px;
   min-width: auto;
   width: auto; }
+
+QFrame #serchEmailFrame {
+  background-color: #000000;
+  border-right: 1px solid #D8D8D8;
+  border-left: 1px solid #D8D8D8;
+  border-radius: 0; }
+
+QFrame #frame_11 {
+  background-color: #000000;
+  border-right: 1px solid #D8D8D8;
+  border-left: 1px solid #D8D8D8;
+  border-radius: 0; }
 
 #leftMenu {
   background-color: #FFFFFF;
@@ -1711,17 +1723,38 @@ QPushButton, QLineEdit, QDateEdit {
   color: #26bae3; }
 
 #mainPagesCont {
-  background-color: #F2F2F2;
+  background-color: #FFFFFF;
   border: none;
   border-radius: 10px; }
   #mainPagesCont QStackedWidget {
     background-color: transparent;
     border: none; }
-  #mainPagesCont #chartPage, #mainPagesCont #dataAnalysisPage, #mainPagesCont #homePage, #mainPagesCont #reportsPage {
-    background-color: #F2F2F2; }
-    #mainPagesCont #chartPage *, #mainPagesCont #chartPage QWidgets, #mainPagesCont #dataAnalysisPage *, #mainPagesCont #dataAnalysisPage QWidgets, #mainPagesCont #homePage *, #mainPagesCont #homePage QWidgets, #mainPagesCont #reportsPage *, #mainPagesCont #reportsPage QWidgets {
+  #mainPagesCont #chartPage, #mainPagesCont #homePage, #mainPagesCont #reportsPage {
+    background-color: #FFFFFF; }
+    #mainPagesCont #chartPage *, #mainPagesCont #chartPage QWidgets, #mainPagesCont #homePage *, #mainPagesCont #homePage QWidgets, #mainPagesCont #reportsPage *, #mainPagesCont #reportsPage QWidgets {
       background-color: transparent;
       border: none; }
+  #mainPagesCont #dataAnalysisPage {
+    background-color: #FFFFFF; }
+    #mainPagesCont #dataAnalysisPage *, #mainPagesCont #dataAnalysisPage QWidgets {
+      background-color: transparent;
+      border: none; }
+    #mainPagesCont #dataAnalysisPage QLineEdit {
+      border: 1px solid #010000; }
+    #mainPagesCont #dataAnalysisPage #serchEmailFrame QPushButton {
+      border: 1px solid #010000; }
+    #mainPagesCont #dataAnalysisPage QTableWidget {
+      background-color: #FFFFFF; }
+    #mainPagesCont #dataAnalysisPage QTableWidget::item:selected {
+      background-color: #7CD5EE; }
+    #mainPagesCont #dataAnalysisPage QTableWidget::item:selected:active {
+      background-color: #7CD5EE; }
+    #mainPagesCont #dataAnalysisPage #show_flags_btn:checked {
+      background-color: #26bae3; }
+    #mainPagesCont #dataAnalysisPage #show_flags_btn:hover {
+      background-color: #26bae3; }
+    #mainPagesCont #dataAnalysisPage #listAttachments, #mainPagesCont #dataAnalysisPage #frame_8 {
+      border: 1px solid #010000; }
 
 QProgressBar {
   height: 1px;

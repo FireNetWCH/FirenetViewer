@@ -97,6 +97,7 @@
 		  }
 		]
 	  },
+	 
 	  {
 		"Buttons": [
 		  "notificationBtn",
@@ -111,12 +112,14 @@
 		],
 		"Style": [
 		  {
-			"Active": "QPushButton{background-color: THEME.COLOR_BACKGROUND_2; font-weight: bold; border-radius: 5px} QPushButton::hover{background-color: THEME.COLOR_ACCENT_1}",
+			"Active": "QPushButton{background-color: THEME.COLOR_BACKGROUND_2; border-radius: 5px} QPushButton::hover{background-color: THEME.COLOR_ACCENT_1}",
 			"NotActive": "QPushButton{background-color: transparent; font-weight: normal; border-radius: 5px} QPushButton::hover{background-color: THEME.COLOR_ACCENT_1}"
 		  }
 		]
 	  }
+	
 	],
+		  
   "QCustomSlideMenu": [
 	  {
 		"name": "leftMenu",
@@ -134,7 +137,7 @@
 		],
 		"expandedSize": [
 		  {
-			"width": 130,
+			"width": "auto",
 			"height": "parent"
 		  }
 		],
@@ -172,7 +175,7 @@
       ],
       "expandedSize": [
         {
-        "width": 200,
+        "width": "auto",
         "height": "parent"
         }
       ],
@@ -278,9 +281,8 @@
 			"navigationButtons": [
 			  {
 				"notificationBtn": "notificationsPage",
-				"moreBtn": "morePage",
+				"moreBtn": "headerEmailWiget",
 				"profileBtn": "profilePage"
-				
 			  }
 			]
 		  }
@@ -305,4 +307,5 @@
 		]
 	  }
 	]
+	
 }

@@ -64,3 +64,32 @@ super().__init__(parent)
         layout.addWidget(self.frame)
         self.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         self.setContentsMargins(1, 5, 1, 5)
+
+
+
+	"QPushButton": [
+		{
+		"name": "show_flags_btn",
+
+      "fallBackStyle": [
+        "background-color: #ff0000;"
+      ],
+      "defaultStyle": [
+        "background-color: #ff0000;",
+		"hover::{background-color: #0000ff;}"
+      ]
+		}
+	  ]
+QCSS
+QMainWindow #tableWidget{
+    background-color: #ff0000;
+    background:#ff0000;
+    color: #00ff00;
+    ::item{
+        background-color: #ff0000
+    }
+}
+
+#serchEmailFrame{
+            background-color: $COLOR_ACCENT_3;
+        }

@@ -95,6 +95,14 @@
     {
       "name": "closeRightMenuBtn",
       "icon": "Qss/icons/icons/feather/x-circle.png"
+    },
+    {
+      "name": "startDataBtn",
+      "icon": "Qss/icons/icons/feather/calendar.png"
+    },
+    {
+      "name": "endDataBtn",
+      "icon": "Qss/icons/icons/feather/calendar.png"
     }
   ],
   "QLabel": [

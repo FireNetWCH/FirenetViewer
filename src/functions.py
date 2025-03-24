@@ -6,7 +6,7 @@ import pandas as pd
 from PySide6.QtCore import Qt, QSettings, QDir, QPoint,QEasingCurve,QRect
 from PySide6.QtGui import QFont, QFontDatabase, QAction,QStandardItem, QPixmap, QImage, QPainter
 from PySide6.QtWidgets import (
-    QCheckBox, QPushButton, QGraphicsScene, QTableWidgetItem, QTabBar,QMenu, QFileSystemModel,QSplitter,QFrame,QApplication,QTableWidget,QDialog,QCalendarWidget,
+    QCheckBox, QPushButton, QGraphicsScene, QTableWidgetItem, QTabBar,QMenu, QFileSystemModel,QSizePolicy,QSplitter,QFrame,QApplication,QTableWidget,QDialog,QCalendarWidget,
     QTreeView, QVBoxLayout, QFileDialog, QGraphicsView, QTreeWidgetItem,QListWidgetItem, QTreeWidget, QMainWindow,QListWidget,QHeaderView,QAbstractItemView
 )
 import matplotlib.pyplot as plt
@@ -44,7 +44,7 @@ class GUIFunctions:
         self.main = main_window
         self.ui = main_window.ui
         self.db_connection: Optional[sqlite3.Connection] = None
-        self.active_filters: Dict[str, str] = {'sender_name': "", "cc": "", "subject": "", "date_fr": "", 'date_to':"","folder_id" : "1","body":""}
+        self.active_filters: Dict[str, str] = {'sender_name': "", "cc": "", "subject": "", "date_fr": "", 'date_to':"","folder_id" : "1","body":"","flag":"False"}
         self.columns_hidden: List[bool] = [False] * 7
         self.filtering_active: bool = False
         self.current_sort_order: Dict[int, Any] = {}
@@ -62,28 +62,15 @@ class GUIFunctions:
         self.all_emails_count = 0
         self.current_page = 0
         self.emails_per_page = 500
-
-        #self.key_filter = KeyPressFilter()
-        #self._connect_to_database("D:\\SQL\\archiw_rpabich_2020\\archiw_rpabich_2020.sqlite")
         self._setup_ui(self.path)
-        # splitter2 = QSplitter(Qt.Horizontal)
-        # dada_layout2 = self.ui.centralwidget.layout()
-        # splitter2.addWidget(self.ui.centerMenu)
-        # splitter2.addWidget(self.ui.mainBody)
-        # splitter2.addWidget(self.ui.leftMenu)
-        # dada_layout2.addWidget(splitter2)       
-        #self.load_data_from_database()
-        #self.load_data_and_plot()
-        
-
-
+      
     def _setup_ui(self,path_database) -> None:
         """Inicjalizacja interfejsu – ustawienia czcionki, motywu oraz połączenia sygnałów."""
         self.enable_column_rearrangement()
         self.load_product_sans_font()
         self.initialize_app_theme()
-        self.display_folders_in_help_page()
         self.display_database(path_database)
+        self.display_folders_in_help_page()
         self._connect_signals()
 
         # Konfiguracja widoku drzewa katalogów
@@ -115,9 +102,13 @@ class GUIFunctions:
         self.ui.EmailtabWidget.tabCloseRequested.connect(lambda index: self.ui.EmailtabWidget.removeTab(index))
         tab_bar = self.ui.EmailtabWidget.tabBar()
         tab_bar.setTabButton(0, QTabBar.RightSide, None)
-        # Obsługa zamknięcia karty i pominięcia dodanie do pierwszego widoku x
+        self.ui.EmailtabWidget.setStyleSheet("""
+        background-color: #ffffff
+""")
 
-
+        #ukrycie okna naglowkow email
+        self.ui.emailHederDockWidget.hide()
+        
     def _connect_signals(self) -> None:
         """Łączy sygnały z odpowiednimi metodami."""
         # Menu (centralne i boczne)
@@ -130,6 +121,13 @@ class GUIFunctions:
         self.ui.moreBtn.clicked.connect(lambda: self.ui.rightMenu.expandMenu())
         self.ui.profileBtn.clicked.connect(lambda: self.ui.rightMenu.expandMenu())
         self.ui.closeRightMenuBtn.clicked.connect(lambda: self.ui.rightMenu.collapseMenu())
+        #rozciąganie szerokości paska bocznego przy splitter
+        self.ui.closeCenterMenuBtn.clicked.connect(lambda : self.ui.splitter.setSizes([0, 1]))
+        self.ui.fileBtn.clicked.connect(lambda : self.ui.splitter.setSizes([1, 2]))
+        self.ui.settingsBtn.clicked.connect(lambda : self.ui.splitter.setSizes([1, 2]))
+        self.ui.infoBtn.clicked.connect(lambda : self.ui.splitter.setSizes([1, 2]))
+        self.ui.helpBtn.clicked.connect(lambda : self.ui.splitter.setSizes([1, 2]))
+
 
         # Obsługa wyszukiwania i filtrów
         self.ui.searchBtn.clicked.connect(self.show_search_results)
@@ -172,53 +170,28 @@ class GUIFunctions:
         la = self.ui.EmailtabWidget.findChild(QListWidget,"listAttachments")
         la.itemClicked.connect(self.email_copy_attachments)
 
+        # Obsługa pokazywania i ukrywania okna nagłówków email
+        heder_btn = self.ui.EmailtabWidget.findChild(QPushButton,"hederEmailBtn")
+        heder_btn.clicked.connect(self.show_heder_winodw)
+
+        test = self.ui.emailHederDockWidget.findChild(QLabel,"headerEmailLabel")
+        test.setText("SSSS")
+        window_clode_btn = self.ui.emailHederDockWidget.findChild(QPushButton,"hiddenHederWindowBtn")
+        print(window_clode_btn)
+        window_clode_btn.clicked.connect(self.ui.emailHederDockWidget.hide)
 
         # Konfiguracja menu nagłówka tabeli
         header = self.ui.tableWidget.horizontalHeader()
         header.setContextMenuPolicy(Qt.CustomContextMenu)
         header.customContextMenuRequested.connect(self.show_column_menu)
 
-        self.ui.dataAnalysisPage.setStyleSheet("""
-       QTabWidget {
-        border: 0px solid black;
-    }
-""")
+    def show_heder_winodw(self):
+        if self.ui.emailHederDockWidget.isHidden():
+            self.ui.emailHederDockWidget.show()
+        else:
+            self.ui.emailHederDockWidget.hide()
 
-        self.ui.EmailtabWidget.setStyleSheet("""
-    QFrame {
-        border: 1px solid black;
-    }
-    QLabel {
-        border: 0px solid black;
-    }
-       QTabWidget {
-        border: 0px solid black;
-    }                                                                   
-""")
-        
-        self.ui.serchEmailFrame.setStyleSheet("""
-            QLineEdit{
-                        border: 1px solid black;}
-            QPushButton{border: 1px solid black
-                                              ;}
-        """)
-        
-        
-
-
-        self.ui.tableWidget.setStyleSheet("""
-    QTableWidget::item:selected {
-        background-color: lightblue;  /* Intensywny kolor zaznaczonego wiersza */
-        color: black;
-       /*border: 2px solid blue;   Ramka wokół zaznaczonego wiersza */
-    }
-
-    QTableWidget::item:selected:!active {
-        background-color: #A0C8FF;  /* Kolor dla nieaktywnego zaznaczenia */
-        color: black;
-        /*border: 2px solid #0078D7;   Podkreślenie, gdy tabela traci fokus */
-    }
-""")
+    
     def serch_by_date_start(self):
         print(self)
         date = get_selected_date(self)
@@ -277,25 +250,31 @@ class GUIFunctions:
         if not self.db_connection is None: 
             self.db_connection.close()
             print("zamknięto polaczenie")
-        db_path = os.path.join(self.path,item.text().split('.')[0],item.text())
+        
+        db_path = os.path.join(self.path,item.text().removesuffix('.sqlite'),item.text())
+        print(db_path)
         self._connect_to_database(db_path)
         sql_name = db_path.split('\\')[-1]
         sql_name = sql_name.removesuffix('.sqlite')
         self.sql_name = sql_name
         self.ui.dataAnalysisPage.findChild(QLabel,"sqlEmailDbName").setText(sql_name)
+        
         self.load_data_from_database()
         self.display_folders_in_help_page()
         tw = self.ui.helpPage.findChild(QTreeWidget,"folders_tree")
+        tw.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         tw.itemClicked.connect(self.tree_email_dir_clicked)
         self.clear_filtr()
 
     def _connect_to_database(self, db_name: str) -> None:
         """Nawiązuje połączenie z bazą danych SQLite."""
         try:
+           
             self.db_connection = sqlite3.connect(db_name)
             logger.info(f"Połączono z bazą danych {db_name}")
         except sqlite3.Error as e:
-            logger.error(f"Błąd podczas łączenia z bazą danych: {e}")
+            logger.error(f"Błąd podczas łączenia z bazą danych:{db_name} {e}")
+            print(f"Błąd podczas łączenia z bazą danych:{db_name} {e}")
             self.db_connection = None
     
     def load_clicked_email(self,row,column):
@@ -304,12 +283,14 @@ class GUIFunctions:
         query =f'''
         SELECT * from emails WHERE id = {id}
         '''
-
+        for x in range(self.ui.EmailtabWidget.count() - 1, 0, -1):
+            self.ui.EmailtabWidget.removeTab(x)
         body_label = self.ui.EmailtabWidget.findChild(QLabel, "body")
         subject_label = self.ui.EmailtabWidget.findChild(QLabel, "subject")
         sender_label = self.ui.EmailtabWidget.findChild(QLabel, "sender")
         date_label = self.ui.EmailtabWidget.findChild(QLabel, "date")
         cc_label = self.ui.EmailtabWidget.findChild(QLabel, "cc")
+        header_email_label = self.ui.emailHederDockWidget.findChild(QLabel,"headerEmailLabel")
         
         cursor = self.db_connection.cursor()
         cursor.execute(query)
@@ -340,7 +321,6 @@ class GUIFunctions:
             if(search_term ==""):
                 body_label.setText(tekst_html)
             else:
-                # print(search_term)
                 highlighted_content = pattern.sub(lambda match: f"<span style='background-color: yellow;'>{match.group()}</span>",tekst_html)
                 body_label.setTextFormat(Qt.TextFormat.RichText)    
                 body_label.setText(highlighted_content)
@@ -349,6 +329,10 @@ class GUIFunctions:
         sender_label.setText(emai_value[0][3])
         date_label.setText(emai_value[0][1])
         cc_label.setText(emai_value[0][5])
+        header_email_label.setText(emai_value[0][11])
+        self.ui.EmailtabWidget.setStyleSheet("""
+        background-color: #ffffff
+""")
 
     def clear_filtr(self):
         self.ui.seachName.setText("")
@@ -379,8 +363,10 @@ class GUIFunctions:
         offset = self.current_page * self.emails_per_page
         if not self.db_connection:
             logger.error("Brak połączenia z bazą danych.")
+            print("Brak połączenia z bazą danych.")
+            QApplication.restoreOverrideCursor()
             return
-        
+        print("xxxx")
         query = f'''
             SELECT e.id, e.sender_name, e.cc, e.subject, e.date, e.flag,
                    GROUP_CONCAT(t.tag_name) AS tags 
@@ -412,6 +398,7 @@ class GUIFunctions:
             self.ui.tableWidget.verticalHeader().setVisible(False)
             QApplication.restoreOverrideCursor()
         except sqlite3.Error as e:
+                QApplication.restoreOverrideCursor()
                 logger.error(f"Błąd podczas wykonywania zapytania: {e}")
                 print(f"Błąd podczas wykonywania zapytania: {e}")
 
@@ -561,11 +548,11 @@ class GUIFunctions:
         self.active_filters["date_fr"] = self.ui.startDataLabel.text().lower()
         self.active_filters["date_to"] = self.ui.endDataLabel.text().lower()
         self.active_filters["body"] = self.ui.searchBody.text().lower()
-
+        # fitr pod flaga w innym miejscu (toggle_filter_flags)
     def join_search(self):
         self.load_filtr_dict()
         self.load_data_from_database()
-
+        
 
     def apply_filters(self) -> None:
         """
@@ -598,6 +585,20 @@ class GUIFunctions:
                         firtFiltr = False
                     else:
                         query_part = query_part + f"AND REPLACE(body, X'200C', '') LIKE '%{value}%' COLLATE NOCASE"
+            elif(key == "folder_id"):
+                if value != "" :
+                    if firtFiltr:
+                        query_part = f"WHERE {key} LIKE '{value}' COLLATE NOCASE "
+                        firtFiltr = False
+                    else:
+                        query_part = query_part + f"AND {key} LIKE '{value}' COLLATE NOCASE "
+            elif(key == "flag"):
+                if value == "True":
+                    if firtFiltr:
+                        query_part = f"WHERE {key} LIKE {value}"
+                        firtFiltr = False
+                    else:
+                        query_part = query_part + f"AND {key} LIKE {value}"
             else:
                 if value != "" :
                     if firtFiltr:
@@ -680,20 +681,16 @@ class GUIFunctions:
 
     def toggle_filter_flags(self) -> None:
         """Przełącza tryb filtrowania według zaznaczonych flag."""
-        if self.filtering_active:
-            self.reset_filters()
+        if self.ui.show_flags_btn.isChecked():
+            print("XXX")
         else:
-            self.filter_checked_flags()
-        self.filtering_active = not self.filtering_active
-
-    def filter_checked_flags(self) -> None:
-        """Ukrywa wiersze, w których flaga nie jest zaznaczona."""
-        for row in range(self.ui.tableWidget.rowCount()):
-            checkbox = self.ui.tableWidget.cellWidget(row, 4)
-            if isinstance(checkbox, QCheckBox) and checkbox.isChecked():
-                self.ui.tableWidget.showRow(row)
-            else:
-                self.ui.tableWidget.hideRow(row)
+            print("x")
+        if self.active_filters["flag"] == "True":
+            self.active_filters["flag"] = "False"
+        else:
+            self.active_filters["flag"] = "True"
+        self.join_search()
+        
 
     def reset_filters(self) -> None:
         """Przywraca widoczność wszystkich wierszy tabeli."""
@@ -814,6 +811,7 @@ class GUIFunctions:
         self.folders_tree = QTreeWidget()
         self.folders_tree.setHeaderLabel("Struktura folderów (z bazy)")
         self.folders_tree.setObjectName("folders_tree")
+        self.folders_tree.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         layout = self.ui.helpPage.layout()
         if layout is None:
             layout = QVBoxLayout(self.ui.helpPage)
@@ -821,9 +819,19 @@ class GUIFunctions:
         else:
             for i in reversed(range(layout.count())):
                 w = layout.itemAt(i).widget()
-                print(w.objectName)
+                #print(w.objectName)
                 if (w) and not (isinstance(w ,QListWidget)):
                     w.setParent(None)
+        column_count = self.folders_tree.columnCount()
+
+
+        for i in range(column_count):
+            self.folders_tree.resizeColumnToContents(i)
+            row_count = self.folders_tree.topLevelItemCount()
+
+        for i in range(row_count):
+            self.folders_tree.resizeRowToContents(i)
+
         layout.addWidget(self.folders_tree)
         self.load_folders_data_into_tree()
         
@@ -854,7 +862,16 @@ class GUIFunctions:
 
     def add_items_to_tree(self, parent, tree_level: dict):
         for folder_name, folder_data in tree_level.items():
-            item = QTreeWidgetItem([folder_name])
+            if folder_name =="":
+                folder_name = "HOME"
+            if folder_data["id"] != 1:
+                query = f"""SELECT count(*) FROM emails  WHERE folder_id ={folder_data["id"]}"""
+            else:
+                query = f"""SELECT count(*) FROM emails"""
+            cursor = self.db_connection.cursor()
+            cursor.execute(query)
+            emai_value = cursor.fetchall()
+            item = QTreeWidgetItem([f"{folder_name} ({emai_value[0][0]})"])
             item.setData(0, 1, folder_data["id"])
             if isinstance(parent, QTreeWidget):
                 parent.addTopLevelItem(item)
@@ -866,6 +883,7 @@ class GUIFunctions:
     def display_database(self,path_to_dir):
         self.list_widget = QListWidget()
         self.list_widget.setObjectName("db_list")
+        self.list_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         sql_list_file = []
         dir_content =  os.scandir(path_to_dir)
         for file in dir_content:

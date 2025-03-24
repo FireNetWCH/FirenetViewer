@@ -16,16 +16,12 @@ class FileListItem(QWidget):
         self.file_name = filename
         self.file_path = file_path
         layout = QHBoxLayout(self)
-        layout.setContentsMargins(1, 5, 1, 5)  
+        layout.setContentsMargins(1, 1, 1, 1)  
         layout.setSpacing(1)
-        self.frame = QFrame(self)
-        self.frame.setFrameShape(QFrame.StyledPanel)
-        self.frame.setLineWidth(2)
-        self.frame.setMidLineWidth(0)
-        self.frame.setFrameShadow(QFrame.Sunken)
+        self.frame =QWidget(self)
         frame_layout = QHBoxLayout(self.frame)
         frame_layout.setContentsMargins(1, 1, 1, 1)
-        frame_layout.setSpacing(5)
+        frame_layout.setSpacing(1)
         self.label = QLabel(filename)
         self.label.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         self.preview_button = QPushButton(QIcon("./Qss/icons/black/feather/link.png"), "")
@@ -87,13 +83,9 @@ class FileListItem(QWidget):
 
 
     def download_pusch_btn(self):
-        downloadBtn = QPushButton(f"POBIRZE\n{self.file_name}")
+        downloadBtn = QPushButton(f"POBIERZ\n{self.file_name}")
         downloadBtn.setObjectName("standard")
-        downloadBtn.style().unpolish(downloadBtn)
-        downloadBtn.style().polish(downloadBtn)
         downloadBtn.setStyleSheet("QPushButton{font-weight: bold; border-radius: 5px;border: 2px solid #A0C8FF} QPushButton::hover{background-color:#A0C8FF}")
-        downloadBtn.style().unpolish(downloadBtn)
-        downloadBtn.style().polish(downloadBtn)
         print(downloadBtn)
         downloadBtn.clicked.connect(lambda : self.copy_file(self.file_path))
         return downloadBtn
