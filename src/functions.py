@@ -24,6 +24,7 @@ from src.gui_function import display_file_content
 from src.key_press_filter import KeyPressFilter
 from src.calendar_dialog_widget import get_selected_date
 from src.atachment_list_widget import FileListItem
+from src.selector_tag_sercher import SekectorTag
 
 import math
 import json
@@ -44,7 +45,7 @@ class GUIFunctions:
         self.main = main_window
         self.ui = main_window.ui
         self.db_connection: Optional[sqlite3.Connection] = None
-        self.active_filters: Dict[str, str] = {'sender_name': "", "cc": "", "subject": "", "date_fr": "", 'date_to':"","folder_id" : "1","body":"","flag":"False"}
+        self.active_filters: Dict[str, str] = {'sender_name': "", "cc": "", "subject": "", "date_fr": "", 'date_to':"","folder_id" : "1","body":"","flag":"False","tag":""}
         self.columns_hidden: List[bool] = [False] * 7
         self.filtering_active: bool = False
         self.current_sort_order: Dict[int, Any] = {}
@@ -143,12 +144,15 @@ class GUIFunctions:
         self.ui.pst_files_btn.clicked.connect(self.upload_pst_file)
         #self.ui.checkBoxData.checkStateChanged.connect(self.date_state_box)
 
+        self.ui.tagPuschBtn.clicked.connect(lambda: self.open_dialog_tag_selector(self.active_filters))
+
         self.ui.startDataLabel.selectionChanged.connect(self.serch_by_date_start)
         self.ui.endDataLabel.selectionChanged.connect(self.serch_by_date_end)
         self.ui.startDataBtn.clicked.connect(self.serch_by_date_start)
         self.ui.endDataBtn.clicked.connect(self.serch_by_date_end)
         self.ui.startDataLabel.textChanged.connect(self.join_search)
         self.ui.endDataLabel.textChanged.connect(self.join_search)
+
 
         # Obsługa Event Tabeli Email
         self.ui.tableWidget.cellClicked.connect(self.load_clicked_email)
@@ -277,8 +281,16 @@ class GUIFunctions:
             print(f"Błąd podczas łączenia z bazą danych:{db_name} {e}")
             self.db_connection = None
     
+    def open_dialog_tag_selector(self, user_id: int) -> None:
+        """Otwiera okno dialogowe do edycji tagów użytkownika."""
+        dialog = SekectorTag(self.db_connection, self.active_filters,self.main)
+        if dialog.exec():
+            logger.info(f"Zaktualizowano tagi dla użytkownika {user_id}")
+            self.load_data_from_database()
+
     def load_clicked_email(self,row,column):
         id = self.ui.tableWidget.item(row,0).text()
+        print(self.active_filters)
         self.id_selected_email = id
         query =f'''
         SELECT * from emails WHERE id = {id}
@@ -343,6 +355,7 @@ class GUIFunctions:
         self.active_filters["cc"] = ""
         self.active_filters["subject"] = ""
         self.active_filters["body"] = ""
+        self.active_filters["tag"] = ""
         
     def tree_email_dir_clicked(self,item ,column):
         self.active_filters["folder_id"] = item.data(0,1)
@@ -352,7 +365,13 @@ class GUIFunctions:
         self.load_data_from_database()
         self.current_page = 0
         
-
+    def tag_query_part_generator(self):
+        if self.active_filters['tag'] !="" :
+            return f"HAVING t.tag_name in {self.active_filters['tag']}"
+        else:
+            return ""
+        
+        
     def load_data_from_database(self) -> None:
         """
         Wczytuje dane z bazy SQLite i wypełnia tabelę widżetem.
@@ -366,7 +385,6 @@ class GUIFunctions:
             print("Brak połączenia z bazą danych.")
             QApplication.restoreOverrideCursor()
             return
-        print("xxxx")
         query = f'''
             SELECT e.id, e.sender_name, e.cc, e.subject, e.date, e.flag,
                    GROUP_CONCAT(t.tag_name) AS tags 
@@ -375,6 +393,7 @@ class GUIFunctions:
             LEFT JOIN tags t ON et.tag_id = t.id
             {self.apply_filters()}
             GROUP BY e.id
+            {self.tag_query_part_generator()}
             LIMIT {self.emails_per_page} OFFSET {offset}
         '''
         print(query)
@@ -564,6 +583,8 @@ class GUIFunctions:
         for key, value in self.active_filters.items():
             if key == "folder_id" and str(value) == "1":
                 print(f"{key} +{value}")
+            elif(key == "tag"):
+                pass
             elif (key == "date_fr"):
                 if value != "":
                     if firtFiltr:
