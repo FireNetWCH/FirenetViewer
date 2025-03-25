@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QListWidget, QListWidgetItem, QCheckBox, QPushButton, QVBoxLayout, QDialog
-
+from PySide6.QtCore import QSize
 class SekectorTag(QDialog):
     """Dialog do edycji tagów użytkownika."""
     def __init__(self, connection,user_tag, parent=None):
@@ -7,8 +7,9 @@ class SekectorTag(QDialog):
         self.connection = connection
         self.setWindowTitle("Wybierz tagi")
         self.tag_list = QListWidget(self)
+        self.tag_list.setObjectName("sekectorTag")
         self.ok_btn = QPushButton("OK", self)
-        
+        self.setObjectName("tagger")
         self.ok_btn.clicked.connect(lambda :self.set_tag(user_tag))
         layout = QVBoxLayout(self)
         layout.addWidget(self.tag_list)
@@ -26,6 +27,7 @@ class SekectorTag(QDialog):
         #name_tags = {row[0] for row in cursor.fetchall()}
         for tag_id, tag_name in all_tags:
             item = QListWidgetItem(self.tag_list)
+            item.setSizeHint(QSize(150, 28))
             checkbox = QCheckBox(tag_name)
             tag_list = user_tags['tag'].strip("()").replace("'", "").split(',')
             checkbox.setChecked(tag_name in tag_list)
@@ -33,11 +35,8 @@ class SekectorTag(QDialog):
             self.tag_list.setItemWidget(item, checkbox)
 
     def set_tag(self,user_tag):
-        string = ""
-        print()
-        print(user_tag['tag'])           
+        string = ""        
         for i in range(self.tag_list.count()):
-            print("XXXX")
             item = self.tag_list.item(i)
             checkbox = self.tag_list.itemWidget(item)
             if checkbox.isChecked():

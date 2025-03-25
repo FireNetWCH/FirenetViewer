@@ -13,19 +13,19 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
-import fitz
 from PySide6.QtCore import QPropertyAnimation as QAnimation
 from Custom_Widgets import *
 from Custom_Widgets.QAppSettings import QAppSettings
 
-from src.multi_tag_dialog import MultiTagInputDialog
-from src.multi_tag_selector import MultiTagSelector
+from src.email_page.multi_tag_dialog import MultiTagInputDialog
+from src.email_page.multi_tag_selector import MultiTagSelector
 from src.gui_function import display_file_content
-from src.key_press_filter import KeyPressFilter
+from src.email_page.key_press_filter import KeyPressFilter
 from src.calendar_dialog_widget import get_selected_date
 from src.atachment_list_widget import FileListItem
-from src.selector_tag_sercher import SekectorTag
-
+from src.email_page.selector_tag_sercher import SekectorTag
+from src.message_box.date_warning import left_date_wornig, rights_date_wornig
+import src.db_function.db_email_function as db_email_function
 import math
 import json
 import shutil
@@ -51,6 +51,8 @@ class GUIFunctions:
         self.current_sort_order: Dict[int, Any] = {}
 
         #Parametry do obsługi emeil
+        #kolumna w tabeli emaili gdzie znajdzuje się checbox
+        self.column_check_box= 5
         file_config = open(".\\config.json")
         config = json.load(file_config)
         base_path = config['path']
@@ -157,7 +159,7 @@ class GUIFunctions:
         # Obsługa Event Tabeli Email
         self.ui.tableWidget.cellClicked.connect(self.load_clicked_email)
         self.ui.tableWidget.cellActivated.connect(self._get_id_flags_item_email)
-        self.key_filter = KeyPressFilter(self.ui.tableWidget, self._get_id_flags_item_email,self.load_clicked_email)
+        self.key_filter = KeyPressFilter(self.ui.tableWidget, self._get_id_flags_item_email,self.load_clicked_email,self.multi_flag_selected)
         self.ui.tableWidget.installEventFilter(self.key_filter)
         self.ui.prevEmailTableBtn.clicked.connect(self.previous_page)
         self.ui.nextEmailTableBtn.clicked.connect(self.next_page)
@@ -197,19 +199,35 @@ class GUIFunctions:
 
     
     def serch_by_date_start(self):
-        print(self)
         date = get_selected_date(self)
+        
         if date is not None:
-            self.ui.startDataLabel.setText(date.toString("yyyy-MM-dd"))
+            if self.active_filters['date_to'] != "":
+                if date.toString("yyyy-MM-dd") > self.active_filters['date_to']:
+                    rights_date_wornig()
+                    self.ui.startDataLabel.setText(date.toString(""))
+                else:
+                    self.ui.startDataLabel.setText(date.toString("yyyy-MM-dd"))
+            else:
+                self.ui.startDataLabel.setText(date.toString("yyyy-MM-dd"))
         else:
             self.ui.startDataLabel.setText("")
+
     def serch_by_date_end(self):
-        print(self)
         date = get_selected_date(self)
+
         if date is not None:
-            self.ui.endDataLabel.setText(date.toString("yyyy-MM-dd"))
+            if self.active_filters['date_fr'] != "":
+                if date.toString("yyyy-MM-dd") < self.active_filters['date_fr']:
+                    left_date_wornig()
+                    self.ui.endDataLabel.setText(date.toString(""))
+                else:
+                    self.ui.endDataLabel.setText(date.toString("yyyy-MM-dd"))
+            else:
+                self.ui.endDataLabel.setText(date.toString("yyyy-MM-dd"))
         else:
             self.ui.endDataLabel.setText("")
+            
     def toggle_frame(self):
         if self.is_expanded_serch_frame:
             self.animation.setStartValue(self.ui.dataAnalysisPage.findChild(QFrame,"serchEmailFrame").height())
@@ -231,9 +249,9 @@ class GUIFunctions:
             self.current_page -= 1
         self.load_data_from_database()
 
-    def _get_id_flags_item_email(self,row,column):
+    def _get_id_flags_item_email(self,row):
         id = self.ui.tableWidget.item(row,0).text()
-        check_box = self.ui.tableWidget.cellWidget(row,5)
+        check_box = self.ui.tableWidget.cellWidget(row,self.column_check_box)
         flags = int(check_box.isChecked())
         if flags == 1:
             flags = 0
@@ -241,8 +259,25 @@ class GUIFunctions:
         else:
             flags = 1
             check_box.setChecked(True)
-        self.update_flag(id,flags)
-        
+        db_email_function.update_flag(self.db_connection,id,flags)
+    
+    def multi_flag_selected(self,rows):
+        all_is_one_state = True
+        id_list =[]
+        first_state = self.ui.tableWidget.cellWidget(rows[0],self.column_check_box).isChecked()
+        for row in rows:
+            if first_state != self.ui.tableWidget.cellWidget(row,self.column_check_box).isChecked():
+                all_is_one_state = False
+                id_list.append(self.ui.tableWidget.item(row,0).text())
+        if all_is_one_state == True:
+            db_email_function.update_multi_flags(self.db_connection,id_list,not first_state)
+            for row in rows:
+                self.ui.tableWidget.cellWidget(row,self.column_check_box).setChecked(not first_state)
+        else:
+            db_email_function.update_multi_flags(self.db_connection,id_list,True)
+            for row in rows:
+                self.ui.tableWidget.cellWidget(row,self.column_check_box).setChecked(True)
+
     def date_state_box(self):
         pom = self.ui.checkBoxData.isChecked()
         self.ui.seachOd.setEnabled(pom)
@@ -257,7 +292,7 @@ class GUIFunctions:
         
         db_path = os.path.join(self.path,item.text().removesuffix('.sqlite'),item.text())
         print(db_path)
-        self._connect_to_database(db_path)
+        db_email_function.connect_to_database(self,db_path)
         sql_name = db_path.split('\\')[-1]
         sql_name = sql_name.removesuffix('.sqlite')
         self.sql_name = sql_name
@@ -269,23 +304,13 @@ class GUIFunctions:
         tw.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         tw.itemClicked.connect(self.tree_email_dir_clicked)
         self.clear_filtr()
-
-    def _connect_to_database(self, db_name: str) -> None:
-        """Nawiązuje połączenie z bazą danych SQLite."""
-        try:
-           
-            self.db_connection = sqlite3.connect(db_name)
-            logger.info(f"Połączono z bazą danych {db_name}")
-        except sqlite3.Error as e:
-            logger.error(f"Błąd podczas łączenia z bazą danych:{db_name} {e}")
-            print(f"Błąd podczas łączenia z bazą danych:{db_name} {e}")
-            self.db_connection = None
     
     def open_dialog_tag_selector(self, user_id: int) -> None:
         """Otwiera okno dialogowe do edycji tagów użytkownika."""
         dialog = SekectorTag(self.db_connection, self.active_filters,self.main)
         if dialog.exec():
             logger.info(f"Zaktualizowano tagi dla użytkownika {user_id}")
+            self.ui.selectedTagLabel.setText(f"Wybrane Tagi: {self.active_filters['tag'].removeprefix("(").removesuffix(")")}")
             self.load_data_from_database()
 
     def load_clicked_email(self,row,column):
@@ -364,14 +389,7 @@ class GUIFunctions:
 
         self.load_data_from_database()
         self.current_page = 0
-        
-    def tag_query_part_generator(self):
-        if self.active_filters['tag'] !="" :
-            return f"HAVING t.tag_name in {self.active_filters['tag']}"
-        else:
-            return ""
-        
-        
+                
     def load_data_from_database(self) -> None:
         """
         Wczytuje dane z bazy SQLite i wypełnia tabelę widżetem.
@@ -385,17 +403,20 @@ class GUIFunctions:
             print("Brak połączenia z bazą danych.")
             QApplication.restoreOverrideCursor()
             return
-        query = f'''
-            SELECT e.id, e.sender_name, e.cc, e.subject, e.date, e.flag,
-                   GROUP_CONCAT(t.tag_name) AS tags 
-            FROM emails e
-            LEFT JOIN email_tags et ON e.id = et.email_id
-            LEFT JOIN tags t ON et.tag_id = t.id
-            {self.apply_filters()}
-            GROUP BY e.id
-            {self.tag_query_part_generator()}
-            LIMIT {self.emails_per_page} OFFSET {offset}
-        '''
+        if self.active_filters['tag']=="":
+            query = f'''
+                SELECT e.id, e.sender_name, e.cc, e.subject, e.date, e.flag,
+                    GROUP_CONCAT(t.tag_name) AS tags 
+                FROM emails e
+                LEFT JOIN email_tags et ON e.id = et.email_id
+                LEFT JOIN tags t ON et.tag_id = t.id
+                {db_email_function.apply_filters(self.active_filters)}
+                GROUP BY e.id
+                LIMIT {self.emails_per_page} OFFSET {offset}
+            '''
+        else: 
+            query = db_email_function.tag_query(self.active_filters)
+
         print(query)
         try:
             cursor = self.db_connection.cursor()
@@ -404,7 +425,7 @@ class GUIFunctions:
             #print(f"{cursor.arraysize}")
             data = cursor.fetchall()
             cursor.execute(f'''SELECT COUNT(DISTINCT e.id) AS total_count FROM emails e
-            {self.apply_filters()}''')
+            {db_email_function.apply_filters(self.active_filters)}''')
             emailc_count = cursor.fetchall()[0][0]
             self.all_emails_count = emailc_count
             self.max_page = math.ceil((int(self.all_emails_count)/int(self.emails_per_page)))
@@ -456,7 +477,7 @@ class GUIFunctions:
                     checkbox.setChecked(bool(cell_data))
                     checkbox.setFocusPolicy(Qt.NoFocus)
                     checkbox.stateChanged.connect(
-                        lambda state, uid=user_id: self.update_flag(uid, state)
+                        lambda state, uid=user_id: db_email_function.update_flag(self.db_connection,uid, state)
                     )
                     self.ui.tableWidget.setCellWidget(row_idx, real_col_idx, checkbox)
                 elif real_col_idx == 6:
@@ -476,40 +497,13 @@ class GUIFunctions:
         logger.info("Dane zostały załadowane do tabeli.")
         # print(f"Liczba kolumn w tabeli: {self.ui.tableWidget.columnCount()}")
 
-    def open_tag_selector(self, user_id: int) -> None:
+    def open_tag_selector(self, email_id: int) -> None:
         """Otwiera okno dialogowe do edycji tagów użytkownika."""
-        dialog = MultiTagSelector(user_id, self.db_connection, self.main)
+        dialog = MultiTagSelector(email_id, self.db_connection, self.main)
         if dialog.exec():
-            logger.info(f"Zaktualizowano tagi dla użytkownika {user_id}")
+            logger.info(f"Zaktualizowano tagi dla użytkownika {email_id}")
             self.load_data_from_database()
-
-    def update_flag(self, user_id: int, state: int) -> None:
-        """Aktualizuje flagę użytkownika w bazie danych."""
-        
-        flag_value = 1 if state else 0
-        try:
-            cursor = self.db_connection.cursor()
-            cursor.execute("UPDATE emails SET flag = ? WHERE id = ?", (flag_value, user_id))
-            self.db_connection.commit()
-            logger.info(f"Updated flag for emails ID {user_id} to {flag_value}.")
-        except sqlite3.Error as e:
-            logger.error(f"Błąd podczas aktualizacji flagi: {e}")
-            print(f"Błąd podczas aktualizacji flagi: {e}")
-    def update_tag(self, user_id: int, tag_name: str) -> None:
-        """Aktualizuje tag przypisany do użytkownika."""
-        try:
-            cursor = self.db_connection.cursor()
-            cursor.execute("SELECT id FROM tags WHERE tag_name = ?", (tag_name,))
-            tag_id = cursor.fetchone()
-            if tag_id:
-                cursor.execute("UPDATE emails SET tag_id = ? WHERE id = ?", (tag_id[0], user_id))
-                self.db_connection.commit()
-                logger.info(f"Updated tag for emails ID {user_id} to {tag_name}.")
-            else:
-                logger.warning(f"Tag name '{tag_name}' not found.")
-        except sqlite3.Error as e:
-            logger.error(f"Błąd podczas aktualizacji tagu: {e}")
-
+    
     def close_database_connection(self) -> None:
         if self.db_connection:
             self.db_connection.close()
@@ -570,65 +564,7 @@ class GUIFunctions:
         # fitr pod flaga w innym miejscu (toggle_filter_flags)
     def join_search(self):
         self.load_filtr_dict()
-        self.load_data_from_database()
-        
-
-    def apply_filters(self) -> None:
-        """
-        Zwraca fragmęt zapytania SQL zawierający filtry 
-        """
-        query_part = ""
-        firtFiltr = True
-        #print(self.active_filters)
-        for key, value in self.active_filters.items():
-            if key == "folder_id" and str(value) == "1":
-                print(f"{key} +{value}")
-            elif(key == "tag"):
-                pass
-            elif (key == "date_fr"):
-                if value != "":
-                    if firtFiltr:
-                        query_part = f"WHERE date > '{value}'"
-                        firtFiltr = False
-                    else:
-                        query_part = query_part +f"AND date > '{value}'"
-            elif (key == "date_to"):
-                if value != "":
-                    if firtFiltr:
-                        query_part = f"WHERE date < '{value}'"
-                        firtFiltr = False
-                    else:
-                        query_part = query_part +f"AND date < '{value}'"
-            elif(key == "body"):
-                if value != "":
-                    if firtFiltr:
-                        query_part = f"WHERE REPLACE(body, X'200C', '') LIKE '%{value}%' COLLATE NOCASE"
-                        firtFiltr = False
-                    else:
-                        query_part = query_part + f"AND REPLACE(body, X'200C', '') LIKE '%{value}%' COLLATE NOCASE"
-            elif(key == "folder_id"):
-                if value != "" :
-                    if firtFiltr:
-                        query_part = f"WHERE {key} LIKE '{value}' COLLATE NOCASE "
-                        firtFiltr = False
-                    else:
-                        query_part = query_part + f"AND {key} LIKE '{value}' COLLATE NOCASE "
-            elif(key == "flag"):
-                if value == "True":
-                    if firtFiltr:
-                        query_part = f"WHERE {key} LIKE {value}"
-                        firtFiltr = False
-                    else:
-                        query_part = query_part + f"AND {key} LIKE {value}"
-            else:
-                if value != "" :
-                    if firtFiltr:
-                        query_part = f"WHERE {key} LIKE '%{value}%' COLLATE NOCASE "
-                        firtFiltr = False
-                    else:
-                        query_part = query_part + f"AND {key} LIKE '%{value}%' COLLATE NOCASE "
-
-        return query_part    
+        self.load_data_from_database()    
 
     def show_column_menu(self, position: QPoint) -> None:
         """Wyświetla menu kontekstowe dla nagłówka kolumny."""
@@ -702,10 +638,6 @@ class GUIFunctions:
 
     def toggle_filter_flags(self) -> None:
         """Przełącza tryb filtrowania według zaznaczonych flag."""
-        if self.ui.show_flags_btn.isChecked():
-            print("XXX")
-        else:
-            print("x")
         if self.active_filters["flag"] == "True":
             self.active_filters["flag"] = "False"
         else:
@@ -919,7 +851,7 @@ class GUIFunctions:
 
         if self.db_connection is None and len(sql_list_file) > 0 :
             try:
-                self._connect_to_database(path_to_dir+"\\"+sql_list_file[0].split('.')[-2]+"\\"+sql_list_file[0])
+                db_email_function.connect_to_database(self,path_to_dir+"\\"+sql_list_file[0].split('.')[-2]+"\\"+sql_list_file[0])
                 self.load_data_from_database()
                 self.sql_name =sql_list_file[0].split('.')[-2]
                 self.ui.dataAnalysisPage.findChild(QLabel,"sqlEmailDbName").setText(self.sql_name)

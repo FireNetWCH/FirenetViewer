@@ -94,3 +94,13 @@ conn.close()
 # #serchEmailFrame{
 #             background-color: $COLOR_ACCENT_3;
 #        }
+
+SELECT e.id, e.sender_name, e.cc, e.subject, e.date, e.flag,
+                   GROUP_CONCAT(t.tag_name) AS tags
+            FROM emails e
+            LEFT JOIN email_tags et ON e.id = et.email_id
+            LEFT JOIN tags t ON et.tag_id = t.id
+
+            GROUP BY e.id
+            HAVING t.tag_name in ('2','1')
+            LIMIT 500 OFFSET 0

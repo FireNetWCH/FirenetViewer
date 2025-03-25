@@ -765,6 +765,12 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_4.addWidget(self.showSearchPanelBtn)
 
+        self.selectedTagLabel = QLabel(self.widget_9)
+        self.selectedTagLabel.setObjectName(u"selectedTagLabel")
+        self.selectedTagLabel.setFrameShape(QFrame.Shape.Box)
+
+        self.horizontalLayout_4.addWidget(self.selectedTagLabel)
+
 
         self.verticalLayout_12.addWidget(self.widget_9)
 
@@ -1379,6 +1385,7 @@ class Ui_MainWindow(object):
         self.label_20.setText(QCoreApplication.translate("MainWindow", u"Strona : ", None))
         self.pageNumberLabel.setText(QCoreApplication.translate("MainWindow", u"XXX", None))
         self.showSearchPanelBtn.setText(QCoreApplication.translate("MainWindow", u"Szukaj", None))
+        self.selectedTagLabel.setText("")
         ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"Id", None));
         ___qtablewidgetitem1 = self.tableWidget.horizontalHeaderItem(1)
