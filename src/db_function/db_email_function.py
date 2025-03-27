@@ -114,20 +114,46 @@ def update_flag(db_connection, email_id: int, state: int) -> None:
             logger.error(f"Błąd podczas aktualizacji flagi: {e}")
             print(f"Błąd podczas aktualizacji flagi: {e}")
 
-def emails_to_exel(db_connection):
+def emails_to_export(db_connection,filters = None,list = None):
     """Zwraca id,date,sender_name,recipients, subject, body wraz z listą załączników wiadomości o flagowanych"""
     try:
-        query="""
-        SELECT e.id,e.date, e.sender_name, e.recipients, e.subject , e.body,
-        GROUP_CONCAT(a.attachment_filename) AS atach
-        FROM emails e
-        LEFT JOIN attachments a ON e.id = a.email_id
-        WHERE flag = '1'
-        GROUP BY e.id
-        """
+        print(list)
         cursor = db_connection.cursor()
-        cursor.execute(query)
+        if (filters is None) and (list is None):
+            query="""
+            SELECT e.id,e.date, e.sender_name, e.recipients, e.subject , e.body,
+            GROUP_CONCAT(a.attachment_filename) AS atach
+            FROM emails e
+            LEFT JOIN attachments a ON e.id = a.email_id
+            WHERE flag = '1'
+            GROUP BY e.id
+            """
+            cursor.execute(query)
+        elif filters is not None:
+            query=f"""
+            SELECT e.id,e.date, e.sender_name, e.recipients, e.subject , e.body,
+            GROUP_CONCAT(a.attachment_filename) AS atach
+            FROM emails e
+            LEFT JOIN attachments a ON e.id = a.email_id
+            {apply_filters(filters)}
+            GROUP BY e.id
+            """
+            cursor.execute(query)
+        elif list is not None:
+            placeholders = ", ".join(["?"] * len(list))
+            query=f"""
+            SELECT e.id,e.date, e.sender_name, e.recipients, e.subject , e.body,
+            GROUP_CONCAT(a.attachment_filename) AS atach
+            FROM emails e
+            LEFT JOIN attachments a ON e.id = a.email_id
+            WHERE e.id in ({placeholders})
+            GROUP BY e.id
+            """
+            cursor.execute(query,list)
+        
+        
         results = cursor.fetchall()
+        print(results)
     except sqlite3.Error as e:
         logger.error(f"Błąd podczas pobierania wiadomości z flagami: {e}")
         print(f"Błąd podczas pobierania wiadomości z flagami: {e}")

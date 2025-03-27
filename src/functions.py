@@ -26,6 +26,7 @@ from src.atachment_list_widget import FileListItem
 from src.email_page.selector_tag_sercher import SekectorTag
 from src.message_box.date_warning import left_date_wornig, rights_date_wornig
 from src.db_function.exports import generate_pdf,remove_multi_new_line
+from src.email_page.export_options import ExportSelector
 #from src.label_context_menu import show_context_menu
 import src.db_function.db_email_function as db_email_function
 import math
@@ -142,7 +143,7 @@ class GUIFunctions:
         self.ui.searchDate.returnPressed.connect(self.join_search)
         self.ui.show_table_btn.clicked.connect(self.show_all_columns)
         self.ui.show_flags_btn.clicked.connect(self.toggle_filter_flags)
-        self.ui.export_pdf.clicked.connect(self.export_to_pdf)
+        self.ui.export_pdf.clicked.connect(self.open_dialog_export_selector)
         self.ui.exportExelBtn.clicked.connect(self.export_to_excel)
         self.ui.pst_files_btn.clicked.connect(self.upload_pst_file)
         #self.ui.checkBoxData.checkStateChanged.connect(self.date_state_box)
@@ -341,6 +342,14 @@ class GUIFunctions:
             logger.info(f"Zaktualizowano tagi dla użytkownika {user_id}")
             self.ui.selectedTagLabel.setText(f"Wybrane Tagi: {self.active_filters['tag'].removeprefix("(").removesuffix(")")}")
             self.load_data_from_database()
+
+    def open_dialog_export_selector(self):
+        dialog = ExportSelector()
+        if dialog.exec_() == QDialog.Accepted:
+            selected_option = dialog.get_selected_option()
+            is_checkBox_checked = dialog.get_checkBox_state()
+            self.export_to_pdf(selected_option,is_checkBox_checked)
+            
 
     def load_clicked_email(self,row,column):
         id = self.ui.tableWidget.item(row,0).text()
@@ -679,7 +688,7 @@ class GUIFunctions:
         for row in range(self.ui.tableWidget.rowCount()):
             self.ui.tableWidget.showRow(row)
 
-    def export_to_pdf(self) -> None:
+    def export_to_pdf(self,emeils_grout,attachments_options) -> None:
         """Eksportuje emaile oznaczone flagami do pliku PDF."""
         file_path, _ = QFileDialog.getSaveFileName(
             self.main, "Zapisz emaile jako PDF w katalogu:", "", "All Files (*)"
@@ -688,22 +697,33 @@ class GUIFunctions:
             return
         if file_path.endswith(".pdf"):
             file_path += ".pdf"
-            
-        data = db_email_function.emails_to_exel(self.db_connection)
-
+        if emeils_grout == "1":
+            data = db_email_function.emails_to_export(self.db_connection)
+        elif emeils_grout == "2":
+            data = db_email_function.emails_to_export(self.db_connection,self.active_filters)
+        else:
+            selected_indexes = self.ui.tableWidget.selectedIndexes()
+            selected_rows = set(index.row() for index in selected_indexes)
+            selected_rows_list = list(selected_rows)
+            id_list=[]
+            for row in selected_rows:
+                id_list.append(self.ui.tableWidget.item(row,0).text())
+            data = db_email_function.emails_to_export(self.db_connection,list=id_list)
         df = pd.DataFrame(data, columns=["Id", "Data", "Nadawca", "Odbiorca", "Temat","Treść", "Załączniki"])
         dir_path, _ = os.path.splitext(file_path)
         os.mkdir(dir_path)
         file_path = file_path.removesuffix(os.path.dirname(dir_path))
 
         for index, row in df.iterrows():
-            subject_to_path = re.sub(r'[?/*<>|\\:"]','_',row["Temat"]) 
-            if row["Załączniki"] is not None:    
+            subject_to_path = re.sub(r'[?/*<>|\\:",.\s]','_',row["Temat"])
+            subject_to_path = subject_to_path[:50]
+            if (row["Załączniki"] is not None) and attachments_options:    
                 shutil.copytree(os.path.join(self.path,self.sql_name,"Attachments",str(row["Id"])),os.path.join(file_path,"ID_"+str(row["Id"])+"_"+subject_to_path+"_Załączniki_wiadomości"))
             pdf_path = os.path.join(file_path,"ID_"+str(row["Id"])+'_'+subject_to_path) +".pdf"
             generate_pdf(pdf_path,row["Nadawca"],row["Odbiorca"],row["Data"],row["Temat"],row["Załączniki"],row["Treść"],row["Id"],self.sql_name)
         logger.info(f"Plik PDF zapisany jako: {file_path}")
-#+row["Temat"]
+
+
     def export_to_excel(self) -> None:
         """Eksportuje dane oznaczone flagami do tabeli"""
         file_path, _ = QFileDialog.getSaveFileName(
@@ -712,7 +732,7 @@ class GUIFunctions:
         if not file_path:
             return
         
-        data = db_email_function.emails_to_exel(self.db_connection)
+        data = db_email_function.emails_to_export(self.db_connection)
         modified_data = []
         for row in data:
             row_list = list(row) 
