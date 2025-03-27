@@ -1,6 +1,6 @@
 import sqlite3
 import logging
-
+import re
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
@@ -14,12 +14,6 @@ def connect_to_database(self, db_name: str) -> None:
             logger.error(f"Błąd podczas łączenia z bazą danych:{db_name} {e}")
             print(f"Błąd podczas łączenia z bazą danych:{db_name} {e}")
             self.db_connection = None
-
-def tag_query_part_generator(active_filters):
-        if active_filters['tag'] !="" :
-            return f"HAVING t.tag_name in {active_filters['tag']}"
-        else:
-            return ""
         
 def apply_filters(active_filters) -> None:
         """
@@ -81,6 +75,7 @@ def apply_filters(active_filters) -> None:
         return query_part
 
 def tag_query(filters):
+    """Generuje zapytanie umorzliwające selekcje po wybranych tagach"""
     query=  f'''WITH filtered_tags AS (
     SELECT et.email_id, t.tag_name
     FROM email_tags et
@@ -98,6 +93,7 @@ def tag_query(filters):
     return query
 
 def update_multi_flags(db_connection,id_list,state):
+    """Ustawia wybrany stan flagi na liście emaili"""
     cursor = db_connection.cursor()
     placeholders = ", ".join(["?"] * len(id_list))
     print(placeholders)
@@ -117,3 +113,49 @@ def update_flag(db_connection, email_id: int, state: int) -> None:
         except sqlite3.Error as e:
             logger.error(f"Błąd podczas aktualizacji flagi: {e}")
             print(f"Błąd podczas aktualizacji flagi: {e}")
+
+def emails_to_exel(db_connection):
+    """Zwraca id,date,sender_name,recipients, subject, body wraz z listą załączników wiadomości o flagowanych"""
+    try:
+        query="""
+        SELECT e.id,e.date, e.sender_name, e.recipients, e.subject , e.body,
+        GROUP_CONCAT(a.attachment_filename) AS atach
+        FROM emails e
+        LEFT JOIN attachments a ON e.id = a.email_id
+        WHERE flag = '1'
+        GROUP BY e.id
+        """
+        cursor = db_connection.cursor()
+        cursor.execute(query)
+        results = cursor.fetchall()
+    except sqlite3.Error as e:
+        logger.error(f"Błąd podczas pobierania wiadomości z flagami: {e}")
+        print(f"Błąd podczas pobierania wiadomości z flagami: {e}")
+    return results
+
+def get_all_labels_name(db_connection):
+    """Zwraca wszystki wartości z tabeli labels_name"""
+    try:
+        query="""
+        SELECT * from labels_name
+        """
+        cursor = db_connection.cursor()
+        cursor.execute(query)
+        results = cursor.fetchall()
+        return results
+    except sqlite3.Error as e:
+        logger.error(f"Błąd podczas pobierania z tabeli labels_name: {e}")
+        print(f"Błąd podczas pobierania z tabeli labels_name: {e}")
+
+def add_label(db_connection,id_label_name,id_email,label_text):
+    """Dodaje rekord do bazy danych labels"""
+    try:
+        query=f"""
+        INSERT INTO email_labels ("label", "id_labels_name", "id_email") VALUES ('{label_text}', {id_label_name}, {id_email});
+        """
+        cursor = db_connection.cursor()
+        cursor.execute(query)
+        db_connection.commit()
+    except sqlite3.Error as e:
+        logger.error(f"Błąd podczas dodawania do tabeli email_labels: {e}")
+        print(f"Błąd podczas dodawania do tabeli email_labels: {e}")

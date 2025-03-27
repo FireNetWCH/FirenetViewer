@@ -1,33 +1,33 @@
-import sqlite3
+# import sqlite3
 
 
-conn = sqlite3.connect("D:\\SQL_and_header\\jsaganowska\\jsaganowska.sqlite")
-cursor = conn.cursor()
-cursor.execute('SELECT sqlite_version();')
-version = cursor.fetchone()
-print(f"SQLite Version: {version[0]}")
-# conn.text_factory = str
-cursor = conn.cursor()
+# conn = sqlite3.connect("D:\\SQL_and_header\\jsaganowska\\jsaganowska.sqlite")
+# cursor = conn.cursor()
+# cursor.execute('SELECT sqlite_version();')
+# version = cursor.fetchone()
+# print(f"SQLite Version: {version[0]}")
+# # conn.text_factory = str
+# cursor = conn.cursor()
 
-query = '''
-    SELECT e.id, e.sender_name, e.cc, e.subject, e.date, e.flag,
-                   GROUP_CONCAT(t.tag_name) AS tags
-            FROM emails e
-            LEFT JOIN email_tags et ON e.id = et.email_id
-            LEFT JOIN tags t ON et.tag_id = t.id
+# query = '''
+#     SELECT e.id, e.sender_name, e.cc, e.subject, e.date, e.flag,
+#                    GROUP_CONCAT(t.tag_name) AS tags
+#             FROM emails e
+#             LEFT JOIN email_tags et ON e.id = et.email_id
+#             LEFT JOIN tags t ON et.tag_id = t.id
             
-            GROUP BY e.id
-			      HAVING t.tag_name in ('Test','Test3')
-            LIMIT 500 OFFSET 0
-'''
-# cursor.execute("SELECT body FROM emails LIMIT 5")
-cursor.execute(query,)
-data = cursor.fetchall()
+#             GROUP BY e.id
+# 			      HAVING t.tag_name in ('Test','Test3')
+#             LIMIT 500 OFFSET 0
+# '''
+# # cursor.execute("SELECT body FROM emails LIMIT 5")
+# cursor.execute(query,)
+# data = cursor.fetchall()
 
-print(f"Liczba wierszy: {len(data)}")  
-print(data[:5])  
+# print(f"Liczba wierszy: {len(data)}")  
+# print(data[:5])  
 
-conn.close()
+# conn.close()
 
 # from PyInstaller.utils.hooks import collect_submodules
 # collect_submodules('lxml')
@@ -95,12 +95,77 @@ conn.close()
 #             background-color: $COLOR_ACCENT_3;
 #        }
 
-SELECT e.id, e.sender_name, e.cc, e.subject, e.date, e.flag,
-                   GROUP_CONCAT(t.tag_name) AS tags
-            FROM emails e
-            LEFT JOIN email_tags et ON e.id = et.email_id
-            LEFT JOIN tags t ON et.tag_id = t.id
+# SELECT e.id, e.sender_name, e.cc, e.subject, e.date, e.flag,
+#                    GROUP_CONCAT(t.tag_name) AS tags
+#             FROM emails e
+#             LEFT JOIN email_tags et ON e.id = et.email_id
+#             LEFT JOIN tags t ON et.tag_id = t.id
 
-            GROUP BY e.id
-            HAVING t.tag_name in ('2','1')
-            LIMIT 500 OFFSET 0
+#             GROUP BY e.id
+#             HAVING t.tag_name in ('2','1')
+#             LIMIT 500 OFFSET 0
+
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas
+from reportlab.pdfbase import pdfmetrics
+from reportlab.lib import colors
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.platypus import Paragraph,Table, TableStyle
+from reportlab.lib.styles import getSampleStyleSheet,ParagraphStyle
+def generate_pdf(output_filename, sender, receiver, date, subject, attachments):
+    c = canvas.Canvas(output_filename, pagesize=A4)
+    width, height = A4
+    margin = 50
+    y_position = height - margin
+    max_width = width - 2 * margin
+    pdfmetrics.registerFont(TTFont('DejaVu', 'DejaVuSansCondensed.ttf'))
+    c.setFont("DejaVu", 12)
+    styles = getSampleStyleSheet()
+    custom_style = ParagraphStyle(
+        name='CustomStyle',
+        fontName='DejaVu',
+        fontSize=12
+    )
+
+    def wrap_text(text):
+        return Paragraph(text, custom_style)
+    
+    texts = [["Parametr:","Wartość:"],
+            ["Nadawca:", wrap_text(sender)],
+            ["Odbiorca:", wrap_text(receiver)],
+            ["Data:", wrap_text(date)],
+            ["Temat:", wrap_text(subject)],
+            ["Lista załączników:", wrap_text(attachments)]]
+             
+    style = TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+        ('FONTNAME', (0, 0), (-1, -1), 'DejaVu'),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 10),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black)
+    ])
+    title = "Informacje o wiadomości:"
+    c.drawString(margin, y_position, title)
+
+    t=Table(texts,colWidths=[120, max_width - 120])
+    t.setStyle(style)
+    table_width, table_height = t.wrap(0, 0)
+    t.wrapOn(c, width, height)
+    t.drawOn(c, margin, y_position -table_height - 20)
+    
+    text_below_table = "Treść Wiadomości : "
+    text_position_y = y_position - table_height - 45
+    c.drawString(margin, text_position_y, text_below_table)
+
+    c.save()
+    print(f"PDF zapisano jako: {output_filename}")
+
+generate_pdf("output.pdf", 
+             sender="Jan Kowalski", 
+             receiver="Anna Nowak", 
+             date="2025-03-26", 
+             subject="Spotkanie o godzinie 15:00", 
+             attachments="Załącznik 1, Załącznik 2, Załącznik 3,Załącznik 1, Załącznik 2, Załącznik 3,Załącznik 1, Załącznik 2, Załącznik 3,Załącznik 1, Załącznik 2, Załącznik 3")
+

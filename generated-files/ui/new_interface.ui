@@ -1223,7 +1223,7 @@
                             </widget>
                            </item>
                            <item>
-                            <widget class="QPushButton" name="export_excel">
+                            <widget class="QPushButton" name="exportExelBtn">
                              <property name="toolTip">
                               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Eksportuj do excel'a&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                              </property>
@@ -1410,7 +1410,7 @@
                            <enum>QFrame::Shape::Box</enum>
                           </property>
                           <property name="text">
-                           <string>  </string>
+                           <string/>
                           </property>
                          </widget>
                         </item>
@@ -1521,7 +1521,7 @@
                               <property name="geometry">
                                <rect>
                                 <x>0</x>
-                                <y>0</y>
+                                <y>-109</y>
                                 <width>520</width>
                                 <height>338</height>
                                </rect>

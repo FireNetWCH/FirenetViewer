@@ -661,13 +661,13 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_13.addWidget(self.export_pdf)
 
-        self.export_excel = QPushButton(self.widget_7)
-        self.export_excel.setObjectName(u"export_excel")
+        self.exportExelBtn = QPushButton(self.widget_7)
+        self.exportExelBtn.setObjectName(u"exportExelBtn")
         icon22 = QIcon()
         icon22.addFile(u":/font_awesome/regular/icons/font_awesome/regular/file-excel.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.export_excel.setIcon(icon22)
+        self.exportExelBtn.setIcon(icon22)
 
-        self.horizontalLayout_13.addWidget(self.export_excel)
+        self.horizontalLayout_13.addWidget(self.exportExelBtn)
 
         self.detailsBtn = QPushButton(self.widget_7)
         self.detailsBtn.setObjectName(u"detailsBtn")
@@ -1374,9 +1374,9 @@ class Ui_MainWindow(object):
 #endif // QT_CONFIG(tooltip)
         self.export_pdf.setText("")
 #if QT_CONFIG(tooltip)
-        self.export_excel.setToolTip(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>Eksportuj do excel'a</p></body></html>", None))
+        self.exportExelBtn.setToolTip(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>Eksportuj do excel'a</p></body></html>", None))
 #endif // QT_CONFIG(tooltip)
-        self.export_excel.setText("")
+        self.exportExelBtn.setText("")
         self.detailsBtn.setText(QCoreApplication.translate("MainWindow", u"P/U", None))
         self.label_22.setText(QCoreApplication.translate("MainWindow", u"Skrzynka: ", None))
         self.sqlEmailDbName.setText(QCoreApplication.translate("MainWindow", u"Skrzynka", None))

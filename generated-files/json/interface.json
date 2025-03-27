@@ -89,7 +89,7 @@
       "icon": "Qss/icons/regular/icons/font_awesome/regular/file-pdf.png"
     },
     {
-      "name": "export_excel",
+      "name": "exportExelBtn",
       "icon": "Qss/icons/regular/icons/font_awesome/regular/file-excel.png"
     },
     {

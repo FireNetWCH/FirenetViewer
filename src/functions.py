@@ -12,7 +12,7 @@ from PySide6.QtWidgets import (
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from reportlab.lib.pagesizes import letter
-from reportlab.pdfgen import canvas
+
 from PySide6.QtCore import QPropertyAnimation as QAnimation
 from Custom_Widgets import *
 from Custom_Widgets.QAppSettings import QAppSettings
@@ -25,15 +25,16 @@ from src.calendar_dialog_widget import get_selected_date
 from src.atachment_list_widget import FileListItem
 from src.email_page.selector_tag_sercher import SekectorTag
 from src.message_box.date_warning import left_date_wornig, rights_date_wornig
+from src.db_function.exports import generate_pdf,remove_multi_new_line
+#from src.label_context_menu import show_context_menu
 import src.db_function.db_email_function as db_email_function
 import math
 import json
 import shutil
-
-# from src.viewers.pdf_viewer import display_pdf_content
-# from src.viewers.img_viewer import display_img_content
-# from src.viewers.video_viewer import display_vidoe_content
-# from src.viewers.dir_viewers import display_dir_content
+import openpyxl 
+import openpyxl
+from openpyxl.styles import Alignment
+from openpyxl.worksheet.page import PageMargins
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -142,7 +143,7 @@ class GUIFunctions:
         self.ui.show_table_btn.clicked.connect(self.show_all_columns)
         self.ui.show_flags_btn.clicked.connect(self.toggle_filter_flags)
         self.ui.export_pdf.clicked.connect(self.export_to_pdf)
-        self.ui.export_excel.clicked.connect(self.export_to_excel)
+        self.ui.exportExelBtn.clicked.connect(self.export_to_excel)
         self.ui.pst_files_btn.clicked.connect(self.upload_pst_file)
         #self.ui.checkBoxData.checkStateChanged.connect(self.date_state_box)
 
@@ -181,15 +182,42 @@ class GUIFunctions:
         heder_btn.clicked.connect(self.show_heder_winodw)
 
         test = self.ui.emailHederDockWidget.findChild(QLabel,"headerEmailLabel")
-        test.setText("SSSS")
         window_clode_btn = self.ui.emailHederDockWidget.findChild(QPushButton,"hiddenHederWindowBtn")
         print(window_clode_btn)
         window_clode_btn.clicked.connect(self.ui.emailHederDockWidget.hide)
+    
+
+        # konfiguracja menu rozwijanego dla Labelki zawierającej treść Emaila 
+        bodylabel = self.ui.EmailtabWidget.findChild(QLabel, "body")
+        bodylabel.setContextMenuPolicy(Qt.CustomContextMenu)
+        bodylabel.customContextMenuRequested.connect(self.show_context_menu)
+
+        
 
         # Konfiguracja menu nagłówka tabeli
         header = self.ui.tableWidget.horizontalHeader()
         header.setContextMenuPolicy(Qt.CustomContextMenu)
         header.customContextMenuRequested.connect(self.show_column_menu)
+
+    def show_context_menu(self, pos):
+        context_menu = self.ui.EmailtabWidget.findChild(QLabel, "body")
+        all_labels =  db_email_function.get_all_labels_name(self.db_connection)
+        labelContextMenu = QMenu(self.main)
+
+        submenu = QMenu("Etykiety", labelContextMenu)
+        selected_text = context_menu.selectedText()
+        print(selected_text)
+        for row in all_labels:
+            action = QAction(str(row[1]), self.main)
+            action.triggered.connect(lambda checked, value=row[0]: self.add_lebels_to_db(value,selected_text))
+            submenu.addAction(action)
+        labelContextMenu.addMenu(submenu)
+        labelContextMenu.exec(context_menu.mapToGlobal(pos))
+
+    def add_lebels_to_db(self,id_labels_name,selected_text):
+
+        db_email_function.add_label(self.db_connection,id_labels_name,self.id_selected_email,selected_text)
+        
 
     def show_heder_winodw(self):
         if self.ui.emailHederDockWidget.isHidden():
@@ -197,7 +225,8 @@ class GUIFunctions:
         else:
             self.ui.emailHederDockWidget.hide()
 
-    
+
+
     def serch_by_date_start(self):
         date = get_selected_date(self)
         
@@ -651,63 +680,96 @@ class GUIFunctions:
             self.ui.tableWidget.showRow(row)
 
     def export_to_pdf(self) -> None:
-        """Eksportuje widoczne dane tabeli do pliku PDF."""
+        """Eksportuje emaile oznaczone flagami do pliku PDF."""
         file_path, _ = QFileDialog.getSaveFileName(
-            self.main, "Zapisz plik PDF", "", "PDF Files (*.pdf);;All Files (*)"
+            self.main, "Zapisz emaile jako PDF w katalogu:", "", "All Files (*)"
         )
         if not file_path:
             return
-        if not file_path.endswith(".pdf"):
+        if file_path.endswith(".pdf"):
             file_path += ".pdf"
-        c = canvas.Canvas(file_path, pagesize=letter)
-        width, height = letter
-        c.setFont("Helvetica-Bold", 16)
-        c.drawString(30, height - 30, "Przefiltrowane dane z tabeli")
-        c.setFont("Helvetica", 12)
-        row_height = 20
-        start_y = height - 60
+            
+        data = db_email_function.emails_to_exel(self.db_connection)
 
-        for row in range(self.ui.tableWidget.rowCount()):
-            if self.ui.tableWidget.isRowHidden(row):
-                continue
-            row_data = []
-            for column in range(self.ui.tableWidget.columnCount()):
-                if column == 4:
-                    widget = self.ui.tableWidget.cellWidget(row, column)
-                    row_data.append("Tak" if isinstance(widget, QCheckBox) and widget.isChecked() else "Nie")
-                else:
-                    item = self.ui.tableWidget.item(row, column)
-                    row_data.append(item.text() if item else "")
-            c.drawString(30, start_y - row * row_height, ", ".join(row_data))
-        c.save()
+        df = pd.DataFrame(data, columns=["Id", "Data", "Nadawca", "Odbiorca", "Temat","Treść", "Załączniki"])
+        dir_path, _ = os.path.splitext(file_path)
+        os.mkdir(dir_path)
+        file_path = file_path.removesuffix(os.path.dirname(dir_path))
+
+        for index, row in df.iterrows():
+            subject_to_path = re.sub(r'[?/*<>|\\:"]','_',row["Temat"]) 
+            if row["Załączniki"] is not None:    
+                shutil.copytree(os.path.join(self.path,self.sql_name,"Attachments",str(row["Id"])),os.path.join(file_path,"ID_"+str(row["Id"])+"_"+subject_to_path+"_Załączniki_wiadomości"))
+            pdf_path = os.path.join(file_path,"ID_"+str(row["Id"])+'_'+subject_to_path) +".pdf"
+            generate_pdf(pdf_path,row["Nadawca"],row["Odbiorca"],row["Data"],row["Temat"],row["Załączniki"],row["Treść"],row["Id"],self.sql_name)
         logger.info(f"Plik PDF zapisany jako: {file_path}")
-
+#+row["Temat"]
     def export_to_excel(self) -> None:
-        """Eksportuje widoczne dane tabeli do pliku Excel."""
+        """Eksportuje dane oznaczone flagami do tabeli"""
         file_path, _ = QFileDialog.getSaveFileName(
             self.main, "Zapisz plik Excel", "", "Excel Files (*.xlsx);;All Files (*)"
         )
         if not file_path:
             return
-        if not file_path.endswith(".xlsx"):
-            file_path += ".xlsx"
-        data = []
-        for row in range(self.ui.tableWidget.rowCount()):
-            if self.ui.tableWidget.isRowHidden(row):
-                continue
-            row_data = []
-            for column in range(self.ui.tableWidget.columnCount()):
-                if column == 4:
-                    widget = self.ui.tableWidget.cellWidget(row, column)
-                    row_data.append("Tak" if isinstance(widget, QCheckBox) and widget.isChecked() else "Nie")
-                else:
-                    item = self.ui.tableWidget.item(row, column)
-                    row_data.append(item.text() if item else "")
-            data.append(row_data)
-        df = pd.DataFrame(data, columns=["Imię", "Nazwisko", "Data urodzenia", "Wiek", "Flagi", "Tagi"])
-        df.to_excel(file_path, index=False)
-        logger.info(f"Plik Excel zapisany jako: {file_path}")
+        
+        data = db_email_function.emails_to_exel(self.db_connection)
+        modified_data = []
+        for row in data:
+            row_list = list(row) 
+            row_list[5] = remove_multi_new_line(row_list[5])
+            modified_data.append(tuple(row_list))
+        dir_path, _ = os.path.splitext(file_path)
+       
+        os.mkdir(dir_path)
+        os.mkdir(os.path.join(dir_path,"Attachments"))
+        df = pd.DataFrame(modified_data, columns=["Id", "Data", "Nadawca", "Odbiorca", "Temat","Treść", "Załączniki"])
+        for index, row in df.iterrows():
+            if row["Załączniki"] is not None:
+                shutil.copytree(os.path.join(self.path,self.sql_name,"Attachments",str(row["Id"])),os.path.join(dir_path,"Attachments","Załączniki wiadomości ID:"+str(row["Id"])))
+            
+        with pd.ExcelWriter(os.path.join(dir_path,file_path.split('/')[-1]), engine="xlsxwriter") as writer:
+            df.to_excel(writer, sheet_name="Wiadomości", index=False)
+            workbook = writer.book
+            worksheet = writer.sheets["Wiadomości"]
+            wrap_format = workbook.add_format({'text_wrap': True, 'align': 'left', 'valign': 'top'})
 
+            worksheet.set_column("E:E", 40, wrap_format) 
+            worksheet.set_column("F:F", 60, wrap_format)  
+            worksheet.set_column("G:G", 50, wrap_format)
+            
+
+            row_offset = 1  
+
+            i = 0
+            while i < len(df):
+                text_length = len(str(df.loc[i, "Treść"]))
+                if text_length > 900:
+                    num_rows = math.ceil(text_length / 900)
+                    extr_chars = text_length - 900 * (num_rows-1)
+                    calculated_height = (extr_chars / 45) * 13
+                    worksheet.merge_range(row_offset, 0, row_offset + num_rows-1, 0, df.loc[i, "Id"], wrap_format)
+                    worksheet.merge_range(row_offset, 1, row_offset + num_rows-1, 1, df.loc[i, "Data"], wrap_format)
+                    worksheet.merge_range(row_offset, 2, row_offset + num_rows-1, 2, df.loc[i, "Nadawca"], wrap_format)
+                    worksheet.merge_range(row_offset, 3, row_offset + num_rows-1, 3, df.loc[i, "Odbiorca"], wrap_format)
+                    worksheet.merge_range(row_offset, 4, row_offset + num_rows-1, 4, df.loc[i, "Temat"], wrap_format)
+                    worksheet.merge_range(row_offset, 5, row_offset + num_rows-1, 5, df.loc[i, "Treść"], wrap_format)
+                    worksheet.merge_range(row_offset, 6, row_offset + num_rows-1, 6, df.loc[i, "Załączniki"], wrap_format)
+
+                    for j in range(num_rows - 1):
+                        worksheet.set_row(row_offset + j, 407)
+                    worksheet.set_row(row_offset + num_rows - 1, calculated_height) 
+                    
+                    row_offset += num_rows
+                else:
+                    row_offset += 1  
+                i += 1
+                worksheet.set_row(row_offset, None)
+            
+        logger.info(f"Plik Excel zapisany jako: {file_path}")
+    
+
+
+    
     def select_directory(self) -> None:
         """Pozwala wybrać katalog, a następnie wyświetla jego zawartość."""
         directory = QFileDialog.getExistingDirectory(self.main, "Wybierz katalog", "", options=QFileDialog.Options())
@@ -862,5 +924,6 @@ class GUIFunctions:
         self.list_widget.addItems(sql_list_file)    
         layout = self.ui.helpPage.layout()
         layout.addWidget(self.list_widget)
+        
 
     
