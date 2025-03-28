@@ -56,6 +56,9 @@
        <property name="spacing">
         <number>0</number>
        </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
        <property name="topMargin">
         <number>0</number>
        </property>
@@ -96,7 +99,7 @@
               <number>0</number>
              </property>
              <property name="leftMargin">
-              <number>5</number>
+              <number>0</number>
              </property>
              <property name="topMargin">
               <number>5</number>
@@ -109,6 +112,9 @@
              </property>
              <item>
               <widget class="QPushButton" name="menuBtn">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
                <property name="text">
                 <string/>
                </property>
@@ -137,7 +143,7 @@
               <number>5</number>
              </property>
              <property name="leftMargin">
-              <number>5</number>
+              <number>0</number>
              </property>
              <property name="topMargin">
               <number>5</number>
@@ -157,7 +163,7 @@
                 </size>
                </property>
                <property name="text">
-                <string>Home</string>
+                <string>          Home</string>
                </property>
                <property name="icon">
                 <iconset>
@@ -168,7 +174,7 @@
              <item>
               <widget class="QPushButton" name="dataBtn">
                <property name="text">
-                <string>Data analysis</string>
+                <string>          Data analysis</string>
                </property>
                <property name="icon">
                 <iconset>
@@ -179,18 +185,24 @@
              <item>
               <widget class="QPushButton" name="reportsBtn">
                <property name="text">
-                <string>Reports</string>
+                <string>          Reports</string>
                </property>
                <property name="icon">
                 <iconset>
                  <normaloff>:/material_design/icons/material_design/report_problem.png</normaloff>:/material_design/icons/material_design/report_problem.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>21</width>
+                 <height>16</height>
+                </size>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QPushButton" name="graphsBtn">
                <property name="text">
-                <string>Graphs</string>
+                <string>          Graphs</string>
                </property>
                <property name="icon">
                 <iconset>
@@ -403,7 +415,7 @@
                  <enum>Qt::ContextMenuPolicy::DefaultContextMenu</enum>
                 </property>
                 <property name="currentIndex">
-                 <number>2</number>
+                 <number>0</number>
                 </property>
                 <widget class="QWidget" name="settingsPage">
                  <property name="sizePolicy">
@@ -883,18 +895,48 @@
                  <item>
                   <widget class="QCustomQStackedWidget" name="mainPages">
                    <property name="currentIndex">
-                    <number>1</number>
+                    <number>0</number>
                    </property>
                    <widget class="QWidget" name="homePage">
                     <layout class="QVBoxLayout" name="verticalLayout_11">
                      <item>
-                      <widget class="QLabel" name="label_8">
-                       <property name="text">
-                        <string>Home Page</string>
-                       </property>
-                       <property name="alignment">
-                        <set>Qt::AlignmentFlag::AlignCenter</set>
-                       </property>
+                      <widget class="QWidget" name="widget_12" native="true">
+                       <layout class="QVBoxLayout" name="verticalLayout_24">
+                        <property name="leftMargin">
+                         <number>6</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="bottomMargin">
+                         <number>0</number>
+                        </property>
+                        <item>
+                         <widget class="QWidget" name="widget_14" native="true">
+                          <layout class="QVBoxLayout" name="verticalLayout_26">
+                           <item>
+                            <widget class="QLabel" name="label_7">
+                             <property name="sizePolicy">
+                              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                               <horstretch>0</horstretch>
+                               <verstretch>0</verstretch>
+                              </sizepolicy>
+                             </property>
+                             <property name="text">
+                              <string/>
+                             </property>
+                            </widget>
+                           </item>
+                          </layout>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QWidget" name="widget_13" native="true"/>
+                        </item>
+                       </layout>
                       </widget>
                      </item>
                     </layout>
@@ -1521,7 +1563,7 @@
                               <property name="geometry">
                                <rect>
                                 <x>0</x>
-                                <y>-109</y>
+                                <y>0</y>
                                 <width>520</width>
                                 <height>338</height>
                                </rect>
@@ -2123,41 +2165,6 @@
                 <property name="text">
                  <string>Copyright sth</string>
                 </property>
-               </widget>
-              </item>
-              <item alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignBottom">
-               <widget class="QFrame" name="frame">
-                <property name="frameShape">
-                 <enum>QFrame::Shape::StyledPanel</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Shadow::Raised</enum>
-                </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_6">
-                 <item>
-                  <widget class="QLabel" name="label_7">
-                   <property name="text">
-                    <string>Theme progress</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QProgressBar" name="activityProgress">
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777215</width>
-                     <height>10</height>
-                    </size>
-                   </property>
-                   <property name="value">
-                    <number>24</number>
-                   </property>
-                   <property name="textVisible">
-                    <bool>false</bool>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
                </widget>
               </item>
               <item>

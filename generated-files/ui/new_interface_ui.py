@@ -18,10 +18,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QComboBox, QDockWidget,
     QFrame, QGraphicsView, QHBoxLayout, QHeaderView,
     QLabel, QLayout, QLineEdit, QListView,
-    QListWidget, QListWidgetItem, QMainWindow, QProgressBar,
-    QPushButton, QScrollArea, QSizePolicy, QSpacerItem,
-    QSplitter, QTabWidget, QTableWidget, QTableWidgetItem,
-    QTreeView, QVBoxLayout, QWidget)
+    QListWidget, QListWidgetItem, QMainWindow, QPushButton,
+    QScrollArea, QSizePolicy, QSpacerItem, QSplitter,
+    QTabWidget, QTableWidget, QTableWidgetItem, QTreeView,
+    QVBoxLayout, QWidget)
 
 from Custom_Widgets.QCustomQPushButton import QCustomQPushButton
 from Custom_Widgets.QCustomQStackedWidget import QCustomQStackedWidget
@@ -50,7 +50,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_24 = QHBoxLayout(self.frame_13)
         self.horizontalLayout_24.setSpacing(0)
         self.horizontalLayout_24.setObjectName(u"horizontalLayout_24")
-        self.horizontalLayout_24.setContentsMargins(-1, 0, 0, 0)
+        self.horizontalLayout_24.setContentsMargins(0, 0, 0, 0)
         self.leftMenu = QCustomSlideMenu(self.frame_13)
         self.leftMenu.setObjectName(u"leftMenu")
         self.verticalLayout = QVBoxLayout(self.leftMenu)
@@ -63,9 +63,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_2 = QVBoxLayout(self.widget)
         self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.verticalLayout_2.setContentsMargins(5, 5, 0, 5)
+        self.verticalLayout_2.setContentsMargins(0, 5, 0, 5)
         self.menuBtn = QPushButton(self.widget)
         self.menuBtn.setObjectName(u"menuBtn")
+        self.menuBtn.setEnabled(False)
         icon = QIcon()
         icon.addFile(u":/feather/icons/feather/menu.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.menuBtn.setIcon(icon)
@@ -81,7 +82,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_3 = QVBoxLayout(self.widget_2)
         self.verticalLayout_3.setSpacing(5)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.verticalLayout_3.setContentsMargins(5, 5, 0, 5)
+        self.verticalLayout_3.setContentsMargins(0, 5, 0, 5)
         self.homeBtn = QPushButton(self.widget_2)
         self.homeBtn.setObjectName(u"homeBtn")
         self.homeBtn.setMaximumSize(QSize(16777215, 16777215))
@@ -104,6 +105,7 @@ class Ui_MainWindow(object):
         icon3 = QIcon()
         icon3.addFile(u":/material_design/icons/material_design/report_problem.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.reportsBtn.setIcon(icon3)
+        self.reportsBtn.setIconSize(QSize(21, 16))
 
         self.verticalLayout_3.addWidget(self.reportsBtn)
 
@@ -478,11 +480,32 @@ class Ui_MainWindow(object):
         self.homePage.setObjectName(u"homePage")
         self.verticalLayout_11 = QVBoxLayout(self.homePage)
         self.verticalLayout_11.setObjectName(u"verticalLayout_11")
-        self.label_8 = QLabel(self.homePage)
-        self.label_8.setObjectName(u"label_8")
-        self.label_8.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.widget_12 = QWidget(self.homePage)
+        self.widget_12.setObjectName(u"widget_12")
+        self.verticalLayout_24 = QVBoxLayout(self.widget_12)
+        self.verticalLayout_24.setObjectName(u"verticalLayout_24")
+        self.verticalLayout_24.setContentsMargins(6, 0, 0, 0)
+        self.widget_14 = QWidget(self.widget_12)
+        self.widget_14.setObjectName(u"widget_14")
+        self.verticalLayout_26 = QVBoxLayout(self.widget_14)
+        self.verticalLayout_26.setObjectName(u"verticalLayout_26")
+        self.label_7 = QLabel(self.widget_14)
+        self.label_7.setObjectName(u"label_7")
+        sizePolicy.setHeightForWidth(self.label_7.sizePolicy().hasHeightForWidth())
+        self.label_7.setSizePolicy(sizePolicy)
 
-        self.verticalLayout_11.addWidget(self.label_8)
+        self.verticalLayout_26.addWidget(self.label_7)
+
+
+        self.verticalLayout_24.addWidget(self.widget_14)
+
+        self.widget_13 = QWidget(self.widget_12)
+        self.widget_13.setObjectName(u"widget_13")
+
+        self.verticalLayout_24.addWidget(self.widget_13)
+
+
+        self.verticalLayout_11.addWidget(self.widget_12)
 
         self.mainPages.addWidget(self.homePage)
         self.dataAnalysisPage = QWidget()
@@ -1139,28 +1162,6 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_5.addWidget(self.label_6, 0, Qt.AlignmentFlag.AlignLeft)
 
-        self.frame = QFrame(self.footer)
-        self.frame.setObjectName(u"frame")
-        self.frame.setFrameShape(QFrame.Shape.StyledPanel)
-        self.frame.setFrameShadow(QFrame.Shadow.Raised)
-        self.horizontalLayout_6 = QHBoxLayout(self.frame)
-        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
-        self.label_7 = QLabel(self.frame)
-        self.label_7.setObjectName(u"label_7")
-
-        self.horizontalLayout_6.addWidget(self.label_7)
-
-        self.activityProgress = QProgressBar(self.frame)
-        self.activityProgress.setObjectName(u"activityProgress")
-        self.activityProgress.setMaximumSize(QSize(16777215, 10))
-        self.activityProgress.setValue(24)
-        self.activityProgress.setTextVisible(False)
-
-        self.horizontalLayout_6.addWidget(self.activityProgress)
-
-
-        self.horizontalLayout_5.addWidget(self.frame, 0, Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignBottom)
-
         self.sizeGrip = QFrame(self.footer)
         self.sizeGrip.setObjectName(u"sizeGrip")
         self.sizeGrip.setMinimumSize(QSize(15, 15))
@@ -1307,8 +1308,8 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.menuBtn.setDefault(False)
-        self.centerMenuPages.setCurrentIndex(2)
-        self.mainPages.setCurrentIndex(1)
+        self.centerMenuPages.setCurrentIndex(0)
+        self.mainPages.setCurrentIndex(0)
         self.startDataBtn.setDefault(False)
         self.rightMenuPages.setCurrentIndex(1)
 
@@ -1319,10 +1320,10 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.menuBtn.setText("")
-        self.homeBtn.setText(QCoreApplication.translate("MainWindow", u"Home", None))
-        self.dataBtn.setText(QCoreApplication.translate("MainWindow", u"Data analysis", None))
-        self.reportsBtn.setText(QCoreApplication.translate("MainWindow", u"Reports", None))
-        self.graphsBtn.setText(QCoreApplication.translate("MainWindow", u"Graphs", None))
+        self.homeBtn.setText(QCoreApplication.translate("MainWindow", u"          Home", None))
+        self.dataBtn.setText(QCoreApplication.translate("MainWindow", u"          Data analysis", None))
+        self.reportsBtn.setText(QCoreApplication.translate("MainWindow", u"          Reports", None))
+        self.graphsBtn.setText(QCoreApplication.translate("MainWindow", u"          Graphs", None))
         self.fileBtn.setText(QCoreApplication.translate("MainWindow", u"File reader", None))
         self.settingsBtn.setText(QCoreApplication.translate("MainWindow", u"Settings", None))
         self.infoBtn.setText(QCoreApplication.translate("MainWindow", u"Information", None))
@@ -1344,7 +1345,7 @@ class Ui_MainWindow(object):
         self.minimalizeBtn.setText("")
         self.restoreBtn.setText("")
         self.closeBtn.setText("")
-        self.label_8.setText(QCoreApplication.translate("MainWindow", u"Home Page", None))
+        self.label_7.setText("")
         self.label_10.setText(QCoreApplication.translate("MainWindow", u"Szukaj", None))
         self.seachSurname.setText("")
         self.seachSurname.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Odbiorca", None))
@@ -1418,7 +1419,6 @@ class Ui_MainWindow(object):
         self.label_14.setText(QCoreApplication.translate("MainWindow", u"Notifications", None))
         self.label_16.setText(QCoreApplication.translate("MainWindow", u"Profile", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"Copyright sth", None))
-        self.label_7.setText(QCoreApplication.translate("MainWindow", u"Theme progress", None))
         self.hiddenHederWindowBtn.setText(QCoreApplication.translate("MainWindow", u"X", None))
         self.label_21.setText(QCoreApplication.translate("MainWindow", u"ID Wiadomo\u015bci: ", None))
         self.idEmailHeaderLabel.setText(QCoreApplication.translate("MainWindow", u"Id", None))

@@ -25,14 +25,15 @@ from src.calendar_dialog_widget import get_selected_date
 from src.atachment_list_widget import FileListItem
 from src.email_page.selector_tag_sercher import SekectorTag
 from src.message_box.date_warning import left_date_wornig, rights_date_wornig
-from src.db_function.exports import generate_pdf,remove_multi_new_line
+from src.db_function.exports import generate_pdf,remove_multi_new_line,export_to_pdf,export_to_excel
 from src.email_page.export_options import ExportSelector
+from src.db_function.db_email_folders_tree import load_folders_data_into_tree
+from src.email_page.main_emeil_table import load_data_from_database
 #from src.label_context_menu import show_context_menu
 import src.db_function.db_email_function as db_email_function
 import math
 import json
-import shutil
-import openpyxl 
+import shutil 
 import openpyxl
 from openpyxl.styles import Alignment
 from openpyxl.worksheet.page import PageMargins
@@ -61,14 +62,14 @@ class GUIFunctions:
         self.path = base_path
         self.sql_name = ""
         self.id_selected_email = 0
-        self.is_expanded_serch_frame = False
+        self.is_expanded_serch_frame = True
 
         self.max_page = 0
         self.all_emails_count = 0
         self.current_page = 0
         self.emails_per_page = 500
         self._setup_ui(self.path)
-      
+        self._tymczaspwe_ukrycie_()
     def _setup_ui(self,path_database) -> None:
         """Inicjalizacja interfejsu – ustawienia czcionki, motywu oraz połączenia sygnałów."""
         self.enable_column_rearrangement()
@@ -77,7 +78,7 @@ class GUIFunctions:
         self.display_database(path_database)
         self.display_folders_in_help_page()
         self._connect_signals()
-
+        
         # Konfiguracja widoku drzewa katalogów
         self.ui.select_directory.clicked.connect(self.select_directory)
         self.file_system_model = QFileSystemModel()
@@ -89,11 +90,11 @@ class GUIFunctions:
         layout.addWidget(self.tree_view)
 
         # Ustawie parametrów Ramki Wysukiwania Email i jej animacji
-        frame = self.ui.dataAnalysisPage.findChild(QFrame, "serchEmailFrame")
+        frame = self.ui.dataAnalysisPage.findChild(QLabel,"label_7")
         self.animation = QAnimation(frame, b'maximumHeight')
         self.animation.setDuration(300)
         self.animation.setEasingCurve(QEasingCurve.InOutQuad)
-        self.is_expanded_serch_frame = True
+        #self.is_expanded_serch_frame = True
 
         # Konfiguracja widokui Email
         header = self.ui.tableWidget.horizontalHeader()
@@ -107,12 +108,18 @@ class GUIFunctions:
         self.ui.EmailtabWidget.tabCloseRequested.connect(lambda index: self.ui.EmailtabWidget.removeTab(index))
         tab_bar = self.ui.EmailtabWidget.tabBar()
         tab_bar.setTabButton(0, QTabBar.RightSide, None)
-        self.ui.EmailtabWidget.setStyleSheet("""
-        background-color: #ffffff
-""")
-
+        
         #ukrycie okna naglowkow email
         self.ui.emailHederDockWidget.hide()
+
+        
+        label = self.ui.homePage.findChild(QLabel, "label_7")
+        print(label)
+        pixmap = QPixmap("logo.jpg")
+        label.setPixmap(pixmap)
+        label.resize(pixmap.width(), pixmap.height())
+        label.move(100, 100)
+        
         
     def _connect_signals(self) -> None:
         """Łączy sygnały z odpowiednimi metodami."""
@@ -143,8 +150,8 @@ class GUIFunctions:
         self.ui.searchDate.returnPressed.connect(self.join_search)
         self.ui.show_table_btn.clicked.connect(self.show_all_columns)
         self.ui.show_flags_btn.clicked.connect(self.toggle_filter_flags)
-        self.ui.export_pdf.clicked.connect(self.open_dialog_export_selector)
-        self.ui.exportExelBtn.clicked.connect(self.export_to_excel)
+        self.ui.export_pdf.clicked.connect(self.open_dialog_export_selector_to_pdf)
+        self.ui.exportExelBtn.clicked.connect(self.open_dialog_export_selector_to_exel)
         self.ui.pst_files_btn.clicked.connect(self.upload_pst_file)
         #self.ui.checkBoxData.checkStateChanged.connect(self.date_state_box)
 
@@ -199,6 +206,22 @@ class GUIFunctions:
         header = self.ui.tableWidget.horizontalHeader()
         header.setContextMenuPolicy(Qt.CustomContextMenu)
         header.customContextMenuRequested.connect(self.show_column_menu)
+
+    def _tymczaspwe_ukrycie_(self):
+        #wyszukiwarka 
+        self.ui.frame_2.hide()
+        self.ui.searchBtn.hide()
+        self.ui.searchinp.hide()
+        self.ui.label_9.hide()
+        self.ui.serachinpCont.hide()
+        #przycisk
+        self.ui.reportsBtn.hide()
+        self.ui.infoBtn.hide()
+        self.ui.fileBtn.hide()
+        self.ui.detailsBtn.hide()
+        print()
+
+
 
     def show_context_menu(self, pos):
         context_menu = self.ui.EmailtabWidget.findChild(QLabel, "body")
@@ -259,6 +282,8 @@ class GUIFunctions:
             self.ui.endDataLabel.setText("")
             
     def toggle_frame(self):
+        frame = self.ui.dataAnalysisPage.findChild(QFrame,"serchEmailFrame")
+        self.animation.setTargetObject(frame)
         if self.is_expanded_serch_frame:
             self.animation.setStartValue(self.ui.dataAnalysisPage.findChild(QFrame,"serchEmailFrame").height())
             self.animation.setEndValue(0)
@@ -272,12 +297,12 @@ class GUIFunctions:
     def next_page(self):
         if self.current_page < self.max_page-1:
             self.current_page += 1
-        self.load_data_from_database()
+        load_data_from_database(self)
 
     def previous_page(self):
         if self.current_page > 0:
             self.current_page -= 1
-        self.load_data_from_database()
+        load_data_from_database(self)
 
     def _get_id_flags_item_email(self,row):
         id = self.ui.tableWidget.item(row,0).text()
@@ -328,7 +353,7 @@ class GUIFunctions:
         self.sql_name = sql_name
         self.ui.dataAnalysisPage.findChild(QLabel,"sqlEmailDbName").setText(sql_name)
         
-        self.load_data_from_database()
+        load_data_from_database(self)
         self.display_folders_in_help_page()
         tw = self.ui.helpPage.findChild(QTreeWidget,"folders_tree")
         tw.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
@@ -341,15 +366,21 @@ class GUIFunctions:
         if dialog.exec():
             logger.info(f"Zaktualizowano tagi dla użytkownika {user_id}")
             self.ui.selectedTagLabel.setText(f"Wybrane Tagi: {self.active_filters['tag'].removeprefix("(").removesuffix(")")}")
-            self.load_data_from_database()
+            load_data_from_database(self)
 
-    def open_dialog_export_selector(self):
+    def open_dialog_export_selector_to_pdf(self):
         dialog = ExportSelector()
         if dialog.exec_() == QDialog.Accepted:
             selected_option = dialog.get_selected_option()
             is_checkBox_checked = dialog.get_checkBox_state()
-            self.export_to_pdf(selected_option,is_checkBox_checked)
+            export_to_pdf(self,self.db_connection,self.path,self.sql_name,self.active_filters,selected_option,is_checkBox_checked)
             
+    def open_dialog_export_selector_to_exel(self):
+        dialog = ExportSelector()
+        if dialog.exec_() == QDialog.Accepted:
+            selected_option = dialog.get_selected_option()
+            is_checkBox_checked = dialog.get_checkBox_state()
+            export_to_excel(self,self.db_connection,self.path,self.sql_name,self.active_filters,selected_option,is_checkBox_checked)
 
     def load_clicked_email(self,row,column):
         id = self.ui.tableWidget.item(row,0).text()
@@ -405,10 +436,7 @@ class GUIFunctions:
         date_label.setText(emai_value[0][1])
         cc_label.setText(emai_value[0][5])
         header_email_label.setText(emai_value[0][11])
-        self.ui.EmailtabWidget.setStyleSheet("""
-        background-color: #ffffff
-""")
-
+  
     def clear_filtr(self):
         self.ui.seachName.setText("")
         self.ui.seachSurname.setText("")
@@ -425,62 +453,9 @@ class GUIFunctions:
         self.clear_filtr()
         
 
-        self.load_data_from_database()
+        load_data_from_database(self)
         self.current_page = 0
-                
-    def load_data_from_database(self) -> None:
-        """
-        Wczytuje dane z bazy SQLite i wypełnia tabelę widżetem.
-        Używa zapytania SQL z lewym łączeniem, aby zebrać informacje o użytkownikach oraz ich tagach.
-        """
-        QApplication.setOverrideCursor(Qt.WaitCursor)
-        # określa który pakiet email trzeba pobrać  
-        offset = self.current_page * self.emails_per_page
-        if not self.db_connection:
-            logger.error("Brak połączenia z bazą danych.")
-            print("Brak połączenia z bazą danych.")
-            QApplication.restoreOverrideCursor()
-            return
-        if self.active_filters['tag']=="":
-            query = f'''
-                SELECT e.id, e.sender_name, e.cc, e.subject, e.date, e.flag,
-                    GROUP_CONCAT(t.tag_name) AS tags 
-                FROM emails e
-                LEFT JOIN email_tags et ON e.id = et.email_id
-                LEFT JOIN tags t ON et.tag_id = t.id
-                {db_email_function.apply_filters(self.active_filters)}
-                GROUP BY e.id
-                LIMIT {self.emails_per_page} OFFSET {offset}
-            '''
-        else: 
-            query = db_email_function.tag_query(self.active_filters)
-
-        print(query)
-        try:
-            cursor = self.db_connection.cursor()
-            cursor.execute(query)
-            cursor.execute
-            #print(f"{cursor.arraysize}")
-            data = cursor.fetchall()
-            cursor.execute(f'''SELECT COUNT(DISTINCT e.id) AS total_count FROM emails e
-            {db_email_function.apply_filters(self.active_filters)}''')
-            emailc_count = cursor.fetchall()[0][0]
-            self.all_emails_count = emailc_count
-            self.max_page = math.ceil((int(self.all_emails_count)/int(self.emails_per_page)))
-            self.ui.dataAnalysisPage.findChild(QLabel,"pageNumberLabel").setText(f"{self.current_page+1}/{self.max_page}")
             
-            self.ui.tableWidget.setRowCount(len(data))
-            self.ui.tableWidget.setColumnCount(7)
-            #print(data)
-            self.create_main_email_tale(data)
-            self.ui.tableWidget.verticalHeader().setVisible(False)
-            QApplication.restoreOverrideCursor()
-        except sqlite3.Error as e:
-                QApplication.restoreOverrideCursor()
-                logger.error(f"Błąd podczas wykonywania zapytania: {e}")
-                print(f"Błąd podczas wykonywania zapytania: {e}")
-
-
     def email_copy_attachments(self,item):
         source_path = os.path.join(self.path,self.sql_name,"Attachments",str(self.id_selected_email),item.text())
         destination_path, _ = QFileDialog.getSaveFileName(None, "Zapisz plik jako",item.text(), item.text().split('.')[-1])
@@ -493,58 +468,13 @@ class GUIFunctions:
             print(f"Błąd podczas kopiowania pliku: {e}")
             logger.error(f"Błąd podczas kopiowania pliku: {e}")
 
-    def create_main_email_tale(self,data):
-        for row_idx, row_data in enumerate(data):
-            user_id = row_data[0]
-            #dodanie ukrytej kolumn col = 0 przechowującej id(emaila)
-            item_id = QTableWidgetItem(str(user_id))
-            self.ui.tableWidget.setItem(row_idx, 0, item_id)
-            self.ui.tableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
-
-            for col_idx, cell_data in enumerate(row_data[1:]):
-                #przesunięcie o 1 bo kolumne 0 zejmuje ukryta kolumna zawierająca id
-                real_col_idx = col_idx + 1 
-                if real_col_idx == 4:
-                    if isinstance(cell_data, bytes): 
-                        cell_data = cell_data.decode("utf-8") 
-                    elif cell_data is None:  
-                        cell_data = ""
-                    item.setFlags(item.flags() & ~Qt.ItemIsEditable)
-                if real_col_idx == 5:
-                    checkbox = QCheckBox()
-                    checkbox.setChecked(bool(cell_data))
-                    checkbox.setFocusPolicy(Qt.NoFocus)
-                    checkbox.stateChanged.connect(
-                        lambda state, uid=user_id: db_email_function.update_flag(self.db_connection,uid, state)
-                    )
-                    self.ui.tableWidget.setCellWidget(row_idx, real_col_idx, checkbox)
-                elif real_col_idx == 6:
-                    btn = QPushButton("Pokaż tagi")
-                    btn.clicked.connect(lambda _, uid=user_id: self.open_tag_selector(uid))
-                    btn.setFocusPolicy(Qt.NoFocus)
-                    self.ui.tableWidget.setCellWidget(row_idx, real_col_idx, btn)
-                else:
-                    item = QTableWidgetItem(str(cell_data) if cell_data else "")
-                    self.ui.tableWidget.setItem(row_idx, real_col_idx, item)
-                    item.setFlags(item.flags() & ~Qt.ItemIsEditable)
-        
-        self.ui.tableWidget.horizontalHeader().setSectionResizeMode(0, QHeaderView.Fixed)
-        self.ui.tableWidget.setColumnWidth(0, 50)
-        self.ui.tableWidget.horizontalHeader().setSectionResizeMode(5, QHeaderView.Fixed)
-        self.ui.tableWidget.setColumnWidth(5, 50)
-        logger.info("Dane zostały załadowane do tabeli.")
-        # print(f"Liczba kolumn w tabeli: {self.ui.tableWidget.columnCount()}")
 
     def open_tag_selector(self, email_id: int) -> None:
         """Otwiera okno dialogowe do edycji tagów użytkownika."""
         dialog = MultiTagSelector(email_id, self.db_connection, self.main)
         if dialog.exec():
             logger.info(f"Zaktualizowano tagi dla użytkownika {email_id}")
-            self.load_data_from_database()
-    
-    def close_database_connection(self) -> None:
-        if self.db_connection:
-            self.db_connection.close()
+            load_data_from_database(self)
 
     def show_search_results(self) -> None:
         """Wyświetla wyszukane wyniki (przykładowo – pokazuje tooltip)."""
@@ -568,10 +498,11 @@ class GUIFunctions:
     def populate_theme_list(self, current_theme: str) -> None:
         """Wypełnia listę dostępnych motywów."""
         for theme in self.ui.themes:
-            self.ui.themeList.addItem(theme.name, theme.name)
-            if theme.defaultTheme or theme.name == current_theme:
-                index = self.ui.themeList.findData(theme.name)
-                self.ui.themeList.setCurrentIndex(index)
+            if (theme.name == "LightBlue") or (theme.name == "DarkYellow"):
+                self.ui.themeList.addItem(theme.name, theme.name)
+                if theme.defaultTheme or theme.name == current_theme:
+                    index = self.ui.themeList.findData(theme.name)
+                    self.ui.themeList.setCurrentIndex(index)
 
     def change_app_theme(self) -> None:
         """Zmienia motyw aplikacji."""
@@ -602,7 +533,7 @@ class GUIFunctions:
         # fitr pod flaga w innym miejscu (toggle_filter_flags)
     def join_search(self):
         self.load_filtr_dict()
-        self.load_data_from_database()    
+        load_data_from_database(self)    
 
     def show_column_menu(self, position: QPoint) -> None:
         """Wyświetla menu kontekstowe dla nagłówka kolumny."""
@@ -672,7 +603,7 @@ class GUIFunctions:
         dialog = MultiTagInputDialog(self.db_connection, self.main)
         if dialog.exec():
             logger.info("Nowy tag został dodany.")
-            self.load_data_from_database()
+            load_data_from_database(self)
 
     def toggle_filter_flags(self) -> None:
         """Przełącza tryb filtrowania według zaznaczonych flag."""
@@ -681,114 +612,6 @@ class GUIFunctions:
         else:
             self.active_filters["flag"] = "True"
         self.join_search()
-        
-
-    def reset_filters(self) -> None:
-        """Przywraca widoczność wszystkich wierszy tabeli."""
-        for row in range(self.ui.tableWidget.rowCount()):
-            self.ui.tableWidget.showRow(row)
-
-    def export_to_pdf(self,emeils_grout,attachments_options) -> None:
-        """Eksportuje emaile oznaczone flagami do pliku PDF."""
-        file_path, _ = QFileDialog.getSaveFileName(
-            self.main, "Zapisz emaile jako PDF w katalogu:", "", "All Files (*)"
-        )
-        if not file_path:
-            return
-        if file_path.endswith(".pdf"):
-            file_path += ".pdf"
-        if emeils_grout == "1":
-            data = db_email_function.emails_to_export(self.db_connection)
-        elif emeils_grout == "2":
-            data = db_email_function.emails_to_export(self.db_connection,self.active_filters)
-        else:
-            selected_indexes = self.ui.tableWidget.selectedIndexes()
-            selected_rows = set(index.row() for index in selected_indexes)
-            selected_rows_list = list(selected_rows)
-            id_list=[]
-            for row in selected_rows:
-                id_list.append(self.ui.tableWidget.item(row,0).text())
-            data = db_email_function.emails_to_export(self.db_connection,list=id_list)
-        df = pd.DataFrame(data, columns=["Id", "Data", "Nadawca", "Odbiorca", "Temat","Treść", "Załączniki"])
-        dir_path, _ = os.path.splitext(file_path)
-        os.mkdir(dir_path)
-        file_path = file_path.removesuffix(os.path.dirname(dir_path))
-
-        for index, row in df.iterrows():
-            subject_to_path = re.sub(r'[?/*<>|\\:",.\s]','_',row["Temat"])
-            subject_to_path = subject_to_path[:50]
-            if (row["Załączniki"] is not None) and attachments_options:    
-                shutil.copytree(os.path.join(self.path,self.sql_name,"Attachments",str(row["Id"])),os.path.join(file_path,"ID_"+str(row["Id"])+"_"+subject_to_path+"_Załączniki_wiadomości"))
-            pdf_path = os.path.join(file_path,"ID_"+str(row["Id"])+'_'+subject_to_path) +".pdf"
-            generate_pdf(pdf_path,row["Nadawca"],row["Odbiorca"],row["Data"],row["Temat"],row["Załączniki"],row["Treść"],row["Id"],self.sql_name)
-        logger.info(f"Plik PDF zapisany jako: {file_path}")
-
-
-    def export_to_excel(self) -> None:
-        """Eksportuje dane oznaczone flagami do tabeli"""
-        file_path, _ = QFileDialog.getSaveFileName(
-            self.main, "Zapisz plik Excel", "", "Excel Files (*.xlsx);;All Files (*)"
-        )
-        if not file_path:
-            return
-        
-        data = db_email_function.emails_to_export(self.db_connection)
-        modified_data = []
-        for row in data:
-            row_list = list(row) 
-            row_list[5] = remove_multi_new_line(row_list[5])
-            modified_data.append(tuple(row_list))
-        dir_path, _ = os.path.splitext(file_path)
-       
-        os.mkdir(dir_path)
-        os.mkdir(os.path.join(dir_path,"Attachments"))
-        df = pd.DataFrame(modified_data, columns=["Id", "Data", "Nadawca", "Odbiorca", "Temat","Treść", "Załączniki"])
-        for index, row in df.iterrows():
-            if row["Załączniki"] is not None:
-                shutil.copytree(os.path.join(self.path,self.sql_name,"Attachments",str(row["Id"])),os.path.join(dir_path,"Attachments","Załączniki wiadomości ID:"+str(row["Id"])))
-            
-        with pd.ExcelWriter(os.path.join(dir_path,file_path.split('/')[-1]), engine="xlsxwriter") as writer:
-            df.to_excel(writer, sheet_name="Wiadomości", index=False)
-            workbook = writer.book
-            worksheet = writer.sheets["Wiadomości"]
-            wrap_format = workbook.add_format({'text_wrap': True, 'align': 'left', 'valign': 'top'})
-
-            worksheet.set_column("E:E", 40, wrap_format) 
-            worksheet.set_column("F:F", 60, wrap_format)  
-            worksheet.set_column("G:G", 50, wrap_format)
-            
-
-            row_offset = 1  
-
-            i = 0
-            while i < len(df):
-                text_length = len(str(df.loc[i, "Treść"]))
-                if text_length > 900:
-                    num_rows = math.ceil(text_length / 900)
-                    extr_chars = text_length - 900 * (num_rows-1)
-                    calculated_height = (extr_chars / 45) * 13
-                    worksheet.merge_range(row_offset, 0, row_offset + num_rows-1, 0, df.loc[i, "Id"], wrap_format)
-                    worksheet.merge_range(row_offset, 1, row_offset + num_rows-1, 1, df.loc[i, "Data"], wrap_format)
-                    worksheet.merge_range(row_offset, 2, row_offset + num_rows-1, 2, df.loc[i, "Nadawca"], wrap_format)
-                    worksheet.merge_range(row_offset, 3, row_offset + num_rows-1, 3, df.loc[i, "Odbiorca"], wrap_format)
-                    worksheet.merge_range(row_offset, 4, row_offset + num_rows-1, 4, df.loc[i, "Temat"], wrap_format)
-                    worksheet.merge_range(row_offset, 5, row_offset + num_rows-1, 5, df.loc[i, "Treść"], wrap_format)
-                    worksheet.merge_range(row_offset, 6, row_offset + num_rows-1, 6, df.loc[i, "Załączniki"], wrap_format)
-
-                    for j in range(num_rows - 1):
-                        worksheet.set_row(row_offset + j, 407)
-                    worksheet.set_row(row_offset + num_rows - 1, calculated_height) 
-                    
-                    row_offset += num_rows
-                else:
-                    row_offset += 1  
-                i += 1
-                worksheet.set_row(row_offset, None)
-            
-        logger.info(f"Plik Excel zapisany jako: {file_path}")
-    
-
-
     
     def select_directory(self) -> None:
         """Pozwala wybrać katalog, a następnie wyświetla jego zawartość."""
@@ -868,52 +691,7 @@ class GUIFunctions:
             self.folders_tree.resizeRowToContents(i)
 
         layout.addWidget(self.folders_tree)
-        self.load_folders_data_into_tree()
-        
-
-    def load_folders_data_into_tree(self):
-        if not self.db_connection:
-            return
-        try:
-            cursor = self.db_connection.cursor()
-            cursor.execute("SELECT path, id FROM folders")
-            rows = cursor.fetchall()
-            tree_dict = {}
-            for row in rows:
-                full_path = row[0]
-                dir_id = row[1]
-                parts = full_path.split("\\")
-                current_level = tree_dict
-
-                for part in parts:
-                    if part not in current_level:
-                        current_level[part] = {"id": dir_id, "subfolders": {}}
-                    current_level = current_level[part]["subfolders"]
-            self.folders_tree.clear()
-            self.add_items_to_tree(self.folders_tree,tree_dict)
-            
-        except sqlite3.Error as e:
-            print(f"Błąd zapytania do bazy: {e}")
-
-    def add_items_to_tree(self, parent, tree_level: dict):
-        for folder_name, folder_data in tree_level.items():
-            if folder_name =="":
-                folder_name = "HOME"
-            if folder_data["id"] != 1:
-                query = f"""SELECT count(*) FROM emails  WHERE folder_id ={folder_data["id"]}"""
-            else:
-                query = f"""SELECT count(*) FROM emails"""
-            cursor = self.db_connection.cursor()
-            cursor.execute(query)
-            emai_value = cursor.fetchall()
-            item = QTreeWidgetItem([f"{folder_name} ({emai_value[0][0]})"])
-            item.setData(0, 1, folder_data["id"])
-            if isinstance(parent, QTreeWidget):
-                parent.addTopLevelItem(item)
-            else:
-                parent.addChild(item)
-            if folder_data["subfolders"]:
-                self.add_items_to_tree(item, folder_data["subfolders"])
+        load_folders_data_into_tree(self,self.db_connection,self.folders_tree)
 
     def display_database(self,path_to_dir):
         self.list_widget = QListWidget()
@@ -934,7 +712,7 @@ class GUIFunctions:
         if self.db_connection is None and len(sql_list_file) > 0 :
             try:
                 db_email_function.connect_to_database(self,path_to_dir+"\\"+sql_list_file[0].split('.')[-2]+"\\"+sql_list_file[0])
-                self.load_data_from_database()
+                load_data_from_database(self)
                 self.sql_name =sql_list_file[0].split('.')[-2]
                 self.ui.dataAnalysisPage.findChild(QLabel,"sqlEmailDbName").setText(self.sql_name)
                 logger.info(f"Połączono z pierwszą odnalezioną bazą SQLite: {self.sql_name}")

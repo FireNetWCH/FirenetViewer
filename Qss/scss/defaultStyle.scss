@@ -3,7 +3,7 @@
 }
 
 QMainWindow, #centralwidget{
-    background-color: #ffffff;
+    background-color: $COLOR_BACKGROUND_1;
     border-radius: 10px;
     border: 3px solid $COLOR_BACKGROUND_4;
 }
@@ -21,6 +21,8 @@ QPushButton, QLineEdit, QDateEdit{
     
     
 }
+
+
 
 QFrame #serchEmailFrame{
     background-color: #000000;
@@ -149,7 +151,11 @@ QFrame #frame_11{
             background-color: $COLOR_ACCENT_1;}
         #show_flags_btn:hover {
         background-color: $COLOR_ACCENT_1;}
-    
+        
+        #hederEmailBtn:hover {
+            background-color: $COLOR_ACCENT_1;
+        }
+        #hederEmailBtn{border: 1px solid $COLOR_TEXT_1;}
         
         #listAttachments,#frame_8{
             border: 1px solid $COLOR_TEXT_1;
