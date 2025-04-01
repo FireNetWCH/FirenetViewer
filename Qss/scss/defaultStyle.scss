@@ -3,9 +3,42 @@
 }
 
 QMainWindow, #centralwidget{
-    background-color: $COLOR_BACKGROUND_1;
+    background-color: #102339;
     border-radius: 10px;
-    border: 3px solid $COLOR_BACKGROUND_4;
+    border: 3px solid #102339;
+    
+}
+#splitter,#widget_8{
+    background-color: #102339;
+    border-radius: 10px;
+    border: 3px solid #102339;
+    color: #102339;
+    border-radius: 2px;
+    height: 4px;
+    width: 0px;
+}
+#centerMenu{
+   
+    border-radius: 10px;
+    border: 5px solid #102339;
+    color: #102339;
+    border-radius: 2px;
+    height: 4px;
+    width: 0px;
+}
+QSplitter::handle {
+    background-color: #102339;
+    width: 0px; 
+    border-radius: 2px;
+}
+
+#mainBody,#centerMenu
+{   
+    border-radius: 10px;
+    border: 3px solid #102339;
+}
+#frame_13{
+    background-color: #102339;
 }
 // #tagger{
     
@@ -13,28 +46,53 @@ QMainWindow, #centralwidget{
 
 // }
 // }
+#header{
+    background-color: #102339;
+    border: 2px solid #102339;  
+    border-top-left-radius: 15px; 
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border: none;
+}
 QPushButton, QLineEdit, QDateEdit{
-    padding: 8px 10px;
-    border-radius: 10px;
+    
     min-width: auto;
     width: auto;
     
     
 }
-
+#titleTxt{ color: #102339;    background-color: #102339; font: --text-;color:#102339;
+}
+#leftMenu,#widget_3,#widget, #widget_2, #verticalSpacer,#widget{
+    *{
+    background-color: #102339;
+    border: 3px solid #102339;
+    color: #102339;}
+    QPushButton{
+        background-color: #102339;
+        border: 3px solid #102339;
+        color: #102339;}
+        QWidget{
+            background-color: #102339;
+            border: 3px solid #102339;
+            color: #102339;}    
+        
+    
+}
 
 
 QFrame #serchEmailFrame{
     background-color: #000000;
     border-right: $BORDER_2;
     border-left: $BORDER_2;
-    border-radius: 0;
+    
 }
 QFrame #frame_11{
     background-color: #000000;
     border-right: $BORDER_2;
     border-left: $BORDER_2;
-    border-radius: 0;
+    
 }
 
 #leftMenu{
@@ -60,9 +118,7 @@ QFrame #frame_11{
     background-color: transparent;
     text-align: left;
     padding: 5px 10px;
-    border-radius: 0;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
+   
 }
 
 #centerMenu, #rightMenu{
@@ -76,7 +132,6 @@ QFrame #frame_11{
     }
 
     & > QStackedWidget{
-        border-radius: 10px;
         background-color: transparent;
         border: none;
     }
@@ -86,16 +141,24 @@ QFrame #frame_11{
     background-color: $COLOR_BACKGROUND_1;
     * {
         background-color: transparent;
+
     }
 }
+#footer{
 
+    border: 2px solid #102339;  
+    border-top-left-radius: 0px; 
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border: none;}
 #header{
     border-bottom: $BORDER_2;
     #frame_3{
         padding: 0;
         QPushButton{
             padding: 4px 2px;
-            border-radius: 0;
+            
             &:hover{
                 background-color: $COLOR_BACKGROUND_2;
             }
@@ -127,6 +190,18 @@ QFrame #frame_11{
         }
     
     }
+    #widget_13,#lableBtn{
+        QPushButton{
+            
+            border: 3px solid #102339;
+            color: #102339;
+            border-radius: 15px;
+            padding: 5px 15px;
+
+        }
+
+    }
+
     #dataAnalysisPage{
         background-color: $COLOR_BACKGROUND_1;
         *, QWidgets{

@@ -3,8 +3,8 @@ import sqlite3
 import logging
 from typing import Any, List, Dict, Optional
 import pandas as pd
-from PySide6.QtCore import Qt, QSettings, QDir, QPoint,QEasingCurve,QRect
-from PySide6.QtGui import QFont, QFontDatabase, QAction,QStandardItem, QPixmap, QImage, QPainter
+from PySide6.QtCore import Qt, QSettings, QDir, QPoint,QEasingCurve,QRect,QDate
+from PySide6.QtGui import QFont, QFontDatabase, QAction,QStandardItem, QPixmap, QImage, QPainter,QIcon
 from PySide6.QtWidgets import (
     QCheckBox, QPushButton, QGraphicsScene, QTableWidgetItem, QTabBar,QMenu, QFileSystemModel,QSizePolicy,QSplitter,QFrame,QApplication,QTableWidget,QDialog,QCalendarWidget,
     QTreeView, QVBoxLayout, QFileDialog, QGraphicsView, QTreeWidgetItem,QListWidgetItem, QTreeWidget, QMainWindow,QListWidget,QHeaderView,QAbstractItemView
@@ -21,9 +21,10 @@ from src.email_page.multi_tag_dialog import MultiTagInputDialog
 from src.email_page.multi_tag_selector import MultiTagSelector
 from src.gui_function import display_file_content
 from src.email_page.key_press_filter import KeyPressFilter
-from src.calendar_dialog_widget import get_selected_date
+from src.calendar_dialog_widget import DateRangeDialog
 from src.atachment_list_widget import FileListItem
 from src.email_page.selector_tag_sercher import SekectorTag
+from src.email_page.tag_dialog import TagCrud
 from src.message_box.date_warning import left_date_wornig, rights_date_wornig
 from src.db_function.exports import generate_pdf,remove_multi_new_line,export_to_pdf,export_to_excel
 from src.email_page.export_options import ExportSelector
@@ -126,24 +127,29 @@ class GUIFunctions:
         # Menu (centralne i boczne)
         self.ui.settingsBtn.clicked.connect(lambda: self.ui.centerMenu.expandMenu())
         self.ui.infoBtn.clicked.connect(lambda: self.ui.centerMenu.expandMenu())
-        self.ui.helpBtn.clicked.connect(lambda: self.ui.centerMenu.expandMenu())
+        #self.ui.helpBtn.clicked.connect(lambda: self.ui.centerMenu.expandMenu())
+        self.ui.meilBoxBtn.clicked.connect(lambda: self.ui.centerMenu.expandMenu())
         self.ui.fileBtn.clicked.connect(lambda: self.ui.centerMenu.expandMenu())
         self.ui.closeCenterMenuBtn.clicked.connect(lambda: self.ui.centerMenu.collapseMenu())
         self.ui.notificationBtn.clicked.connect(lambda: self.ui.rightMenu.expandMenu())
         self.ui.moreBtn.clicked.connect(lambda: self.ui.rightMenu.expandMenu())
         self.ui.profileBtn.clicked.connect(lambda: self.ui.rightMenu.expandMenu())
         self.ui.closeRightMenuBtn.clicked.connect(lambda: self.ui.rightMenu.collapseMenu())
+        
+        
+        #C:\Users\firenet\FirenetViewer_email_view\FirenetViewer\Qss\icons\FFFFFF\feather\home.png
+        #C:\Users\firenet\FirenetViewer_email_view\FirenetViewer\Qss\icons\FFFFFF\feather\activity.png
         #rozciąganie szerokości paska bocznego przy splitter
         self.ui.closeCenterMenuBtn.clicked.connect(lambda : self.ui.splitter.setSizes([0, 1]))
         self.ui.fileBtn.clicked.connect(lambda : self.ui.splitter.setSizes([1, 2]))
         self.ui.settingsBtn.clicked.connect(lambda : self.ui.splitter.setSizes([1, 2]))
         self.ui.infoBtn.clicked.connect(lambda : self.ui.splitter.setSizes([1, 2]))
-        self.ui.helpBtn.clicked.connect(lambda : self.ui.splitter.setSizes([1, 2]))
-
+        #self.ui.helpBtn.clicked.connect(lambda : self.ui.splitter.setSizes([1, 2]))
+        self.ui.meilBoxBtn.clicked.connect(lambda : self.ui.splitter.setSizes([1, 2]))
 
         # Obsługa wyszukiwania i filtrów
         self.ui.searchBtn.clicked.connect(self.show_search_results)
-        self.ui.filter_table_btn.clicked.connect(self.join_search)
+        #self.ui.filter_table_btn.clicked.connect(self.join_search)
         self.ui.seachSurname.returnPressed.connect(self.join_search)
         self.ui.seachName.returnPressed.connect(self.join_search)
         self.ui.searchBody.returnPressed.connect(self.join_search)
@@ -153,14 +159,15 @@ class GUIFunctions:
         self.ui.export_pdf.clicked.connect(self.open_dialog_export_selector_to_pdf)
         self.ui.exportExelBtn.clicked.connect(self.open_dialog_export_selector_to_exel)
         self.ui.pst_files_btn.clicked.connect(self.upload_pst_file)
+        self.ui.tagiBtn.clicked.connect(self.show_tag_crud)
         #self.ui.checkBoxData.checkStateChanged.connect(self.date_state_box)
 
         self.ui.tagPuschBtn.clicked.connect(lambda: self.open_dialog_tag_selector(self.active_filters))
 
         self.ui.startDataLabel.selectionChanged.connect(self.serch_by_date_start)
-        self.ui.endDataLabel.selectionChanged.connect(self.serch_by_date_end)
+        #self.ui.endDataLabel.selectionChanged.connect(self.serch_by_date_end)
         self.ui.startDataBtn.clicked.connect(self.serch_by_date_start)
-        self.ui.endDataBtn.clicked.connect(self.serch_by_date_end)
+        #self.ui.endDataBtn.clicked.connect(self.serch_by_date_end)
         self.ui.startDataLabel.textChanged.connect(self.join_search)
         self.ui.endDataLabel.textChanged.connect(self.join_search)
 
@@ -182,8 +189,9 @@ class GUIFunctions:
         db_list.itemClicked.connect(self.selec_sqlit_db)
 
         # Obsługa wyświetlania mutlimediów z załącznków email
-        la = self.ui.EmailtabWidget.findChild(QListWidget,"listAttachments")
-        la.itemClicked.connect(self.email_copy_attachments)
+        # la = self.ui.EmailtabWidget.findChild(QListWidget,"listAttachments")
+        # print(la)
+        # la.itemClicked.connect(FileListItem)
 
         # Obsługa pokazywania i ukrywania okna nagłówków email
         heder_btn = self.ui.EmailtabWidget.findChild(QPushButton,"hederEmailBtn")
@@ -207,6 +215,16 @@ class GUIFunctions:
         header.setContextMenuPolicy(Qt.CustomContextMenu)
         header.customContextMenuRequested.connect(self.show_column_menu)
 
+        #ustawienie odpowiednich ikon i kolorów tła
+        self.ui.homeBtn.setIcon(QIcon(".\\Qss\\icons\\FFFFFF\\feather\\home.png"))
+        self.ui.infoBtn.setIcon(QIcon(".\\Qss\\icons\\FFFFFF\\feather\\activity.png"))
+        self.ui.dataBtn.setIcon(QIcon(".\\Qss\\icons\\FFFFFF\\feather\\mail.png"))
+        self.ui.dataBtn.setIcon(QIcon(".\\Qss\\icons\\FFFFFF\\feather\\mail.png"))
+        self.ui.graphsBtn.setIcon(QIcon(".\\Qss\\icons\\FFFFFF\\font_awesome\\solid\\chart-pie.png"))
+        self.ui.titleTxt.setStyleSheet("color: #102339;")
+        self.ui.meilBoxBtn.setIcon(QIcon(".\\Qss\\icons\\\FFFFFF\\material_design\\format_align_justify.png"))    
+       
+        self.ui.leftMenu.setStyleSheet("background-color: #102339; border: 3px solid #102339;")
     def _tymczaspwe_ukrycie_(self):
         #wyszukiwarka 
         self.ui.frame_2.hide()
@@ -216,12 +234,19 @@ class GUIFunctions:
         self.ui.serachinpCont.hide()
         #przycisk
         self.ui.reportsBtn.hide()
+
         self.ui.infoBtn.hide()
-        self.ui.fileBtn.hide()
+        self.ui.fileBtn.hide()#
+        self.ui.settingsBtn.hide()#
         self.ui.detailsBtn.hide()
-        print()
-
-
+        self.ui.menuBtn.hide()
+    
+    def show_tag_crud(self):
+        dialog = TagCrud(self.db_connection)
+        if dialog.exec():
+            logger.info(f"Zaktualizowano tagi dla użytkownika")
+            #self.ui.selectedTagLabel.setText(f"Wybrane Tagi: {self.active_filters['tag'].removeprefix("(").removesuffix(")")}")
+            load_data_from_database(self)
 
     def show_context_menu(self, pos):
         context_menu = self.ui.EmailtabWidget.findChild(QLabel, "body")
@@ -252,34 +277,41 @@ class GUIFunctions:
 
 
     def serch_by_date_start(self):
-        date = get_selected_date(self)
+        dialog_calendar = DateRangeDialog()
         
-        if date is not None:
-            if self.active_filters['date_to'] != "":
-                if date.toString("yyyy-MM-dd") > self.active_filters['date_to']:
-                    rights_date_wornig()
-                    self.ui.startDataLabel.setText(date.toString(""))
+        date = dialog_calendar.get_selected_dates()
+        print(date)
+        print(date[0])
+        if date[0] != "":
+            print(date[0])
+            start_date = QDate.fromString(date[0], "yyyy-MM-dd")
+            if self.active_filters['date_to'] !="":
+                filter_end_date = QDate.fromString(self.active_filters['date_to'], "yyyy-MM-dd")
+                if start_date > filter_end_date:
+                    self.ui.startDataLabel.setText("")
+                    self.ui.endDataLabel.setText("")
                 else:
-                    self.ui.startDataLabel.setText(date.toString("yyyy-MM-dd"))
+                    self.ui.startDataLabel.setText(date[0])
             else:
-                self.ui.startDataLabel.setText(date.toString("yyyy-MM-dd"))
+                self.ui.startDataLabel.setText(date[0])
         else:
             self.ui.startDataLabel.setText("")
 
-    def serch_by_date_end(self):
-        date = get_selected_date(self)
-
-        if date is not None:
-            if self.active_filters['date_fr'] != "":
-                if date.toString("yyyy-MM-dd") < self.active_filters['date_fr']:
-                    left_date_wornig()
-                    self.ui.endDataLabel.setText(date.toString(""))
+        if date[1] != "":
+            print(date[1])
+            end_date = QDate.fromString(date[1], "yyyy-MM-dd")
+            if self.active_filters['date_fr'] !="":
+                filter_start_date = QDate.fromString(self.active_filters['date_fr'], "yyyy-MM-dd")
+                if end_date < filter_start_date:
+                    self.ui.endDataLabel.setText("")
+                    self.ui.startDataLabel.setText("")
                 else:
-                    self.ui.endDataLabel.setText(date.toString("yyyy-MM-dd"))
+                    self.ui.endDataLabel.setText(date[1])
             else:
-                self.ui.endDataLabel.setText(date.toString("yyyy-MM-dd"))
+                self.ui.endDataLabel.setText(date[1])
         else:
             self.ui.endDataLabel.setText("")
+                
             
     def toggle_frame(self):
         frame = self.ui.dataAnalysisPage.findChild(QFrame,"serchEmailFrame")
@@ -384,7 +416,7 @@ class GUIFunctions:
 
     def load_clicked_email(self,row,column):
         id = self.ui.tableWidget.item(row,0).text()
-        print(self.active_filters)
+        #print(self.active_filters)
         self.id_selected_email = id
         query =f'''
         SELECT * from emails WHERE id = {id}
@@ -414,6 +446,7 @@ class GUIFunctions:
             item.setSizeHint(widget.sizeHint())  
             listAttachments.addItem(item)  
             listAttachments.setItemWidget(item, widget)
+        listAttachments.itemClicked.connect(widget.preview_file)
         listAttachments.setFixedHeight(60)
         search_term = self.active_filters['body']
         pattern = re.compile(re.escape(search_term), re.IGNORECASE)

@@ -5,13 +5,24 @@ from src.ui_interface import Ui_MainWindow
 from Custom_Widgets import *
 from Custom_Widgets.QCustomQToolTip import QCustomQToolTipFilter
 from Custom_Widgets.QAppSettings import QAppSettings
+import os
+def get_resource_path(relative_path):
+    """Zwraca poprawną ścieżkę do zasobów, obsługując tryb onefile"""
+    if getattr(sys, 'frozen', False):  
+        base_path = sys._MEIPASS  
+    else:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
 
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        loadJsonStyle(self, self.ui, jsonFiles={"json-styles/style.json"})
+
+        json_style_path = get_resource_path("json-styles/style.json")
+        loadJsonStyle(self, self.ui, jsonFiles={json_style_path})
+
         self.show()
         QAppSettings.updateAppSettings(self)
         self.app_functions = GUIFunctions(self)

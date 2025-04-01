@@ -185,3 +185,33 @@ def add_label(db_connection,id_label_name,id_email,label_text):
     except sqlite3.Error as e:
         logger.error(f"Błąd podczas dodawania do tabeli email_labels: {e}")
         print(f"Błąd podczas dodawania do tabeli email_labels: {e}")
+
+def delate_tag(db_connection,id_tag):
+    """Usuwa tag o wskazanym id"""
+    try:
+        query = f""" 
+        DELETE FROM tags where id = {id_tag} 
+        """
+        print(query)
+        cursor = db_connection.cursor()
+        cursor.execute(query)
+        db_connection.commit()
+        print("")
+    except sqlite3.Error as e:
+            logger.error(f"Błąd podczas usuwania taga z tabeli tags: {e}")
+            print(f"Błąd podczas usuwania taga z tabeli tags: {e}")
+
+def updata_tag(db_connection,id_tag,new_tag_name):
+    """Uaktualnia nazwę wskazanego tagu"""
+    try:
+        query = f"""
+        UPDATE tags set tag_name = '{new_tag_name}' WHERE ID = {id_tag}
+        """
+        print(query)
+        cursor = db_connection.cursor()
+        cursor.execute(query)
+        db_connection.commit()
+    except sqlite3.Error as e:
+            logger.error(f"Błąd podczas aktualizowania tagów: {e}")
+            print(f"Błąd podczas aktualizowania tagów: {e}")
+

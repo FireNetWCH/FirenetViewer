@@ -118,10 +118,6 @@
                <property name="text">
                 <string/>
                </property>
-               <property name="icon">
-                <iconset>
-                 <normaloff>:/feather/icons/feather/menu.png</normaloff>:/feather/icons/feather/menu.png</iconset>
-               </property>
                <property name="default">
                 <bool>false</bool>
                </property>
@@ -207,6 +203,13 @@
                <property name="icon">
                 <iconset>
                  <normaloff>:/font_awesome/solid/icons/font_awesome/solid/chart-pie.png</normaloff>:/font_awesome/solid/icons/font_awesome/solid/chart-pie.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="meilBoxBtn">
+               <property name="text">
+                <string>PushButton</string>
                </property>
               </widget>
              </item>
@@ -415,7 +418,7 @@
                  <enum>Qt::ContextMenuPolicy::DefaultContextMenu</enum>
                 </property>
                 <property name="currentIndex">
-                 <number>0</number>
+                 <number>3</number>
                 </property>
                 <widget class="QWidget" name="settingsPage">
                  <property name="sizePolicy">
@@ -645,9 +648,29 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string>FireNet E-mail Viewer</string>
+                 <string>FireNet Viewer e-mail </string>
                 </property>
                </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_23">
+                <property name="text">
+                 <string>LOGO</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Orientation::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
               </item>
               <item alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignBottom">
                <widget class="QFrame" name="frame_2">
@@ -920,13 +943,45 @@
                            <item>
                             <widget class="QLabel" name="label_7">
                              <property name="sizePolicy">
-                              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                               <horstretch>0</horstretch>
+                               <verstretch>0</verstretch>
+                              </sizepolicy>
+                             </property>
+                             <property name="accessibleName">
+                              <string/>
+                             </property>
+                             <property name="text">
+                              <string>hgtth</string>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignTop</set>
+                             </property>
+                            </widget>
+                           </item>
+                           <item>
+                            <widget class="QLabel" name="label_8">
+                             <property name="sizePolicy">
+                              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                                <horstretch>0</horstretch>
                                <verstretch>0</verstretch>
                               </sizepolicy>
                              </property>
                              <property name="text">
-                              <string/>
+                              <string>Telefon: 504 270 395</string>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignTop</set>
+                             </property>
+                            </widget>
+                           </item>
+                           <item>
+                            <widget class="QLabel" name="label_15">
+                             <property name="text">
+                              <string>E-mail: biuro@firenet.pl</string>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignTop</set>
                              </property>
                             </widget>
                            </item>
@@ -934,7 +989,176 @@
                          </widget>
                         </item>
                         <item>
-                         <widget class="QWidget" name="widget_13" native="true"/>
+                         <widget class="QWidget" name="widget_13" native="true">
+                          <layout class="QHBoxLayout" name="horizontalLayout_6">
+                           <item>
+                            <spacer name="horizontalSpacer_2">
+                             <property name="orientation">
+                              <enum>Qt::Orientation::Horizontal</enum>
+                             </property>
+                             <property name="sizeHint" stdset="0">
+                              <size>
+                               <width>40</width>
+                               <height>20</height>
+                              </size>
+                             </property>
+                            </spacer>
+                           </item>
+                           <item>
+                            <widget class="QPushButton" name="tagiBtn">
+                             <property name="sizePolicy">
+                              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                               <horstretch>0</horstretch>
+                               <verstretch>0</verstretch>
+                              </sizepolicy>
+                             </property>
+                             <property name="text">
+                              <string>Tagi</string>
+                             </property>
+                            </widget>
+                           </item>
+                           <item>
+                            <spacer name="horizontalSpacer_4">
+                             <property name="orientation">
+                              <enum>Qt::Orientation::Horizontal</enum>
+                             </property>
+                             <property name="sizeHint" stdset="0">
+                              <size>
+                               <width>40</width>
+                               <height>20</height>
+                              </size>
+                             </property>
+                            </spacer>
+                           </item>
+                           <item>
+                            <widget class="QPushButton" name="lableBtn">
+                             <property name="sizePolicy">
+                              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                               <horstretch>0</horstretch>
+                               <verstretch>0</verstretch>
+                              </sizepolicy>
+                             </property>
+                             <property name="text">
+                              <string>Etykiety</string>
+                             </property>
+                            </widget>
+                           </item>
+                           <item>
+                            <spacer name="horizontalSpacer_3">
+                             <property name="orientation">
+                              <enum>Qt::Orientation::Horizontal</enum>
+                             </property>
+                             <property name="sizeHint" stdset="0">
+                              <size>
+                               <width>40</width>
+                               <height>20</height>
+                              </size>
+                             </property>
+                            </spacer>
+                           </item>
+                          </layout>
+                         </widget>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QWidget" name="widget_15" native="true">
+                       <layout class="QHBoxLayout" name="horizontalLayout_27">
+                        <item>
+                         <widget class="QWidget" name="widget_16" native="true">
+                          <layout class="QVBoxLayout" name="verticalLayout_31">
+                           <item>
+                            <widget class="QLabel" name="label_24">
+                             <property name="text">
+                              <string>Sprawdź ofertę</string>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignmentFlag::AlignCenter</set>
+                             </property>
+                            </widget>
+                           </item>
+                           <item>
+                            <widget class="QPushButton" name="ofertaBtn">
+                             <property name="text">
+                              <string>Logo</string>
+                             </property>
+                            </widget>
+                           </item>
+                          </layout>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QWidget" name="widget_17" native="true">
+                          <layout class="QVBoxLayout" name="verticalLayout_33">
+                           <item>
+                            <widget class="QLabel" name="TutorialLabel">
+                             <property name="text">
+                              <string>Tutorial</string>
+                             </property>
+                             <property name="alignment">
+                              <set>Qt::AlignmentFlag::AlignCenter</set>
+                             </property>
+                            </widget>
+                           </item>
+                           <item>
+                            <widget class="QPushButton" name="yotubeBtn">
+                             <property name="text">
+                              <string>YT</string>
+                             </property>
+                            </widget>
+                           </item>
+                          </layout>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QWidget" name="widget_18" native="true">
+                          <layout class="QVBoxLayout" name="verticalLayout_32">
+                           <item>
+                            <widget class="QWidget" name="widget_20" native="true">
+                             <layout class="QHBoxLayout" name="horizontalLayout_29">
+                              <item>
+                               <widget class="QLabel" name="label_26">
+                                <property name="text">
+                                 <string>Odwiedź teź</string>
+                                </property>
+                                <property name="alignment">
+                                 <set>Qt::AlignmentFlag::AlignCenter</set>
+                                </property>
+                               </widget>
+                              </item>
+                             </layout>
+                            </widget>
+                           </item>
+                           <item>
+                            <widget class="QWidget" name="widget_19" native="true">
+                             <layout class="QHBoxLayout" name="horizontalLayout_28">
+                              <item>
+                               <widget class="QPushButton" name="linkedinBtn">
+                                <property name="text">
+                                 <string>LI</string>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QPushButton" name="wwwBtn">
+                                <property name="text">
+                                 <string>WWW</string>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QPushButton" name="fbBtn">
+                                <property name="text">
+                                 <string>FB</string>
+                                </property>
+                               </widget>
+                              </item>
+                             </layout>
+                            </widget>
+                           </item>
+                          </layout>
+                         </widget>
                         </item>
                        </layout>
                       </widget>
@@ -1066,7 +1290,7 @@
                              <property name="frameShadow">
                               <enum>QFrame::Shadow::Raised</enum>
                              </property>
-                             <layout class="QHBoxLayout" name="horizontalLayout_14" stretch="1,1,1,1,1,1,1,1,0,0,0,0">
+                             <layout class="QHBoxLayout" name="horizontalLayout_14" stretch="1,1,1,1,0,1,1,0,0,0">
                               <property name="spacing">
                                <number>3</number>
                               </property>
@@ -1083,6 +1307,13 @@
                                <number>0</number>
                               </property>
                               <item>
+                               <widget class="QLineEdit" name="seachName">
+                                <property name="placeholderText">
+                                 <string>Nadawca</string>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
                                <widget class="QLineEdit" name="seachSurname">
                                 <property name="text">
                                  <string/>
@@ -1093,9 +1324,9 @@
                                </widget>
                               </item>
                               <item>
-                               <widget class="QLineEdit" name="seachName">
+                               <widget class="QLineEdit" name="searchDate">
                                 <property name="placeholderText">
-                                 <string>Nadawca</string>
+                                 <string>W temacie</string>
                                 </property>
                                </widget>
                               </item>
@@ -1103,13 +1334,6 @@
                                <widget class="QLineEdit" name="searchBody">
                                 <property name="placeholderText">
                                  <string>W treści</string>
-                                </property>
-                               </widget>
-                              </item>
-                              <item>
-                               <widget class="QLineEdit" name="searchDate">
-                                <property name="placeholderText">
-                                 <string>W temacie</string>
                                 </property>
                                </widget>
                               </item>
@@ -1152,19 +1376,6 @@
                                </widget>
                               </item>
                               <item>
-                               <widget class="QPushButton" name="endDataBtn">
-                                <property name="sizePolicy">
-                                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                                  <horstretch>0</horstretch>
-                                  <verstretch>0</verstretch>
-                                 </sizepolicy>
-                                </property>
-                                <property name="text">
-                                 <string/>
-                                </property>
-                               </widget>
-                              </item>
-                              <item>
                                <widget class="QLineEdit" name="endDataLabel">
                                 <property name="text">
                                  <string/>
@@ -1191,20 +1402,6 @@
                                 </property>
                                 <property name="checkable">
                                  <bool>true</bool>
-                                </property>
-                               </widget>
-                              </item>
-                              <item>
-                               <widget class="QPushButton" name="filter_table_btn">
-                                <property name="toolTip">
-                                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Wyszukaj w tabeli&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                                </property>
-                                <property name="text">
-                                 <string/>
-                                </property>
-                                <property name="icon">
-                                 <iconset>
-                                  <normaloff>:/feather/icons/feather/search.png</normaloff>:/feather/icons/feather/search.png</iconset>
                                 </property>
                                </widget>
                               </item>
@@ -1680,7 +1877,7 @@
                                        </size>
                                       </property>
                                       <property name="text">
-                                       <string>Nagłowek</string>
+                                       <string>Pokarz nagłowek</string>
                                       </property>
                                      </widget>
                                     </item>

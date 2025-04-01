@@ -67,9 +67,6 @@ class Ui_MainWindow(object):
         self.menuBtn = QPushButton(self.widget)
         self.menuBtn.setObjectName(u"menuBtn")
         self.menuBtn.setEnabled(False)
-        icon = QIcon()
-        icon.addFile(u":/feather/icons/feather/menu.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.menuBtn.setIcon(icon)
 
         self.verticalLayout_2.addWidget(self.menuBtn)
 
@@ -86,36 +83,41 @@ class Ui_MainWindow(object):
         self.homeBtn = QPushButton(self.widget_2)
         self.homeBtn.setObjectName(u"homeBtn")
         self.homeBtn.setMaximumSize(QSize(16777215, 16777215))
-        icon1 = QIcon()
-        icon1.addFile(u":/feather/icons/feather/home.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.homeBtn.setIcon(icon1)
+        icon = QIcon()
+        icon.addFile(u":/feather/icons/feather/home.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.homeBtn.setIcon(icon)
 
         self.verticalLayout_3.addWidget(self.homeBtn)
 
         self.dataBtn = QPushButton(self.widget_2)
         self.dataBtn.setObjectName(u"dataBtn")
-        icon2 = QIcon()
-        icon2.addFile(u":/feather/icons/feather/database.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.dataBtn.setIcon(icon2)
+        icon1 = QIcon()
+        icon1.addFile(u":/feather/icons/feather/database.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.dataBtn.setIcon(icon1)
 
         self.verticalLayout_3.addWidget(self.dataBtn)
 
         self.reportsBtn = QPushButton(self.widget_2)
         self.reportsBtn.setObjectName(u"reportsBtn")
-        icon3 = QIcon()
-        icon3.addFile(u":/material_design/icons/material_design/report_problem.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.reportsBtn.setIcon(icon3)
+        icon2 = QIcon()
+        icon2.addFile(u":/material_design/icons/material_design/report_problem.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.reportsBtn.setIcon(icon2)
         self.reportsBtn.setIconSize(QSize(21, 16))
 
         self.verticalLayout_3.addWidget(self.reportsBtn)
 
         self.graphsBtn = QPushButton(self.widget_2)
         self.graphsBtn.setObjectName(u"graphsBtn")
-        icon4 = QIcon()
-        icon4.addFile(u":/font_awesome/solid/icons/font_awesome/solid/chart-pie.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.graphsBtn.setIcon(icon4)
+        icon3 = QIcon()
+        icon3.addFile(u":/font_awesome/solid/icons/font_awesome/solid/chart-pie.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.graphsBtn.setIcon(icon3)
 
         self.verticalLayout_3.addWidget(self.graphsBtn)
+
+        self.meilBoxBtn = QPushButton(self.widget_2)
+        self.meilBoxBtn.setObjectName(u"meilBoxBtn")
+
+        self.verticalLayout_3.addWidget(self.meilBoxBtn)
 
 
         self.verticalLayout.addWidget(self.widget_2)
@@ -133,33 +135,33 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.setContentsMargins(5, 5, 0, 5)
         self.fileBtn = QPushButton(self.widget_3)
         self.fileBtn.setObjectName(u"fileBtn")
-        icon5 = QIcon()
-        icon5.addFile(u":/feather/icons/feather/file.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.fileBtn.setIcon(icon5)
+        icon4 = QIcon()
+        icon4.addFile(u":/feather/icons/feather/file.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.fileBtn.setIcon(icon4)
 
         self.verticalLayout_4.addWidget(self.fileBtn)
 
         self.settingsBtn = QPushButton(self.widget_3)
         self.settingsBtn.setObjectName(u"settingsBtn")
-        icon6 = QIcon()
-        icon6.addFile(u":/feather/icons/feather/settings.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.settingsBtn.setIcon(icon6)
+        icon5 = QIcon()
+        icon5.addFile(u":/feather/icons/feather/settings.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.settingsBtn.setIcon(icon5)
 
         self.verticalLayout_4.addWidget(self.settingsBtn)
 
         self.infoBtn = QPushButton(self.widget_3)
         self.infoBtn.setObjectName(u"infoBtn")
-        icon7 = QIcon()
-        icon7.addFile(u":/feather/icons/feather/info.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.infoBtn.setIcon(icon7)
+        icon6 = QIcon()
+        icon6.addFile(u":/feather/icons/feather/info.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.infoBtn.setIcon(icon6)
 
         self.verticalLayout_4.addWidget(self.infoBtn)
 
         self.helpBtn = QPushButton(self.widget_3)
         self.helpBtn.setObjectName(u"helpBtn")
-        icon8 = QIcon()
-        icon8.addFile(u":/feather/icons/feather/help-circle.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.helpBtn.setIcon(icon8)
+        icon7 = QIcon()
+        icon7.addFile(u":/feather/icons/feather/help-circle.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.helpBtn.setIcon(icon7)
 
         self.verticalLayout_4.addWidget(self.helpBtn)
 
@@ -212,9 +214,9 @@ class Ui_MainWindow(object):
         self.closeCenterMenuBtn = QPushButton(self.widget_4)
         self.closeCenterMenuBtn.setObjectName(u"closeCenterMenuBtn")
         self.closeCenterMenuBtn.setMaximumSize(QSize(200, 16777215))
-        icon9 = QIcon()
-        icon9.addFile(u":/font_awesome/solid/icons/font_awesome/solid/circle-xmark.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.closeCenterMenuBtn.setIcon(icon9)
+        icon8 = QIcon()
+        icon8.addFile(u":/font_awesome/solid/icons/font_awesome/solid/circle-xmark.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.closeCenterMenuBtn.setIcon(icon8)
 
         self.horizontalLayout_2.addWidget(self.closeCenterMenuBtn)
 
@@ -290,17 +292,17 @@ class Ui_MainWindow(object):
         self.verticalLayout_19.setObjectName(u"verticalLayout_19")
         self.pst_files_btn = QPushButton(self.informationPage)
         self.pst_files_btn.setObjectName(u"pst_files_btn")
-        icon10 = QIcon()
-        icon10.addFile(u":/material_design/icons/material_design/attach_email.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.pst_files_btn.setIcon(icon10)
+        icon9 = QIcon()
+        icon9.addFile(u":/material_design/icons/material_design/attach_email.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.pst_files_btn.setIcon(icon9)
 
         self.verticalLayout_19.addWidget(self.pst_files_btn)
 
         self.select_directory = QPushButton(self.informationPage)
         self.select_directory.setObjectName(u"select_directory")
-        icon11 = QIcon()
-        icon11.addFile(u":/feather/icons/feather/upload.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.select_directory.setIcon(icon11)
+        icon10 = QIcon()
+        icon10.addFile(u":/feather/icons/feather/upload.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.select_directory.setIcon(icon10)
 
         self.verticalLayout_19.addWidget(self.select_directory)
 
@@ -353,6 +355,15 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_8.addWidget(self.titleTxt, 0, Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignBottom)
 
+        self.label_23 = QLabel(self.header)
+        self.label_23.setObjectName(u"label_23")
+
+        self.horizontalLayout_8.addWidget(self.label_23)
+
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_8.addItem(self.horizontalSpacer)
+
         self.frame_2 = QFrame(self.header)
         self.frame_2.setObjectName(u"frame_2")
         self.frame_2.setFrameShape(QFrame.Shape.StyledPanel)
@@ -362,25 +373,25 @@ class Ui_MainWindow(object):
         self.horizontalLayout_7.setContentsMargins(5, 5, 5, 5)
         self.notificationBtn = QPushButton(self.frame_2)
         self.notificationBtn.setObjectName(u"notificationBtn")
-        icon12 = QIcon()
-        icon12.addFile(u":/material_design/icons/material_design/notifications.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.notificationBtn.setIcon(icon12)
+        icon11 = QIcon()
+        icon11.addFile(u":/material_design/icons/material_design/notifications.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.notificationBtn.setIcon(icon11)
 
         self.horizontalLayout_7.addWidget(self.notificationBtn)
 
         self.moreBtn = QPushButton(self.frame_2)
         self.moreBtn.setObjectName(u"moreBtn")
-        icon13 = QIcon()
-        icon13.addFile(u":/feather/icons/feather/more-horizontal.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.moreBtn.setIcon(icon13)
+        icon12 = QIcon()
+        icon12.addFile(u":/feather/icons/feather/more-horizontal.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.moreBtn.setIcon(icon12)
 
         self.horizontalLayout_7.addWidget(self.moreBtn)
 
         self.profileBtn = QPushButton(self.frame_2)
         self.profileBtn.setObjectName(u"profileBtn")
-        icon14 = QIcon()
-        icon14.addFile(u":/feather/icons/feather/user.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.profileBtn.setIcon(icon14)
+        icon13 = QIcon()
+        icon13.addFile(u":/feather/icons/feather/user.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.profileBtn.setIcon(icon13)
 
         self.horizontalLayout_7.addWidget(self.profileBtn)
 
@@ -430,25 +441,25 @@ class Ui_MainWindow(object):
         self.horizontalLayout_10.setContentsMargins(0, 0, 0, 0)
         self.minimalizeBtn = QPushButton(self.frame_3)
         self.minimalizeBtn.setObjectName(u"minimalizeBtn")
-        icon15 = QIcon()
-        icon15.addFile(u":/feather/icons/feather/minus.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.minimalizeBtn.setIcon(icon15)
+        icon14 = QIcon()
+        icon14.addFile(u":/feather/icons/feather/minus.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.minimalizeBtn.setIcon(icon14)
 
         self.horizontalLayout_10.addWidget(self.minimalizeBtn)
 
         self.restoreBtn = QPushButton(self.frame_3)
         self.restoreBtn.setObjectName(u"restoreBtn")
-        icon16 = QIcon()
-        icon16.addFile(u":/feather/icons/feather/square.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.restoreBtn.setIcon(icon16)
+        icon15 = QIcon()
+        icon15.addFile(u":/feather/icons/feather/square.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.restoreBtn.setIcon(icon15)
 
         self.horizontalLayout_10.addWidget(self.restoreBtn)
 
         self.closeBtn = QPushButton(self.frame_3)
         self.closeBtn.setObjectName(u"closeBtn")
-        icon17 = QIcon()
-        icon17.addFile(u":/feather/icons/feather/x.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.closeBtn.setIcon(icon17)
+        icon16 = QIcon()
+        icon16.addFile(u":/feather/icons/feather/x.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.closeBtn.setIcon(icon16)
 
         self.horizontalLayout_10.addWidget(self.closeBtn)
 
@@ -491,21 +502,155 @@ class Ui_MainWindow(object):
         self.verticalLayout_26.setObjectName(u"verticalLayout_26")
         self.label_7 = QLabel(self.widget_14)
         self.label_7.setObjectName(u"label_7")
-        sizePolicy.setHeightForWidth(self.label_7.sizePolicy().hasHeightForWidth())
-        self.label_7.setSizePolicy(sizePolicy)
+        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        sizePolicy4.setHorizontalStretch(0)
+        sizePolicy4.setVerticalStretch(0)
+        sizePolicy4.setHeightForWidth(self.label_7.sizePolicy().hasHeightForWidth())
+        self.label_7.setSizePolicy(sizePolicy4)
+        self.label_7.setAlignment(Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignTop)
 
         self.verticalLayout_26.addWidget(self.label_7)
+
+        self.label_8 = QLabel(self.widget_14)
+        self.label_8.setObjectName(u"label_8")
+        sizePolicy5 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
+        sizePolicy5.setHorizontalStretch(0)
+        sizePolicy5.setVerticalStretch(0)
+        sizePolicy5.setHeightForWidth(self.label_8.sizePolicy().hasHeightForWidth())
+        self.label_8.setSizePolicy(sizePolicy5)
+        self.label_8.setAlignment(Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignTop)
+
+        self.verticalLayout_26.addWidget(self.label_8)
+
+        self.label_15 = QLabel(self.widget_14)
+        self.label_15.setObjectName(u"label_15")
+        self.label_15.setAlignment(Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignTop)
+
+        self.verticalLayout_26.addWidget(self.label_15)
 
 
         self.verticalLayout_24.addWidget(self.widget_14)
 
         self.widget_13 = QWidget(self.widget_12)
         self.widget_13.setObjectName(u"widget_13")
+        self.horizontalLayout_6 = QHBoxLayout(self.widget_13)
+        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_6.addItem(self.horizontalSpacer_2)
+
+        self.tagiBtn = QPushButton(self.widget_13)
+        self.tagiBtn.setObjectName(u"tagiBtn")
+        sizePolicy4.setHeightForWidth(self.tagiBtn.sizePolicy().hasHeightForWidth())
+        self.tagiBtn.setSizePolicy(sizePolicy4)
+
+        self.horizontalLayout_6.addWidget(self.tagiBtn)
+
+        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_6.addItem(self.horizontalSpacer_4)
+
+        self.lableBtn = QPushButton(self.widget_13)
+        self.lableBtn.setObjectName(u"lableBtn")
+        sizePolicy4.setHeightForWidth(self.lableBtn.sizePolicy().hasHeightForWidth())
+        self.lableBtn.setSizePolicy(sizePolicy4)
+
+        self.horizontalLayout_6.addWidget(self.lableBtn)
+
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_6.addItem(self.horizontalSpacer_3)
+
 
         self.verticalLayout_24.addWidget(self.widget_13)
 
 
         self.verticalLayout_11.addWidget(self.widget_12)
+
+        self.widget_15 = QWidget(self.homePage)
+        self.widget_15.setObjectName(u"widget_15")
+        self.horizontalLayout_27 = QHBoxLayout(self.widget_15)
+        self.horizontalLayout_27.setObjectName(u"horizontalLayout_27")
+        self.widget_16 = QWidget(self.widget_15)
+        self.widget_16.setObjectName(u"widget_16")
+        self.verticalLayout_31 = QVBoxLayout(self.widget_16)
+        self.verticalLayout_31.setObjectName(u"verticalLayout_31")
+        self.label_24 = QLabel(self.widget_16)
+        self.label_24.setObjectName(u"label_24")
+        self.label_24.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.verticalLayout_31.addWidget(self.label_24)
+
+        self.ofertaBtn = QPushButton(self.widget_16)
+        self.ofertaBtn.setObjectName(u"ofertaBtn")
+
+        self.verticalLayout_31.addWidget(self.ofertaBtn)
+
+
+        self.horizontalLayout_27.addWidget(self.widget_16)
+
+        self.widget_17 = QWidget(self.widget_15)
+        self.widget_17.setObjectName(u"widget_17")
+        self.verticalLayout_33 = QVBoxLayout(self.widget_17)
+        self.verticalLayout_33.setObjectName(u"verticalLayout_33")
+        self.TutorialLabel = QLabel(self.widget_17)
+        self.TutorialLabel.setObjectName(u"TutorialLabel")
+        self.TutorialLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.verticalLayout_33.addWidget(self.TutorialLabel)
+
+        self.yotubeBtn = QPushButton(self.widget_17)
+        self.yotubeBtn.setObjectName(u"yotubeBtn")
+
+        self.verticalLayout_33.addWidget(self.yotubeBtn)
+
+
+        self.horizontalLayout_27.addWidget(self.widget_17)
+
+        self.widget_18 = QWidget(self.widget_15)
+        self.widget_18.setObjectName(u"widget_18")
+        self.verticalLayout_32 = QVBoxLayout(self.widget_18)
+        self.verticalLayout_32.setObjectName(u"verticalLayout_32")
+        self.widget_20 = QWidget(self.widget_18)
+        self.widget_20.setObjectName(u"widget_20")
+        self.horizontalLayout_29 = QHBoxLayout(self.widget_20)
+        self.horizontalLayout_29.setObjectName(u"horizontalLayout_29")
+        self.label_26 = QLabel(self.widget_20)
+        self.label_26.setObjectName(u"label_26")
+        self.label_26.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.horizontalLayout_29.addWidget(self.label_26)
+
+
+        self.verticalLayout_32.addWidget(self.widget_20)
+
+        self.widget_19 = QWidget(self.widget_18)
+        self.widget_19.setObjectName(u"widget_19")
+        self.horizontalLayout_28 = QHBoxLayout(self.widget_19)
+        self.horizontalLayout_28.setObjectName(u"horizontalLayout_28")
+        self.linkedinBtn = QPushButton(self.widget_19)
+        self.linkedinBtn.setObjectName(u"linkedinBtn")
+
+        self.horizontalLayout_28.addWidget(self.linkedinBtn)
+
+        self.wwwBtn = QPushButton(self.widget_19)
+        self.wwwBtn.setObjectName(u"wwwBtn")
+
+        self.horizontalLayout_28.addWidget(self.wwwBtn)
+
+        self.fbBtn = QPushButton(self.widget_19)
+        self.fbBtn.setObjectName(u"fbBtn")
+
+        self.horizontalLayout_28.addWidget(self.fbBtn)
+
+
+        self.verticalLayout_32.addWidget(self.widget_19)
+
+
+        self.horizontalLayout_27.addWidget(self.widget_18)
+
+
+        self.verticalLayout_11.addWidget(self.widget_15)
 
         self.mainPages.addWidget(self.homePage)
         self.dataAnalysisPage = QWidget()
@@ -516,11 +661,8 @@ class Ui_MainWindow(object):
         self.verticalLayout_12.setContentsMargins(9, 0, -1, 0)
         self.serchEmailFrame = QFrame(self.dataAnalysisPage)
         self.serchEmailFrame.setObjectName(u"serchEmailFrame")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
-        sizePolicy4.setHorizontalStretch(0)
-        sizePolicy4.setVerticalStretch(0)
-        sizePolicy4.setHeightForWidth(self.serchEmailFrame.sizePolicy().hasHeightForWidth())
-        self.serchEmailFrame.setSizePolicy(sizePolicy4)
+        sizePolicy5.setHeightForWidth(self.serchEmailFrame.sizePolicy().hasHeightForWidth())
+        self.serchEmailFrame.setSizePolicy(sizePolicy5)
         self.serchEmailFrame.setFrameShape(QFrame.Shape.StyledPanel)
         self.serchEmailFrame.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_18 = QHBoxLayout(self.serchEmailFrame)
@@ -529,8 +671,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_18.setContentsMargins(0, 0, -1, 0)
         self.frame_11 = QFrame(self.serchEmailFrame)
         self.frame_11.setObjectName(u"frame_11")
-        sizePolicy4.setHeightForWidth(self.frame_11.sizePolicy().hasHeightForWidth())
-        self.frame_11.setSizePolicy(sizePolicy4)
+        sizePolicy5.setHeightForWidth(self.frame_11.sizePolicy().hasHeightForWidth())
+        self.frame_11.setSizePolicy(sizePolicy5)
         self.frame_11.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_11.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_22 = QVBoxLayout(self.frame_11)
@@ -540,8 +682,8 @@ class Ui_MainWindow(object):
         self.verticalLayout_22.setContentsMargins(0, 0, -1, 0)
         self.frame_12 = QFrame(self.frame_11)
         self.frame_12.setObjectName(u"frame_12")
-        sizePolicy4.setHeightForWidth(self.frame_12.sizePolicy().hasHeightForWidth())
-        self.frame_12.setSizePolicy(sizePolicy4)
+        sizePolicy5.setHeightForWidth(self.frame_12.sizePolicy().hasHeightForWidth())
+        self.frame_12.setSizePolicy(sizePolicy5)
         self.frame_12.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_12.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_23 = QVBoxLayout(self.frame_12)
@@ -549,8 +691,8 @@ class Ui_MainWindow(object):
         self.verticalLayout_23.setContentsMargins(-1, 2, -1, 2)
         self.label_10 = QLabel(self.frame_12)
         self.label_10.setObjectName(u"label_10")
-        sizePolicy4.setHeightForWidth(self.label_10.sizePolicy().hasHeightForWidth())
-        self.label_10.setSizePolicy(sizePolicy4)
+        sizePolicy5.setHeightForWidth(self.label_10.sizePolicy().hasHeightForWidth())
+        self.label_10.setSizePolicy(sizePolicy5)
         self.label_10.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.verticalLayout_23.addWidget(self.label_10)
@@ -560,11 +702,8 @@ class Ui_MainWindow(object):
 
         self.frame_10 = QFrame(self.frame_11)
         self.frame_10.setObjectName(u"frame_10")
-        sizePolicy5 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-        sizePolicy5.setHorizontalStretch(0)
-        sizePolicy5.setVerticalStretch(0)
-        sizePolicy5.setHeightForWidth(self.frame_10.sizePolicy().hasHeightForWidth())
-        self.frame_10.setSizePolicy(sizePolicy5)
+        sizePolicy4.setHeightForWidth(self.frame_10.sizePolicy().hasHeightForWidth())
+        self.frame_10.setSizePolicy(sizePolicy4)
         self.frame_10.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_10.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_14 = QHBoxLayout(self.frame_10)
@@ -572,25 +711,25 @@ class Ui_MainWindow(object):
         self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
         self.horizontalLayout_14.setSizeConstraint(QLayout.SizeConstraint.SetDefaultConstraint)
         self.horizontalLayout_14.setContentsMargins(0, 0, -1, 0)
-        self.seachSurname = QLineEdit(self.frame_10)
-        self.seachSurname.setObjectName(u"seachSurname")
-
-        self.horizontalLayout_14.addWidget(self.seachSurname)
-
         self.seachName = QLineEdit(self.frame_10)
         self.seachName.setObjectName(u"seachName")
 
         self.horizontalLayout_14.addWidget(self.seachName)
 
-        self.searchBody = QLineEdit(self.frame_10)
-        self.searchBody.setObjectName(u"searchBody")
+        self.seachSurname = QLineEdit(self.frame_10)
+        self.seachSurname.setObjectName(u"seachSurname")
 
-        self.horizontalLayout_14.addWidget(self.searchBody)
+        self.horizontalLayout_14.addWidget(self.seachSurname)
 
         self.searchDate = QLineEdit(self.frame_10)
         self.searchDate.setObjectName(u"searchDate")
 
         self.horizontalLayout_14.addWidget(self.searchDate)
+
+        self.searchBody = QLineEdit(self.frame_10)
+        self.searchBody.setObjectName(u"searchBody")
+
+        self.horizontalLayout_14.addWidget(self.searchBody)
 
         self.startDataBtn = QPushButton(self.frame_10)
         self.startDataBtn.setObjectName(u"startDataBtn")
@@ -612,13 +751,6 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_14.addWidget(self.startDataLabel)
 
-        self.endDataBtn = QPushButton(self.frame_10)
-        self.endDataBtn.setObjectName(u"endDataBtn")
-        sizePolicy6.setHeightForWidth(self.endDataBtn.sizePolicy().hasHeightForWidth())
-        self.endDataBtn.setSizePolicy(sizePolicy6)
-
-        self.horizontalLayout_14.addWidget(self.endDataBtn)
-
         self.endDataLabel = QLineEdit(self.frame_10)
         self.endDataLabel.setObjectName(u"endDataLabel")
         self.endDataLabel.setReadOnly(True)
@@ -627,26 +759,18 @@ class Ui_MainWindow(object):
 
         self.show_flags_btn = QCustomQPushButton(self.frame_10)
         self.show_flags_btn.setObjectName(u"show_flags_btn")
-        icon18 = QIcon()
-        icon18.addFile(u":/feather/icons/feather/flag.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.show_flags_btn.setIcon(icon18)
+        icon17 = QIcon()
+        icon17.addFile(u":/feather/icons/feather/flag.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.show_flags_btn.setIcon(icon17)
         self.show_flags_btn.setCheckable(True)
 
         self.horizontalLayout_14.addWidget(self.show_flags_btn)
 
-        self.filter_table_btn = QPushButton(self.frame_10)
-        self.filter_table_btn.setObjectName(u"filter_table_btn")
-        icon19 = QIcon()
-        icon19.addFile(u":/feather/icons/feather/search.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.filter_table_btn.setIcon(icon19)
-
-        self.horizontalLayout_14.addWidget(self.filter_table_btn)
-
         self.show_table_btn = QPushButton(self.frame_10)
         self.show_table_btn.setObjectName(u"show_table_btn")
-        icon20 = QIcon()
-        icon20.addFile(u":/material_design/icons/material_design/hide_source.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.show_table_btn.setIcon(icon20)
+        icon18 = QIcon()
+        icon18.addFile(u":/material_design/icons/material_design/hide_source.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.show_table_btn.setIcon(icon18)
 
         self.horizontalLayout_14.addWidget(self.show_table_btn)
 
@@ -659,10 +783,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_14.setStretch(1, 1)
         self.horizontalLayout_14.setStretch(2, 1)
         self.horizontalLayout_14.setStretch(3, 1)
-        self.horizontalLayout_14.setStretch(4, 1)
         self.horizontalLayout_14.setStretch(5, 1)
         self.horizontalLayout_14.setStretch(6, 1)
-        self.horizontalLayout_14.setStretch(7, 1)
 
         self.verticalLayout_22.addWidget(self.frame_10)
 
@@ -671,24 +793,24 @@ class Ui_MainWindow(object):
 
         self.widget_7 = QWidget(self.serchEmailFrame)
         self.widget_7.setObjectName(u"widget_7")
-        sizePolicy4.setHeightForWidth(self.widget_7.sizePolicy().hasHeightForWidth())
-        self.widget_7.setSizePolicy(sizePolicy4)
+        sizePolicy5.setHeightForWidth(self.widget_7.sizePolicy().hasHeightForWidth())
+        self.widget_7.setSizePolicy(sizePolicy5)
         self.horizontalLayout_13 = QHBoxLayout(self.widget_7)
         self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
         self.horizontalLayout_13.setContentsMargins(-1, 2, -1, 2)
         self.export_pdf = QPushButton(self.widget_7)
         self.export_pdf.setObjectName(u"export_pdf")
-        icon21 = QIcon()
-        icon21.addFile(u":/font_awesome/regular/icons/font_awesome/regular/file-pdf.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.export_pdf.setIcon(icon21)
+        icon19 = QIcon()
+        icon19.addFile(u":/font_awesome/regular/icons/font_awesome/regular/file-pdf.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.export_pdf.setIcon(icon19)
 
         self.horizontalLayout_13.addWidget(self.export_pdf)
 
         self.exportExelBtn = QPushButton(self.widget_7)
         self.exportExelBtn.setObjectName(u"exportExelBtn")
-        icon22 = QIcon()
-        icon22.addFile(u":/font_awesome/regular/icons/font_awesome/regular/file-excel.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.exportExelBtn.setIcon(icon22)
+        icon20 = QIcon()
+        icon20.addFile(u":/font_awesome/regular/icons/font_awesome/regular/file-excel.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.exportExelBtn.setIcon(icon20)
 
         self.horizontalLayout_13.addWidget(self.exportExelBtn)
 
@@ -1103,9 +1225,9 @@ class Ui_MainWindow(object):
 
         self.closeRightMenuBtn = QPushButton(self.widget_61)
         self.closeRightMenuBtn.setObjectName(u"closeRightMenuBtn")
-        icon23 = QIcon()
-        icon23.addFile(u":/feather/icons/feather/x-circle.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.closeRightMenuBtn.setIcon(icon23)
+        icon21 = QIcon()
+        icon21.addFile(u":/feather/icons/feather/x-circle.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.closeRightMenuBtn.setIcon(icon21)
 
         self.horizontalLayout_12.addWidget(self.closeRightMenuBtn)
 
@@ -1271,8 +1393,8 @@ class Ui_MainWindow(object):
 
         self.frame_5 = QFrame(self.scrollAreaWidgetContents_2)
         self.frame_5.setObjectName(u"frame_5")
-        sizePolicy5.setHeightForWidth(self.frame_5.sizePolicy().hasHeightForWidth())
-        self.frame_5.setSizePolicy(sizePolicy5)
+        sizePolicy4.setHeightForWidth(self.frame_5.sizePolicy().hasHeightForWidth())
+        self.frame_5.setSizePolicy(sizePolicy4)
         self.frame_5.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_5.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout = QHBoxLayout(self.frame_5)
@@ -1308,7 +1430,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.menuBtn.setDefault(False)
-        self.centerMenuPages.setCurrentIndex(0)
+        self.centerMenuPages.setCurrentIndex(3)
         self.mainPages.setCurrentIndex(0)
         self.startDataBtn.setDefault(False)
         self.rightMenuPages.setCurrentIndex(1)
@@ -1324,6 +1446,7 @@ class Ui_MainWindow(object):
         self.dataBtn.setText(QCoreApplication.translate("MainWindow", u"          Data analysis", None))
         self.reportsBtn.setText(QCoreApplication.translate("MainWindow", u"          Reports", None))
         self.graphsBtn.setText(QCoreApplication.translate("MainWindow", u"          Graphs", None))
+        self.meilBoxBtn.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
         self.fileBtn.setText(QCoreApplication.translate("MainWindow", u"File reader", None))
         self.settingsBtn.setText(QCoreApplication.translate("MainWindow", u"Settings", None))
         self.infoBtn.setText(QCoreApplication.translate("MainWindow", u"Information", None))
@@ -1335,7 +1458,8 @@ class Ui_MainWindow(object):
         self.pst_files_btn.setText(QCoreApplication.translate("MainWindow", u"Dodaj plik .pst", None))
         self.select_directory.setText(QCoreApplication.translate("MainWindow", u"Dodaj katalog", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Help", None))
-        self.titleTxt.setText(QCoreApplication.translate("MainWindow", u"FireNet E-mail Viewer", None))
+        self.titleTxt.setText(QCoreApplication.translate("MainWindow", u"FireNet Viewer e-mail ", None))
+        self.label_23.setText(QCoreApplication.translate("MainWindow", u"LOGO", None))
         self.notificationBtn.setText("")
         self.moreBtn.setText("")
         self.profileBtn.setText("")
@@ -1345,26 +1469,36 @@ class Ui_MainWindow(object):
         self.minimalizeBtn.setText("")
         self.restoreBtn.setText("")
         self.closeBtn.setText("")
-        self.label_7.setText("")
+#if QT_CONFIG(accessibility)
+        self.label_7.setAccessibleName("")
+#endif // QT_CONFIG(accessibility)
+        self.label_7.setText(QCoreApplication.translate("MainWindow", u"hgtth", None))
+        self.label_8.setText(QCoreApplication.translate("MainWindow", u"Telefon: 504 270 395", None))
+        self.label_15.setText(QCoreApplication.translate("MainWindow", u"E-mail: biuro@firenet.pl", None))
+        self.tagiBtn.setText(QCoreApplication.translate("MainWindow", u"Tagi", None))
+        self.lableBtn.setText(QCoreApplication.translate("MainWindow", u"Etykiety", None))
+        self.label_24.setText(QCoreApplication.translate("MainWindow", u"Sprawd\u017a ofert\u0119", None))
+        self.ofertaBtn.setText(QCoreApplication.translate("MainWindow", u"Logo", None))
+        self.TutorialLabel.setText(QCoreApplication.translate("MainWindow", u"Tutorial", None))
+        self.yotubeBtn.setText(QCoreApplication.translate("MainWindow", u"YT", None))
+        self.label_26.setText(QCoreApplication.translate("MainWindow", u"Odwied\u017a te\u017a", None))
+        self.linkedinBtn.setText(QCoreApplication.translate("MainWindow", u"LI", None))
+        self.wwwBtn.setText(QCoreApplication.translate("MainWindow", u"WWW", None))
+        self.fbBtn.setText(QCoreApplication.translate("MainWindow", u"FB", None))
         self.label_10.setText(QCoreApplication.translate("MainWindow", u"Szukaj", None))
+        self.seachName.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Nadawca", None))
         self.seachSurname.setText("")
         self.seachSurname.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Odbiorca", None))
-        self.seachName.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Nadawca", None))
-        self.searchBody.setPlaceholderText(QCoreApplication.translate("MainWindow", u"W tre\u015bci", None))
         self.searchDate.setPlaceholderText(QCoreApplication.translate("MainWindow", u"W temacie", None))
+        self.searchBody.setPlaceholderText(QCoreApplication.translate("MainWindow", u"W tre\u015bci", None))
         self.startDataBtn.setText("")
         self.startDataLabel.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Data od", None))
-        self.endDataBtn.setText("")
         self.endDataLabel.setText("")
         self.endDataLabel.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Data Do", None))
 #if QT_CONFIG(tooltip)
         self.show_flags_btn.setToolTip(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>Poka\u017c wszystkie zaznaczone flagi</p></body></html>", None))
 #endif // QT_CONFIG(tooltip)
         self.show_flags_btn.setText("")
-#if QT_CONFIG(tooltip)
-        self.filter_table_btn.setToolTip(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>Wyszukaj w tabeli</p></body></html>", None))
-#endif // QT_CONFIG(tooltip)
-        self.filter_table_btn.setText("")
 #if QT_CONFIG(tooltip)
         self.show_table_btn.setToolTip(QCoreApplication.translate("MainWindow", u"<html><head/><body><p>Poka\u017c ca\u0142\u0105 tabel\u0119</p></body></html>", None))
 #endif // QT_CONFIG(tooltip)
@@ -1401,7 +1535,7 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"Flagi", None));
         ___qtablewidgetitem6 = self.tableWidget.horizontalHeaderItem(6)
         ___qtablewidgetitem6.setText(QCoreApplication.translate("MainWindow", u"Tagi", None));
-        self.hederEmailBtn.setText(QCoreApplication.translate("MainWindow", u"Nag\u0142owek", None))
+        self.hederEmailBtn.setText(QCoreApplication.translate("MainWindow", u"Pokarz nag\u0142owek", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">Nadawca:</span></p></body></html>", None))
         self.sender.setText("")
         self.label_17.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">Odbiorca:</span></p></body></html>", None))

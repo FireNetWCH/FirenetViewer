@@ -76,8 +76,8 @@
 		"ActiveButton": "homeBtn",
 		"Style": [
 		  {
-			"Active": "QPushButton{background-color: THEME.COLOR_BACKGROUND_2; font-weight: bold; border-top: 2px solid $COLOR_BACKGROUND_3; border-left: 5px solid $COLOR_BACKGROUND_3;border-bottom: 6px solid $COLOR_BACKGROUND_3;}",
-			"NotActive": "QPushButton{background-color: transparent; font-weight: normal; border-top: 2px solid transparent; border-left: 5px solid transparent;border-bottom: 6px solid transparent;}"
+			"Active": "QPushButton{background-color: #102339;border-radius: 0px; font-weight: bold; border-top: 2px solid #102339; border-left: 5px solid #ffffff;}",
+			"NotActive": "QPushButton{background-color: #102339;border-radius: 0px; font-weight: normal; border-top: 2px solid transparent; border-left: 5px solid transparent;border-bottom: 6px solid transparent;}"
 		  }
 		]
 	  },
@@ -86,14 +86,15 @@
 		  "settingsBtn",
 		  "infoBtn",
 		  "helpBtn",
-		  "fileBtn",
-		  "closeCenterMenuBtn"
+		  "fileBtn"
+		
 		],
-		"ActiveButton": "closeCenterMenuBtn",
+		"ActiveButton": "fileBtn",
 		"Style": [
 		  {
-			"Active": "QPushButton{background-color: THEME.COLOR_ACCENT_1; font-weight: bold; border-top: 6px solid $COLOR_BACKGROUND_3; border-left: 6px solid $COLOR_BACKGROUND_3;border-bottom: 6px solid $COLOR_BACKGROUND_3;}",
-			"NotActive": "QPushButton{background-color: transparent; font-weight: normal; border-top: 6px solid transparent; border-left: 6px solid transparent;border-bottom: 6px solid transparent;}"
+			"Active": "QPushButton{background-color: #102339;border-radius: 0px; font-weight: bold; border-top: 2px solid #102339; border-left: 5px solid #ffffff;}",
+			"NotActive": "QPushButton{background-color: #102339;border-radius: 0px; font-weight: normal; border-top: 2px solid transparent; border-left: 5px solid transparent;border-bottom: 6px solid transparent;}"
+
 		  }
 		]
 	  },
@@ -105,8 +106,6 @@
 		  "profileBtn",
 		  "closeRightMenuBtn",
 		  "startDataBtn",
-		  "endDataBtn",
-		  "filter_table_btn",
 		  "showSearchPanelBtn"
 
 		],
@@ -123,6 +122,18 @@
   "QCustomSlideMenu": [
 	  {
 		"name": "leftMenu",
+		"Background-color":"#00ff00",
+		"color":"#00ff00",
+		"background-color": "#00ff00",
+		"style": {
+            "whenMenuIsCollapsed": {
+              "background-color": "#00ff00",
+              "color": "#00ff00"
+            },
+            "whenMenuIsExpanded": {
+              "background-color": "#00ff00",
+              "color": "#00ff00"
+            }},
 		"defaultSize": [
 		  {
 			"width": 40,
@@ -141,6 +152,7 @@
 			"height": "parent"
 		  }
 		],
+		
 		"toggleButton": [
 		  {
 			"buttonName": "menuBtn",
@@ -250,7 +262,7 @@
 				"settingsBtn": "settingsPage",
 				"infoBtn": "informationPage",
 				"fileBtn": "fileReader",
-				"helpBtn": "helpPage"
+				"meilBoxBtn": "helpPage"
 			  }
 			]
 		  }
