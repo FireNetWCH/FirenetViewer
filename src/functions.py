@@ -3,8 +3,8 @@ import sqlite3
 import logging
 from typing import Any, List, Dict, Optional
 import pandas as pd
-from PySide6.QtCore import Qt, QSettings, QDir, QPoint,QEasingCurve,QRect,QDate
-from PySide6.QtGui import QFont, QFontDatabase, QAction,QStandardItem, QPixmap, QImage, QPainter,QIcon
+from PySide6.QtCore import Qt, QSettings, QDir, QPoint,QEasingCurve,QRect,QDate,QUrl
+from PySide6.QtGui import QFont, QFontDatabase, QAction,QStandardItem, QPixmap, QImage, QPainter,QIcon,QDesktopServices
 from PySide6.QtWidgets import (
     QCheckBox, QPushButton, QGraphicsScene, QTableWidgetItem, QTabBar,QMenu, QFileSystemModel,QSizePolicy,QSplitter,QFrame,QApplication,QTableWidget,QDialog,QCalendarWidget,
     QTreeView, QVBoxLayout, QFileDialog, QGraphicsView, QTreeWidgetItem,QListWidgetItem, QTreeWidget, QMainWindow,QListWidget,QHeaderView,QAbstractItemView
@@ -25,11 +25,14 @@ from src.calendar_dialog_widget import DateRangeDialog
 from src.atachment_list_widget import FileListItem
 from src.email_page.selector_tag_sercher import SekectorTag
 from src.email_page.tag_dialog import TagCrud
+from src.email_page.label_dialog import LabelsCrud
 from src.message_box.date_warning import left_date_wornig, rights_date_wornig
 from src.db_function.exports import generate_pdf,remove_multi_new_line,export_to_pdf,export_to_excel
 from src.email_page.export_options import ExportSelector
+from src.label_page.main_label_page import load_all_labels,load_clicked_email_on_labels
 from src.db_function.db_email_folders_tree import load_folders_data_into_tree
 from src.email_page.main_emeil_table import load_data_from_database
+from src.email_page.context_menu import LabelContextMenu,EditLabelContextMenu
 #from src.label_context_menu import show_context_menu
 import src.db_function.db_email_function as db_email_function
 import math
@@ -54,6 +57,10 @@ class GUIFunctions:
         self.filtering_active: bool = False
         self.current_sort_order: Dict[int, Any] = {}
 
+        self.url_www = "https://www.firenet.com.pl/"
+        self.url_linkedin = "https://www."
+        self.url_fb = "https://fb"
+
         #Parametry do obsługi emeil
         #kolumna w tabeli emaili gdzie znajdzuje się checbox
         self.column_check_box= 5
@@ -64,9 +71,10 @@ class GUIFunctions:
         self.sql_name = ""
         self.id_selected_email = 0
         self.is_expanded_serch_frame = True
-
+        self.id_selected_label = 0
         self.max_page = 0
         self.all_emails_count = 0
+        self.last_clicket_row = 0
         self.current_page = 0
         self.emails_per_page = 500
         self._setup_ui(self.path)
@@ -137,8 +145,7 @@ class GUIFunctions:
         self.ui.closeRightMenuBtn.clicked.connect(lambda: self.ui.rightMenu.collapseMenu())
         
         
-        #C:\Users\firenet\FirenetViewer_email_view\FirenetViewer\Qss\icons\FFFFFF\feather\home.png
-        #C:\Users\firenet\FirenetViewer_email_view\FirenetViewer\Qss\icons\FFFFFF\feather\activity.png
+       
         #rozciąganie szerokości paska bocznego przy splitter
         self.ui.closeCenterMenuBtn.clicked.connect(lambda : self.ui.splitter.setSizes([0, 1]))
         self.ui.fileBtn.clicked.connect(lambda : self.ui.splitter.setSizes([1, 2]))
@@ -160,6 +167,18 @@ class GUIFunctions:
         self.ui.exportExelBtn.clicked.connect(self.open_dialog_export_selector_to_exel)
         self.ui.pst_files_btn.clicked.connect(self.upload_pst_file)
         self.ui.tagiBtn.clicked.connect(self.show_tag_crud)
+
+
+        self.ui.labelNameCrudBtn.clicked.connect(self.show_label_crud)
+        self.ui.lableBtn.clicked.connect(self.open_label_page)
+        self.ui.LabelTableWidget.cellClicked.connect(lambda row : load_clicked_email_on_labels(self,row))
+
+        self.ui.wwwBtn.clicked.connect(self.open_www_in_browser)
+        self.ui.wwwBtn.setIcon(QIcon(".\\Qss\\icons\\black\\font_awesome\\solid\\rss.png"))
+        self.ui.linkedinBtn.clicked.connect(self.open_linkedin_in_browser)
+        self.ui.linkedinBtn.setIcon(QIcon(".\\Qss\\icons\\black\\feather\\linkedin.png"))
+        self.ui.fbBtn.clicked.connect(self.open_facebook_in_browser)
+        self.ui.fbBtn.setIcon(QIcon(".\\Qss\\icons\\black\\feather\\facebook.png"))
         #self.ui.checkBoxData.checkStateChanged.connect(self.date_state_box)
 
         self.ui.tagPuschBtn.clicked.connect(lambda: self.open_dialog_tag_selector(self.active_filters))
@@ -208,7 +227,11 @@ class GUIFunctions:
         bodylabel.setContextMenuPolicy(Qt.CustomContextMenu)
         bodylabel.customContextMenuRequested.connect(self.show_context_menu)
 
-        
+        # konfiguracja menu rozwijanego dla Labelki zawierającej treść Emaila w sekcji Etykiet
+        bodylabel = self.ui.page.findChild(QLabel, "body_2")
+        bodylabel.setContextMenuPolicy(Qt.CustomContextMenu)
+        bodylabel.customContextMenuRequested.connect(self.show_context_menu_email_body)
+
 
         # Konfiguracja menu nagłówka tabeli
         header = self.ui.tableWidget.horizontalHeader()
@@ -246,25 +269,40 @@ class GUIFunctions:
         if dialog.exec():
             logger.info(f"Zaktualizowano tagi dla użytkownika")
             #self.ui.selectedTagLabel.setText(f"Wybrane Tagi: {self.active_filters['tag'].removeprefix("(").removesuffix(")")}")
-            load_data_from_database(self)
+            
+    
+    def show_label_crud(self):
+        dialog = LabelsCrud(self.db_connection)
+        if dialog.exec():
+            logger.info(f"Zaktualizowano labelki")
+            load_all_labels(self)
+            #self.ui.selectedTagLabel.setText(f"Wybrane Tagi: {self.active_filters['tag'].removeprefix("(").removesuffix(")")}")
 
+    def open_www_in_browser(self):
+        QDesktopServices.openUrl(QUrl(self.url_www))
+
+    def open_linkedin_in_browser(self):
+        QDesktopServices.openUrl(QUrl(self.url_linkedin))
+
+    def open_facebook_in_browser(self):
+        QDesktopServices.openUrl(QUrl(self.url_fb))
+
+    def open_label_page(self):
+        load_all_labels(self)
+        self.ui.mainPages.setCurrentIndex(0)
+        
+    
     def show_context_menu(self, pos):
-        context_menu = self.ui.EmailtabWidget.findChild(QLabel, "body")
-        all_labels =  db_email_function.get_all_labels_name(self.db_connection)
-        labelContextMenu = QMenu(self.main)
+        context_widget = self.ui.EmailtabWidget.findChild(QLabel, "body")
+        context_menu = LabelContextMenu(self.main, self.db_connection,self)
+        context_menu.show(pos, context_widget)
 
-        submenu = QMenu("Etykiety", labelContextMenu)
-        selected_text = context_menu.selectedText()
-        print(selected_text)
-        for row in all_labels:
-            action = QAction(str(row[1]), self.main)
-            action.triggered.connect(lambda checked, value=row[0]: self.add_lebels_to_db(value,selected_text))
-            submenu.addAction(action)
-        labelContextMenu.addMenu(submenu)
-        labelContextMenu.exec(context_menu.mapToGlobal(pos))
+    def show_context_menu_email_body(self,pos):
+        context_widget = self.ui.page.findChild(QLabel, "body_2")
+        context_menu = EditLabelContextMenu(self.main, self.db_connection,self)
+        context_menu.show(pos, context_widget)
 
     def add_lebels_to_db(self,id_labels_name,selected_text):
-
         db_email_function.add_label(self.db_connection,id_labels_name,self.id_selected_email,selected_text)
         
 

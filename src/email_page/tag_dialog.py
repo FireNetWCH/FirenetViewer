@@ -64,7 +64,5 @@ def delete_and_refresh(self, connection, tag_id):
     delate_tag(connection, tag_id) 
     self.load_tags(connection)
 
+from PySide6.QtWidgets import QPushButton, QVBoxLayout, QDialog, QLineEdit
 
-
-            
-            

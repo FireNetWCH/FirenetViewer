@@ -2,7 +2,7 @@ import sqlite3
 import logging
 import re
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 def connect_to_database(self, db_name: str) -> None:
         """Nawiązuje połączenie z bazą danych SQLite."""
@@ -215,3 +215,95 @@ def updata_tag(db_connection,id_tag,new_tag_name):
             logger.error(f"Błąd podczas aktualizowania tagów: {e}")
             print(f"Błąd podczas aktualizowania tagów: {e}")
 
+
+def delate_label(db_connection,id_tag):
+    """Usuwa labelke o wskazanym id"""
+    try:
+        query = f""" 
+        DELETE FROM labels_name WHERE id = {id_tag} 
+        """
+        print(query)
+        cursor = db_connection.cursor()
+        cursor.execute(query)
+        db_connection.commit()
+        print("")
+    except sqlite3.Error as e:
+            logger.error(f"Błąd podczas usuwania labelki z tabeli labels_name: {e}")
+            print(f"Błąd podczas usuwania labelki z tabeli labels_name: {e}")
+
+def updata_label_name(db_connection,id_tag,new_tag_name):
+    """Uaktualnia nazwę wskazanej labelki"""
+    try:
+        query = f"""
+        UPDATE labels_name set label_name = '{new_tag_name}' WHERE ID = {id_tag}
+        """
+        
+        cursor = db_connection.cursor()
+        cursor.execute(query)
+        db_connection.commit()
+    except sqlite3.Error as e:
+            logger.error(f"Błąd podczas aktualizowania labelek: {e}")
+            print(f"Błąd podczas aktualizowania labelek: {e}")
+
+def select_all_label(db_connection):
+    '''Pobiera wszystkie labelki z danej skrzynki odbiorczej'''
+    try:
+        query = f"""
+        SELECT 
+        email_labels.id,
+        email_labels.label,
+        labels_name.label_name,
+        email_labels.id_email
+        FROM email_labels
+        JOIN labels_name ON email_labels.id_labels_name = labels_name.id;
+    """ 
+        cursor = db_connection.cursor()
+        cursor.execute(query)
+        results = cursor.fetchall()
+        return results 
+    except sqlite3.Error as e:
+            logger.error(f"Błąd podczas pobierania wszystkich labelek: {e}")
+            print(f"Błąd podczas pobierania wszystkich labelek: {e}")
+
+
+def delate_email_labels(db_connection, id_email_labels):
+    """Usuwa email_labels o wskazanym id"""
+    try:
+        query = f""" 
+        DELETE FROM email_labels WHERE id = {id_email_labels} 
+        """
+        print(query)
+        cursor = db_connection.cursor()
+        cursor.execute(query)
+        db_connection.commit()
+    except sqlite3.Error as e:
+            logger.error(f"Błąd podczas usuwania labelki z tabeli labels_name: {e}")
+            print(f"Błąd podczas usuwania labelki z tabeli labels_name: {e}")
+
+def update_id_labels_name(db_connection,id_labels, id_labels_name):
+    """Zmienia id_labels_name w tabeli email_labels"""
+    try:
+        query = f""" 
+        UPDATE email_labels set id_labels_name = {id_labels_name}  WHERE ID = {id_labels}
+        """
+        print(query)
+        cursor = db_connection.cursor()
+        cursor.execute(query)
+        db_connection.commit()
+    except sqlite3.Error as e:
+            logger.error(f"Błąd podczas uaktualnania labelki z tabeli labels_name: {e}")
+            print(f"Błąd podczas uaktualnania labelki z tabeli labels_name: {e}")
+
+def updata_label(db_connection,id_label,new_lebel_text):
+    """Uaktualnia nazwę wskazanej labelki"""
+    try:
+        query = f"""
+        UPDATE email_labels set label = '{new_lebel_text}' WHERE ID = {id_label}
+        """
+        
+        cursor = db_connection.cursor()
+        cursor.execute(query)
+        db_connection.commit()
+    except sqlite3.Error as e:
+            logger.error(f"Błąd podczas aktualizowania labelek: {e}")
+            print(f"Błąd podczas aktualizowania labelek: {e}")
