@@ -6,8 +6,16 @@ import fitz
 import os
 import shutil
 import logging
+import sys 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
+def get_resource_path(relative_path):
+    """Zwraca poprawną ścieżkę do zasobów, obsługując tryb onefile"""
+    if getattr(sys, 'frozen', False):  
+        base_path = sys._MEIPASS  
+    else:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
 
 class FileListItem(QWidget):
     def __init__(self, filename,file_path, parent=None):
@@ -24,7 +32,7 @@ class FileListItem(QWidget):
         frame_layout.setSpacing(1)
         self.label = QLabel(filename)
         self.label.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        self.preview_button = QPushButton(QIcon("./Qss/icons/black/feather/download.png"), "")
+        self.preview_button = QPushButton(QIcon(get_resource_path("Qss/icons/black/feather/download.png")), "")
         self.preview_button.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         self.preview_button.clicked.connect(self.copy_file)
         frame_layout.addWidget(self.label)

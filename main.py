@@ -5,7 +5,10 @@ from src.ui_interface import Ui_MainWindow
 from Custom_Widgets import *
 from Custom_Widgets.QCustomQToolTip import QCustomQToolTipFilter
 from Custom_Widgets.QAppSettings import QAppSettings
+
+ 
 import os
+import _icons_rc
 def get_resource_path(relative_path):
     """Zwraca poprawną ścieżkę do zasobów, obsługując tryb onefile"""
     if getattr(sys, 'frozen', False):  
@@ -22,9 +25,10 @@ class MainWindow(QMainWindow):
 
         json_style_path = get_resource_path("json-styles/style.json")
         loadJsonStyle(self, self.ui, jsonFiles={json_style_path})
+        
 
         self.show()
-        QAppSettings.updateAppSettings(self)
+        QAppSettings.updateAppSettings(self,generateIcons=False,reloadJson=False)
         self.app_functions = GUIFunctions(self)
 
     def scssCompilationProgress(self, n: int) -> None:
@@ -35,5 +39,9 @@ if __name__ == "__main__":
     app_tooltip_filter = QCustomQToolTipFilter(tailPosition="auto")
     app.installEventFilter(app_tooltip_filter)
     window = MainWindow()
+    if getattr(sys, 'frozen', False):
+        import pyi_splash
+        if getattr(sys, 'frozen', False):
+            pyi_splash.close()
     window.show()
     sys.exit(app.exec())

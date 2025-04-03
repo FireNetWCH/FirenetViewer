@@ -39,12 +39,20 @@ import math
 import json
 import shutil 
 import openpyxl
+import sys
 from openpyxl.styles import Alignment
 from openpyxl.worksheet.page import PageMargins
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
+def get_resource_path(relative_path):
+    """Zwraca poprawną ścieżkę do zasobów, obsługując tryb onefile"""
+    if getattr(sys, 'frozen', False):  
+        base_path = sys._MEIPASS  
+    else:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
 
 class GUIFunctions:
     """ Klasa zawierająca funkcje obsługujące interfejs graficzny i logikę aplikacji. """
@@ -60,14 +68,17 @@ class GUIFunctions:
         self.url_www = "https://www.firenet.com.pl/"
         self.url_linkedin = "https://www."
         self.url_fb = "https://fb"
-
+       
         #Parametry do obsługi emeil
         #kolumna w tabeli emaili gdzie znajdzuje się checbox
         self.column_check_box= 5
-        file_config = open(".\\config.json")
-        config = json.load(file_config)
-        base_path = config['path']
-        self.path = base_path
+        # config_path = get_resource_path("config.json")
+        print(os.getcwd())
+        # config_path = os.getcwd()+"\\SQL"
+        
+        # config = json.load(config_path)
+        # base_path = config['path']
+        self.path = os.getcwd()+"\\SQL"
         self.sql_name = ""
         self.id_selected_email = 0
         self.is_expanded_serch_frame = True
@@ -144,7 +155,7 @@ class GUIFunctions:
         self.ui.profileBtn.clicked.connect(lambda: self.ui.rightMenu.expandMenu())
         self.ui.closeRightMenuBtn.clicked.connect(lambda: self.ui.rightMenu.collapseMenu())
         
-        
+        self.ui.minimalizeBtn.clicked.connect(lambda: self.main.showMinimized())
        
         #rozciąganie szerokości paska bocznego przy splitter
         self.ui.closeCenterMenuBtn.clicked.connect(lambda : self.ui.splitter.setSizes([0, 1]))
@@ -164,6 +175,7 @@ class GUIFunctions:
         self.ui.show_table_btn.clicked.connect(self.show_all_columns)
         self.ui.show_flags_btn.clicked.connect(self.toggle_filter_flags)
         self.ui.export_pdf.clicked.connect(self.open_dialog_export_selector_to_pdf)
+       
         self.ui.exportExelBtn.clicked.connect(self.open_dialog_export_selector_to_exel)
         self.ui.pst_files_btn.clicked.connect(self.upload_pst_file)
         self.ui.tagiBtn.clicked.connect(self.show_tag_crud)
@@ -174,11 +186,11 @@ class GUIFunctions:
         self.ui.LabelTableWidget.cellClicked.connect(lambda row : load_clicked_email_on_labels(self,row))
 
         self.ui.wwwBtn.clicked.connect(self.open_www_in_browser)
-        self.ui.wwwBtn.setIcon(QIcon(".\\Qss\\icons\\black\\font_awesome\\solid\\rss.png"))
+        self.ui.wwwBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\black\\font_awesome\\solid\\rss.png")))
         self.ui.linkedinBtn.clicked.connect(self.open_linkedin_in_browser)
-        self.ui.linkedinBtn.setIcon(QIcon(".\\Qss\\icons\\black\\feather\\linkedin.png"))
+        self.ui.linkedinBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\black\\feather\\linkedin.png")))
         self.ui.fbBtn.clicked.connect(self.open_facebook_in_browser)
-        self.ui.fbBtn.setIcon(QIcon(".\\Qss\\icons\\black\\feather\\facebook.png"))
+        self.ui.fbBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\black\\feather\\facebook.png")))
         #self.ui.checkBoxData.checkStateChanged.connect(self.date_state_box)
 
         self.ui.tagPuschBtn.clicked.connect(lambda: self.open_dialog_tag_selector(self.active_filters))
@@ -239,14 +251,17 @@ class GUIFunctions:
         header.customContextMenuRequested.connect(self.show_column_menu)
 
         #ustawienie odpowiednich ikon i kolorów tła
-        self.ui.homeBtn.setIcon(QIcon(".\\Qss\\icons\\FFFFFF\\feather\\home.png"))
-        self.ui.infoBtn.setIcon(QIcon(".\\Qss\\icons\\FFFFFF\\feather\\activity.png"))
-        self.ui.dataBtn.setIcon(QIcon(".\\Qss\\icons\\FFFFFF\\feather\\mail.png"))
-        self.ui.dataBtn.setIcon(QIcon(".\\Qss\\icons\\FFFFFF\\feather\\mail.png"))
-        self.ui.graphsBtn.setIcon(QIcon(".\\Qss\\icons\\FFFFFF\\font_awesome\\solid\\chart-pie.png"))
+    
+        self.ui.homeBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\home.png")))
+        self.ui.infoBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\activity.png")))
+        self.ui.dataBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\mail.png")))
+        self.ui.graphsBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\font_awesome\\solid\\chart-pie.png")))
         self.ui.titleTxt.setStyleSheet("color: #102339;")
-        self.ui.meilBoxBtn.setIcon(QIcon(".\\Qss\\icons\\\FFFFFF\\material_design\\format_align_justify.png"))    
-       
+        self.ui.meilBoxBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\material_design\\format_align_justify.png")))
+        self.ui.export_pdf.setIcon(QIcon(get_resource_path("Qss\\icons\\icons\\font_awesome\\regular\\file-pdf.png")))
+        self.ui.closeCenterMenuBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\icons\\font_awesome\\solid\\circle-xmark.png")))
+        self.ui.exportExelBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\icons\\font_awesome\\regular\\file-excel.png")))
+        self.ui.startDataBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\icons\\font_awesome\\regular\\calendar.png")))
         self.ui.leftMenu.setStyleSheet("background-color: #102339; border: 3px solid #102339;")
     def _tymczaspwe_ukrycie_(self):
         #wyszukiwarka 
@@ -521,6 +536,7 @@ class GUIFunctions:
         
     def tree_email_dir_clicked(self,item ,column):
         self.active_filters["folder_id"] = item.data(0,1)
+        self.ui.mainPages.setCurrentIndex(1)
         self.clear_filtr()
         
 

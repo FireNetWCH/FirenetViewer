@@ -554,7 +554,7 @@ class Ui_MainWindow(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 520, 442))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, -92, 520, 360))
         sizePolicy.setHeightForWidth(self.scrollAreaWidgetContents_3.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents_3.setSizePolicy(sizePolicy)
         self.verticalLayout_34 = QVBoxLayout(self.scrollAreaWidgetContents_3)
@@ -1724,7 +1724,7 @@ class Ui_MainWindow(object):
 
         self.menuBtn.setDefault(False)
         self.centerMenuPages.setCurrentIndex(3)
-        self.mainPages.setCurrentIndex(0)
+        self.mainPages.setCurrentIndex(1)
         self.startDataBtn.setDefault(False)
         self.rightMenuPages.setCurrentIndex(2)
 

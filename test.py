@@ -169,3 +169,7 @@ generate_pdf("output.pdf",
              subject="Spotkanie o godzinie 15:00", 
              attachments="Załącznik 1, Załącznik 2, Załącznik 3,Załącznik 1, Załącznik 2, Załącznik 3,Załącznik 1, Załącznik 2, Załącznik 3,Załącznik 1, Załącznik 2, Załącznik 3")
 
+{
+      "name": "export_pdf",
+      "icon": "Qss/icons/icons/font_awesome/regular/file-pdf.png"
+},

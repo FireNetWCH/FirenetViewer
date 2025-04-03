@@ -84,13 +84,10 @@
       "name": "show_table_btn",
       "icon": "Qss/icons/icons/material_design/hide_source.png"
     },
-    {
-      "name": "export_pdf",
-      "icon": "Qss/icons/regular/icons/font_awesome/regular/file-pdf.png"
-    },
+   
     {
       "name": "exportExelBtn",
-      "icon": "Qss/icons/regular/icons/font_awesome/regular/file-excel.png"
+      "icon": "Qss/icons/icons/font_awesome/regular/file-excel.png"
     },
     {
       "name": "closeRightMenuBtn",
@@ -98,10 +95,6 @@
     },
     {
       "name": "startDataBtn",
-      "icon": "Qss/icons/icons/feather/calendar.png"
-    },
-    {
-      "name": "endDataBtn",
       "icon": "Qss/icons/icons/feather/calendar.png"
     }
   ],

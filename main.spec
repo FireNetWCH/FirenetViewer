@@ -1,48 +1,70 @@
-from PyInstaller.utils.hooks import collect_dynamic_libs
+# -*- mode: python ; coding: utf-8 -*-
 
-block_cipher = None
-
-lxml_binaries = collect_dynamic_libs('lxml')
 
 a = Analysis(
     ['main.py'],
     pathex=[],
-    binaries=lxml_binaries, 
-    datas=[
-        ('json-styles/style.json', 'json-styles'),
-        ('Qss/*', 'Qss'),
+    binaries=[],
+    datas=[ ('json-styles/style.json', 'json-styles'),
+        ('Qss/scss/*', 'Qss/scss'),
         ('fonts', 'fonts'),
-        ('generated-files/*', 'generated-files')
-    ],
-    hiddenimports=['PySide6', 'openpyxl', 'openpyxl.cell._writer'],
+        ('generated-files/*', 'generated-files'),
+        ('config.json','.'),
+        ('DejaVuSansCondensed.ttf','.'),
+        ('logo.jpg','.'),
+        ('logoLoad.jpg','.'),
+        ('Qss/icons/FFFFFF/feather/home.png','Qss/icons/FFFFFF/feather/'),
+        ('Qss/icons/FFFFFF/feather/activity.png','Qss/icons/FFFFFF/feather/'),
+        ('Qss/icons/FFFFFF/feather/mail.png','Qss/icons/FFFFFF/feather/'),
+        ('Qss/icons/FFFFFF/font_awesome/solid/chart-pie.png','Qss/icons/FFFFFF/font_awesome/solid/'),
+        ('Qss/icons/FFFFFF/material_design/format_align_justify.png','Qss/icons/FFFFFF/material_design/'),
+        ('Qss/icons/icons/font_awesome/regular/file-pdf.png','Qss/icons/icons/font_awesome/regular/'),
+        ('Qss/icons/icons/font_awesome/solid/circle-xmark.png','Qss/icons/icons/font_awesome/solid/'),
+        ('Qss/icons/icons/font_awesome/regular/file-excel.png','Qss/icons/icons/font_awesome/regular/'),
+        ('Qss/icons/icons/font_awesome/regular/calendar.png','Qss/icons/icons/font_awesome/regular/'),
+        ('Qss/icons/black/feather/download.png','Qss/icons/black/feather/'),
+        ('Qss/icons/black/font_awesome/solid/rss.png','Qss/icons/black/font_awesome/solid/'),
+        ('Qss/icons/black/feather/linkedin.png','Qss/icons/black/feather/'),
+        ('Qss/icons/black/feather/facebook.png','Qss/icons/black/feather/'),
+        ('Qss/scss/*', 'Qss/scss')],
+    hiddenimports=['PySide6','openpyxl','openpyxl.cell._writer','_ctypes'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=['PyQt5', 'PySide2', 'PyQt6'], 
+    excludes=['PyQt5', 'PySide2', 'PyQt6'],
     noarchive=False,
     optimize=0,
 )
+
+splash = Splash('logoLoad.jpg',
+                binaries=a.binaries,
+                datas=a.datas,
+                text_pos=(60, 60),
+                text_size=12,
+                text_color='black')
 
 pyz = PYZ(a.pure)
 
 exe = EXE(
     pyz,
     a.scripts,
-    a.binaries, 
-    a.datas, 
+    splash,
+    splash.binaries, 
+    a.binaries,
+    a.datas,
     [],
-    name='FirenetViewer',
+    name='main',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
-    upx=True,
+    upx=False,
     upx_exclude=[],
     runtime_tmpdir=None,
-    console=False,  
+    console=False,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    onefile=True, 
 )
+

@@ -31,6 +31,8 @@ def load_all_labels(self):
                 for id_, name in all_labels:
                     combo_box.addItem(name, id_) 
                 combo_box.setCurrentText(str(cell_data))
+                combo_box.setFocusPolicy(Qt.NoFocus)
+                combo_box.wheelEvent = lambda event: event.ignore()
                 combo_box.currentIndexChanged.connect(lambda _, row=label_id, cb=combo_box: label_name_changed(self, self.db_connection, row, cb.currentData()))
                 self.ui.LabelTableWidget.setCellWidget(row_idx, col_idx, combo_box)
             else:
@@ -38,6 +40,7 @@ def load_all_labels(self):
                 self.ui.LabelTableWidget.setItem(row_idx, col_idx, item)
         delete_button = QPushButton("Usuń")
         delete_button.clicked.connect(lambda _, id=label_id: delete_row(self,id))
+        delete_button.setFocusPolicy(Qt.NoFocus)
         self.ui.LabelTableWidget.setCellWidget(row_idx, len(row_data), delete_button)
 
     self.ui.LabelTableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Fixed)

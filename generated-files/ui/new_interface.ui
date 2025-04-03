@@ -418,7 +418,7 @@
                  <enum>Qt::ContextMenuPolicy::DefaultContextMenu</enum>
                 </property>
                 <property name="currentIndex">
-                 <number>3</number>
+                 <number>1</number>
                 </property>
                 <widget class="QWidget" name="settingsPage">
                  <property name="sizePolicy">
@@ -918,7 +918,7 @@
                  <item>
                   <widget class="QCustomQStackedWidget" name="mainPages">
                    <property name="currentIndex">
-                    <number>0</number>
+                    <number>1</number>
                    </property>
                    <widget class="QWidget" name="page">
                     <layout class="QVBoxLayout" name="verticalLayout_36">
@@ -1035,7 +1035,7 @@
                                     <x>0</x>
                                     <y>0</y>
                                     <width>520</width>
-                                    <height>442</height>
+                                    <height>360</height>
                                    </rect>
                                   </property>
                                   <property name="sizePolicy">
