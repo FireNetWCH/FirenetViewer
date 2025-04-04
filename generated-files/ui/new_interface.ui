@@ -10,6 +10,12 @@
     <height>518</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="font">
    <font>
     <pointsize>10</pointsize>
@@ -2145,9 +2151,9 @@
                               <property name="geometry">
                                <rect>
                                 <x>0</x>
-                                <y>0</y>
+                                <y>-87</y>
                                 <width>520</width>
-                                <height>338</height>
+                                <height>382</height>
                                </rect>
                               </property>
                               <property name="sizePolicy">
@@ -2378,7 +2384,7 @@
                                         </widget>
                                        </item>
                                        <item>
-                                        <widget class="QLabel" name="cc">
+                                        <widget class="QLabel" name="recipientsLabel">
                                          <property name="sizePolicy">
                                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                                            <horstretch>0</horstretch>
@@ -2393,6 +2399,124 @@
                                          </property>
                                          <property name="textInteractionFlags">
                                           <set>Qt::TextInteractionFlag::LinksAccessibleByMouse|Qt::TextInteractionFlag::TextSelectableByMouse</set>
+                                         </property>
+                                        </widget>
+                                       </item>
+                                      </layout>
+                                     </widget>
+                                    </item>
+                                    <item>
+                                     <widget class="QWidget" name="ccWidget" native="true">
+                                      <property name="sizePolicy">
+                                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                       </sizepolicy>
+                                      </property>
+                                      <layout class="QHBoxLayout" name="horizontalLayout_30">
+                                       <property name="spacing">
+                                        <number>0</number>
+                                       </property>
+                                       <property name="leftMargin">
+                                        <number>0</number>
+                                       </property>
+                                       <property name="topMargin">
+                                        <number>0</number>
+                                       </property>
+                                       <property name="rightMargin">
+                                        <number>0</number>
+                                       </property>
+                                       <property name="bottomMargin">
+                                        <number>0</number>
+                                       </property>
+                                       <item>
+                                        <widget class="QLabel" name="ccTitleLabel">
+                                         <property name="sizePolicy">
+                                          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                           <horstretch>0</horstretch>
+                                           <verstretch>0</verstretch>
+                                          </sizepolicy>
+                                         </property>
+                                         <property name="font">
+                                          <font>
+                                           <pointsize>10</pointsize>
+                                           <bold>true</bold>
+                                          </font>
+                                         </property>
+                                         <property name="text">
+                                          <string>CC:</string>
+                                         </property>
+                                        </widget>
+                                       </item>
+                                       <item>
+                                        <widget class="QLabel" name="ccLabel">
+                                         <property name="frameShape">
+                                          <enum>QFrame::Shape::Box</enum>
+                                         </property>
+                                         <property name="text">
+                                          <string/>
+                                         </property>
+                                        </widget>
+                                       </item>
+                                      </layout>
+                                     </widget>
+                                    </item>
+                                    <item>
+                                     <widget class="QWidget" name="bccWidget" native="true">
+                                      <property name="sizePolicy">
+                                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                       </sizepolicy>
+                                      </property>
+                                      <layout class="QHBoxLayout" name="horizontalLayout_36">
+                                       <property name="spacing">
+                                        <number>0</number>
+                                       </property>
+                                       <property name="leftMargin">
+                                        <number>0</number>
+                                       </property>
+                                       <property name="topMargin">
+                                        <number>0</number>
+                                       </property>
+                                       <property name="rightMargin">
+                                        <number>0</number>
+                                       </property>
+                                       <property name="bottomMargin">
+                                        <number>0</number>
+                                       </property>
+                                       <item>
+                                        <widget class="QLabel" name="bccTitleLabel">
+                                         <property name="sizePolicy">
+                                          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                           <horstretch>0</horstretch>
+                                           <verstretch>0</verstretch>
+                                          </sizepolicy>
+                                         </property>
+                                         <property name="font">
+                                          <font>
+                                           <pointsize>10</pointsize>
+                                           <bold>true</bold>
+                                          </font>
+                                         </property>
+                                         <property name="text">
+                                          <string>BCC:</string>
+                                         </property>
+                                        </widget>
+                                       </item>
+                                       <item>
+                                        <widget class="QLabel" name="bccLabel">
+                                         <property name="sizePolicy">
+                                          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                           <horstretch>0</horstretch>
+                                           <verstretch>0</verstretch>
+                                          </sizepolicy>
+                                         </property>
+                                         <property name="frameShape">
+                                          <enum>QFrame::Shape::Box</enum>
+                                         </property>
+                                         <property name="text">
+                                          <string/>
                                          </property>
                                         </widget>
                                        </item>

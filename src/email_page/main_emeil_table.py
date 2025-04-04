@@ -51,6 +51,7 @@ def create_main_email_tale(self,data):
         # print(f"Liczba kolumn w tabeli: {self.ui.tableWidget.columnCount()}")
 
 def load_data_from_database(self) -> None:
+        logger.info(f"START")
         """
         Wczytuje dane z bazy SQLite i wypełnia tabelę widżetem.
         Używa zapytania SQL z lewym łączeniem, aby zebrać informacje o użytkownikach oraz ich tagach.
@@ -62,10 +63,12 @@ def load_data_from_database(self) -> None:
             logger.error("Brak połączenia z bazą danych.")
             print("Brak połączenia z bazą danych.")
             QApplication.restoreOverrideCursor()
+            logger.error(f"Błąd podczas wykonywania zapytania: {e}")
             return
+            
         if self.active_filters['tag']=="":
             query = f'''
-                SELECT e.id, e.sender_name, e.cc, e.subject, e.date, e.flag,
+                SELECT e.id, e.sender_name, e.recipients, e.subject, e.date, e.flag, e.cc,e.bcc,
                     GROUP_CONCAT(t.tag_name) AS tags 
                 FROM emails e
                 LEFT JOIN email_tags et ON e.id = et.email_id
@@ -75,28 +78,35 @@ def load_data_from_database(self) -> None:
                 LIMIT {self.emails_per_page} OFFSET {offset}
             '''
         else: 
-            query = db_email.tag_query(self.active_filters)
-
+            query = db_email.tag_query(self.active_filters) + f" LIMIT {self.emails_per_page} OFFSET {offset}"
+        
         print(query)
         try:
             cursor = self.db_connection.cursor()
+            logger.info(f"Wysyła zapytanie")
             cursor.execute(query)
-            cursor.execute
-            #print(f"{cursor.arraysize}")
+            logger.info(f"Zapytanie wykonane, pobiera dane z cursora")
             data = cursor.fetchall()
-            cursor.execute(f'''SELECT COUNT(DISTINCT e.id) AS total_count FROM emails e
+            logger.info(f"dane zapisane do zmiennej")
+            cursor.execute(f'''SELECT COUNT() FROM emails 
             {db_email.apply_filters(self.active_filters)}''')
+
             emailc_count = cursor.fetchall()[0][0]
             self.all_emails_count = emailc_count
+
             self.max_page = math.ceil((int(self.all_emails_count)/int(self.emails_per_page)))
             self.ui.dataAnalysisPage.findChild(QLabel,"pageNumberLabel").setText(f"{self.current_page+1}/{self.max_page}")
             
             self.ui.tableWidget.setRowCount(len(data))
             self.ui.tableWidget.setColumnCount(7)
             #print(data)
+            logger.info(f"Zaczyna tworzyć tebele")
             create_main_email_tale(self,data)
+            logger.info(f"Tabela Wyświetlona")
+
             self.ui.tableWidget.verticalHeader().setVisible(False)
             QApplication.restoreOverrideCursor()
+            logger.info(f"END")
         except sqlite3.Error as e:
                 QApplication.restoreOverrideCursor()
                 logger.error(f"Błąd podczas wykonywania zapytania: {e}")

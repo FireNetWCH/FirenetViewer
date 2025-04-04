@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QApplication, QListWidget, QWidget, QPushButton, QHBoxLayout, QLabel, QListWidgetItem,QFileDialog,QFrame,QSizePolicy
+from PySide6.QtWidgets import QWidget, QPushButton, QHBoxLayout, QLabel,QFileDialog,QSizePolicy
 from PySide6.QtGui import QPixmap,QIcon
 from src.viewers.wiget_generator import generator_wiget
 import pandas as pd
@@ -34,7 +34,7 @@ class FileListItem(QWidget):
         self.label.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         self.preview_button = QPushButton(QIcon(get_resource_path("Qss/icons/black/feather/download.png")), "")
         self.preview_button.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        self.preview_button.clicked.connect(self.copy_file)
+        self.preview_button.clicked.connect(lambda: self.copy_file(self.file_path))
         frame_layout.addWidget(self.label)
         frame_layout.addWidget(self.preview_button)
         frame_layout.addStretch()
@@ -97,13 +97,13 @@ class FileListItem(QWidget):
         print(downloadBtn)
         downloadBtn.clicked.connect(lambda : self.copy_file(self.file_path))
         return downloadBtn
+    
     def copy_file(self,path):
 
         destination_path, _ = QFileDialog.getSaveFileName(None, "Zapisz plik jako",self.file_name, self.file_name.split('.')[-1])
         try:
-         if destination_path:  
+         if destination_path:
             shutil.copy(path, destination_path)
-            print(f"Plik został skopiowany do: {destination_path}")
             logger.info(f"Plik został skopiowany do: {destination_path}")
         except Exception as e:
             print(f"Błąd podczas kopiowania pliku: {e}")

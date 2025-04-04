@@ -24,53 +24,53 @@ def apply_filters(active_filters) -> None:
         #print(self.active_filters)
         for key, value in active_filters.items():
             if key == "folder_id" and str(value) == "1":
-                print(f"{key} +{value}")
+                print(f"")
             elif(key == "tag"):
                 pass
             
             elif (key == "date_fr"):
                 if value != "":
                     if firtFiltr:
-                        query_part = f"WHERE date > '{value}'"
+                        query_part = f" WHERE date > '{value}' "
                         firtFiltr = False
                     else:
-                        query_part = query_part +f"AND date > '{value}'"
+                        query_part = query_part +f" AND date > '{value}' "
             elif (key == "date_to"):
                 if value != "":
                     if firtFiltr:
-                        query_part = f"WHERE date < '{value}'"
+                        query_part = f" WHERE date < '{value} "
                         firtFiltr = False
                     else:
-                        query_part = query_part +f"AND date < '{value}'"
+                        query_part = query_part +f" AND date < '{value} '"
 
             elif(key == "body"):
                 if value != "":
                     if firtFiltr:
-                        query_part = f"WHERE REPLACE(body, X'200C', '') LIKE '%{value}%' COLLATE NOCASE"
+                        query_part = f" WHERE REPLACE(body, X'200C', '') LIKE '%{value}%' COLLATE NOCASE "
                         firtFiltr = False
                     else:
-                        query_part = query_part + f"AND REPLACE(body, X'200C', '') LIKE '%{value}%' COLLATE NOCASE"
+                        query_part = query_part + f" AND REPLACE(body, X'200C', '') LIKE '%{value}%' COLLATE NOCASE "
             elif(key == "folder_id"):
                 if value != "" :
                     if firtFiltr:
-                        query_part = f"WHERE {key} LIKE '{value}' COLLATE NOCASE "
+                        query_part = f" WHERE {key} LIKE '{value}' COLLATE NOCASE "
                         firtFiltr = False
                     else:
-                        query_part = query_part + f"AND {key} LIKE '{value}' COLLATE NOCASE "
+                        query_part = query_part + f" AND {key} LIKE '{value}' COLLATE NOCASE "
             elif(key == "flag"):
                 if value == "True":
                     if firtFiltr:
-                        query_part = f"WHERE {key} LIKE {value}"
+                        query_part = f" WHERE {key} LIKE {value} "
                         firtFiltr = False
                     else:
-                        query_part = query_part + f"AND {key} LIKE {value}"
+                        query_part = query_part + f" AND {key} LIKE {value}"
             else:
                 if value != "" :
                     if firtFiltr:
-                        query_part = f"WHERE {key} LIKE '%{value}%' COLLATE NOCASE "
+                        query_part = f" WHERE {key} LIKE '%{value}%' COLLATE NOCASE "
                         firtFiltr = False
                     else:
-                        query_part = query_part + f"AND {key} LIKE '%{value}%' COLLATE NOCASE "
+                        query_part = query_part + f" AND {key} LIKE '%{value}%' COLLATE NOCASE "
 
         return query_part
 
@@ -82,7 +82,7 @@ def tag_query(filters):
     JOIN tags t ON et.tag_id = t.id
     WHERE t.tag_name IN {filters['tag']}
     )
-    SELECT e.id, e.sender_name, e.cc, e.subject, e.date, e.flag,
+    SELECT e.id, e.sender_name, e.recipients, e.subject, e.date, e.flag, e.cc, e.bcc,
         GROUP_CONCAT(ft.tag_name) AS tags
     FROM emails e
     JOIN filtered_tags ft ON e.id = ft.email_id
@@ -96,7 +96,7 @@ def update_multi_flags(db_connection,id_list,state):
     """Ustawia wybrany stan flagi na liście emaili"""
     cursor = db_connection.cursor()
     placeholders = ", ".join(["?"] * len(id_list))
-    print(placeholders)
+    #print(placeholders)
     query = f"UPDATE emails SET flag = ? WHERE id IN ({placeholders})"
     cursor.execute(query, (state, *id_list))
     db_connection.commit()
@@ -117,7 +117,7 @@ def update_flag(db_connection, email_id: int, state: int) -> None:
 def emails_to_export(db_connection,filters = None,list = None):
     """Zwraca id,date,sender_name,recipients, subject, body wraz z listą załączników wiadomości o flagowanych"""
     try:
-        print(list)
+        #print(list)
         cursor = db_connection.cursor()
         if (filters is None) and (list is None):
             query="""
@@ -153,7 +153,7 @@ def emails_to_export(db_connection,filters = None,list = None):
         
         
         results = cursor.fetchall()
-        print(results)
+        #print(results)
     except sqlite3.Error as e:
         logger.error(f"Błąd podczas pobierania wiadomości z flagami: {e}")
         print(f"Błąd podczas pobierania wiadomości z flagami: {e}")
@@ -192,7 +192,7 @@ def delate_tag(db_connection,id_tag):
         query = f""" 
         DELETE FROM tags where id = {id_tag} 
         """
-        print(query)
+        #print(query)
         cursor = db_connection.cursor()
         cursor.execute(query)
         db_connection.commit()
@@ -207,7 +207,7 @@ def updata_tag(db_connection,id_tag,new_tag_name):
         query = f"""
         UPDATE tags set tag_name = '{new_tag_name}' WHERE ID = {id_tag}
         """
-        print(query)
+        #print(query)
         cursor = db_connection.cursor()
         cursor.execute(query)
         db_connection.commit()
@@ -222,11 +222,11 @@ def delate_label(db_connection,id_tag):
         query = f""" 
         DELETE FROM labels_name WHERE id = {id_tag} 
         """
-        print(query)
+        #print(query)
         cursor = db_connection.cursor()
         cursor.execute(query)
         db_connection.commit()
-        print("")
+        #print("")
     except sqlite3.Error as e:
             logger.error(f"Błąd podczas usuwania labelki z tabeli labels_name: {e}")
             print(f"Błąd podczas usuwania labelki z tabeli labels_name: {e}")
@@ -272,7 +272,7 @@ def delate_email_labels(db_connection, id_email_labels):
         query = f""" 
         DELETE FROM email_labels WHERE id = {id_email_labels} 
         """
-        print(query)
+        #print(query)
         cursor = db_connection.cursor()
         cursor.execute(query)
         db_connection.commit()
@@ -286,7 +286,7 @@ def update_id_labels_name(db_connection,id_labels, id_labels_name):
         query = f""" 
         UPDATE email_labels set id_labels_name = {id_labels_name}  WHERE ID = {id_labels}
         """
-        print(query)
+        #print(query)
         cursor = db_connection.cursor()
         cursor.execute(query)
         db_connection.commit()

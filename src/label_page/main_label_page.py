@@ -83,16 +83,20 @@ def load_clicked_email_on_labels(self, row):
     attachments_value = cursor.fetchall()
     listAttachments = self.ui.EmailtabWidget_2.findChild(QListWidget, "listAttachments_2")
     listAttachments.clear()
-
+    def on_item_clicked(item):
+            widget = listAttachments.itemWidget(item)
+            if widget:  
+                widget.preview_file()
     for _, file_name, extra_value in attachments_value:
         file_path = os.path.join(self.path, self.sql_name, "Attachments", str(self.id_selected_email), file_name)
-        widget = FileListItem(f"{file_name}", file_path, self.ui.EmailtabWidget)
+        widget = FileListItem(f"{file_name}", file_path, self.ui.EmailtabWidget_2)
         item = QListWidgetItem(listAttachments)
         item.setSizeHint(widget.sizeHint())
         listAttachments.addItem(item)
         listAttachments.setItemWidget(item, widget)
 
-    listAttachments.itemClicked.connect(widget.preview_file)
+    listAttachments.itemClicked.connect(on_item_clicked)
+    
     listAttachments.setFixedHeight(60)
 
   
@@ -101,10 +105,12 @@ def load_clicked_email_on_labels(self, row):
     else:
         tekst = email_value[0][8].decode("utf-8")
 
+
     if not search_term:
         tekst_html = tekst.replace('\n', '<br>')
         body_label.setText(tekst_html)
         return  
+    
     escaped_term = re.escape(search_term)  
     pattern_str = re.sub(r"\\\s+", r"\\s*+", escaped_term) 
     

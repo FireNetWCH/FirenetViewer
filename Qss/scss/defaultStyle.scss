@@ -513,3 +513,21 @@ image: url(":feather/icons/feather/branch_closed.png"); }
 
 QTreeView:branch:open:has-children:!has-siblings:hover, QTreeView:branch:open:has-children:has-siblings:hover {
 image: url(":feather/icons/feather/branch_open.png"); }
+
+
+QTabBar, QDockWidget QTabBar {
+qproperty-drawBase: 0;
+border-radius: 4px;
+margin: 0px;
+padding: 2px;
+border: 0;
+/* left: 5px; move to the right by 5px - removed for fix */ }
+QTabBar::close-button, QDockWidget QTabBar::close-button {
+border: 0;
+margin: 0;
+padding: 4px;
+image: url(":feather/icons/feather/window_close.png"); }
+QTabBar::close-button:hover, QDockWidget QTabBar::close-button:hover {
+image: url(":feather/icons/feather/window_close.png"); }
+QTabBar::close-button:pressed, QDockWidget QTabBar::close-button:pressed {
+image: url(":feather/icons/feather/window_close_pressed.png"); }

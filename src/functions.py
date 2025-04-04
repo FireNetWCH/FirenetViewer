@@ -2,12 +2,11 @@ import os
 import sqlite3
 import logging
 from typing import Any, List, Dict, Optional
-import pandas as pd
 from PySide6.QtCore import Qt, QSettings, QDir, QPoint,QEasingCurve,QRect,QDate,QUrl
 from PySide6.QtGui import QFont, QFontDatabase, QAction,QStandardItem, QPixmap, QImage, QPainter,QIcon,QDesktopServices
 from PySide6.QtWidgets import (
-    QCheckBox, QPushButton, QGraphicsScene, QTableWidgetItem, QTabBar,QMenu, QFileSystemModel,QSizePolicy,QSplitter,QFrame,QApplication,QTableWidget,QDialog,QCalendarWidget,
-    QTreeView, QVBoxLayout, QFileDialog, QGraphicsView, QTreeWidgetItem,QListWidgetItem, QTreeWidget, QMainWindow,QListWidget,QHeaderView,QAbstractItemView
+    QPushButton, QGraphicsScene, QTabBar,QMenu, QFileSystemModel,QSizePolicy,QSplitter,QFrame,QDialog,
+    QTreeView, QVBoxLayout, QFileDialog,QListWidgetItem, QTreeWidget, QMainWindow,QListWidget,QHeaderView
 )
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -26,8 +25,7 @@ from src.atachment_list_widget import FileListItem
 from src.email_page.selector_tag_sercher import SekectorTag
 from src.email_page.tag_dialog import TagCrud
 from src.email_page.label_dialog import LabelsCrud
-from src.message_box.date_warning import left_date_wornig, rights_date_wornig
-from src.db_function.exports import generate_pdf,remove_multi_new_line,export_to_pdf,export_to_excel
+from src.db_function.exports import export_to_pdf,export_to_excel
 from src.email_page.export_options import ExportSelector
 from src.label_page.main_label_page import load_all_labels,load_clicked_email_on_labels
 from src.db_function.db_email_folders_tree import load_folders_data_into_tree
@@ -35,13 +33,9 @@ from src.email_page.main_emeil_table import load_data_from_database
 from src.email_page.context_menu import LabelContextMenu,EditLabelContextMenu
 #from src.label_context_menu import show_context_menu
 import src.db_function.db_email_function as db_email_function
-import math
-import json
 import shutil 
-import openpyxl
 import sys
-from openpyxl.styles import Alignment
-from openpyxl.worksheet.page import PageMargins
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -60,7 +54,7 @@ class GUIFunctions:
         self.main = main_window
         self.ui = main_window.ui
         self.db_connection: Optional[sqlite3.Connection] = None
-        self.active_filters: Dict[str, str] = {'sender_name': "", "cc": "", "subject": "", "date_fr": "", 'date_to':"","folder_id" : "1","body":"","flag":"False","tag":""}
+        self.active_filters: Dict[str, str] = {'sender_name': "", "recipients": "", "subject": "", "date_fr": "", 'date_to':"","folder_id" : "1","body":"","flag":"False","tag":""}
         self.columns_hidden: List[bool] = [False] * 7
         self.filtering_active: bool = False
         self.current_sort_order: Dict[int, Any] = {}
@@ -140,6 +134,10 @@ class GUIFunctions:
         label.resize(pixmap.width(), pixmap.height())
         label.move(100, 100)
         
+        # Konfiguracja widokui Email w sekcji etykiet
+        self.ui.EmailtabWidget_2.tabCloseRequested.connect(lambda index: self.ui.EmailtabWidget_2.removeTab(index))
+        tab_bar = self.ui.EmailtabWidget_2.tabBar()
+        tab_bar.setTabButton(0, QTabBar.RightSide, None)
         
     def _connect_signals(self) -> None:
         """Łączy sygnały z odpowiednimi metodami."""
@@ -426,25 +424,30 @@ class GUIFunctions:
 
     def selec_sqlit_db(self,item):
         print(os.path.join(self.path,item.text().split('.')[0],item.text()))
+        logger.info(f"")
         if not self.db_connection is None: 
             self.db_connection.close()
             print("zamknięto polaczenie")
-        
+        logger.info(f"START1")
         db_path = os.path.join(self.path,item.text().removesuffix('.sqlite'),item.text())
         print(db_path)
+        logger.info(f"Lonczenie")
         db_email_function.connect_to_database(self,db_path)
+        logger.info(f"polonczne")
         sql_name = db_path.split('\\')[-1]
         sql_name = sql_name.removesuffix('.sqlite')
         self.sql_name = sql_name
         self.ui.dataAnalysisPage.findChild(QLabel,"sqlEmailDbName").setText(sql_name)
         
         load_data_from_database(self)
+        logger.info(f"zaczyna towrzyc drzewo")
         self.display_folders_in_help_page()
         tw = self.ui.helpPage.findChild(QTreeWidget,"folders_tree")
         tw.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         tw.itemClicked.connect(self.tree_email_dir_clicked)
+        logger.info(f"Drzewo wyświetlone")
         self.clear_filtr()
-    
+        logger.info(f"START2")
     def open_dialog_tag_selector(self, user_id: int) -> None:
         """Otwiera okno dialogowe do edycji tagów użytkownika."""
         dialog = SekectorTag(self.db_connection, self.active_filters,self.main)
@@ -480,7 +483,13 @@ class GUIFunctions:
         subject_label = self.ui.EmailtabWidget.findChild(QLabel, "subject")
         sender_label = self.ui.EmailtabWidget.findChild(QLabel, "sender")
         date_label = self.ui.EmailtabWidget.findChild(QLabel, "date")
-        cc_label = self.ui.EmailtabWidget.findChild(QLabel, "cc")
+        recipients_label = self.ui.EmailtabWidget.findChild(QLabel, "recipientsLabel")
+
+        cc_widget = self.ui.EmailtabWidget.findChild(QWidget, "ccWidget")
+        cc_label = self.ui.EmailtabWidget.findChild(QLabel, "ccLabel")
+        bcc_label = self.ui.EmailtabWidget.findChild(QLabel, "bccLabel")
+        bcc_widget = self.ui.EmailtabWidget.findChild(QWidget, "bccWidget")
+
         header_email_label = self.ui.emailHederDockWidget.findChild(QLabel,"headerEmailLabel")
         
         cursor = self.db_connection.cursor()
@@ -492,36 +501,59 @@ class GUIFunctions:
         attachments_value = cursor.fetchall()
         listAttachments = self.ui.EmailtabWidget.findChild(QListWidget, "listAttachments")
         listAttachments.clear()
+        def on_item_clicked(item):
+            widget = listAttachments.itemWidget(item)
+            if widget:  
+                widget.preview_file()
         for _, file_name, extra_value in attachments_value:
             file_path = os.path.join(self.path,self.sql_name,"Attachments",str(self.id_selected_email),file_name)
+            print(file_path)
             widget = FileListItem(f"{file_name}",file_path,self.ui.EmailtabWidget)  
             item = QListWidgetItem(listAttachments)
             item.setSizeHint(widget.sizeHint())  
             listAttachments.addItem(item)  
             listAttachments.setItemWidget(item, widget)
-        listAttachments.itemClicked.connect(widget.preview_file)
+           
+        
+            
+        listAttachments.itemClicked.connect(on_item_clicked)
         listAttachments.setFixedHeight(60)
         search_term = self.active_filters['body']
         pattern = re.compile(re.escape(search_term), re.IGNORECASE)
-        
+        tekst = emai_value[0][8]
+        body_label.setTextFormat(Qt.TextFormat.RichText)
+        #print(emai_value[0][8])
         if isinstance(emai_value[0][8],str):
             tekst = emai_value[0][8]
         else:
             tekst = emai_value[0][8].decode("utf-8")
+           
 
+        tekst_html = tekst.replace('\n', '<br>')
+        if(search_term ==""):
+            body_label.setText(tekst_html)
+            
+        else:
             tekst_html = tekst.replace('\n', '<br>')
-            if(search_term ==""):
-                body_label.setText(tekst_html)
-            else:
-                highlighted_content = pattern.sub(lambda match: f"<span style='background-color: yellow;'>{match.group()}</span>",tekst_html)
-                body_label.setTextFormat(Qt.TextFormat.RichText)    
-                body_label.setText(highlighted_content)
+            highlighted_content = pattern.sub(lambda match: f"<span style='background-color: yellow;'>{match.group()}</span>",tekst_html)
+            body_label.setTextFormat(Qt.TextFormat.RichText)    
+            body_label.setText(highlighted_content)
 
         subject_label.setText(emai_value[0][7])
         sender_label.setText(emai_value[0][3])
         date_label.setText(emai_value[0][1])
-        cc_label.setText(emai_value[0][5])
+        recipients_label.setText(emai_value[0][4])
         header_email_label.setText(emai_value[0][11])
+        if emai_value[0][6] is None:
+            bcc_widget.hide()
+        else:
+            bcc_widget.show()
+            bcc_label.setText(emai_value[0][6])
+        if emai_value[0][5] is None:
+            cc_widget.hide()
+        else:
+            cc_widget.show()
+            cc_label.setText(emai_value[0][5])
   
     def clear_filtr(self):
         self.ui.seachName.setText("")
@@ -529,7 +561,7 @@ class GUIFunctions:
         self.ui.searchDate.setText("")
         self.ui.searchBody.setText("")
         self.active_filters["sender_name"] = ""
-        self.active_filters["cc"] = ""
+        self.active_filters["recipients"] = ""
         self.active_filters["subject"] = ""
         self.active_filters["body"] = ""
         self.active_filters["tag"] = ""
@@ -612,7 +644,7 @@ class GUIFunctions:
 
     def load_filtr_dict(self) -> None:
         self.active_filters["sender_name"] = self.ui.seachName.text().lower()
-        self.active_filters["cc"] = self.ui.seachSurname.text().lower()
+        self.active_filters["recipients"] = self.ui.seachSurname.text().lower()
         self.active_filters["subject"] = self.ui.searchDate.text().lower()
         self.active_filters["date_fr"] = self.ui.startDataLabel.text().lower()
         self.active_filters["date_to"] = self.ui.endDataLabel.text().lower()
@@ -798,10 +830,15 @@ class GUIFunctions:
 
         if self.db_connection is None and len(sql_list_file) > 0 :
             try:
+               
                 db_email_function.connect_to_database(self,path_to_dir+"\\"+sql_list_file[0].split('.')[-2]+"\\"+sql_list_file[0])
+                
                 load_data_from_database(self)
+                
                 self.sql_name =sql_list_file[0].split('.')[-2]
+                
                 self.ui.dataAnalysisPage.findChild(QLabel,"sqlEmailDbName").setText(self.sql_name)
+                
                 logger.info(f"Połączono z pierwszą odnalezioną bazą SQLite: {self.sql_name}")
             except Exception as e:
                 logger.error(f"Bład przy pierwszym łaczeniu do SQLite: {e}")
