@@ -88,7 +88,7 @@ def tag_query(filters):
     JOIN filtered_tags ft ON e.id = ft.email_id
     {apply_filters(filters)}
     GROUP BY e.id
-    LIMIT 500 OFFSET 0;'''
+    '''
 
     return query
 

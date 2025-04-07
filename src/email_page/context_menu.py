@@ -2,6 +2,12 @@ from PySide6.QtWidgets import QMenu, QLabel
 from PySide6.QtGui import QAction
 import src.db_function.db_email_function as db_email
 from src.label_page.main_label_page import load_all_labels,load_clicked_email_on_labels
+from src.email_page.label_dialog import LabelsCrud
+import logging
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
 class ContextMenu:
     def __init__(self, main, db_connection):
         self.main = main
@@ -21,7 +27,7 @@ class LabelContextMenu(ContextMenu):
     def show(self, pos, context_widget):
         all_labels = db_email.get_all_labels_name(self.db_connection)
         labelContextMenu = QMenu(self.main)
-        submenu = QMenu("Dodaj Etykiete", labelContextMenu)
+        submenu = QMenu("Nadaj Etykiete", labelContextMenu)
 
         selected_text = context_widget.selectedText()
         #print(selected_text)
@@ -30,9 +36,17 @@ class LabelContextMenu(ContextMenu):
             action = QAction(str(row[1]), self.main)
             action.triggered.connect(lambda checked, value=row[0]: self.add_lebels_to_db(value, selected_text,self.parent))
             submenu.addAction(action)
-
+        
+        add_new_label_action = QAction("+Dodaj nową", self.main)
+        add_new_label_action.triggered.connect(self.show_label_crud)
         labelContextMenu.addMenu(submenu)
+        submenu.addAction(add_new_label_action)
         labelContextMenu.exec(context_widget.mapToGlobal(pos))
+
+    def show_label_crud(self):
+        dialog = LabelsCrud(self.db_connection)
+        if dialog.exec():
+            logger.info(f"Zaktualizowano tagi dla użytkownika")
 
 class EditLabelContextMenu(LabelContextMenu):
     def __init__(self, main, db_connection,parent):

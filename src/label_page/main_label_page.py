@@ -84,9 +84,11 @@ def load_clicked_email_on_labels(self, row):
     listAttachments = self.ui.EmailtabWidget_2.findChild(QListWidget, "listAttachments_2")
     listAttachments.clear()
     def on_item_clicked(item):
+            print(item)
             widget = listAttachments.itemWidget(item)
-            if widget:  
+            if widget:
                 widget.preview_file()
+                print(widget)
     for _, file_name, extra_value in attachments_value:
         file_path = os.path.join(self.path, self.sql_name, "Attachments", str(self.id_selected_email), file_name)
         widget = FileListItem(f"{file_name}", file_path, self.ui.EmailtabWidget_2)
@@ -94,7 +96,7 @@ def load_clicked_email_on_labels(self, row):
         item.setSizeHint(widget.sizeHint())
         listAttachments.addItem(item)
         listAttachments.setItemWidget(item, widget)
-
+    listAttachments.itemClicked.disconnect()
     listAttachments.itemClicked.connect(on_item_clicked)
     
     listAttachments.setFixedHeight(60)

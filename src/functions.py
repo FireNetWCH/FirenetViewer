@@ -474,6 +474,7 @@ class GUIFunctions:
         id = self.ui.tableWidget.item(row,0).text()
         #print(self.active_filters)
         self.id_selected_email = id
+        print(id)
         query =f'''
         SELECT * from emails WHERE id = {id}
         '''
@@ -503,20 +504,18 @@ class GUIFunctions:
         listAttachments.clear()
         def on_item_clicked(item):
             widget = listAttachments.itemWidget(item)
-            if widget:  
+            if widget:
                 widget.preview_file()
         for _, file_name, extra_value in attachments_value:
             file_path = os.path.join(self.path,self.sql_name,"Attachments",str(self.id_selected_email),file_name)
-            print(file_path)
+            # print(file_path)
             widget = FileListItem(f"{file_name}",file_path,self.ui.EmailtabWidget)  
             item = QListWidgetItem(listAttachments)
             item.setSizeHint(widget.sizeHint())  
             listAttachments.addItem(item)  
             listAttachments.setItemWidget(item, widget)
-           
-        
-            
-        listAttachments.itemClicked.connect(on_item_clicked)
+        listAttachments.itemClicked.disconnect()
+        listAttachments.itemClicked.connect(lambda item: on_item_clicked(item))
         listAttachments.setFixedHeight(60)
         search_term = self.active_filters['body']
         pattern = re.compile(re.escape(search_term), re.IGNORECASE)

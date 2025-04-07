@@ -19,7 +19,6 @@ def load_folders_data_into_tree(self,db_connection,folders_tree):
                 full_path = row[0]
                 dir_id = row[1]
                 item_count = row[2]
-                print(item_count)
                 parts = full_path.split("\\")
                 current_level = tree_dict
 
