@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1438</width>
-    <height>518</height>
+    <width>2019</width>
+    <height>655</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -924,7 +924,7 @@
                  <item>
                   <widget class="QCustomQStackedWidget" name="mainPages">
                    <property name="currentIndex">
-                    <number>1</number>
+                    <number>2</number>
                    </property>
                    <widget class="QWidget" name="page">
                     <layout class="QVBoxLayout" name="verticalLayout_36">
@@ -2151,9 +2151,9 @@
                               <property name="geometry">
                                <rect>
                                 <x>0</x>
-                                <y>-87</y>
-                                <width>520</width>
-                                <height>382</height>
+                                <y>0</y>
+                                <width>587</width>
+                                <height>405</height>
                                </rect>
                               </property>
                               <property name="sizePolicy">
@@ -2875,10 +2875,31 @@
                              </property>
                             </widget>
                            </item>
-                           <item>
+                           <item alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter">
                             <widget class="QPushButton" name="ofertaBtn">
+                             <property name="sizePolicy">
+                              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                               <horstretch>0</horstretch>
+                               <verstretch>0</verstretch>
+                              </sizepolicy>
+                             </property>
+                             <property name="layoutDirection">
+                              <enum>Qt::LayoutDirection::LeftToRight</enum>
+                             </property>
                              <property name="text">
-                              <string>Logo</string>
+                              <string/>
+                             </property>
+                             <property name="iconSize">
+                              <size>
+                               <width>40</width>
+                               <height>40</height>
+                              </size>
+                             </property>
+                             <property name="autoExclusive">
+                              <bool>false</bool>
+                             </property>
+                             <property name="flat">
+                              <bool>false</bool>
                              </property>
                             </widget>
                            </item>
@@ -3244,7 +3265,7 @@
              <x>0</x>
              <y>0</y>
              <width>150</width>
-             <height>454</height>
+             <height>591</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_29" stretch="0,1,0">

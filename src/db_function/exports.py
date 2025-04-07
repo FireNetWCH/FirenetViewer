@@ -13,6 +13,7 @@ import logging
 import shutil 
 import pandas as pd
 import math
+from bs4 import BeautifulSoup
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
@@ -67,22 +68,48 @@ def generate_pdf(output_path, sender, receiver, date, subject, attachments, body
     
     table = Table(data, colWidths=[120, doc.width - 120])
     table.setStyle(table_style)
-    tekst = body.decode("utf-8")
-    tekst_html = tekst.replace('\n', '<br/>')
+    print(body)
+    tekst = body
+    tekst_html = tekst.replace('<br>', '<br/>')
+    tekst_html = tekst_html.replace('\n', '<br/>')
+    tekst_html = re.sub(r'<img[^>]*>', '', tekst_html) 
+    soup = BeautifulSoup(tekst_html, 'html.parser')
+    for tag in soup.find_all(True):
+        if tag.has_attr('style'):
+            del tag['style']
+        if tag.has_attr('class'):
+            del tag['class']
+    for span_tag in soup.find_all(['span']):
+        span_tag.unwrap()
+    for tag in soup.find_all(['span', 'style', 'script', 'head','font']):
+        tag.decompose()
     heder = f"Wiadomość wyeksportowana ze skrzynki e-mail:{name_email_box} o ID:{id_email}"
     header_paragraph = Paragraph(heder, custom_style)
-    body_paragraph = Paragraph(tekst_html, custom_style)
+    body_paragraph = Paragraph(str(soup), custom_style)
     elements = [header_paragraph,table, body_paragraph]
     doc.build(elements)
     
 
 def remove_multi_new_line(text):
-    text = text.decode('utf-8')
+    # text = text.decode('utf-8')
     text = re.sub(r'(\r?\n)+', '\n', text)
     text = re.sub(r'(\r?\n)+', '\n', text)  
     text = re.sub(r'\n{2,}', '\n', text)
-    text = re.sub(r'(\s*\n\s*)+', '\n', text)    
-    return text
+    text = re.sub(r'(\s*\n\s*)+', '\n', text)
+    text = re.sub(r'<br\s*/?>', '', text)
+    text = re.sub(r'<img[^>]*>', '', text) 
+    soup = BeautifulSoup(text, 'html.parser')
+    for tag in soup.find_all(True):
+        if tag.has_attr('style'):
+            del tag['style']
+        if tag.has_attr('class'):
+            del tag['class']
+    for span_tag in soup.find_all(['span','p','td','tr','div','a','body','html','strong','tbody','table']):
+        span_tag.unwrap()
+    for tag in soup.find_all(['span', 'style', 'script', 'head','font','hr']):
+        tag.decompose()   
+    
+    return str(soup)
 
 
 def export_to_pdf(self,db_connection,path,sql_name,active_filters,emeils_grout,attachments_options) -> None:
@@ -145,6 +172,7 @@ def export_to_excel(self,db_connection,path,sql_name,active_filters,emeils_grout
         for row in data:
             row_list = list(row) 
             row_list[5] = remove_multi_new_line(row_list[5])
+            row_list[5].replace("<br>","")
             modified_data.append(tuple(row_list))
         dir_path, _ = os.path.splitext(file_path)
        

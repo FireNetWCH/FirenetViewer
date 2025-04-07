@@ -6,7 +6,7 @@ from PySide6.QtCore import Qt, QSettings, QDir, QPoint,QEasingCurve,QRect,QDate,
 from PySide6.QtGui import QFont, QFontDatabase, QAction,QStandardItem, QPixmap, QImage, QPainter,QIcon,QDesktopServices
 from PySide6.QtWidgets import (
     QPushButton, QGraphicsScene, QTabBar,QMenu, QFileSystemModel,QSizePolicy,QSplitter,QFrame,QDialog,
-    QTreeView, QVBoxLayout, QFileDialog,QListWidgetItem, QTreeWidget, QMainWindow,QListWidget,QHeaderView
+    QTreeView, QVBoxLayout, QFileDialog,QListWidgetItem, QTreeWidget, QMainWindow,QListWidget,QHeaderView,QSizeGrip
 )
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -248,6 +248,19 @@ class GUIFunctions:
         header.setContextMenuPolicy(Qt.CustomContextMenu)
         header.customContextMenuRequested.connect(self.show_column_menu)
 
+        # ustawienia size gripa i możliwości ruszania oknem przez trzymanie zewnetrtznej ramki 
+        self.resize_grip_frame = self.ui.sizeGrip
+        self.resize_grip_frame.setStyleSheet("QFrame { border: 1px solid red; }")     
+        self.resize_grip = QSizeGrip(self.resize_grip_frame)
+        self.resize_grip.resize(200, 200)
+        self.resize_grip.move(self.main.width() - 20, self.main.height() - 20)
+
+        pixmap = QPixmap("miniLogo.png")
+        scaled_pixmap = pixmap.scaled(40, 40, Qt.KeepAspectRatio)
+        self.ui.label_23.setPixmap(scaled_pixmap)
+        self.ui.ofertaBtn.setIcon(QIcon(scaled_pixmap))
+        # self.resize_grip.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\home.png")))
+
         #ustawienie odpowiednich ikon i kolorów tła
     
         self.ui.homeBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\home.png")))
@@ -260,6 +273,7 @@ class GUIFunctions:
         self.ui.closeCenterMenuBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\icons\\font_awesome\\solid\\circle-xmark.png")))
         self.ui.exportExelBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\icons\\font_awesome\\regular\\file-excel.png")))
         self.ui.startDataBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\icons\\font_awesome\\regular\\calendar.png")))
+        
         self.ui.leftMenu.setStyleSheet("background-color: #102339; border: 3px solid #102339;")
     def _tymczaspwe_ukrycie_(self):
         #wyszukiwarka 
@@ -423,7 +437,8 @@ class GUIFunctions:
 
 
     def selec_sqlit_db(self,item):
-        print(os.path.join(self.path,item.text().split('.')[0],item.text()))
+        self.ui.mainPages.setCurrentIndex(1)
+        #print(os.path.join(self.path,item.text().split('.')[0],item.text()))
         logger.info(f"")
         if not self.db_connection is None: 
             self.db_connection.close()

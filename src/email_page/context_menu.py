@@ -37,7 +37,7 @@ class LabelContextMenu(ContextMenu):
             action.triggered.connect(lambda checked, value=row[0]: self.add_lebels_to_db(value, selected_text,self.parent))
             submenu.addAction(action)
         
-        add_new_label_action = QAction("+Dodaj nową", self.main)
+        add_new_label_action = QAction("+ Dodaj nową", self.main)
         add_new_label_action.triggered.connect(self.show_label_crud)
         labelContextMenu.addMenu(submenu)
         submenu.addAction(add_new_label_action)

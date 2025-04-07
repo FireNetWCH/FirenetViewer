@@ -91,7 +91,8 @@ class FileListItem(QWidget):
 
 
     def download_pusch_btn(self):
-        downloadBtn = QPushButton(f"POBIERZ\n{self.file_name}")
+        downloadBtn = QPushButton(f"{self.file_name}")
+        downloadBtn.setIcon(QIcon(get_resource_path("Qss/icons/black/feather/download.png")))
         downloadBtn.setObjectName("standard")
         downloadBtn.setStyleSheet("QPushButton{font-weight: bold; border-radius: 5px;border: 2px solid #A0C8FF} QPushButton::hover{background-color:#A0C8FF}")
         print(downloadBtn)

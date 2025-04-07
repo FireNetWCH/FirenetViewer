@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import QListWidget, QListWidgetItem, QCheckBox, QPushButton, QVBoxLayout, QDialog,QLineEdit,QHBoxLayout,QWidget
 from PySide6.QtCore import QSize
+from PySide6.QtGui import QIcon
 from src.db_function.db_email_function import delate_tag,updata_tag
 from src.email_page.multi_tag_dialog import MultiTagInputDialog
 class TagCrud(QDialog):
@@ -36,15 +37,17 @@ class TagCrud(QDialog):
             item.setSizeHint(QSize(200, 30))
             tag_edit = QLineEdit(tag_name)
             tag_edit.setReadOnly(False)  
-            plus_button = QPushButton("-")
-            plus_button.setFixedSize(30, 30)
-            plus_button.clicked.connect(lambda _, id=tag_id: delete_and_refresh(self,connection, id))
-            save_button = QPushButton("S")
+            trash_button = QPushButton()
+            trash_button.setIcon((QIcon(":feather\\icons\\feather\\trash.png")))
+            trash_button.setFixedSize(30, 30)
+            trash_button.clicked.connect(lambda _, id=tag_id: delete_and_refresh(self,connection, id))
+            save_button = QPushButton()
+            save_button.setIcon((QIcon(":feather\\icons\\feather\\save.png")))
             save_button.setFixedSize(30, 30)
             save_button.clicked.connect(lambda _, id=tag_id, edit=tag_edit: updata_tag(connection, id, edit.text()))
             tag_layout = QHBoxLayout()
             tag_layout.addWidget(tag_edit)
-            tag_layout.addWidget(plus_button)
+            tag_layout.addWidget(trash_button)
             tag_layout.addWidget(save_button)
             tag_layout.setContentsMargins(0, 0, 0, 0)
             container = QWidget()

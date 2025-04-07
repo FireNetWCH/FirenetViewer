@@ -1,5 +1,5 @@
-from PySide6.QtWidgets import QGraphicsView,QGraphicsScene,QScrollArea,QPushButton,QGraphicsPixmapItem,QTableWidget,QTableWidgetItem,QWidget,QVBoxLayout
-from PySide6.QtGui import QPixmap,QPainter
+from PySide6.QtWidgets import QGraphicsView,QGraphicsScene,QHBoxLayout,QScrollArea,QPushButton,QGraphicsPixmapItem,QTableWidget,QTableWidgetItem,QWidget,QVBoxLayout
+from PySide6.QtGui import QPainter,QIcon
 import logging
 #from src.viewers.explorer_function import view_cleaer,get_image_metadata,MetaDataTableWiget
 
@@ -54,11 +54,14 @@ def display_img_content(pixmap):
         scroll_area.setWidgetResizable(True)
         scroll_area.setWidget(img_viewer)
 
-        zoom_btn = QPushButton("ZOOM +")
-        rezoom_btn = QPushButton("ZOOM -")
-        left_rotate_image_btn = QPushButton("<-")
-        rigth_rotate_image_btn = QPushButton("->")
-
+        zoom_btn = QPushButton()
+        zoom_btn.setIcon((QIcon(":feather\\icons\\feather\\zoom-in.png")))
+        rezoom_btn = QPushButton()
+        rezoom_btn.setIcon((QIcon(":feather\\icons\\feather\\zoom-out.png")))
+        left_rotate_image_btn = QPushButton()
+        left_rotate_image_btn.setIcon((QIcon(":feather\\icons\\feather\\corner-down-right.png")))
+        rigth_rotate_image_btn = QPushButton()
+        rigth_rotate_image_btn.setIcon((QIcon(":feather\\icons\\feather\\corner-down-left.png")))
         zoom_btn.clicked.connect(img_viewer.zoom_image)
         rezoom_btn.clicked.connect(img_viewer.rezoom_image)
         left_rotate_image_btn.clicked.connect(lambda: img_viewer.rotate(90))
@@ -72,12 +75,18 @@ def display_img_content(pixmap):
         tab_content = QWidget()
         tab_layout = QVBoxLayout(tab_content)
 
+        buton_layaut = QHBoxLayout()
+        buton_layaut.addWidget(left_rotate_image_btn)
+        buton_layaut.addWidget(rigth_rotate_image_btn)
+        buton_layaut.addWidget(zoom_btn)
+        buton_layaut.addWidget(rezoom_btn)
 
         tab_layout.addWidget(scroll_area)
-        tab_layout.addWidget(left_rotate_image_btn)
-        tab_layout.addWidget(rigth_rotate_image_btn)
-        tab_layout.addWidget(zoom_btn)
-        tab_layout.addWidget(rezoom_btn)
+        tab_layout.addLayout(buton_layaut)
+        #tab_layout.addWidget(rigth_rotate_image_btn)
+        #tab_layout.addWidget(left_rotate_image_btn)
+        # tab_layout.addWidget(zoom_btn)
+        # tab_layout.addWidget(rezoom_btn)
         
         return tab_content
         

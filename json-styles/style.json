@@ -20,7 +20,7 @@
         {
           "minimize": "minimizeBtn",
           "close": "closeBtn",
-          "moveWindow": "header",
+          "moveWindow": "centralwidget",
           "tittleBar": "header",
           "restore": [
             {

@@ -2087,3 +2087,9 @@ QTabBar::close-button:hover, QDockWidget QTabBar::close-button:hover {
 
 QTabBar::close-button:pressed, QDockWidget QTabBar::close-button:pressed {
   image: url(":feather/icons/feather/window_close_pressed.png"); }
+
+QSizeGrip {
+  background: transparent;
+  width: 12px;
+  height: 12px;
+  image: url(":feather/icons/feather/window_grip.png"); }

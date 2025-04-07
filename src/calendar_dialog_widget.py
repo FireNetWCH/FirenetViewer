@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import (QPushButton, QDialog, QCalendarWidget, QVBoxLayout, QLabel)
+from PySide6.QtWidgets import (QPushButton, QDialog, QCalendarWidget, QVBoxLayout, QLabel,QHBoxLayout)
 from src.message_box import date_warning
 
 class DateRangeDialog(QDialog):
@@ -6,52 +6,60 @@ class DateRangeDialog(QDialog):
         super().__init__()
         self.setWindowTitle("Wybierz datę")
         self.layout = QVBoxLayout()
-        self.calendar = QCalendarWidget()
-        self.layout.addWidget(self.calendar)
+        self.calendar_layout = QHBoxLayout()
         
+        
+        self.calendar1 = QCalendarWidget()
         self.label1 = QLabel("Wybierz początek zakresu")
-        self.layout.addWidget(self.label1)
         self.label2 = QLabel("")
-        self.layout.addWidget(self.label2)
 
+        self.calendar2 = QCalendarWidget()
         self.label3 = QLabel("Wybierz koniec zakresu")
-        self.layout.addWidget(self.label3)
         self.label4 = QLabel("")
-        self.layout.addWidget(self.label4)
+
+        self.calendar_layout.addWidget(self.calendar1)
+        self.calendar_layout.addWidget(self.calendar2)
+
+        
+        self.labels_layout = QHBoxLayout()
+        self.labels_layout.addWidget(self.label1)
+        self.labels_layout.addWidget(self.label2)
+        self.labels_layout.addWidget(self.label3)
+        self.labels_layout.addWidget(self.label4)
+
+        self.layout.addLayout(self.calendar_layout)
+        self.layout.addLayout(self.labels_layout)
 
         self.button_ok = QPushButton("OK")
+        self.button_clear = QPushButton("Wyczść daty")
         self.button_cancel = QPushButton("Anuluj")
 
         self.layout.addWidget(self.button_ok)
+        self.layout.addWidget(self.button_clear)
         self.layout.addWidget(self.button_cancel)
+
         self.setLayout(self.layout)
 
-        self.first = True  # Flaga do przełączania pomiędzy label2 i label4
-        self.calendar.selectionChanged.connect(self.setLabelData)
+        self.first = True 
         
-        self.label1.mousePressEvent = self.selectLabel3
-        self.label3.mousePressEvent = self.selectLabel4
+        self.calendar1.selectionChanged.connect(self.setLabelData1)
+        self.calendar2.selectionChanged.connect(self.setLabelData2)
 
         self.button_ok.clicked.connect(self.validate_dates)
-        self.button_cancel.clicked.connect(self.reject)
+        self.button_clear.clicked.connect(self.cleae_data)
 
-    def setLabelData(self):
-        selected_date = self.calendar.selectedDate().toString("yyyy-MM-dd")
-        if self.first:
-            self.label2.setText(selected_date)
-        else:
-            self.label4.setText(selected_date)
-    
-    def selectLabel3(self, event):
-        self.first = True
-        self.label2.setStyleSheet("border: 2px solid blue;")
-        self.label4.setStyleSheet("")
-    
-    def selectLabel4(self, event):
-        self.first = False
-        self.label4.setStyleSheet("border: 2px solid blue;")
-        self.label2.setStyleSheet("")
+    def cleae_data(self):
+        self.label2.setText("")
+        self.label4.setText("")
 
+    def setLabelData1(self):
+        selected_date = self.calendar1.selectedDate().toString("yyyy-MM-dd")
+        self.label2.setText(selected_date)
+
+    def setLabelData2(self):
+        selected_date = self.calendar2.selectedDate().toString("yyyy-MM-dd")
+        self.label4.setText(selected_date)
+    
     def get_selected_dates(self):
         if self.exec() == QDialog.Accepted:
             return self.label2.text(), self.label4.text()
