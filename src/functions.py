@@ -29,13 +29,13 @@ from src.db_function.exports import export_to_pdf,export_to_excel
 from src.email_page.export_options import ExportSelector
 from src.label_page.main_label_page import load_all_labels,load_clicked_email_on_labels
 from src.db_function.db_email_folders_tree import load_folders_data_into_tree
-from src.email_page.main_emeil_table import load_data_from_database
+from src.email_page.main_emeil_table import load_data_from_database,load_color_dictionery
 from src.email_page.context_menu import LabelContextMenu,EditLabelContextMenu
 #from src.label_context_menu import show_context_menu
 import src.db_function.db_email_function as db_email_function
 import shutil 
 import sys
-
+import json
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -82,6 +82,7 @@ class GUIFunctions:
         self.last_clicket_row = 0
         self.current_page = 0
         self.emails_per_page = 500
+        self.tag_color : Dict[str, str] = {}
         self._setup_ui(self.path)
         self._tymczaspwe_ukrycie_()
     def _setup_ui(self,path_database) -> None:
@@ -314,6 +315,7 @@ class GUIFunctions:
             
     def show_tag_crud(self):
         dialog = TagCrud(self.db_connection)
+        load_color_dictionery(self)
         if dialog.exec():
             logger.info(f"Zaktualizowano tagi dla użytkownika")
             #self.ui.selectedTagLabel.setText(f"Wybrane Tagi: {self.active_filters['tag'].removeprefix("(").removesuffix(")")}")
@@ -474,6 +476,10 @@ class GUIFunctions:
         sql_name = sql_name.removesuffix('.sqlite')
         self.sql_name = sql_name
         self.ui.dataAnalysisPage.findChild(QLabel,"sqlEmailDbName").setText(sql_name)
+        load_color_dictionery(self)
+ 
+
+        print(self.tag_color)
         load_data_from_database(self)
         self.display_folders_in_help_page()
         tw = self.ui.helpPage.findChild(QTreeWidget,"folders_tree")
@@ -486,7 +492,7 @@ class GUIFunctions:
         dialog = SekectorTag(self.db_connection, self.active_filters,self.main)
         if dialog.exec():
             logger.info(f"Zaktualizowano tagi dla użytkownika {user_id}")
-            self.ui.selectedTagLabel.setText(f"Wybrane Tagi: {self.active_filters['tag'].removeprefix("(").removesuffix(")")}")
+            self.ui.selectedTagLabel.setText(f"Wybrane kategorie: {self.active_filters['tag'].removeprefix("(").removesuffix(")")}")
             load_data_from_database(self)
 
     def open_dialog_export_selector_to_pdf(self):
@@ -622,9 +628,10 @@ class GUIFunctions:
 
     def open_tag_selector(self, email_id: int) -> None:
         """Otwiera okno dialogowe do edycji tagów użytkownika."""
+        load_color_dictionery(self)
         dialog = MultiTagSelector(email_id, self.db_connection, self.main)
         if dialog.exec():
-            logger.info(f"Zaktualizowano tagi dla użytkownika {email_id}")
+            logger.info(f"Zaktualizowano kategorie dla użytkownika {email_id}")
             load_data_from_database(self)
 
     def show_search_results(self) -> None:
@@ -684,7 +691,10 @@ class GUIFunctions:
         # fitr pod flaga w innym miejscu (toggle_filter_flags)
     def join_search(self):
         self.load_filtr_dict()
-        load_data_from_database(self)    
+        load_data_from_database(self)
+        if( self.ui.tableWidget.rowCount() > 0):
+            self.load_clicked_email(0,0)
+            self.ui.tableWidget.selectRow(0)      
 
     def show_column_menu(self, position: QPoint) -> None:
         """Wyświetla menu kontekstowe dla nagłówka kolumny."""
@@ -696,7 +706,7 @@ class GUIFunctions:
         hide_column_action = QAction("Ukryj kolumnę", self.main)
 
         if column == 6:
-            add_tag_action = QAction("Dodaj tag", self.main)
+            add_tag_action = QAction("Dodaj kategorie", self.main)
             add_tag_action.triggered.connect(self.open_add_tag_dialog)
             menu.addAction(add_tag_action)
 
@@ -753,8 +763,8 @@ class GUIFunctions:
         """Otwiera okno dialogowe umożliwiające dodanie nowego tagu."""
         dialog = MultiTagInputDialog(self.db_connection, self.main)
         if dialog.exec():
-            logger.info("Nowy tag został dodany.")
-            load_data_from_database(self)
+            logger.info("Nowa kategoria została dodana.")
+            #load_data_from_database(self)
 
     def toggle_filter_flags(self) -> None:
         """Przełącza tryb filtrowania według zaznaczonych flag."""
@@ -864,7 +874,7 @@ class GUIFunctions:
             try:
                
                 db_email_function.connect_to_database(self,path_to_dir+"\\"+sql_list_file[0].split('.')[-2]+"\\"+sql_list_file[0])
-                
+                load_color_dictionery(self)
                 load_data_from_database(self)
                 
                 self.sql_name =sql_list_file[0].split('.')[-2]
@@ -879,5 +889,5 @@ class GUIFunctions:
         layout = self.ui.helpPage.layout()
         layout.addWidget(self.list_widget)
         
-
+    
     

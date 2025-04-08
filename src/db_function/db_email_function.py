@@ -321,11 +321,6 @@ def get_operators(string):
         operators_in_case.append(re.findall(r'\((or|and)\)', part,re.IGNORECASE))
     return operators_in_case
 
-
-input_string = "sł owa  toto (and) dwdwdw"
-input_string2 = "dzien (and) dobry (or) nie dobry"
-input_string3 = "[mama (or) tata] And [morderca]"
-
 def multi_part_query(key,string):
     matches = get_part_query(string)
     if len(matches) > 0:
@@ -370,4 +365,18 @@ def multi_part_query(key,string):
         return final_query
     #############################################
     else:
-     return f"{key} LIKE '%{string}%' COLLATE NOCASE"            
+     return f"{key} LIKE '%{string}%' COLLATE NOCASE"
+
+def get_all_tags(db_connection):
+    """Zwraca wszystki wartości z tabeli tags"""
+    try:
+        query="""
+        SELECT * from tags
+        """
+        cursor = db_connection.cursor()
+        cursor.execute(query)
+        results = cursor.fetchall()
+        return results
+    except sqlite3.Error as e:
+        logger.error(f"Błąd podczas pobierania z tabeli tags: {e}")
+        print(f"Błąd podczas pobierania z tabeli tags: {e}")

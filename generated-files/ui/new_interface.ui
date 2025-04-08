@@ -924,7 +924,7 @@
                  <item>
                   <widget class="QCustomQStackedWidget" name="mainPages">
                    <property name="currentIndex">
-                    <number>2</number>
+                    <number>1</number>
                    </property>
                    <widget class="QWidget" name="page">
                     <layout class="QVBoxLayout" name="verticalLayout_36">
@@ -1040,8 +1040,8 @@
                                    <rect>
                                     <x>0</x>
                                     <y>0</y>
-                                    <width>520</width>
-                                    <height>360</height>
+                                    <width>569</width>
+                                    <height>422</height>
                                    </rect>
                                   </property>
                                   <property name="sizePolicy">
@@ -2106,7 +2106,7 @@
                          </column>
                          <column>
                           <property name="text">
-                           <string>Tagi</string>
+                           <string>Kategorie</string>
                           </property>
                          </column>
                         </widget>
@@ -2152,7 +2152,7 @@
                                <rect>
                                 <x>0</x>
                                 <y>0</y>
-                                <width>587</width>
+                                <width>586</width>
                                 <height>405</height>
                                </rect>
                               </property>
@@ -2810,7 +2810,7 @@
                               </sizepolicy>
                              </property>
                              <property name="text">
-                              <string>Tagi</string>
+                              <string>Kategorie</string>
                              </property>
                             </widget>
                            </item>
@@ -3265,7 +3265,7 @@
              <x>0</x>
              <y>0</y>
              <width>150</width>
-             <height>591</height>
+             <height>608</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_29" stretch="0,1,0">

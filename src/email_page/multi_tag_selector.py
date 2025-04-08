@@ -6,7 +6,7 @@ class MultiTagSelector(QDialog):
         super().__init__(parent)
         self.user_id = user_id
         self.connection = connection
-        self.setWindowTitle("Wybierz tagi")
+        self.setWindowTitle("Wybierz kategorie")
         self.tag_list = QListWidget(self)
         self.ok_btn = QPushButton("OK", self)
         self.ok_btn.clicked.connect(self.apply_changes)
@@ -17,7 +17,7 @@ class MultiTagSelector(QDialog):
         self.load_tags()
 
     def load_tags(self) -> None:
-        """Ładuje wszystkie tagi i zaznacza te przypisane do użytkownika."""
+        """Ładuje wszystkie tagi i zaznacza te przypisane do emaila."""
         cursor = self.connection.cursor()
         self.tag_list.clear()
         cursor.execute("SELECT id, tag_name FROM tags")

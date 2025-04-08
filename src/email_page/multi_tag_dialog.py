@@ -5,9 +5,9 @@ class MultiTagInputDialog(QDialog):
     def __init__(self, connection, parent=None):
         super().__init__(parent)
         self.connection = connection
-        self.setWindowTitle("Dodaj nowy tag")
+        self.setWindowTitle("Dodaj nową kategorię")
         self.new_tag_input = QLineEdit(self)
-        self.new_tag_input.setPlaceholderText("Wpisz nowy tag tutaj...")
+        self.new_tag_input.setPlaceholderText("Wpisz nową kategorię tutaj...")
         self.ok_btn = QPushButton("OK", self)
         self.ok_btn.clicked.connect(self.add_new_tag)
         layout = QVBoxLayout(self)

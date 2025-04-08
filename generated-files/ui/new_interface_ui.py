@@ -559,7 +559,7 @@ class Ui_MainWindow(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 520, 360))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 569, 422))
         sizePolicy1.setHeightForWidth(self.scrollAreaWidgetContents_3.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents_3.setSizePolicy(sizePolicy1)
         self.verticalLayout_34 = QVBoxLayout(self.scrollAreaWidgetContents_3)
@@ -1108,7 +1108,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 587, 405))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 586, 405))
         sizePolicy1.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents.setSizePolicy(sizePolicy1)
         self.verticalLayout_20 = QVBoxLayout(self.scrollAreaWidgetContents)
@@ -1687,7 +1687,7 @@ class Ui_MainWindow(object):
         self.scrollArea_2.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignTop)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 150, 591))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 150, 608))
         self.verticalLayout_29 = QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_29.setSpacing(0)
         self.verticalLayout_29.setObjectName(u"verticalLayout_29")
@@ -1784,7 +1784,7 @@ class Ui_MainWindow(object):
 
         self.menuBtn.setDefault(False)
         self.centerMenuPages.setCurrentIndex(1)
-        self.mainPages.setCurrentIndex(2)
+        self.mainPages.setCurrentIndex(1)
         self.startDataBtn.setDefault(False)
         self.rightMenuPages.setCurrentIndex(2)
 
@@ -1895,7 +1895,7 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem10 = self.tableWidget.horizontalHeaderItem(5)
         ___qtablewidgetitem10.setText(QCoreApplication.translate("MainWindow", u"Flagi", None));
         ___qtablewidgetitem11 = self.tableWidget.horizontalHeaderItem(6)
-        ___qtablewidgetitem11.setText(QCoreApplication.translate("MainWindow", u"Tagi", None));
+        ___qtablewidgetitem11.setText(QCoreApplication.translate("MainWindow", u"Kategorie", None));
         self.hederEmailBtn.setText(QCoreApplication.translate("MainWindow", u"Pokarz nag\u0142owek", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">Nadawca:</span></p></body></html>", None))
         self.sender.setText("")
@@ -1917,7 +1917,7 @@ class Ui_MainWindow(object):
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"hgtth", None))
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"Telefon: 504 270 395", None))
         self.label_15.setText(QCoreApplication.translate("MainWindow", u"E-mail: biuro@firenet.pl", None))
-        self.tagiBtn.setText(QCoreApplication.translate("MainWindow", u"Tagi", None))
+        self.tagiBtn.setText(QCoreApplication.translate("MainWindow", u"Kategorie", None))
         self.lableBtn.setText(QCoreApplication.translate("MainWindow", u"Etykiety", None))
         self.label_24.setText(QCoreApplication.translate("MainWindow", u"Sprawd\u017a ofert\u0119", None))
         self.ofertaBtn.setText("")
