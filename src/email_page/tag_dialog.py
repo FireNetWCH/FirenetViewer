@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QListWidget, QListWidgetItem, QCheckBox, QPushButton, QVBoxLayout, QDialog,QLineEdit,QHBoxLayout,QWidget
+from PySide6.QtWidgets import QListWidget, QListWidgetItem, QPushButton, QVBoxLayout, QDialog,QLineEdit,QHBoxLayout,QWidget
 from PySide6.QtCore import QSize
 from PySide6.QtGui import QIcon
 from src.db_function.db_email_function import delate_tag,updata_tag

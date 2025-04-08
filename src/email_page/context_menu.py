@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QMenu, QLabel
+from PySide6.QtWidgets import QMenu
 from PySide6.QtGui import QAction
 import src.db_function.db_email_function as db_email
 from src.label_page.main_label_page import load_all_labels,load_clicked_email_on_labels

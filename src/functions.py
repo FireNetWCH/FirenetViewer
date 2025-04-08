@@ -2,8 +2,8 @@ import os
 import sqlite3
 import logging
 from typing import Any, List, Dict, Optional
-from PySide6.QtCore import Qt, QSettings, QDir, QPoint,QEasingCurve,QRect,QDate,QUrl
-from PySide6.QtGui import QFont, QFontDatabase, QAction,QStandardItem, QPixmap, QImage, QPainter,QIcon,QDesktopServices
+from PySide6.QtCore import Qt, QSettings, QDir, QPoint,QEasingCurve,QDate,QUrl
+from PySide6.QtGui import QFont, QFontDatabase, QAction, QPixmap,QIcon,QDesktopServices
 from PySide6.QtWidgets import (
     QPushButton, QGraphicsScene, QTabBar,QMenu, QFileSystemModel,QSizePolicy,QSplitter,QFrame,QDialog,
     QTreeView, QVBoxLayout, QFileDialog,QListWidgetItem, QTreeWidget, QMainWindow,QListWidget,QHeaderView,QSizeGrip
@@ -69,7 +69,7 @@ class GUIFunctions:
         # config_path = get_resource_path("config.json")
         print(os.getcwd())
         # config_path = os.getcwd()+"\\SQL"
-        
+        self.pom = True
         # config = json.load(config_path)
         # base_path = config['path']
         self.path = os.getcwd()+"\\SQL"
@@ -138,6 +138,12 @@ class GUIFunctions:
         self.ui.EmailtabWidget_2.tabCloseRequested.connect(lambda index: self.ui.EmailtabWidget_2.removeTab(index))
         tab_bar = self.ui.EmailtabWidget_2.tabBar()
         tab_bar.setTabButton(0, QTabBar.RightSide, None)
+    def debuging(self):
+        state = self.main.windowState()
+        print(f"przed:{state}")
+        self.main.showMinimized()
+        state = self.main.windowState()
+        print(f"po{state}")
         
     def _connect_signals(self) -> None:
         """Łączy sygnały z odpowiednimi metodami."""
@@ -153,7 +159,10 @@ class GUIFunctions:
         self.ui.profileBtn.clicked.connect(lambda: self.ui.rightMenu.expandMenu())
         self.ui.closeRightMenuBtn.clicked.connect(lambda: self.ui.rightMenu.collapseMenu())
         
-        self.ui.minimalizeBtn.clicked.connect(lambda: self.main.showMinimized())
+        self.ui.minimalizeBtn.clicked.connect(self.debuging)
+        self.ui.restoreBtn.clicked.connect(self.toggle_window_state)
+
+        
        
         #rozciąganie szerokości paska bocznego przy splitter
         self.ui.closeCenterMenuBtn.clicked.connect(lambda : self.ui.splitter.setSizes([0, 1]))
@@ -255,7 +264,7 @@ class GUIFunctions:
         self.resize_grip.resize(200, 200)
         self.resize_grip.move(self.main.width() - 20, self.main.height() - 20)
 
-        pixmap = QPixmap("miniLogo.png")
+        pixmap = QPixmap(get_resource_path("miniLogo.png"))
         scaled_pixmap = pixmap.scaled(40, 40, Qt.KeepAspectRatio)
         self.ui.label_23.setPixmap(scaled_pixmap)
         self.ui.ofertaBtn.setIcon(QIcon(scaled_pixmap))
@@ -275,6 +284,7 @@ class GUIFunctions:
         self.ui.startDataBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\icons\\font_awesome\\regular\\calendar.png")))
         
         self.ui.leftMenu.setStyleSheet("background-color: #102339; border: 3px solid #102339;")
+        
     def _tymczaspwe_ukrycie_(self):
         #wyszukiwarka 
         self.ui.frame_2.hide()
@@ -286,11 +296,22 @@ class GUIFunctions:
         self.ui.reportsBtn.hide()
 
         self.ui.infoBtn.hide()
-        self.ui.fileBtn.hide()#
-        self.ui.settingsBtn.hide()#
+        self.ui.fileBtn.hide()
+        self.ui.settingsBtn.hide()
         self.ui.detailsBtn.hide()
         self.ui.menuBtn.hide()
     
+    def toggle_window_state(self):
+        print(self.main.windowState())
+        state = self.main.windowState()
+        if self.pom:
+            self.main.showNormal()
+            self.main.resize(1264, 471)
+            self.pom=False
+        else:
+            self.main.showMaximized()
+            self.pom=True
+            
     def show_tag_crud(self):
         dialog = TagCrud(self.db_connection)
         if dialog.exec():
@@ -443,26 +464,23 @@ class GUIFunctions:
         if not self.db_connection is None: 
             self.db_connection.close()
             print("zamknięto polaczenie")
-        logger.info(f"START1")
+        
         db_path = os.path.join(self.path,item.text().removesuffix('.sqlite'),item.text())
         print(db_path)
-        logger.info(f"Lonczenie")
+        
         db_email_function.connect_to_database(self,db_path)
-        logger.info(f"polonczne")
+        
         sql_name = db_path.split('\\')[-1]
         sql_name = sql_name.removesuffix('.sqlite')
         self.sql_name = sql_name
         self.ui.dataAnalysisPage.findChild(QLabel,"sqlEmailDbName").setText(sql_name)
-        
         load_data_from_database(self)
-        logger.info(f"zaczyna towrzyc drzewo")
         self.display_folders_in_help_page()
         tw = self.ui.helpPage.findChild(QTreeWidget,"folders_tree")
         tw.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         tw.itemClicked.connect(self.tree_email_dir_clicked)
-        logger.info(f"Drzewo wyświetlone")
         self.clear_filtr()
-        logger.info(f"START2")
+        
     def open_dialog_tag_selector(self, user_id: int) -> None:
         """Otwiera okno dialogowe do edycji tagów użytkownika."""
         dialog = SekectorTag(self.db_connection, self.active_filters,self.main)

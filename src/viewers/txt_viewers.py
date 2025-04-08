@@ -1,8 +1,5 @@
 from PySide6.QtWidgets import QTextEdit
-import olefile
 from PySide6.QtWidgets import QTextEdit,QWidget,QVBoxLayout
-import re
-import string
 class TxtViewers (QTextEdit):
     def __init__(self,parent = None):
         super().__init__()

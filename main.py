@@ -1,12 +1,11 @@
 import sys
 from PySide6.QtWidgets import QApplication, QMainWindow
 from src.functions import GUIFunctions
-from PySide6.QtGui import QPixmap
 from src.ui_interface import Ui_MainWindow
 from Custom_Widgets import *
 from Custom_Widgets.QCustomQToolTip import QCustomQToolTipFilter
 from Custom_Widgets.QAppSettings import QAppSettings
-from src.splash_window import CustomSplashScreen
+
  
 import os
 import _icons_rc

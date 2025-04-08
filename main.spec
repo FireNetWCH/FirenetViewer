@@ -14,7 +14,7 @@ a = Analysis(
         ('DejaVuSansCondensed.ttf','.'),
         ('logo.jpg','.'),
         ('logoLoad.jpg','.'),
-        ('miniLoad.jpg','.'),
+        ('miniLogo.png','.'),
         ('Qss/icons/FFFFFF/feather/home.png','Qss/icons/FFFFFF/feather/'),
         ('Qss/icons/FFFFFF/feather/activity.png','Qss/icons/FFFFFF/feather/'),
         ('Qss/icons/FFFFFF/feather/mail.png','Qss/icons/FFFFFF/feather/'),

@@ -4,7 +4,6 @@ import src.db_function.db_email_function as db_email
 import math
 import sqlite3
 import logging
-
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
@@ -42,7 +41,9 @@ def create_main_email_tale(self,data):
                     item = QTableWidgetItem(str(cell_data) if cell_data else "")
                     self.ui.tableWidget.setItem(row_idx, real_col_idx, item)
                     item.setFlags(item.flags() & ~Qt.ItemIsEditable)
-        
+        if(len(data) > 0):
+            self.load_clicked_email(0,0)
+            self.ui.tableWidget.clearSelection()       
         self.ui.tableWidget.horizontalHeader().setSectionResizeMode(0, QHeaderView.Fixed)
         self.ui.tableWidget.setColumnWidth(0, 50)
         self.ui.tableWidget.horizontalHeader().setSectionResizeMode(5, QHeaderView.Fixed)
@@ -100,9 +101,10 @@ def load_data_from_database(self) -> None:
             self.ui.tableWidget.setRowCount(len(data))
             self.ui.tableWidget.setColumnCount(7)
             #print(data)
-            logger.info(f"Zaczyna tworzyć tebele")
+            
             create_main_email_tale(self,data)
-            logger.info(f"Tabela Wyświetlona")
+            
+            
 
             self.ui.tableWidget.verticalHeader().setVisible(False)
             QApplication.restoreOverrideCursor()

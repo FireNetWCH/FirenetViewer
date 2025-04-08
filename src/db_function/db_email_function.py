@@ -42,14 +42,14 @@ def apply_filters(active_filters) -> None:
                         firtFiltr = False
                     else:
                         query_part = query_part +f" AND date < '{value} '"
-
-            elif(key == "body"):
+        #WHERE REPLACE(body, X'200C', '' )
+            elif(key == "body")| (key == 'subject'):
                 if value != "":
                     if firtFiltr:
-                        query_part = f" WHERE REPLACE(body, X'200C', '') LIKE '%{value}%' COLLATE NOCASE "
+                        query_part = f"WHERE {multi_part_query(key,value)} "
                         firtFiltr = False
                     else:
-                        query_part = query_part + f" AND REPLACE(body, X'200C', '') LIKE '%{value}%' COLLATE NOCASE "
+                        query_part = query_part + f" AND {multi_part_query(key,value)} COLLATE NOCASE "
             elif(key == "folder_id"):
                 if value != "" :
                     if firtFiltr:
@@ -64,6 +64,7 @@ def apply_filters(active_filters) -> None:
                         firtFiltr = False
                     else:
                         query_part = query_part + f" AND {key} LIKE {value}"
+            
             else:
                 if value != "" :
                     if firtFiltr:
@@ -307,3 +308,66 @@ def updata_label(db_connection,id_label,new_lebel_text):
     except sqlite3.Error as e:
             logger.error(f"Błąd podczas aktualizowania labelek: {e}")
             print(f"Błąd podczas aktualizowania labelek: {e}")
+
+def get_part_query(string):
+    return re.findall(r'\[([^\]]+)\]', string)
+
+def get_operators_summary(string):
+    return re.findall(r'\s(or|and)\s', string,re.IGNORECASE)
+
+def get_operators(string):
+    operators_in_case = []
+    for part in string:
+        operators_in_case.append(re.findall(r'\((or|and)\)', part,re.IGNORECASE))
+    return operators_in_case
+
+
+input_string = "sł owa  toto (and) dwdwdw"
+input_string2 = "dzien (and) dobry (or) nie dobry"
+input_string3 = "[mama (or) tata] And [morderca]"
+
+def multi_part_query(key,string):
+    matches = get_part_query(string)
+    if len(matches) > 0:
+        operators_summary = get_operators_summary(string)
+        operators_in_case = get_operators(matches)
+        result = []
+        for string in matches:
+            parts = re.split(r'\s*\((?:or|and)\)\s*', string, flags=re.IGNORECASE)
+            result.append([part.strip() for part in parts if part.strip()])
+        formatted_result = []
+        for sublist in result:
+            formatted_sublist = [f"{key} LIKE '%{string}%' COLLATE NOCASE " for string in sublist]
+            formatted_result.append(formatted_sublist)
+
+        final_result = []
+        for expressions, ops in zip(formatted_result, operators_in_case):
+            new_expressions = []
+            for i, expr in enumerate(expressions):
+                new_expressions.append(expr)
+                if i < len(ops):
+                    new_expressions.append(f" {ops[i]} ")
+            final_result.append("".join(new_expressions).strip())
+
+        final_query = ""
+        for i in range(len(final_result)-1):
+            final_query += f"({final_result[i]}) {operators_summary[i]} "
+
+        final_query += f"({final_result[-1]})"
+        print(final_query)
+        return final_query
+    #############################################    
+    elif len((re.findall(r'\((or|and)\)', string,re.IGNORECASE))) > 0:
+        operators_in_case = (re.findall(r'\((or|and)\)', string,re.IGNORECASE))
+        result = []
+        result = re.split(r'\s*\((?:or|and)\)\s*', string, flags=re.IGNORECASE)
+        formatted_sublist = [f"{key} LIKE '%{string}%' COLLATE NOCASE" for string in result]
+        final_query = ""
+        for i in range(len(formatted_sublist)-1):
+            final_query += f"{formatted_sublist[i]} {operators_in_case[i]} "
+        final_query += f"{formatted_sublist[-1]}"
+        print(final_query)
+        return final_query
+    #############################################
+    else:
+     return f"{key} LIKE '%{string}%' COLLATE NOCASE"            

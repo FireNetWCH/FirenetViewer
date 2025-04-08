@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QPushButton, QVBoxLayout, QDialog, QLineEdit,QRadioButton,QDialogButtonBox,QCheckBox
+from PySide6.QtWidgets import QVBoxLayout, QDialog,QRadioButton,QDialogButtonBox,QCheckBox
 class ExportSelector(QDialog):
     """Tworzy okno dialogowe zawierające opcje eksportu wiadomości email"""
     def __init__(self):

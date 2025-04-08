@@ -105,71 +105,77 @@
 #             HAVING t.tag_name in ('2','1')
 #             LIMIT 500 OFFSET 0
 
-from reportlab.lib.pagesizes import A4
-from reportlab.pdfgen import canvas
-from reportlab.pdfbase import pdfmetrics
-from reportlab.lib import colors
-from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.platypus import Paragraph,Table, TableStyle
-from reportlab.lib.styles import getSampleStyleSheet,ParagraphStyle
-def generate_pdf(output_filename, sender, receiver, date, subject, attachments):
-    c = canvas.Canvas(output_filename, pagesize=A4)
-    width, height = A4
-    margin = 50
-    y_position = height - margin
-    max_width = width - 2 * margin
-    pdfmetrics.registerFont(TTFont('DejaVu', 'DejaVuSansCondensed.ttf'))
-    c.setFont("DejaVu", 12)
-    styles = getSampleStyleSheet()
-    custom_style = ParagraphStyle(
-        name='CustomStyle',
-        fontName='DejaVu',
-        fontSize=12
-    )
+# from reportlab.lib.pagesizes import A4
+# from reportlab.pdfgen import canvas
+# from reportlab.pdfbase import pdfmetrics
+# from reportlab.lib import colors
+# from reportlab.pdfbase.ttfonts import TTFont
+# from reportlab.platypus import Paragraph,Table, TableStyle
+# from reportlab.lib.styles import getSampleStyleSheet,ParagraphStyle
+# def generate_pdf(output_filename, sender, receiver, date, subject, attachments):
+#     c = canvas.Canvas(output_filename, pagesize=A4)
+#     width, height = A4
+#     margin = 50
+#     y_position = height - margin
+#     max_width = width - 2 * margin
+#     pdfmetrics.registerFont(TTFont('DejaVu', 'DejaVuSansCondensed.ttf'))
+#     c.setFont("DejaVu", 12)
+#     styles = getSampleStyleSheet()
+#     custom_style = ParagraphStyle(
+#         name='CustomStyle',
+#         fontName='DejaVu',
+#         fontSize=12
+#     )
 
-    def wrap_text(text):
-        return Paragraph(text, custom_style)
+#     def wrap_text(text):
+#         return Paragraph(text, custom_style)
     
-    texts = [["Parametr:","Wartość:"],
-            ["Nadawca:", wrap_text(sender)],
-            ["Odbiorca:", wrap_text(receiver)],
-            ["Data:", wrap_text(date)],
-            ["Temat:", wrap_text(subject)],
-            ["Lista załączników:", wrap_text(attachments)]]
+#     texts = [["Parametr:","Wartość:"],
+#             ["Nadawca:", wrap_text(sender)],
+#             ["Odbiorca:", wrap_text(receiver)],
+#             ["Data:", wrap_text(date)],
+#             ["Temat:", wrap_text(subject)],
+#             ["Lista załączników:", wrap_text(attachments)]]
              
-    style = TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
-        ('VALIGN', (0, 0), (-1, -1), 'TOP'),
-        ('FONTNAME', (0, 0), (-1, -1), 'DejaVu'),
-        ('BOTTOMPADDING', (0, 0), (-1, 0), 10),
-        ('GRID', (0, 0), (-1, -1), 1, colors.black)
-    ])
-    title = "Informacje o wiadomości:"
-    c.drawString(margin, y_position, title)
+#     style = TableStyle([
+#         ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+#         ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+#         ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+#         ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+#         ('FONTNAME', (0, 0), (-1, -1), 'DejaVu'),
+#         ('BOTTOMPADDING', (0, 0), (-1, 0), 10),
+#         ('GRID', (0, 0), (-1, -1), 1, colors.black)
+#     ])
+#     title = "Informacje o wiadomości:"
+#     c.drawString(margin, y_position, title)
 
-    t=Table(texts,colWidths=[120, max_width - 120])
-    t.setStyle(style)
-    table_width, table_height = t.wrap(0, 0)
-    t.wrapOn(c, width, height)
-    t.drawOn(c, margin, y_position -table_height - 20)
+#     t=Table(texts,colWidths=[120, max_width - 120])
+#     t.setStyle(style)
+#     table_width, table_height = t.wrap(0, 0)
+#     t.wrapOn(c, width, height)
+#     t.drawOn(c, margin, y_position -table_height - 20)
     
-    text_below_table = "Treść Wiadomości : "
-    text_position_y = y_position - table_height - 45
-    c.drawString(margin, text_position_y, text_below_table)
+#     text_below_table = "Treść Wiadomości : "
+#     text_position_y = y_position - table_height - 45
+#     c.drawString(margin, text_position_y, text_below_table)
 
-    c.save()
-    print(f"PDF zapisano jako: {output_filename}")
+#     c.save()
+#     print(f"PDF zapisano jako: {output_filename}")
 
-generate_pdf("output.pdf", 
-             sender="Jan Kowalski", 
-             receiver="Anna Nowak", 
-             date="2025-03-26", 
-             subject="Spotkanie o godzinie 15:00", 
-             attachments="Załącznik 1, Załącznik 2, Załącznik 3,Załącznik 1, Załącznik 2, Załącznik 3,Załącznik 1, Załącznik 2, Załącznik 3,Załącznik 1, Załącznik 2, Załącznik 3")
+# generate_pdf("output.pdf", 
+#              sender="Jan Kowalski", 
+#              receiver="Anna Nowak", 
+#              date="2025-03-26", 
+#              subject="Spotkanie o godzinie 15:00", 
+#              attachments="Załącznik 1, Załącznik 2, Załącznik 3,Załącznik 1, Załącznik 2, Załącznik 3,Załącznik 1, Załącznik 2, Załącznik 3,Załącznik 1, Załącznik 2, Załącznik 3")
 
-{
-      "name": "export_pdf",
-      "icon": "Qss/icons/icons/font_awesome/regular/file-pdf.png"
-},
+# {
+#       "name": "export_pdf",
+#       "icon": "Qss/icons/icons/font_awesome/regular/file-pdf.png"
+# },
+import re
+
+    
+#multi_part_query(input_string)
+
+# Wyświetlanie wyników

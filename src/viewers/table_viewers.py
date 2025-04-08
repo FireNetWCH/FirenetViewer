@@ -1,5 +1,4 @@
-from PySide6.QtWidgets import QTableWidget,QTableWidgetItem,QTabWidget,QVBoxLayout,QPushButton,QWidget
-import pandas as pd
+from PySide6.QtWidgets import QTableWidget,QTableWidgetItem,QVBoxLayout,QWidget
 
 #from src.viewers.explorer_function import view_cleaer, MetaDataTableWiget
 

@@ -1,8 +1,7 @@
 import sqlite3
-from PySide6.QtWidgets import QTreeWidgetItem,QTreeWidget,QLabel,QListWidget,QSizePolicy
+from PySide6.QtWidgets import QTreeWidgetItem,QTreeWidget
 import logging
-import src.db_function.db_email_function as db_email
-import os
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)

@@ -1,5 +1,5 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout,QPushButton
-from PySide6.QtMultimedia import QMediaPlayer, QCamera,QAudioOutput
+from PySide6.QtWidgets import QVBoxLayout,QPushButton
+from PySide6.QtMultimedia import QMediaPlayer,QAudioOutput
 from PySide6.QtCore import QUrl
 from PySide6.QtMultimediaWidgets import QVideoWidget
 class VideoViewer(QVideoWidget):

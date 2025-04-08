@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QGraphicsView,QGraphicsScene,QHBoxLayout,QScrollArea,QPushButton,QGraphicsPixmapItem,QTableWidget,QTableWidgetItem,QWidget,QVBoxLayout
+from PySide6.QtWidgets import QGraphicsView,QGraphicsScene,QHBoxLayout,QScrollArea,QPushButton,QGraphicsPixmapItem,QTableWidget,QWidget,QVBoxLayout
 from PySide6.QtGui import QPainter,QIcon
 import logging
 #from src.viewers.explorer_function import view_cleaer,get_image_metadata,MetaDataTableWiget

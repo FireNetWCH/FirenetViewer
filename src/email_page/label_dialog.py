@@ -1,8 +1,8 @@
-from PySide6.QtWidgets import QListWidget, QListWidgetItem, QCheckBox, QPushButton, QVBoxLayout, QDialog,QLineEdit,QHBoxLayout,QWidget
+from PySide6.QtWidgets import QListWidget, QListWidgetItem, QPushButton, QVBoxLayout, QDialog,QLineEdit,QHBoxLayout,QWidget
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import QSize
 from src.db_function.db_email_function import delate_label,updata_label_name
-from src.email_page.multi_tag_dialog import MultiTagInputDialog
+
 class LabelsCrud(QDialog):
     """Dialog do edycji labelek użytkownika."""
     def __init__(self, connection, parent=None):

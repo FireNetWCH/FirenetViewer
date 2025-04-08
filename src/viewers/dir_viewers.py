@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QWidget,QFileSystemModel,QVBoxLayout,QTableView,QListView,QSizePolicy,QPushButton
+from PySide6.QtWidgets import QWidget,QFileSystemModel,QVBoxLayout,QListView,QSizePolicy,QPushButton
 from PySide6.QtCore import QSize
 class DirViewers(QWidget):
     def __init__(self,parent = None):

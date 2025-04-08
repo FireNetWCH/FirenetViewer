@@ -537,3 +537,9 @@ QSizeGrip {
     width: 12px;
     height: 12px;
     image: url(":feather/icons/feather/window_grip.png"); }
+
+    #restoreBtn {
+        background: transparent;
+        width: 12px;
+        height: 12px;
+        image: url(":feather/icons/feather/window_undock.png"); }

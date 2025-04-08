@@ -1,6 +1,6 @@
-from PySide6.QtWidgets import QApplication, QSplashScreen, QMainWindow
-from PySide6.QtGui import QPixmap, QPainter, QColor, QFont
-from PySide6.QtCore import Qt, QTimer
+from PySide6.QtWidgets import QSplashScreen
+from PySide6.QtGui import QFont
+from PySide6.QtCore import Qt
 class CustomSplashScreen(QSplashScreen):
     def __init__(self, pixmap):
         super().__init__(pixmap)
