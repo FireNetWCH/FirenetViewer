@@ -30,7 +30,13 @@ class FileListItem(QWidget):
         frame_layout = QHBoxLayout(self.frame)
         frame_layout.setContentsMargins(1, 1, 1, 1)
         frame_layout.setSpacing(1)
-        self.label = QLabel(filename)
+
+        name, ext = filename.rsplit('.', 1) if '.' in filename else (filename, '')
+        if len(name) > 15:
+            display_name = name[:15] + '...' + '.' + ext if ext else name[:15] + '...'
+        else:
+            display_name = filename
+        self.label = QLabel(display_name)
         self.label.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         self.preview_button = QPushButton(QIcon(get_resource_path("Qss/icons/black/feather/download.png")), "")
         self.preview_button.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)

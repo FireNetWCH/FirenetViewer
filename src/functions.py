@@ -31,6 +31,7 @@ from src.label_page.main_label_page import load_all_labels,load_clicked_email_on
 from src.db_function.db_email_folders_tree import load_folders_data_into_tree
 from src.email_page.main_emeil_table import load_data_from_database,load_color_dictionery
 from src.email_page.context_menu import LabelContextMenu,EditLabelContextMenu
+from src.message_box.scaletLabel import ScalableLabel
 #from src.label_context_menu import show_context_menu
 import src.db_function.db_email_function as db_email_function
 import shutil 
@@ -128,12 +129,29 @@ class GUIFunctions:
         self.ui.emailHederDockWidget.hide()
 
         
-        label = self.ui.homePage.findChild(QLabel, "label_7")
-        print(label)
-        pixmap = QPixmap("logo.jpg")
-        label.setPixmap(pixmap)
-        label.resize(pixmap.width(), pixmap.height())
-        label.move(100, 100)
+        old_label = self.ui.homePage.findChild(QLabel, "label_7")
+        new_label = ScalableLabel(parent=old_label.parent())
+        new_label.setObjectName("label_7")
+        new_label.setGeometry(old_label.geometry())
+
+        layout = old_label.parentWidget().layout()
+        if layout:
+            index = layout.indexOf(old_label)
+            layout.removeWidget(old_label)
+            old_label.deleteLater()
+            layout.insertWidget(index, new_label)
+        else:
+            old_label.deleteLater()
+            new_label.show()
+
+        # Ustaw pixmapę
+        new_label.setPixmap(QPixmap("logo.png"))
+        # print(label)
+        # pixmap = QPixmap("logo.png")
+        # scaled_pixmap = pixmap.scaled(label.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        # label.setPixmap(scaled_pixmap)
+        
+        
         
         # Konfiguracja widokui Email w sekcji etykiet
         self.ui.EmailtabWidget_2.tabCloseRequested.connect(lambda index: self.ui.EmailtabWidget_2.removeTab(index))
@@ -183,6 +201,7 @@ class GUIFunctions:
         self.ui.show_table_btn.clicked.connect(self.show_all_columns)
         self.ui.show_flags_btn.clicked.connect(self.toggle_filter_flags)
         self.ui.export_pdf.clicked.connect(self.open_dialog_export_selector_to_pdf)
+        self.ui.clearBtn.clicked.connect(self.clear_filtr)
        
         self.ui.exportExelBtn.clicked.connect(self.open_dialog_export_selector_to_exel)
         self.ui.pst_files_btn.clicked.connect(self.upload_pst_file)
@@ -194,11 +213,11 @@ class GUIFunctions:
         self.ui.LabelTableWidget.cellClicked.connect(lambda row : load_clicked_email_on_labels(self,row))
 
         self.ui.wwwBtn.clicked.connect(self.open_www_in_browser)
-        self.ui.wwwBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\black\\font_awesome\\solid\\rss.png")))
+        self.ui.wwwBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\font_awesome\\solid\\rss.png")))
         self.ui.linkedinBtn.clicked.connect(self.open_linkedin_in_browser)
-        self.ui.linkedinBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\black\\feather\\linkedin.png")))
+        self.ui.linkedinBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\linkedin.png")))
         self.ui.fbBtn.clicked.connect(self.open_facebook_in_browser)
-        self.ui.fbBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\black\\feather\\facebook.png")))
+        self.ui.fbBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\facebook.png")))
         #self.ui.checkBoxData.checkStateChanged.connect(self.date_state_box)
 
         self.ui.tagPuschBtn.clicked.connect(lambda: self.open_dialog_tag_selector(self.active_filters))
@@ -236,10 +255,10 @@ class GUIFunctions:
         heder_btn = self.ui.EmailtabWidget.findChild(QPushButton,"hederEmailBtn")
         heder_btn.clicked.connect(self.show_heder_winodw)
 
-        test = self.ui.emailHederDockWidget.findChild(QLabel,"headerEmailLabel")
-        window_clode_btn = self.ui.emailHederDockWidget.findChild(QPushButton,"hiddenHederWindowBtn")
-        print(window_clode_btn)
-        window_clode_btn.clicked.connect(self.ui.emailHederDockWidget.hide)
+        # test = self.ui.emailHederDockWidget.findChild(QLabel,"headerEmailLabel")
+        # window_clode_btn = self.ui.emailHederDockWidget.findChild(QPushButton,"hiddenHederWindowBtn")
+        # print(window_clode_btn)
+        # window_clode_btn.clicked.connect(self.ui.emailHederDockWidget.hide)
     
 
         # konfiguracja menu rozwijanego dla Labelki zawierającej treść Emaila 
@@ -266,7 +285,7 @@ class GUIFunctions:
         self.resize_grip.move(self.main.width() - 20, self.main.height() - 20)
 
         pixmap = QPixmap(get_resource_path("miniLogo.png"))
-        scaled_pixmap = pixmap.scaled(40, 40, Qt.KeepAspectRatio)
+        scaled_pixmap = pixmap.scaled(20, 20, Qt.KeepAspectRatio)
         self.ui.label_23.setPixmap(scaled_pixmap)
         self.ui.ofertaBtn.setIcon(QIcon(scaled_pixmap))
         # self.resize_grip.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\home.png")))
@@ -277,13 +296,13 @@ class GUIFunctions:
         self.ui.infoBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\activity.png")))
         self.ui.dataBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\mail.png")))
         self.ui.graphsBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\font_awesome\\solid\\chart-pie.png")))
-        self.ui.titleTxt.setStyleSheet("color: #102339;")
         self.ui.meilBoxBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\material_design\\format_align_justify.png")))
         self.ui.export_pdf.setIcon(QIcon(get_resource_path("Qss\\icons\\icons\\font_awesome\\regular\\file-pdf.png")))
         self.ui.closeCenterMenuBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\icons\\font_awesome\\solid\\circle-xmark.png")))
         self.ui.exportExelBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\icons\\font_awesome\\regular\\file-excel.png")))
         self.ui.startDataBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\icons\\font_awesome\\regular\\calendar.png")))
-        
+        self.ui.clearBtn.setIcon(QIcon(":material_design/icons/material_design/hide_source.png"))
+        self.ui.show_table_btn.setIcon(QIcon(":feather/icons/feather/rotate-cw.png"))
         self.ui.leftMenu.setStyleSheet("background-color: #102339; border: 3px solid #102339;")
         
     def _tymczaspwe_ukrycie_(self):
@@ -531,7 +550,8 @@ class GUIFunctions:
         bcc_widget = self.ui.EmailtabWidget.findChild(QWidget, "bccWidget")
 
         header_email_label = self.ui.emailHederDockWidget.findChild(QLabel,"headerEmailLabel")
-        
+        header_email_id_label = self.ui.emailHederDockWidget.findChild(QLabel,"idEmailHeaderLabel")
+        header_email_id_label.setText(str(id))
         cursor = self.db_connection.cursor()
         cursor.execute(query)
         emai_value = cursor.fetchall()
@@ -557,7 +577,16 @@ class GUIFunctions:
         listAttachments.itemClicked.connect(lambda item: on_item_clicked(item))
         listAttachments.setFixedHeight(60)
         search_term = self.active_filters['body']
-        pattern = re.compile(re.escape(search_term), re.IGNORECASE)
+        search_term = db_email_function.word_to_highline(search_term)
+        #
+
+        if isinstance(search_term, list):
+            escaped_terms = [re.escape(term) for term in search_term if term] 
+            pattern = re.compile('|'.join(escaped_terms), re.IGNORECASE)
+        else:
+            pattern = re.compile(re.escape(search_term), re.IGNORECASE)
+
+
         tekst = emai_value[0][8]
         body_label.setTextFormat(Qt.TextFormat.RichText)
         #print(emai_value[0][8])
@@ -573,6 +602,7 @@ class GUIFunctions:
             
         else:
             tekst_html = tekst.replace('\n', '<br>')
+
             highlighted_content = pattern.sub(lambda match: f"<span style='background-color: yellow;'>{match.group()}</span>",tekst_html)
             body_label.setTextFormat(Qt.TextFormat.RichText)    
             body_label.setText(highlighted_content)
@@ -598,19 +628,19 @@ class GUIFunctions:
         self.ui.seachSurname.setText("")
         self.ui.searchDate.setText("")
         self.ui.searchBody.setText("")
+        #selected_tag_label = self.ui.emailHederDockWidget.findChild(QLabel,"selected_tag_label")
+        self.ui.selectedTagLabel.setText("")
         self.active_filters["sender_name"] = ""
         self.active_filters["recipients"] = ""
         self.active_filters["subject"] = ""
         self.active_filters["body"] = ""
         self.active_filters["tag"] = ""
-        
+        load_data_from_database(self)
+
     def tree_email_dir_clicked(self,item ,column):
         self.active_filters["folder_id"] = item.data(0,1)
         self.ui.mainPages.setCurrentIndex(1)
         self.clear_filtr()
-        
-
-        load_data_from_database(self)
         self.current_page = 0
             
     def email_copy_attachments(self,item):

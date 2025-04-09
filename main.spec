@@ -15,6 +15,7 @@ a = Analysis(
         ('logo.jpg','.'),
         ('logoLoad.jpg','.'),
         ('miniLogo.png','.'),
+        ('tagColor.json','.'),
         ('Qss/icons/FFFFFF/feather/home.png','Qss/icons/FFFFFF/feather/'),
         ('Qss/icons/FFFFFF/feather/activity.png','Qss/icons/FFFFFF/feather/'),
         ('Qss/icons/FFFFFF/feather/mail.png','Qss/icons/FFFFFF/feather/'),

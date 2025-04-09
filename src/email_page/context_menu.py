@@ -47,6 +47,7 @@ class LabelContextMenu(ContextMenu):
         dialog = LabelsCrud(self.db_connection)
         if dialog.exec():
             logger.info(f"Zaktualizowano tagi dla użytkownika")
+            
 
 class EditLabelContextMenu(LabelContextMenu):
     def __init__(self, main, db_connection,parent):
@@ -55,8 +56,10 @@ class EditLabelContextMenu(LabelContextMenu):
 
     def add_lebels_to_db(self,id_labels_name,selected_text,parent):
         super().add_lebels_to_db(id_labels_name,selected_text,parent)
-        print(parent)
-        print("dziecko")
+        load_all_labels(parent)
+
+    def show_label_crud(self,parent):
+        super().show_label_crud()
         load_all_labels(parent)
 
     def edit_label(self,current_text,parent):
@@ -68,17 +71,20 @@ class EditLabelContextMenu(LabelContextMenu):
         all_labels = db_email.get_all_labels_name(self.db_connection)
         labelContextMenu = QMenu(self.main)
 
-        submenu_labels = QMenu("Dodaj etykiete", labelContextMenu)
+        submenu = QMenu("Dodaj etykiete", labelContextMenu)
 
         selected_text = context_widget.selectedText()
 
         for row in all_labels:
             action = QAction(str(row[1]), self.main)
             action.triggered.connect(lambda checked, value=row[0]: self.add_lebels_to_db(value, selected_text,self.parent))
-            submenu_labels.addAction(action)
+            submenu.addAction(action)
 
-
-        labelContextMenu.addMenu(submenu_labels)
+        add_new_label_action = QAction("+ Dodaj nową", self.main)
+        add_new_label_action.triggered.connect(lambda: self.show_label_crud(self.parent))
+        labelContextMenu.addMenu(submenu)
+        submenu.addAction(add_new_label_action)
+        labelContextMenu.addMenu(submenu)
         
 
         action_edit = QAction("Edytuj etykietę", self.main)

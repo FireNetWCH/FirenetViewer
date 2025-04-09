@@ -32,12 +32,16 @@ QSplitter::handle {
     border-radius: 2px;
 }
 
+
 #mainBody,#centerMenu
 {   
     border-radius: 10px;
     border: 3px solid #102339;
 }
 #frame_13{
+    background-color: #102339;
+}
+#mainBody{
     background-color: #102339;
 }
 // #tagger{
@@ -102,8 +106,12 @@ QFrame #frame_11{
     background-color: $COLOR_BACKGROUND_1;
     padding-top: 10px;
     border-right: 6px solid $COLOR_BACKGROUND_3;
+    
 }
-
+// #meilBoxBtn:checked {
+//     background-color: red;
+//     border-right: 6px solid red;
+// }
 #centerMenu{
     border-left: 6px solid $COLOR_ACCENT_1;
     border-right: 6px solid $COLOR_BACKGROUND_3;
@@ -138,10 +146,11 @@ QFrame #frame_11{
 }
 
 #header, #footer{
-    background-color: $COLOR_BACKGROUND_1;
+    background-color:102339;
+    color: #FFFFFF;
     * {
-        background-color: transparent;
-
+        background-color: #102339;
+        color: #FFFFFF;
     }
 }
 #footer{
@@ -151,7 +160,11 @@ QFrame #frame_11{
     border-top-right-radius: 0px;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
-    border: none;}
+    border: none;
+    background-color: #102339;
+    color: #FFFFFF;
+}
+
 #header{
     border-bottom: $BORDER_2;
     #frame_3{
@@ -166,9 +179,7 @@ QFrame #frame_11{
     }
 }
 
-#footer{
-    border-top: 6px solid $COLOR_BACKGROUND_3;
-}
+
 
 #titleTxt{
     color: $COLOR_ACCENT_1;
@@ -182,7 +193,7 @@ QFrame #frame_11{
         background-color: transparent;
         border: none;
     }
-    #chartPage,  #homePage, #reportsPage{
+    #chartPage, #reportsPage{
         background-color: $COLOR_BACKGROUND_1;
         *, QWidgets{
             background-color: transparent;
@@ -190,7 +201,24 @@ QFrame #frame_11{
         }
     
     }
-    #widget_13,#lableBtn{
+    #homePage{
+        background-color: $COLOR_BACKGROUND_1;
+        *, QWidgets{
+            background-color: transparent;
+            border: none;
+           
+            
+        }
+        
+    
+    }
+    #homePageFooterWidget *{
+        background-color: #102339;
+        color: #FFFFFF;
+    }
+
+
+    #lableBtn{
         QPushButton{
             
             border: 3px solid #102339;
@@ -198,6 +226,21 @@ QFrame #frame_11{
             border-radius: 15px;
             padding: 5px 15px;
 
+        }
+
+    }
+
+    #widget_13{
+        QPushButton{
+            
+            border: 5px solid #102339;
+            color: #FFFFFF;
+            border-top-left-radius: 15px; 
+            border-top-right-radius: 15px;
+            border-bottom-left-radius: 0px;
+            border-bottom-right-radius: 0px;
+            padding: 5px 15px;
+            background-color:#102339 ;
         }
 
     }
@@ -276,6 +319,9 @@ QProgressBar{
         background-color: transparent;
         border-radius: 2px;
     }
+
+    #restoreBtn {
+        image: url(":material_design/icons/material_design/hide_source.png"); }
 
 }
 /*poniżej zmiant "tymczasowe" żeby działało w wersji jedno plikowej*/
@@ -543,3 +589,9 @@ QSizeGrip {
         width: 12px;
         height: 12px;
         image: url(":feather/icons/feather/window_undock.png"); }
+
+
+        #mainPages {
+            padding: 0px 0px 0px 0px;
+        }
+        #titleTxt{color: #FFFFFF;}

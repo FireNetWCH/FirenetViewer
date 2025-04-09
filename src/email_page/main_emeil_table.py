@@ -1,12 +1,22 @@
-from PySide6.QtWidgets import QTableWidgetItem,QAbstractItemView,QCheckBox,QPushButton,QHeaderView,QApplication,QLabel,QWidget,QHBoxLayout
+from PySide6.QtWidgets import QTableWidgetItem,QAbstractItemView,QCheckBox,QPushButton,QHeaderView,QApplication,QLabel,QWidget,QHBoxLayout,QListWidget
 from PySide6.QtCore import Qt,Signal
 import src.db_function.db_email_function as db_email
 import math
 import sqlite3
 import logging
 import json
+import sys
+import os
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
+
+def get_resource_path(relative_path):
+    """Zwraca poprawną ścieżkę do zasobów, obsługując tryb onefile"""
+    if getattr(sys, 'frozen', False):  
+        base_path = sys._MEIPASS  
+    else:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
 
 class ClickableLabel(QLabel):
     clicked = Signal()
@@ -147,6 +157,11 @@ def load_data_from_database(self) -> None:
             
 
             self.ui.tableWidget.verticalHeader().setVisible(False)
+            if self.ui.tableWidget.rowCount() > 0:
+                self.ui.tableWidget.selectRow(0) 
+            else:
+                clear_deteils_email(self)
+                 
             QApplication.restoreOverrideCursor()
             logger.info(f"END")
         except sqlite3.Error as e:
@@ -156,10 +171,32 @@ def load_data_from_database(self) -> None:
 
 def load_color_dictionery(self):
         all_tags = db_email.get_all_tags(self.db_connection)
-        json_path = ".\\tagColor.json"
+        json_path = get_resource_path("tagColor.json")
         with open(json_path, 'r') as file:
             color_json = json.load(file)
         self.tag_color ={}
         if len(all_tags) > 0:
             for i in range(len(all_tags)):
                 self.tag_color.setdefault(all_tags[i][1], color_json.get(str(i)))
+
+def clear_deteils_email(self):
+    body_label = self.ui.EmailtabWidget.findChild(QLabel, "body")
+    subject_label = self.ui.EmailtabWidget.findChild(QLabel, "subject")
+    sender_label = self.ui.EmailtabWidget.findChild(QLabel, "sender")
+    date_label = self.ui.EmailtabWidget.findChild(QLabel, "date")
+    recipients_label = self.ui.EmailtabWidget.findChild(QLabel, "recipientsLabel")
+    cc_label = self.ui.EmailtabWidget.findChild(QLabel, "ccLabel")
+    bcc_label = self.ui.EmailtabWidget.findChild(QLabel, "bccLabel")
+    header_email_label = self.ui.emailHederDockWidget.findChild(QLabel,"headerEmailLabel")
+    header_email_id_label = self.ui.emailHederDockWidget.findChild(QLabel,"idEmailHeaderLabel")
+    body_label.setText("")
+    subject_label.setText("")
+    sender_label.setText("")
+    date_label.setText("")
+    recipients_label.setText("")
+    cc_label.setText("")
+    bcc_label.setText("")
+    header_email_label.setText("")
+    header_email_id_label.setText("")
+    listAttachments = self.ui.EmailtabWidget.findChild(QListWidget, "listAttachments")
+    listAttachments.clear()

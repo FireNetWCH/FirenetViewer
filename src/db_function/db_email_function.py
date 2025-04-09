@@ -1,8 +1,11 @@
 import sqlite3
 import logging
 import re
+import itertools
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
+
+
 
 def connect_to_database(self, db_name: str) -> None:
         """Nawiązuje połączenie z bazą danych SQLite."""
@@ -131,14 +134,31 @@ def emails_to_export(db_connection,filters = None,list = None):
             """
             cursor.execute(query)
         elif filters is not None:
-            query=f"""
-            SELECT e.id,e.date, e.sender_name, e.recipients, e.subject , e.body,
-            GROUP_CONCAT(a.attachment_filename) AS atach
-            FROM emails e
-            LEFT JOIN attachments a ON e.id = a.email_id
-            {apply_filters(filters)}
-            GROUP BY e.id
-            """
+            if filters['tag'] == "" :
+                query=f"""
+                SELECT e.id,e.date, e.sender_name, e.recipients, e.subject , e.body,
+                GROUP_CONCAT(a.attachment_filename) AS atach
+                FROM emails e
+                LEFT JOIN attachments a ON e.id = a.email_id
+                {apply_filters(filters)}
+                GROUP BY e.id
+                """
+            else: 
+                """Generuje zapytanie umorzliwające selekcje po wybranych tagach"""
+                query=  f'''WITH filtered_tags AS (
+                SELECT et.email_id, t.tag_name
+                FROM email_tags et
+                JOIN tags t ON et.tag_id = t.id
+                WHERE t.tag_name IN {filters['tag']}
+                )
+                SELECT e.id,e.date, e.sender_name, e.recipients, e.subject , e.body,
+                    GROUP_CONCAT(a.attachment_filename) AS atach
+                FROM emails e
+                JOIN filtered_tags ft ON e.id = ft.email_id
+                LEFT JOIN attachments a ON e.id = a.email_id
+                {apply_filters(filters)}
+                GROUP BY e.id
+                '''
             cursor.execute(query)
         elif list is not None:
             placeholders = ", ".join(["?"] * len(list))
@@ -154,6 +174,7 @@ def emails_to_export(db_connection,filters = None,list = None):
         
         
         results = cursor.fetchall()
+        
         #print(results)
     except sqlite3.Error as e:
         logger.error(f"Błąd podczas pobierania wiadomości z flagami: {e}")
@@ -349,7 +370,7 @@ def multi_part_query(key,string):
             final_query += f"({final_result[i]}) {operators_summary[i]} "
 
         final_query += f"({final_result[-1]})"
-        print(final_query)
+        #print(final_query)
         return final_query
     #############################################    
     elif len((re.findall(r'\((or|and)\)', string,re.IGNORECASE))) > 0:
@@ -361,7 +382,7 @@ def multi_part_query(key,string):
         for i in range(len(formatted_sublist)-1):
             final_query += f"{formatted_sublist[i]} {operators_in_case[i]} "
         final_query += f"{formatted_sublist[-1]}"
-        print(final_query)
+        #print(final_query)
         return final_query
     #############################################
     else:
@@ -380,3 +401,29 @@ def get_all_tags(db_connection):
     except sqlite3.Error as e:
         logger.error(f"Błąd podczas pobierania z tabeli tags: {e}")
         print(f"Błąd podczas pobierania z tabeli tags: {e}")
+
+def word_to_highline(string):
+    
+    matches = get_part_query(string)
+    if len(matches) > 0:
+        print(matches)
+        operators_summary = get_operators_summary(string)
+        operators_in_case = get_operators(matches)
+        result = []
+        for string in matches:
+            parts = re.split(r'\s*\((?:or|and)\)\s*', string, flags=re.IGNORECASE)
+            result.append([part.strip() for part in parts if part.strip()])
+        formatted_result = []
+        for sublist in result:
+            formatted_sublist = [f"{string}" for string in sublist]
+            formatted_result.append(formatted_sublist)
+        flat_list = list(itertools.chain(*formatted_result))
+        return flat_list
+    #############################################    
+    elif len((re.findall(r'\((or|and)\)', string,re.IGNORECASE))) > 0:
+        result = []
+        result = re.split(r'\s*\((?:or|and)\)\s*', string, flags=re.IGNORECASE)
+        return result
+    #############################################
+    else:
+        return string

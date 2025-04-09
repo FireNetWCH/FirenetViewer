@@ -51,15 +51,16 @@ class DateRangeDialog(QDialog):
     def cleae_data(self):
         self.label2.setText("")
         self.label4.setText("")
-
+        self.label2.setStyleSheet("background-color: #ffffff")
+        self.label4.setStyleSheet("background-color: #ffffff")
     def setLabelData1(self):
         selected_date = self.calendar1.selectedDate().toString("yyyy-MM-dd")
         self.label2.setText(selected_date)
-
+        self.label2.setStyleSheet("background-color: #4f88ca")
     def setLabelData2(self):
         selected_date = self.calendar2.selectedDate().toString("yyyy-MM-dd")
         self.label4.setText(selected_date)
-    
+        self.label4.setStyleSheet("background-color: #4f88ca")
     def get_selected_dates(self):
         if self.exec() == QDialog.Accepted:
             return self.label2.text(), self.label4.text()

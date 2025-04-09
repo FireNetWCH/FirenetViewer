@@ -5,7 +5,7 @@ class SekectorTag(QDialog):
     def __init__(self, connection,user_tag, parent=None):
         super().__init__(parent)
         self.connection = connection
-        self.setWindowTitle("Wybierz tagi")
+        self.setWindowTitle("Wybierz kategorie")
         self.tag_list = QListWidget(self)
         self.tag_list.setObjectName("sekectorTag")
         self.ok_btn = QPushButton("OK", self)

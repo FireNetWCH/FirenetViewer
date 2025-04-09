@@ -69,6 +69,7 @@ def generate_pdf(output_path, sender, receiver, date, subject, attachments, body
     table.setStyle(table_style)
     print(body)
     tekst = body
+    print(tekst)
     tekst_html = tekst.replace('<br>', '<br/>')
     tekst_html = tekst_html.replace('\n', '<br/>')
     tekst_html = re.sub(r'<img[^>]*>', '', tekst_html) 
@@ -132,7 +133,16 @@ def export_to_pdf(self,db_connection,path,sql_name,active_filters,emeils_grout,a
                 id_list.append(self.ui.tableWidget.item(row,0).text())
 
             data = db_email.emails_to_export(db_connection,list=id_list)
+        print(data)
+        if data:
+            print(data)
+            first_row = data[0]
+            print(first_row)
+            num_columns = len(first_row)
+            if num_columns == 9:
+                data = [row[:-2] for row in data]
         df = pd.DataFrame(data, columns=["Id", "Data", "Nadawca", "Odbiorca", "Temat","Treść", "Załączniki"])
+        
         dir_path, _ = os.path.splitext(file_path)
         os.mkdir(dir_path)
         file_path = file_path.removesuffix(os.path.dirname(dir_path))
@@ -141,6 +151,7 @@ def export_to_pdf(self,db_connection,path,sql_name,active_filters,emeils_grout,a
             subject_to_path = re.sub(r'[?/*<>|\\:",.\s]','_',row["Temat"])
             subject_to_path = subject_to_path[:50]
             if (row["Załączniki"] is not None) and attachments_options:    
+                print(row["Załączniki"])
                 shutil.copytree(os.path.join(path,sql_name,"Attachments",str(row["Id"])),os.path.join(file_path,"ID_"+str(row["Id"])+"_"+subject_to_path+"_Załączniki_wiadomości"))
             pdf_path = os.path.join(file_path,"ID_"+str(row["Id"])+'_'+subject_to_path) +".pdf"
             generate_pdf(pdf_path,row["Nadawca"],row["Odbiorca"],row["Data"],row["Temat"],row["Załączniki"],row["Treść"],row["Id"],sql_name)

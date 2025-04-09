@@ -65,10 +65,6 @@
       "icon": "Qss/icons/icons/feather/minus.png"
     },
     {
-      "name": "restoreBtn",
-      "icon": "Qss/icons/icons/feather/square.png"
-    },
-    {
       "name": "closeBtn",
       "icon": "Qss/icons/icons/feather/x.png"
     },
@@ -81,10 +77,10 @@
       "icon": "Qss/icons/icons/feather/flag.png"
     },
     {
-      "name": "show_table_btn",
+      "name": "clearBtn",
       "icon": "Qss/icons/icons/material_design/hide_source.png"
     },
-   
+    
     {
       "name": "exportExelBtn",
       "icon": "Qss/icons/icons/font_awesome/regular/file-excel.png"
