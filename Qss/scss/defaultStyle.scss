@@ -242,7 +242,7 @@ QFrame #frame_11{
             padding: 5px 15px;
             background-color:#102339 ;
         }
-
+        background-color:#FFFFFF ;
     }
 
     #dataAnalysisPage {
@@ -250,6 +250,9 @@ QFrame #frame_11{
         *, QWidgets{
             background-color: transparent;
             border: none;
+        }
+        QDialog{
+            background-color: #FFFFFF;
         }
         QLineEdit{ border: 1px solid $COLOR_TEXT_1}
         #serchEmailFrame{

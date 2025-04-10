@@ -1810,20 +1810,24 @@ QFrame #frame_11 {
     color: #102339;
     border-radius: 15px;
     padding: 5px 15px; }
-  #mainPagesCont #widget_13 QPushButton {
-    border: 5px solid #102339;
-    color: #FFFFFF;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-    padding: 5px 15px;
-    background-color: #102339; }
+  #mainPagesCont #widget_13 {
+    background-color: #FFFFFF; }
+    #mainPagesCont #widget_13 QPushButton {
+      border: 5px solid #102339;
+      color: #FFFFFF;
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      border-bottom-left-radius: 0px;
+      border-bottom-right-radius: 0px;
+      padding: 5px 15px;
+      background-color: #102339; }
   #mainPagesCont #dataAnalysisPage {
     background-color: #FFFFFF; }
     #mainPagesCont #dataAnalysisPage *, #mainPagesCont #dataAnalysisPage QWidgets {
       background-color: transparent;
       border: none; }
+    #mainPagesCont #dataAnalysisPage QDialog {
+      background-color: #FFFFFF; }
     #mainPagesCont #dataAnalysisPage QLineEdit {
       border: 1px solid #010000; }
     #mainPagesCont #dataAnalysisPage #serchEmailFrame QPushButton {

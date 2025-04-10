@@ -12,8 +12,7 @@ a = Analysis(
         ('generated-files/*', 'generated-files'),
         ('config.json','.'),
         ('DejaVuSansCondensed.ttf','.'),
-        ('logo.jpg','.'),
-        ('logoLoad.jpg','.'),
+        ('logo.png','.'),
         ('miniLogo.png','.'),
         ('tagColor.json','.'),
         ('Qss/icons/FFFFFF/feather/home.png','Qss/icons/FFFFFF/feather/'),
@@ -39,7 +38,7 @@ a = Analysis(
     optimize=0,
 )
 
-splash = Splash('logoLoad.jpg',
+splash = Splash('logo.png',
                 binaries=a.binaries,
                 datas=a.datas,
                 text_pos=(60, 60),

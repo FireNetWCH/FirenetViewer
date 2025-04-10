@@ -44,10 +44,10 @@ class Ui_MainWindow(object):
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.centralwidget.setMinimumSize(QSize(1264, 471))
-        self.verticalLayout_25 = QVBoxLayout(self.centralwidget)
-        self.verticalLayout_25.setSpacing(0)
-        self.verticalLayout_25.setObjectName(u"verticalLayout_25")
-        self.verticalLayout_25.setContentsMargins(10, 10, 10, 10)
+        self.horizontalLayout_39 = QHBoxLayout(self.centralwidget)
+        self.horizontalLayout_39.setSpacing(0)
+        self.horizontalLayout_39.setObjectName(u"horizontalLayout_39")
+        self.horizontalLayout_39.setContentsMargins(10, 10, 10, 10)
         self.frame_13 = QFrame(self.centralwidget)
         self.frame_13.setObjectName(u"frame_13")
         self.frame_13.setFrameShape(QFrame.Shape.StyledPanel)
@@ -198,7 +198,7 @@ class Ui_MainWindow(object):
         self.centerMenu.setObjectName(u"centerMenu")
         sizePolicy1.setHeightForWidth(self.centerMenu.sizePolicy().hasHeightForWidth())
         self.centerMenu.setSizePolicy(sizePolicy1)
-        self.centerMenu.setMinimumSize(QSize(200, 0))
+        self.centerMenu.setMinimumSize(QSize(0, 0))
         self.verticalLayout_5 = QVBoxLayout(self.centerMenu)
         self.verticalLayout_5.setSpacing(0)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
@@ -1375,6 +1375,7 @@ class Ui_MainWindow(object):
         self.widget_14.setObjectName(u"widget_14")
         self.verticalLayout_26 = QVBoxLayout(self.widget_14)
         self.verticalLayout_26.setObjectName(u"verticalLayout_26")
+        self.verticalLayout_26.setContentsMargins(-1, -1, -1, 0)
         self.label_7 = QLabel(self.widget_14)
         self.label_7.setObjectName(u"label_7")
         sizePolicy1.setHeightForWidth(self.label_7.sizePolicy().hasHeightForWidth())
@@ -1386,10 +1387,22 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_24.addWidget(self.widget_14)
 
-        self.widget_13 = QWidget(self.widget_12)
+
+        self.verticalLayout_11.addWidget(self.widget_12)
+
+        self.homePageFooterWidget = QWidget(self.homePage)
+        self.homePageFooterWidget.setObjectName(u"homePageFooterWidget")
+        self.verticalLayout_25 = QVBoxLayout(self.homePageFooterWidget)
+        self.verticalLayout_25.setSpacing(0)
+        self.verticalLayout_25.setObjectName(u"verticalLayout_25")
+        self.verticalLayout_25.setSizeConstraint(QLayout.SizeConstraint.SetDefaultConstraint)
+        self.verticalLayout_25.setContentsMargins(0, 0, 0, 0)
+        self.verticalSpacer_7 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout_25.addItem(self.verticalSpacer_7)
+
+        self.widget_13 = QWidget(self.homePageFooterWidget)
         self.widget_13.setObjectName(u"widget_13")
-        sizePolicy4.setHeightForWidth(self.widget_13.sizePolicy().hasHeightForWidth())
-        self.widget_13.setSizePolicy(sizePolicy4)
         self.horizontalLayout_6 = QHBoxLayout(self.widget_13)
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
         self.horizontalLayout_6.setContentsMargins(-1, 0, -1, 0)
@@ -1410,8 +1423,8 @@ class Ui_MainWindow(object):
 
         self.lableBtn = QPushButton(self.widget_13)
         self.lableBtn.setObjectName(u"lableBtn")
-        sizePolicy1.setHeightForWidth(self.lableBtn.sizePolicy().hasHeightForWidth())
-        self.lableBtn.setSizePolicy(sizePolicy1)
+        sizePolicy9.setHeightForWidth(self.lableBtn.sizePolicy().hasHeightForWidth())
+        self.lableBtn.setSizePolicy(sizePolicy9)
 
         self.horizontalLayout_6.addWidget(self.lableBtn)
 
@@ -1431,19 +1444,15 @@ class Ui_MainWindow(object):
         self.horizontalLayout_6.addItem(self.horizontalSpacer_5)
 
 
-        self.verticalLayout_24.addWidget(self.widget_13)
+        self.verticalLayout_25.addWidget(self.widget_13)
 
-
-        self.verticalLayout_11.addWidget(self.widget_12)
-
-        self.homePageFooterWidget = QWidget(self.homePage)
-        self.homePageFooterWidget.setObjectName(u"homePageFooterWidget")
-        self.horizontalLayout_27 = QHBoxLayout(self.homePageFooterWidget)
-        self.horizontalLayout_27.setSpacing(0)
-        self.horizontalLayout_27.setObjectName(u"horizontalLayout_27")
-        self.horizontalLayout_27.setSizeConstraint(QLayout.SizeConstraint.SetDefaultConstraint)
-        self.horizontalLayout_27.setContentsMargins(0, 0, 0, 0)
-        self.widget_16 = QWidget(self.homePageFooterWidget)
+        self.widget_15 = QWidget(self.homePageFooterWidget)
+        self.widget_15.setObjectName(u"widget_15")
+        self.horizontalLayout_25 = QHBoxLayout(self.widget_15)
+        self.horizontalLayout_25.setSpacing(0)
+        self.horizontalLayout_25.setObjectName(u"horizontalLayout_25")
+        self.horizontalLayout_25.setContentsMargins(-1, 0, 0, 0)
+        self.widget_16 = QWidget(self.widget_15)
         self.widget_16.setObjectName(u"widget_16")
         self.verticalLayout_31 = QVBoxLayout(self.widget_16)
         self.verticalLayout_31.setSpacing(0)
@@ -1467,9 +1476,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_31.addWidget(self.ofertaBtn, 0, Qt.AlignmentFlag.AlignHCenter|Qt.AlignmentFlag.AlignVCenter)
 
 
-        self.horizontalLayout_27.addWidget(self.widget_16)
+        self.horizontalLayout_25.addWidget(self.widget_16)
 
-        self.widget_17 = QWidget(self.homePageFooterWidget)
+        self.widget_17 = QWidget(self.widget_15)
         self.widget_17.setObjectName(u"widget_17")
         self.verticalLayout_33 = QVBoxLayout(self.widget_17)
         self.verticalLayout_33.setObjectName(u"verticalLayout_33")
@@ -1485,13 +1494,14 @@ class Ui_MainWindow(object):
         self.verticalLayout_33.addWidget(self.yotubeBtn)
 
 
-        self.horizontalLayout_27.addWidget(self.widget_17)
+        self.horizontalLayout_25.addWidget(self.widget_17)
 
-        self.widget_18 = QWidget(self.homePageFooterWidget)
+        self.widget_18 = QWidget(self.widget_15)
         self.widget_18.setObjectName(u"widget_18")
         self.verticalLayout_32 = QVBoxLayout(self.widget_18)
+        self.verticalLayout_32.setSpacing(0)
         self.verticalLayout_32.setObjectName(u"verticalLayout_32")
-        self.verticalLayout_32.setContentsMargins(-1, -1, 0, -1)
+        self.verticalLayout_32.setContentsMargins(-1, 0, 0, 0)
         self.widget_20 = QWidget(self.widget_18)
         self.widget_20.setObjectName(u"widget_20")
         self.horizontalLayout_29 = QHBoxLayout(self.widget_20)
@@ -1531,7 +1541,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_32.addWidget(self.widget_19)
 
 
-        self.horizontalLayout_27.addWidget(self.widget_18)
+        self.horizontalLayout_25.addWidget(self.widget_18)
+
+
+        self.verticalLayout_25.addWidget(self.widget_15)
 
 
         self.verticalLayout_11.addWidget(self.homePageFooterWidget)
@@ -1668,7 +1681,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_24.addWidget(self.splitter)
 
 
-        self.verticalLayout_25.addWidget(self.frame_13)
+        self.horizontalLayout_39.addWidget(self.frame_13)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.emailHederDockWidget = QDockWidget(MainWindow)
@@ -1782,7 +1795,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.menuBtn.setDefault(False)
-        self.centerMenuPages.setCurrentIndex(1)
+        self.centerMenuPages.setCurrentIndex(2)
         self.mainPages.setCurrentIndex(2)
         self.startDataBtn.setDefault(False)
         self.rightMenuPages.setCurrentIndex(0)
@@ -1876,10 +1889,10 @@ class Ui_MainWindow(object):
         self.detailsBtn.setText(QCoreApplication.translate("MainWindow", u"P/U", None))
         self.label_22.setText(QCoreApplication.translate("MainWindow", u"Skrzynka: ", None))
         self.sqlEmailDbName.setText(QCoreApplication.translate("MainWindow", u"Skrzynka", None))
-        self.prevEmailTableBtn.setText(QCoreApplication.translate("MainWindow", u"<", None))
+        self.prevEmailTableBtn.setText("")
         self.label_20.setText(QCoreApplication.translate("MainWindow", u"Strona : ", None))
         self.pageNumberLabel.setText(QCoreApplication.translate("MainWindow", u"XXX", None))
-        self.nextEmailTableBtn.setText(QCoreApplication.translate("MainWindow", u">", None))
+        self.nextEmailTableBtn.setText("")
         self.showSearchPanelBtn.setText(QCoreApplication.translate("MainWindow", u"Szukaj", None))
         self.selectedTagLabel.setText("")
         ___qtablewidgetitem5 = self.tableWidget.horizontalHeaderItem(0)

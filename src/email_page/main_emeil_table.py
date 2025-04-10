@@ -31,7 +31,7 @@ def create_tag_widget(tag_names, color_manager,user_id,self):
     layout = QHBoxLayout()
     layout.setContentsMargins(2, 2, 2, 2)
     layout.setSpacing(4)
-
+    load_color_dictionery(self)
     for tag in tag_names:
         color = color_manager[tag]
         btn = ClickableLabel(tag)
@@ -153,8 +153,6 @@ def load_data_from_database(self) -> None:
             #print(data)
             
             create_main_email_tale(self,data)
-            
-            
 
             self.ui.tableWidget.verticalHeader().setVisible(False)
             if self.ui.tableWidget.rowCount() > 0:

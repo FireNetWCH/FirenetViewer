@@ -8,11 +8,11 @@ class TagCrud(QDialog):
     def __init__(self, connection, parent=None):
         super().__init__(parent)
         self.connection = connection
-        self.setWindowTitle("Wybierz tagi")
+        self.setWindowTitle("Wybierz kategorie")
         self.tag_list = QListWidget(self)
         self.tag_list.setObjectName("sekectorTag")
         self.ok_btn = QPushButton("OK", self)
-        self.add_btn = QPushButton("Dodaj nowy tag...", self)
+        self.add_btn = QPushButton("Dodaj nową kategorie...", self)
         self.setObjectName("tagger")
 
         self.ok_btn.clicked.connect(self.accept)

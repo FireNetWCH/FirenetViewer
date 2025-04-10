@@ -30,7 +30,7 @@ from src.email_page.export_options import ExportSelector
 from src.label_page.main_label_page import load_all_labels,load_clicked_email_on_labels
 from src.db_function.db_email_folders_tree import load_folders_data_into_tree
 from src.email_page.main_emeil_table import load_data_from_database,load_color_dictionery
-from src.email_page.context_menu import LabelContextMenu,EditLabelContextMenu
+from src.email_page.context_menu import LabelContextMenu,EditLabelContextMenu,TableContextMenu
 from src.message_box.scaletLabel import ScalableLabel
 #from src.label_context_menu import show_context_menu
 import src.db_function.db_email_function as db_email_function
@@ -124,6 +124,8 @@ class GUIFunctions:
         self.ui.EmailtabWidget.tabCloseRequested.connect(lambda index: self.ui.EmailtabWidget.removeTab(index))
         tab_bar = self.ui.EmailtabWidget.tabBar()
         tab_bar.setTabButton(0, QTabBar.RightSide, None)
+
+
         
         #ukrycie okna naglowkow email
         self.ui.emailHederDockWidget.hide()
@@ -238,6 +240,10 @@ class GUIFunctions:
         self.ui.prevEmailTableBtn.clicked.connect(self.previous_page)
         self.ui.nextEmailTableBtn.clicked.connect(self.next_page)
         self.ui.showSearchPanelBtn.clicked.connect(self.toggle_frame)
+
+        # Dodanie menu kontekstowego do Tabeli Emaili
+        self.context_menu_email_table = TableContextMenu(main=self, db_connection=self.db_connection, parent=self.ui.tableWidget)
+        
         # Obłsuga kliknięcia w drzewo katalogów Email
         tw = self.ui.helpPage.findChild(QTreeWidget,"folders_tree")
         tw.itemClicked.connect(self.tree_email_dir_clicked)
@@ -660,6 +666,7 @@ class GUIFunctions:
         """Otwiera okno dialogowe do edycji tagów użytkownika."""
         load_color_dictionery(self)
         dialog = MultiTagSelector(email_id, self.db_connection, self.main)
+        dialog.load_tags()
         if dialog.exec():
             logger.info(f"Zaktualizowano kategorie dla użytkownika {email_id}")
             load_data_from_database(self)

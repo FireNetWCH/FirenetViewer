@@ -1,9 +1,13 @@
 from PySide6.QtWidgets import QMenu
 from PySide6.QtGui import QAction
+from PySide6.QtCore import Qt
 import src.db_function.db_email_function as db_email
 from src.label_page.main_label_page import load_all_labels,load_clicked_email_on_labels
 from src.email_page.label_dialog import LabelsCrud
 import logging
+from src.email_page.main_emeil_table import ClickableLabel
+from src.email_page.multi_tag_selector import MultiTagSelectorMultiEmail
+from src.email_page.main_emeil_table import load_data_from_database
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -92,3 +96,60 @@ class EditLabelContextMenu(LabelContextMenu):
         labelContextMenu.addAction(action_edit)
 
         labelContextMenu.exec(context_widget.mapToGlobal(pos)) 
+
+
+class TableContextMenu(ContextMenu):
+    def __init__(self, main, db_connection, parent):
+        super().__init__(main, db_connection)
+        self.parent = parent
+        self.main = main
+        self.table = parent
+        self.table.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.table.customContextMenuRequested.connect(lambda pos: self.show(pos, context_widget=parent))
+
+    def show(self, pos, context_widget):
+        labelContextMenu = QMenu(self.parent)
+        set_multi_tag_action = labelContextMenu.addAction("Nadaj kategorie")
+        set_multi_tag_action.triggered.connect(lambda : self.set_multi_tag(self.main.db_connection,context_widget))
+        labelContextMenu.exec(context_widget.mapToGlobal(pos))
+
+
+    def set_multi_tag(self, db_connection, context_widget):
+        dialog = MultiTagSelectorMultiEmail(None, connection=db_connection, parent=context_widget)
+        query = 'INSERT or IGNORE INTO email_tags (email_id, tag_id) VALUES (?, ?);'
+        dialog.load_tags()
+        cursor = db_connection.cursor()
+        if dialog.exec():
+            selected_rows = {item.row() for item in context_widget.selectedItems()}
+            for row in selected_rows:  
+                id_email = context_widget.item(row,0) 
+                for i in range(len(dialog.tags)):
+                        cursor.execute(query, (id_email.text(),dialog.tags[i]))
+            
+        db_connection.commit()
+        load_data_from_database(self.main)
+
+    # def set_multi_tag(self, db_connection, context_widget):
+    #     dialog = MultiTagSelectorMultiEmail(None, connection=db_connection, parent=context_widget)
+    #     query = 'INSERT INTO email_tags (email_id, tag_id) VALUES (?, ?);'
+    #     dialog.load_tags()
+    #     cursor = db_connection.cursor()
+    #     if dialog.exec():
+    #         selected_rows = {item.row() for item in context_widget.selectedItems()}
+    #         print(dialog.tags)
+    #         for row in selected_rows:  
+    #             tag_widget = context_widget.cellWidget(row, 6)  
+    #             id_email = context_widget.item(row, 0) 
+
+    #             tag_names = []
+    #             if tag_widget:  
+    #                 layout = tag_widget.layout()  
+    #                 for i in range(layout.count()):
+    #                     label = layout.itemAt(i).widget()
+    #                     if isinstance(label, ClickableLabel):  
+    #                         tag_names.append(label.text())
+    #                         cursor.execute(query, (id_email.text(),dialog.tags.get(label.text())))
+    #             print(f"Wiersz {row}: tagi={tag_names}, id = {id_email.text() if id_email else 'brak'}")
+    #     db_connection.commit()
+
+
