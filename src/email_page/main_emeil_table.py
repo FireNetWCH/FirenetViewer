@@ -52,13 +52,14 @@ def create_tag_widget(tag_names, color_manager,user_id,self):
     return container
 
 def create_main_email_tale(self,data):
+        self.ui.tableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.ui.tableWidget.setUpdatesEnabled(False)
         for row_idx, row_data in enumerate(data):
             user_id = row_data[0]
             #dodanie ukrytej kolumn col = 0 przechowującej id(emaila)
             item_id = QTableWidgetItem(str(user_id))
             self.ui.tableWidget.setItem(row_idx, 0, item_id)
-            self.ui.tableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
-            
+            load_color_dictionery(self)
             for col_idx, cell_data in enumerate(row_data[1:]):
                 #przesunięcie o 1 bo kolumne 0 zejmuje ukryta kolumna zawierająca id
                 real_col_idx = col_idx + 1 
@@ -79,7 +80,7 @@ def create_main_email_tale(self,data):
                 elif real_col_idx == 8:
                     
                     if cell_data is not None:
-                        load_color_dictionery(self)
+                        
                         tag_widget = create_tag_widget(cell_data.split(','), self.tag_color,user_id,self)
                         btn = QPushButton()
                         self.ui.tableWidget.setCellWidget(row_idx, 6, tag_widget)
@@ -99,6 +100,7 @@ def create_main_email_tale(self,data):
         self.ui.tableWidget.setColumnWidth(0, 50)
         self.ui.tableWidget.horizontalHeader().setSectionResizeMode(5, QHeaderView.Fixed)
         self.ui.tableWidget.setColumnWidth(5, 50)
+        self.ui.tableWidget.setUpdatesEnabled(True)
         logger.info("Dane zostały załadowane do tabeli.")
         # print(f"Liczba kolumn w tabeli: {self.ui.tableWidget.columnCount()}")
 
@@ -117,7 +119,7 @@ def load_data_from_database(self) -> None:
             QApplication.restoreOverrideCursor()
             logger.error(f"Błąd podczas wykonywania zapytania: {e}")
             return
-            
+        self.ui.clearBtn.setStyleSheet("background-color: #ffffff")
         if self.active_filters['tag']=="":
             query = f'''
                 SELECT e.id, e.sender_name, e.recipients, e.subject, e.date, e.flag, e.cc,e.bcc,
@@ -133,6 +135,22 @@ def load_data_from_database(self) -> None:
             query = db_email.tag_query(self.active_filters) + f" LIMIT {self.emails_per_page} OFFSET {offset}"
         
         print(query)
+       
+        for key, value in self.active_filters.items():
+            print(f"{key} '{value}'")
+            if key == "folder_id":
+                if str(value) != "1":      
+                    print(f"{key} '{value}'")
+                    self.ui.clearBtn.setStyleSheet("background-color: red")
+            elif key == "flag":
+                if value != "False":
+                    print(f"{key} '{value}'")
+                    self.ui.clearBtn.setStyleSheet("background-color: red")
+            elif value != "":
+                print(f"{key} '{value}'")
+                self.ui.clearBtn.setStyleSheet("background-color: red")
+                    
+
         try:
             cursor = self.db_connection.cursor()
             logger.info(f"Wysyła zapytanie")

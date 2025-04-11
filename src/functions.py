@@ -648,6 +648,10 @@ class GUIFunctions:
         self.ui.seachSurname.setText("")
         self.ui.searchDate.setText("")
         self.ui.searchBody.setText("")
+        self.ui.startDataLabel.setText("")
+        self.ui.endDataLabel.setText("")
+        self.ui.selectedTagLabel.setText("")
+        self.ui.show_flags_btn.setChecked(False)
         #selected_tag_label = self.ui.emailHederDockWidget.findChild(QLabel,"selected_tag_label")
         self.ui.selectedTagLabel.setText("")
         self.active_filters["sender_name"] = ""
@@ -655,6 +659,11 @@ class GUIFunctions:
         self.active_filters["subject"] = ""
         self.active_filters["body"] = ""
         self.active_filters["tag"] = ""
+        self.active_filters["folder_id"] = "1"
+        self.active_filters["date_fr"] = ""
+        self.active_filters["date_to"] = ""
+        self.active_filters["flag"] = "False"
+
         load_data_from_database(self)
 
     def tree_email_dir_clicked(self,item ,column):

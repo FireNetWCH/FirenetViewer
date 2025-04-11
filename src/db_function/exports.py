@@ -81,7 +81,7 @@ def generate_pdf(output_path, sender, receiver, date, subject, attachments, body
             del tag['class']
     for span_tag in soup.find_all(['span']):
         span_tag.unwrap()
-    for tag in soup.find_all(['span', 'style', 'script', 'head','font']):
+    for tag in soup.find_all(['span', 'style', 'script', 'head','font','a']):
         tag.decompose()
     heder = f"Wiadomość wyeksportowana ze skrzynki e-mail:{name_email_box} o ID:{id_email}"
     header_paragraph = Paragraph(heder, custom_style)
