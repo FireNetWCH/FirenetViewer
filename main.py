@@ -25,7 +25,6 @@ class MainWindow(QMainWindow):
 
         json_style_path = get_resource_path("json-styles/style.json")
         loadJsonStyle(self, self.ui, jsonFiles={json_style_path})
-        
 
         self.show()
         QAppSettings.updateAppSettings(self,generateIcons=False,reloadJson=False)

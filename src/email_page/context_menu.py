@@ -42,7 +42,7 @@ class LabelContextMenu(ContextMenu):
             submenu.addAction(action)
         
         add_new_label_action = QAction("+ Dodaj nową", self.main)
-        add_new_label_action.triggered.connect(self.show_label_crud)
+        add_new_label_action.triggered.connect(lambda : self.super_add_label(context_widget))
         labelContextMenu.addMenu(submenu)
         submenu.addAction(add_new_label_action)
         labelContextMenu.exec(context_widget.mapToGlobal(pos))
@@ -51,6 +51,14 @@ class LabelContextMenu(ContextMenu):
         dialog = LabelsCrud(self.db_connection)
         if dialog.exec():
             logger.info(f"Zaktualizowano tagi dla użytkownika")
+            
+    def super_add_label(self,context_widget):
+        self.show_label_crud()
+        selected_text = context_widget.selectedText()
+        if selected_text != "":
+            all_labels = db_email.get_all_labels_name(self.db_connection)
+            print(all_labels)
+            self.add_lebels_to_db(all_labels[-1][0], selected_text,self.parent)
             
 
 class EditLabelContextMenu(LabelContextMenu):

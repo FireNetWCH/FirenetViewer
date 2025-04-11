@@ -288,6 +288,49 @@ def select_all_label(db_connection):
             print(f"Błąd podczas pobierania wszystkich labelek: {e}")
 
 
+def get_all_attachment(db_connection):
+    '''Pobiera wszystkie labelki z danej skrzynki odbiorczej'''
+    try:
+        query = f"""
+        SELECT * from attachments 
+    """ 
+        cursor = db_connection.cursor()
+        cursor.execute(query)
+        results = cursor.fetchall()
+        return results 
+    except sqlite3.Error as e:
+            logger.error(f"Błąd podczas pobierania wszystkich zalacznikow: {e}")
+            print(f"Błąd podczas pobierania wszystkich zalacznikow: {e}")
+
+def get_all_recipients_by_group(db_connection):
+    '''Pobiera wszystkie labelki z danej skrzynki odbiorczej'''
+    try:
+        query = f"""
+        SELECT recipients from emails
+        GROUP by  recipients
+    """ 
+        cursor = db_connection.cursor()
+        cursor.execute(query)
+        results = cursor.fetchall()
+        return results 
+    except sqlite3.Error as e:
+            logger.error(f"Błąd podczas pobierania pogrupowanych odbiorców: {e}")
+            print(f"Błąd podczas pobierania pogrupowanych odbiorców: {e}")
+
+def get_count_email(db_connection):
+    '''Pobiera wszystkie labelki z danej skrzynki odbiorczej'''
+    try:
+        query = f"""
+        SELECT count() from emails
+    """ 
+        cursor = db_connection.cursor()
+        cursor.execute(query)
+        results = cursor.fetchall()
+        return results 
+    except sqlite3.Error as e:
+            logger.error(f"Błąd podczas pobierania liczby emaili: {e}")
+            print(f"Błąd podczas pobierania liczby emaili: {e}")
+
 def delate_email_labels(db_connection, id_email_labels):
     """Usuwa email_labels o wskazanym id"""
     try:
@@ -329,6 +372,40 @@ def updata_label(db_connection,id_label,new_lebel_text):
     except sqlite3.Error as e:
             logger.error(f"Błąd podczas aktualizowania labelek: {e}")
             print(f"Błąd podczas aktualizowania labelek: {e}")
+
+def get_best_recipients(db_connection):
+    """10 najczęstrzych odbiorców"""
+    try:
+        query="""
+        SELECT recipients, COUNT(*) AS message_count
+        FROM emails
+        GROUP BY recipients
+        ORDER BY message_count DESC
+        limit 10;
+        """
+        cursor = db_connection.cursor()
+        cursor.execute(query)
+        results = cursor.fetchall()
+        return results
+    except sqlite3.Error as e:
+        logger.error(f"Błąd podczas pobierania 10 najczestrzych odbiorcow: {e}")
+        print(f"Błąd podczas pobierania 10 najczestrzych odbiorcow: {e}")
+
+def get_grup_data(db_connection):
+    """Zwraca pogrupowane dat"""
+    try:
+        query="""
+        SELECT DATE(date) AS date_only, COUNT(*) AS message_count
+        FROM emails
+        GROUP BY date_only
+        """
+        cursor = db_connection.cursor()
+        cursor.execute(query)
+        results = cursor.fetchall()
+        return results
+    except sqlite3.Error as e:
+        logger.error(f"Błąd podczas pobierania pogrupowanych dat: {e}")
+        print(f"Błąd podczas pobierania pogrupowanych dat: {e}")
 
 def get_part_query(string):
     return re.findall(r'\[([^\]]+)\]', string)
@@ -427,3 +504,4 @@ def word_to_highline(string):
     #############################################
     else:
         return string
+    

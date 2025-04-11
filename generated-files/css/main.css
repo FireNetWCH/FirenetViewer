@@ -1780,7 +1780,7 @@ QFrame #frame_11 {
     #header #frame_3 QPushButton {
       padding: 4px 2px; }
       #header #frame_3 QPushButton:hover {
-        background-color: #F2F2F2; }
+        background-color: #1c3b5f; }
 
 #titleTxt {
   color: #26bae3; }
@@ -1876,8 +1876,6 @@ QProgressBar {
     border: none;
     background-color: transparent;
     border-radius: 2px; }
-  #frame_2 #restoreBtn {
-    image: url(":material_design/icons/material_design/hide_source.png"); }
 
 /*poniżej zmiant "tymczasowe" żeby działało w wersji jedno plikowej*/
 QCheckBox {
@@ -2119,13 +2117,7 @@ QSizeGrip {
   background: transparent;
   width: 12px;
   height: 12px;
-  image: url(":feather/icons/feather/window_grip.png"); }
-
-#restoreBtn {
-  background: transparent;
-  width: 12px;
-  height: 12px;
-  image: url(":feather/icons/feather/window_undock.png"); }
+  image: url(":feather/FFFFFF/feather/window_grip.png"); }
 
 #mainPages {
   padding: 0px 0px 0px 0px; }

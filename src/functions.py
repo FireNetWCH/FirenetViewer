@@ -2,8 +2,8 @@ import os
 import sqlite3
 import logging
 from typing import Any, List, Dict, Optional
-from PySide6.QtCore import Qt, QSettings, QDir, QPoint,QEasingCurve,QDate,QUrl
-from PySide6.QtGui import QFont, QFontDatabase, QAction, QPixmap,QIcon,QDesktopServices
+from PySide6.QtCore import Qt, QSettings, QDir, QPoint,QEasingCurve,QDate,QUrl,QFile
+from PySide6.QtGui import QFont, QFontDatabase, QAction, QPixmap,QIcon,QDesktopServices,QImage
 from PySide6.QtWidgets import (
     QPushButton, QGraphicsScene, QTabBar,QMenu, QFileSystemModel,QSizePolicy,QSplitter,QFrame,QDialog,
     QTreeView, QVBoxLayout, QFileDialog,QListWidgetItem, QTreeWidget, QMainWindow,QListWidget,QHeaderView,QSizeGrip
@@ -34,6 +34,7 @@ from src.email_page.context_menu import LabelContextMenu,EditLabelContextMenu,Ta
 from src.message_box.scaletLabel import ScalableLabel
 #from src.label_context_menu import show_context_menu
 import src.db_function.db_email_function as db_email_function
+from src.graphs_page.mein_graps_page import load_stat 
 import shutil 
 import sys
 import json
@@ -147,7 +148,9 @@ class GUIFunctions:
             new_label.show()
 
         # Ustaw pixmapę
-        new_label.setPixmap(QPixmap("logo.png"))
+        image = QImage(get_resource_path("logo.png"))
+        # Ustawienie obrazu w ScalableLabel
+        new_label.setPixmap(QPixmap.fromImage(image))
         # print(label)
         # pixmap = QPixmap("logo.png")
         # scaled_pixmap = pixmap.scaled(label.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
@@ -160,11 +163,9 @@ class GUIFunctions:
         tab_bar = self.ui.EmailtabWidget_2.tabBar()
         tab_bar.setTabButton(0, QTabBar.RightSide, None)
     def debuging(self):
-        state = self.main.windowState()
-        print(f"przed:{state}")
         self.main.showMinimized()
-        state = self.main.windowState()
-        print(f"po{state}")
+        
+        
         
     def _connect_signals(self) -> None:
         """Łączy sygnały z odpowiednimi metodami."""
@@ -182,7 +183,7 @@ class GUIFunctions:
         
         self.ui.minimalizeBtn.clicked.connect(self.debuging)
         self.ui.restoreBtn.clicked.connect(self.toggle_window_state)
-
+        self.ui.graphsBtn.clicked.connect(lambda :load_stat(self,self.db_connection))
         
        
         #rozciąganie szerokości paska bocznego przy splitter
@@ -220,6 +221,7 @@ class GUIFunctions:
         self.ui.linkedinBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\linkedin.png")))
         self.ui.fbBtn.clicked.connect(self.open_facebook_in_browser)
         self.ui.fbBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\facebook.png")))
+        
         #self.ui.checkBoxData.checkStateChanged.connect(self.date_state_box)
 
         self.ui.tagPuschBtn.clicked.connect(lambda: self.open_dialog_tag_selector(self.active_filters))
@@ -285,7 +287,6 @@ class GUIFunctions:
 
         # ustawienia size gripa i możliwości ruszania oknem przez trzymanie zewnetrtznej ramki 
         self.resize_grip_frame = self.ui.sizeGrip
-        self.resize_grip_frame.setStyleSheet("QFrame { border: 1px solid red; }")     
         self.resize_grip = QSizeGrip(self.resize_grip_frame)
         self.resize_grip.resize(200, 200)
         self.resize_grip.move(self.main.width() - 20, self.main.height() - 20)
@@ -305,12 +306,23 @@ class GUIFunctions:
         self.ui.meilBoxBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\material_design\\format_align_justify.png")))
         self.ui.export_pdf.setIcon(QIcon(get_resource_path("Qss\\icons\\icons\\font_awesome\\regular\\file-pdf.png")))
         self.ui.closeCenterMenuBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\icons\\font_awesome\\solid\\circle-xmark.png")))
-        self.ui.exportExelBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\icons\\font_awesome\\regular\\file-excel.png")))
+        self.ui.exportExelBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\icons\\font_awesome\\regular\\file-code.png")))
         self.ui.startDataBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\icons\\font_awesome\\regular\\calendar.png")))
         self.ui.clearBtn.setIcon(QIcon(":material_design/icons/material_design/hide_source.png"))
         self.ui.show_table_btn.setIcon(QIcon(":feather/icons/feather/rotate-cw.png"))
         self.ui.leftMenu.setStyleSheet("background-color: #102339; border: 3px solid #102339;")
+        self.ui.restoreBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\copy.png")))
+        self.ui.closeBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\x.png")))
+        self.ui.minimalizeBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\minus.png")))
         
+
+        # file = QFile(":feather/FFFFFF/feather/activity.png")
+
+        # if file.exists():
+        #     print("Zasób został poprawnie załadowany!")
+        # else:
+        #     print("Zasób NIE został znaleziony.")
+
     def _tymczaspwe_ukrycie_(self):
         #wyszukiwarka 
         self.ui.frame_2.hide()
@@ -326,8 +338,10 @@ class GUIFunctions:
         self.ui.settingsBtn.hide()
         self.ui.detailsBtn.hide()
         self.ui.menuBtn.hide()
+        self.ui.helpBtn.hide()
     
     def toggle_window_state(self):
+        self.ui.restoreBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\copy.png")))
         print(self.main.windowState())
         state = self.main.windowState()
         if self.pom:

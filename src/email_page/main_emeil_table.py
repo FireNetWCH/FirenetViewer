@@ -37,7 +37,7 @@ def create_tag_widget(tag_names, color_manager,user_id,self):
         btn = ClickableLabel(tag)
         btn.setStyleSheet(f"""
             background-color: {color};
-            color: white;
+            color: black;
             border-radius: 6px;
             padding: 2px 6px;
             font-size: 11px;
@@ -79,6 +79,7 @@ def create_main_email_tale(self,data):
                 elif real_col_idx == 8:
                     
                     if cell_data is not None:
+                        load_color_dictionery(self)
                         tag_widget = create_tag_widget(cell_data.split(','), self.tag_color,user_id,self)
                         btn = QPushButton()
                         self.ui.tableWidget.setCellWidget(row_idx, 6, tag_widget)

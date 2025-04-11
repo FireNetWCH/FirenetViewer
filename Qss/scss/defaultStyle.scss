@@ -173,7 +173,7 @@ QFrame #frame_11{
             padding: 4px 2px;
             
             &:hover{
-                background-color: $COLOR_BACKGROUND_2;
+                background-color: #1c3b5f;
             }
         }
     }
@@ -323,8 +323,7 @@ QProgressBar{
         border-radius: 2px;
     }
 
-    #restoreBtn {
-        image: url(":material_design/icons/material_design/hide_source.png"); }
+    
 
 }
 /*poniżej zmiant "tymczasowe" żeby działało w wersji jedno plikowej*/
@@ -585,13 +584,9 @@ QSizeGrip {
     background: transparent;
     width: 12px;
     height: 12px;
-    image: url(":feather/icons/feather/window_grip.png"); }
+    image: url(":feather/FFFFFF/feather/window_grip.png"); }
 
-    #restoreBtn {
-        background: transparent;
-        width: 12px;
-        height: 12px;
-        image: url(":feather/icons/feather/window_undock.png"); }
+    
 
 
         #mainPages {

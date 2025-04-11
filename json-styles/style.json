@@ -25,8 +25,8 @@
           "restore": [
             {
             "buttonName": "restoreBtn",
-            "normalIcon": ":/feather/Icons/feather/square.png",
-            "maximizedIcon": ":/feather/Icons/feather/copy.png"
+            "normalIcon": ":/feather/Icons/FFFFFF/square.png",
+            "maximizedIcon": ":/feather/Icons/FFFFFF/copy.png"
             }
           ]
         }
