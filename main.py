@@ -1,5 +1,6 @@
 import sys
-from PySide6.QtWidgets import QApplication, QMainWindow
+from PySide6.QtWidgets import QApplication, QMainWindow,QMessageBox
+from PySide6.QtCore import Slot
 from src.functions import GUIFunctions
 from src.ui_interface import Ui_MainWindow
 from Custom_Widgets import *
@@ -32,6 +33,8 @@ class MainWindow(QMainWindow):
 
     def scssCompilationProgress(self, n: int) -> None:
         self.ui.activityProgress.setValue(n)
+    
+    
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
@@ -39,12 +42,13 @@ if __name__ == "__main__":
     # splash = CustomSplashScreen(pixmap)
     # splash.show()
     # app.processEvents()
-    app_tooltip_filter = QCustomQToolTipFilter(tailPosition="auto")
+    app_tooltip_filter = QCustomQToolTipFilter(tailPosition="top-center",duration=1000)
     app.installEventFilter(app_tooltip_filter)
     window = MainWindow()
     if getattr(sys, 'frozen', False):
         import pyi_splash
         if getattr(sys, 'frozen', False):
             pyi_splash.close()
+    
     window.show()
     sys.exit(app.exec())

@@ -918,7 +918,7 @@
                  <item>
                   <widget class="QCustomQStackedWidget" name="mainPages">
                    <property name="currentIndex">
-                    <number>2</number>
+                    <number>1</number>
                    </property>
                    <widget class="QWidget" name="page">
                     <layout class="QVBoxLayout" name="verticalLayout_36">
@@ -1035,7 +1035,7 @@
                                     <x>0</x>
                                     <y>0</y>
                                     <width>520</width>
-                                    <height>415</height>
+                                    <height>360</height>
                                    </rect>
                                   </property>
                                   <property name="sizePolicy">
@@ -3483,7 +3483,7 @@
               <item alignment="Qt::AlignmentFlag::AlignLeft">
                <widget class="QLabel" name="label_6">
                 <property name="text">
-                 <string>Copyright sth</string>
+                 <string>Copyright FireNet®2025</string>
                 </property>
                </widget>
               </item>

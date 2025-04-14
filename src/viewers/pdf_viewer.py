@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsPixmapItem, QVBoxLayout, QScrollArea, QWidget,QPushButton
-from PySide6.QtGui import QPixmap, QImage, QPainter, QWheelEvent
+from PySide6.QtGui import QPixmap, QImage, QPainter, QWheelEvent,QIcon
 from PySide6.QtCore import Qt
 import fitz
 import logging
@@ -73,9 +73,11 @@ def display_pdf_content(pdf_document):
         scroll_area.setWidgetResizable(True)
         prev_btn = QPushButton("Poprzednia strona")
         next_btn = QPushButton("Następna strona")
-        zoom_btn = QPushButton("ZOOM +")
-        rezoom_btn = QPushButton("ZOOM -")
 
+        zoom_btn = QPushButton()
+        zoom_btn.setIcon((QIcon(":feather\\icons\\feather\\zoom-in.png")))
+        rezoom_btn = QPushButton()
+        rezoom_btn.setIcon((QIcon(":feather\\icons\\feather\\zoom-out.png")))
         pdf_view = PDFViewer(pdf_document)
        
         prev_btn.pressed.connect(lambda: pdf_view.change_page(-1))

@@ -2,10 +2,11 @@ import os
 import sqlite3
 import logging
 from typing import Any, List, Dict, Optional
-from PySide6.QtCore import Qt, QSettings, QDir, QPoint,QEasingCurve,QDate,QUrl,QFile
+    
+from PySide6.QtCore import Qt, QSettings, QDir, QPoint,QEasingCurve,QDate,QUrl,QFile,Slot,QObject
 from PySide6.QtGui import QFont, QFontDatabase, QAction, QPixmap,QIcon,QDesktopServices,QImage
 from PySide6.QtWidgets import (
-    QPushButton, QGraphicsScene, QTabBar,QMenu, QFileSystemModel,QSizePolicy,QSplitter,QFrame,QDialog,
+    QPushButton, QGraphicsScene, QTabBar,QMenu, QFileSystemModel,QSizePolicy,QSplitter,QFrame,QDialog,QMessageBox,
     QTreeView, QVBoxLayout, QFileDialog,QListWidgetItem, QTreeWidget, QMainWindow,QListWidget,QHeaderView,QSizeGrip
 )
 import matplotlib.pyplot as plt
@@ -50,9 +51,10 @@ def get_resource_path(relative_path):
         base_path = os.path.abspath(".")
     return os.path.join(base_path, relative_path)
 
-class GUIFunctions:
+class GUIFunctions(QObject):
     """ Klasa zawierająca funkcje obsługujące interfejs graficzny i logikę aplikacji. """
     def __init__(self, main_window: QMainWindow) -> None:
+        super().__init__() 
         self.main = main_window
         self.ui = main_window.ui
         self.db_connection: Optional[sqlite3.Connection] = None
@@ -314,8 +316,8 @@ class GUIFunctions:
         self.ui.restoreBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\copy.png")))
         self.ui.closeBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\x.png")))
         self.ui.minimalizeBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\minus.png")))
-        
-
+        self.ui.prevEmailTableBtn.setIcon(QIcon(":feather/icons/feather/arrow_left.png"))
+        self.ui.nextEmailTableBtn.setIcon(QIcon(":feather/icons/feather/arrow_right.png"))
         # file = QFile(":feather/FFFFFF/feather/activity.png")
 
         # if file.exists():
@@ -379,7 +381,21 @@ class GUIFunctions:
     def open_label_page(self):
         load_all_labels(self)
         self.ui.mainPages.setCurrentIndex(0)
+
+    @Slot(str,name="test")
+    def date_wornig(self, text):
+        '''Funkca wyświetla okno dialogowe z komuniektem:
+        "Data poczotkowa nie może \nbyć datą pużniejszą niż końcowa" '''
+     
+        self.ui.sqlEmailDbName.setText(text)
         
+        print(self.main)
+        msgBox = QMessageBox(parent=self.main)
+        msgBox.setText(text)
+        msgBox.setStandardButtons(QMessageBox.Ok)
+        msgBox.show()
+    
+        #msgBox.exec()
     
     def show_context_menu(self, pos):
         context_widget = self.ui.EmailtabWidget.findChild(QLabel, "body")
@@ -463,6 +479,7 @@ class GUIFunctions:
             self.current_page -= 1
         load_data_from_database(self)
 
+
     def _get_id_flags_item_email(self,row):
         id = self.ui.tableWidget.item(row,0).text()
         check_box = self.ui.tableWidget.cellWidget(row,self.column_check_box)
@@ -505,9 +522,9 @@ class GUIFunctions:
         if not self.db_connection is None: 
             self.db_connection.close()
             print("zamknięto polaczenie")
-        
+        self.current_page = 0
         db_path = os.path.join(self.path,item.text().removesuffix('.sqlite'),item.text())
-        print(db_path)
+        #print(db_path)
         
         db_email_function.connect_to_database(self,db_path)
         
@@ -532,8 +549,10 @@ class GUIFunctions:
         if dialog.exec():
             logger.info(f"Zaktualizowano tagi dla użytkownika {user_id}")
             self.ui.selectedTagLabel.setText(f"Wybrane kategorie: {self.active_filters['tag'].removeprefix("(").removesuffix(")")}")
+            self.current_page = 0
             load_data_from_database(self)
-
+    
+       
     def open_dialog_export_selector_to_pdf(self):
         dialog = ExportSelector()
         if dialog.exec_() == QDialog.Accepted:
@@ -669,8 +688,10 @@ class GUIFunctions:
     def tree_email_dir_clicked(self,item ,column):
         self.active_filters["folder_id"] = item.data(0,1)
         self.ui.mainPages.setCurrentIndex(1)
-        self.clear_filtr()
         self.current_page = 0
+        print(self.current_page)
+        self.clear_filtr()
+        
             
     def email_copy_attachments(self,item):
         source_path = os.path.join(self.path,self.sql_name,"Attachments",str(self.id_selected_email),item.text())
@@ -751,6 +772,7 @@ class GUIFunctions:
         # fitr pod flaga w innym miejscu (toggle_filter_flags)
     def join_search(self):
         self.load_filtr_dict()
+        self.current_page = 0 
         load_data_from_database(self)
         if( self.ui.tableWidget.rowCount() > 0):
             self.load_clicked_email(0,0)

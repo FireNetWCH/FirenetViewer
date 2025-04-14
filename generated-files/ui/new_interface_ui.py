@@ -552,7 +552,7 @@ class Ui_MainWindow(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 520, 415))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 520, 360))
         sizePolicy1.setHeightForWidth(self.scrollAreaWidgetContents_3.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents_3.setSizePolicy(sizePolicy1)
         self.verticalLayout_34 = QVBoxLayout(self.scrollAreaWidgetContents_3)
@@ -1910,7 +1910,7 @@ class Ui_MainWindow(object):
 
         self.menuBtn.setDefault(False)
         self.centerMenuPages.setCurrentIndex(2)
-        self.mainPages.setCurrentIndex(2)
+        self.mainPages.setCurrentIndex(1)
         self.startDataBtn.setDefault(False)
         self.rightMenuPages.setCurrentIndex(0)
 
@@ -2068,7 +2068,7 @@ class Ui_MainWindow(object):
         self.closeRightMenuBtn.setText("")
         self.label_14.setText(QCoreApplication.translate("MainWindow", u"Notifications", None))
         self.label_16.setText(QCoreApplication.translate("MainWindow", u"Profile", None))
-        self.label_6.setText(QCoreApplication.translate("MainWindow", u"Copyright sth", None))
+        self.label_6.setText(QCoreApplication.translate("MainWindow", u"Copyright FireNet\u00ae2025", None))
         self.emailHederDockWidget.setWindowTitle(QCoreApplication.translate("MainWindow", u"Nag\u0142\u00f3wek wiadomo\u015bci e-mail", None))
         self.label_21.setText(QCoreApplication.translate("MainWindow", u"ID Wiadomo\u015bci: ", None))
         self.idEmailHeaderLabel.setText(QCoreApplication.translate("MainWindow", u"Id", None))

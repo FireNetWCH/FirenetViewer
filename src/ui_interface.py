@@ -1107,7 +1107,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 520, 382))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 520, 398))
         sizePolicy1.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents.setSizePolicy(sizePolicy1)
         self.verticalLayout_20 = QVBoxLayout(self.scrollAreaWidgetContents)
@@ -1519,17 +1519,17 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_28.addWidget(self.linkedinBtn)
 
-        self.wwwBtn = QPushButton(self.widget_19)
-        self.wwwBtn.setObjectName(u"wwwBtn")
-        self.wwwBtn.setIconSize(QSize(25, 25))
-
-        self.horizontalLayout_28.addWidget(self.wwwBtn)
-
         self.fbBtn = QPushButton(self.widget_19)
         self.fbBtn.setObjectName(u"fbBtn")
         self.fbBtn.setIconSize(QSize(25, 25))
 
         self.horizontalLayout_28.addWidget(self.fbBtn)
+
+        self.wwwBtn = QPushButton(self.widget_19)
+        self.wwwBtn.setObjectName(u"wwwBtn")
+        self.wwwBtn.setIconSize(QSize(25, 25))
+
+        self.horizontalLayout_28.addWidget(self.wwwBtn)
 
 
         self.verticalLayout_32.addWidget(self.widget_19)
@@ -1910,7 +1910,7 @@ class Ui_MainWindow(object):
 
         self.menuBtn.setDefault(False)
         self.centerMenuPages.setCurrentIndex(2)
-        self.mainPages.setCurrentIndex(4)
+        self.mainPages.setCurrentIndex(1)
         self.startDataBtn.setDefault(False)
         self.rightMenuPages.setCurrentIndex(0)
 
@@ -2051,8 +2051,8 @@ class Ui_MainWindow(object):
         self.yotubeBtn.setText(QCoreApplication.translate("MainWindow", u"YT", None))
         self.label_26.setText(QCoreApplication.translate("MainWindow", u"Odwied\u017a te\u017c", None))
         self.linkedinBtn.setText("")
-        self.wwwBtn.setText("")
         self.fbBtn.setText("")
+        self.wwwBtn.setText("")
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"Analiza danych", None))
         ___qtablewidgetitem12 = self.bestRecipientsTable.horizontalHeaderItem(0)
         ___qtablewidgetitem12.setText(QCoreApplication.translate("MainWindow", u"Odbiorca", None));
@@ -2068,7 +2068,7 @@ class Ui_MainWindow(object):
         self.closeRightMenuBtn.setText("")
         self.label_14.setText(QCoreApplication.translate("MainWindow", u"Notifications", None))
         self.label_16.setText(QCoreApplication.translate("MainWindow", u"Profile", None))
-        self.label_6.setText(QCoreApplication.translate("MainWindow", u"Copyright sth", None))
+        self.label_6.setText(QCoreApplication.translate("MainWindow", u"Copyright FireNet\u00ae2025", None))
         self.emailHederDockWidget.setWindowTitle(QCoreApplication.translate("MainWindow", u"Nag\u0142\u00f3wek wiadomo\u015bci e-mail", None))
         self.label_21.setText(QCoreApplication.translate("MainWindow", u"ID Wiadomo\u015bci: ", None))
         self.idEmailHeaderLabel.setText(QCoreApplication.translate("MainWindow", u"Id", None))

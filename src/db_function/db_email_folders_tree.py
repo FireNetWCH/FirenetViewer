@@ -32,17 +32,9 @@ def load_folders_data_into_tree(self,db_connection,folders_tree):
             print(f"Błąd zapytania do bazy: {e}")
 
 def add_items_to_tree(self, parent, tree_level: dict):
-        logger.info("Sprawdza ilosc S")
         for folder_name, folder_data in tree_level.items():
             if folder_name =="":
                 folder_name = "HOME"
-            # if folder_data["id"] != 1:
-            #     query = f"""SELECT count() FROM emails  WHERE folder_id ={folder_data["id"]}"""
-            # else:
-            #     query = f"""SELECT count() FROM emails"""
-            # cursor = self.db_connection.cursor()
-            # cursor.execute(query)
-            # emai_value = cursor.fetchall()
             item = QTreeWidgetItem([f"{folder_name} ({folder_data['item_count']})"])
             item.setData(0, 1, folder_data["id"])
             if isinstance(parent, QTreeWidget):
@@ -51,8 +43,6 @@ def add_items_to_tree(self, parent, tree_level: dict):
                 parent.addChild(item)
             if folder_data["subfolders"]:
                 add_items_to_tree(self,item, folder_data["subfolders"])
-        
-        logger.info(f"Sprawdza ilosc E")
 # def display_database(self,path_to_dir,sql_name,db_connection,folders_tree):
 #         from src.functions import load_data_from_database
 #         self.list_widget = QListWidget()
