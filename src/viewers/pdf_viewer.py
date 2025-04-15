@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsPixmapItem, QVBoxLayout, QScrollArea, QWidget,QPushButton
+from PySide6.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsPixmapItem, QVBoxLayout, QScrollArea, QWidget,QPushButton,QHBoxLayout
 from PySide6.QtGui import QPixmap, QImage, QPainter, QWheelEvent,QIcon
 from PySide6.QtCore import Qt
 import fitz
@@ -66,13 +66,13 @@ def display_pdf_content(pdf_document):
     """Wyświetla zawartość pliku PDF i niezbędne przyciski w widoku aplikacji."""
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.DEBUG)
-    try:
-        pdf_document = fitz.open("D:\\SQL\\spiatek\\Attachments\\769\\Wycena - Getpro 31052017.pdf")
-        
+    try:    
         scroll_area = QScrollArea()
         scroll_area.setWidgetResizable(True)
-        prev_btn = QPushButton("Poprzednia strona")
-        next_btn = QPushButton("Następna strona")
+        prev_btn = QPushButton()
+        prev_btn.setIcon((QIcon(":feather\\icons\\feather\\arrow_left.png")))
+        next_btn = QPushButton()
+        next_btn.setIcon((QIcon(":feather\\icons\\feather\\arrow_right.png")))    
 
         zoom_btn = QPushButton()
         zoom_btn.setIcon((QIcon(":feather\\icons\\feather\\zoom-in.png")))
@@ -87,15 +87,19 @@ def display_pdf_content(pdf_document):
 
         container_widget = QWidget()
         layout = QVBoxLayout(container_widget)
+        layout_horizontal = QHBoxLayout()
+        
+        layout_horizontal.addWidget(prev_btn)
+        layout_horizontal.addWidget(next_btn)
+        layout_horizontal.addWidget(zoom_btn)
+        layout_horizontal.addWidget(rezoom_btn)
         scroll_area = QScrollArea()
         scroll_area.setWidgetResizable(True)
         scroll_area.setWidget(pdf_view)
         
         layout.addWidget(scroll_area)
-        layout.addWidget(prev_btn)
-        layout.addWidget(next_btn)
-        layout.addWidget(zoom_btn)
-        layout.addWidget(rezoom_btn)
+        layout.addLayout(layout_horizontal)
+        
 
         
         container_widget.setLayout(layout)

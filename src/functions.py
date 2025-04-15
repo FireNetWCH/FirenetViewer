@@ -5,7 +5,7 @@ from typing import Any, List, Dict, Optional
     
 from PySide6.QtCore import Qt, QSettings, QDir, QPoint,QEasingCurve,QDate,QUrl,QFile,Slot,QObject
 from PySide6.QtGui import QFont, QFontDatabase, QAction, QPixmap,QIcon,QDesktopServices,QImage
-from PySide6.QtWidgets import (
+from PySide6.QtWidgets import (QLineEdit,
     QPushButton, QGraphicsScene, QTabBar,QMenu, QFileSystemModel,QSizePolicy,QSplitter,QFrame,QDialog,QMessageBox,
     QTreeView, QVBoxLayout, QFileDialog,QListWidgetItem, QTreeWidget, QMainWindow,QListWidget,QHeaderView,QSizeGrip
 )
@@ -153,6 +153,7 @@ class GUIFunctions(QObject):
         image = QImage(get_resource_path("logo.png"))
         # Ustawienie obrazu w ScalableLabel
         new_label.setPixmap(QPixmap.fromImage(image))
+          
         # print(label)
         # pixmap = QPixmap("logo.png")
         # scaled_pixmap = pixmap.scaled(label.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
@@ -244,6 +245,7 @@ class GUIFunctions(QObject):
         self.ui.prevEmailTableBtn.clicked.connect(self.previous_page)
         self.ui.nextEmailTableBtn.clicked.connect(self.next_page)
         self.ui.showSearchPanelBtn.clicked.connect(self.toggle_frame)
+        self.ui.dataAnalysisPage.findChild(QLineEdit,"jumpToPagelineEdit").returnPressed.connect(self.jump_to_page)
 
         # Dodanie menu kontekstowego do Tabeli Emaili
         self.context_menu_email_table = TableContextMenu(main=self, db_connection=self.db_connection, parent=self.ui.tableWidget)
@@ -294,7 +296,7 @@ class GUIFunctions(QObject):
         self.resize_grip.move(self.main.width() - 20, self.main.height() - 20)
 
         pixmap = QPixmap(get_resource_path("miniLogo.png"))
-        scaled_pixmap = pixmap.scaled(20, 20, Qt.KeepAspectRatio)
+        scaled_pixmap = pixmap.scaled(40, 40, Qt.KeepAspectRatio)
         self.ui.label_23.setPixmap(scaled_pixmap)
         self.ui.ofertaBtn.setIcon(QIcon(scaled_pixmap))
         # self.resize_grip.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\home.png")))
@@ -306,9 +308,9 @@ class GUIFunctions(QObject):
         self.ui.dataBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\mail.png")))
         self.ui.graphsBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\font_awesome\\solid\\chart-pie.png")))
         self.ui.meilBoxBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\material_design\\format_align_justify.png")))
-        self.ui.export_pdf.setIcon(QIcon(get_resource_path("Qss\\icons\\icons\\font_awesome\\regular\\file-pdf.png")))
+        self.ui.export_pdf.setIcon(QIcon(":feather/icons/feather/pdf.png"))
         self.ui.closeCenterMenuBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\icons\\font_awesome\\solid\\circle-xmark.png")))
-        self.ui.exportExelBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\icons\\font_awesome\\regular\\file-code.png")))
+        self.ui.exportExelBtn.setIcon(QIcon(":feather/icons/feather/xls.png"))
         self.ui.startDataBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\icons\\font_awesome\\regular\\calendar.png")))
         self.ui.clearBtn.setIcon(QIcon(":material_design/icons/material_design/hide_source.png"))
         self.ui.show_table_btn.setIcon(QIcon(":feather/icons/feather/rotate-cw.png"))
@@ -381,6 +383,19 @@ class GUIFunctions(QObject):
     def open_label_page(self):
         load_all_labels(self)
         self.ui.mainPages.setCurrentIndex(0)
+    
+    def jump_to_page(self):
+        nr_page = self.ui.jumpToPagelineEdit.text().lower()
+        if  isinstance(int(nr_page),int):
+            if int(nr_page) < 0:
+                self.current_page = 0 
+            elif int(nr_page) >= 1 and int(nr_page) < self.max_page :
+                self.current_page = (int(nr_page) - 1)
+            elif int(nr_page) > 1 and  int(nr_page) > self.max_page:
+                self.current_page = self.max_page - 1
+        else:
+            self.current_page = 0 
+        load_data_from_database(self)
 
     @Slot(str,name="test")
     def date_wornig(self, text):
@@ -598,23 +613,27 @@ class GUIFunctions(QObject):
         query_attachments = f'''SELECT * FROM attachments WHERE email_id ={emai_value[0][0]}'''
         cursor.execute(query_attachments)
         attachments_value = cursor.fetchall()
-        listAttachments = self.ui.EmailtabWidget.findChild(QListWidget, "listAttachments")
-        listAttachments.clear()
-        def on_item_clicked(item):
-            widget = listAttachments.itemWidget(item)
-            if widget:
-                widget.preview_file()
-        for _, file_name, extra_value in attachments_value:
-            file_path = os.path.join(self.path,self.sql_name,"Attachments",str(self.id_selected_email),file_name)
-            # print(file_path)
-            widget = FileListItem(f"{file_name}",file_path,self.ui.EmailtabWidget)  
-            item = QListWidgetItem(listAttachments)
-            item.setSizeHint(widget.sizeHint())  
-            listAttachments.addItem(item)  
-            listAttachments.setItemWidget(item, widget)
-        listAttachments.itemClicked.disconnect()
-        listAttachments.itemClicked.connect(lambda item: on_item_clicked(item))
-        listAttachments.setFixedHeight(60)
+        if len(attachments_value) > 0:
+            listAttachments = self.ui.EmailtabWidget.findChild(QListWidget, "listAttachments")
+            listAttachments.clear()
+            listAttachments.show()
+            def on_item_clicked(item):
+                widget = listAttachments.itemWidget(item)
+                if widget:
+                    widget.preview_file()
+            for _, file_name, extra_value in attachments_value:
+                file_path = os.path.join(self.path,self.sql_name,"Attachments",str(self.id_selected_email),file_name)
+                # print(file_path)
+                widget = FileListItem(f"{file_name}",file_path,self.ui.EmailtabWidget)  
+                item = QListWidgetItem(listAttachments)
+                item.setSizeHint(widget.sizeHint())  
+                listAttachments.addItem(item)  
+                listAttachments.setItemWidget(item, widget)
+            listAttachments.itemClicked.disconnect()
+            listAttachments.itemClicked.connect(lambda item: on_item_clicked(item))
+            listAttachments.setFixedHeight(60)
+        else:
+            self.ui.EmailtabWidget.findChild(QListWidget, "listAttachments").hide()
         search_term = self.active_filters['body']
         search_term = db_email_function.word_to_highline(search_term)
         #
@@ -670,6 +689,7 @@ class GUIFunctions(QObject):
         self.ui.startDataLabel.setText("")
         self.ui.endDataLabel.setText("")
         self.ui.selectedTagLabel.setText("")
+        self.ui.dirNameLabel.setText("")
         self.ui.show_flags_btn.setChecked(False)
         #selected_tag_label = self.ui.emailHederDockWidget.findChild(QLabel,"selected_tag_label")
         self.ui.selectedTagLabel.setText("")
@@ -686,12 +706,15 @@ class GUIFunctions(QObject):
         load_data_from_database(self)
 
     def tree_email_dir_clicked(self,item ,column):
+        self.clear_filtr()
         self.active_filters["folder_id"] = item.data(0,1)
+        if item.data(0,1) != "1":
+            dir_path = db_email_function.get_folder_path(self.db_connection, item.data(0,1))
+            self.ui.dirNameLabel.setText(str(dir_path[0][0]))
         self.ui.mainPages.setCurrentIndex(1)
         self.current_page = 0
-        print(self.current_page)
-        self.clear_filtr()
-        
+        #print(self.current_page)
+        load_data_from_database(self)
             
     def email_copy_attachments(self,item):
         source_path = os.path.join(self.path,self.sql_name,"Attachments",str(self.id_selected_email),item.text())

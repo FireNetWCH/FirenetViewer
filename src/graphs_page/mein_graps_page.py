@@ -1,9 +1,13 @@
 import src.db_function.db_email_function as db_email
 from PySide6.QtWidgets import QTableWidgetItem,QVBoxLayout,QWidget
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from PySide6.QtCharts import QChart, QChartView, QBarSeries, QBarSet, QBarCategoryAxis, QValueAxis
+from PySide6.QtWidgets import QVBoxLayout, QWidget,QSizePolicy,QScrollArea
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtCore import QUrl, QDateTime
 from matplotlib.figure import Figure
+from matplotlib.colors import LinearSegmentedColormap
+import matplotlib.ticker as ticker
 import matplotlib.dates as mdates
 import numpy as np
 from collections import defaultdict
@@ -13,7 +17,9 @@ from pyvis.network import Network
 import os
 import sys
 import logging
-
+import matplotlib as plt
+from PySide6.QtCore import Qt
+import matplotlib.dates as mdates
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
@@ -91,7 +97,7 @@ def load_stat(parent,connect):
             if count_received > 0:
                 G.add_edge(email, central_node,title=f"Odebrano: {count_received}",label=f"O: {count_received}")
 
-        net = Network(height='1200px', width='100%', directed=True, notebook=False,cdn_resources='in_line')
+        net = Network(height='100%', width='100%', directed=True, notebook=False,cdn_resources='in_line')
         net.from_nx(G)
         net.set_options("""
     {
@@ -127,22 +133,25 @@ def load_stat(parent,connect):
     }
     }
     """)
-        # app_dir = os.getcwd()
-        # html_path = os.path.join(app_dir, "graph.html")
-        #net.show(html_path,notebook=False)
         html_path = os.path.abspath(get_resource_path("graph.html"))
         html = net.generate_html()  
 
         with open(html_path, "w", encoding="utf-8") as f:
             f.write(html)
         view = QWebEngineView()
-        view.reload()
+        view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        # view.reload()
         url = QUrl.fromLocalFile(html_path)
-        url.setQuery(f"t={QDateTime.currentDateTime().toMSecsSinceEpoch()}")
+        # url.setQuery(f"t={QDateTime.currentDateTime().toMSecsSinceEpoch()}")
 
         view.load(url)
-        view.reload()
-        graph_layout.addWidget(view)
+        # view.reload()
+        scroll_area = QScrollArea()
+        scroll_area.setWidgetResizable(True)
+        scroll_area.setWidget(view)
+        scroll_area.setMinimumSize(300, 300)
+        scroll_area.setMaximumSize(1200, 900)
+        graph_layout.addWidget(scroll_area)
         old_layout = graph_widget.layout()
         if old_layout is not None:
             while old_layout.count():
@@ -152,9 +161,12 @@ def load_stat(parent,connect):
                     widget.setParent(None)
                     widget.deleteLater()
         
-        # usuwamy cały stary layout
+
         QWidget().setLayout(old_layout)
         graph_widget.setLayout(graph_layout)
+
+
+
         group_date = db_email.get_grup_data(connect)
         df = pd.DataFrame(group_date, columns=['date', 'count'])
         date_list = df['date'].tolist()
@@ -175,6 +187,9 @@ def load_stat(parent,connect):
         # ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
         # figure.autofmt_xdate()
         # canvas.draw()
+        
+        
+        ################################
         date_nums = mdates.date2num(df['date'])
         counts, bins = np.histogram(date_nums, bins=50)
         bin_centers = 0.5 * (bins[1:] + bins[:-1])
@@ -197,15 +212,21 @@ def load_stat(parent,connect):
         layout.addWidget(canvas)
         parent.ui.timeLineWiget.setLayout(layout)
         ax = figure.add_subplot(111)
-        ax.bar(bin_centers, counts, width=np.diff(bins), align='center', color='skyblue', edgecolor='black')
+        colors = plt.cm.Blues(counts / max(counts)) 
+        bars = ax.bar(bin_centers, counts, width=np.diff(bins), align='center',
+                    color=colors, edgecolor='black', linewidth=0.5)
         ax.xaxis_date()
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
-        figure.autofmt_xdate()
-        ax.set_xlabel("Data")
-        ax.set_ylabel("Liczba wiadomości")
-        ax.set_title("Histogram wiadomości (50 równych przedziałów czasu)")
+        figure.autofmt_xdate(rotation=45)
+        ax.xaxis.set_major_locator(mdates.AutoDateLocator(minticks=5, maxticks=10))
+        ax.grid(True, linestyle='--', alpha=0.6)
+        ax.set_xlabel("Data", fontsize=12)
+        ax.set_ylabel("Liczba wiadomości", fontsize=12)
+        ax.set_title("Histogram wiadomości (50 równych przedziałów czasu)", fontsize=14, fontweight='bold')
+        ax.tick_params(axis='x', labelsize=10)
+        ax.tick_params(axis='y', labelsize=10)
         canvas.draw()
-    
+        ########################
         
         all_attachments = db_email.get_all_attachment(connect)
         #at = pd.DataFrame(all_attachments, columns=['id', 'attachment_name','email_id'])

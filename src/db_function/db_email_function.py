@@ -458,8 +458,22 @@ def get_propaply_email_owner_data(db_connection):
         results = cursor.fetchall()
         return results
     except sqlite3.Error as e:
-        logger.error(f"Błąd podczas pobierania 10 najczestrzych odbiorcow: {e}")
-        print(f"Błąd podczas pobierania 10 najczestrzych odbiorcow: {e}")
+        logger.error(f"Błąd podczas pobierania potencjalnego wlascicela skrzynki: {e}")
+        print(f"Błąd podczas pobierania potencjalnego wlascicela skrzynki: {e}")
+
+def get_folder_path(db_connection,dir_id):
+    """pobiera sciezke folderu o wskazanym id"""
+    try:
+        query=f"""
+        SELECT path from folders where id like '{dir_id}'
+        """
+        cursor = db_connection.cursor()
+        cursor.execute(query)
+        results = cursor.fetchall()
+        return results
+    except sqlite3.Error as e:
+        logger.error(f"Błąd podczas pobierania sciezki do kolderu o wskazanym id: {e}")
+        print(f"Błąd podczas pobierania sciezki do kolderu o wskazanym id {e}")
 
 def get_grup_data(db_connection):
     """Zwraca pogrupowane dat"""

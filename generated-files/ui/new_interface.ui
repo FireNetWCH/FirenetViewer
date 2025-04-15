@@ -918,7 +918,7 @@
                  <item>
                   <widget class="QCustomQStackedWidget" name="mainPages">
                    <property name="currentIndex">
-                    <number>4</number>
+                    <number>1</number>
                    </property>
                    <widget class="QWidget" name="page">
                     <layout class="QVBoxLayout" name="verticalLayout_36">
@@ -1035,7 +1035,7 @@
                                     <x>0</x>
                                     <y>0</y>
                                     <width>520</width>
-                                    <height>360</height>
+                                    <height>415</height>
                                    </rect>
                                   </property>
                                   <property name="sizePolicy">
@@ -1903,6 +1903,9 @@
                         <enum>QFrame::Shadow::Raised</enum>
                        </property>
                        <layout class="QHBoxLayout" name="horizontalLayout_16">
+                        <property name="spacing">
+                         <number>1</number>
+                        </property>
                         <property name="leftMargin">
                          <number>2</number>
                         </property>
@@ -1938,6 +1941,16 @@
                           </property>
                           <property name="text">
                            <string>Skrzynka</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QLabel" name="dirNameLabel">
+                          <property name="frameShape">
+                           <enum>QFrame::Shape::Box</enum>
+                          </property>
+                          <property name="text">
+                           <string/>
                           </property>
                          </widget>
                         </item>
@@ -1982,6 +1995,13 @@
                           </property>
                           <property name="text">
                            <string>Strona : </string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QLineEdit" name="jumpToPagelineEdit">
+                          <property name="placeholderText">
+                           <string/>
                           </property>
                          </widget>
                         </item>
@@ -2162,7 +2182,7 @@
                                 <x>0</x>
                                 <y>0</y>
                                 <width>520</width>
-                                <height>382</height>
+                                <height>396</height>
                                </rect>
                               </property>
                               <property name="sizePolicy">

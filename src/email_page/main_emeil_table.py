@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QTableWidgetItem,QAbstractItemView,QCheckBox,QPushButton,QHeaderView,QApplication,QLabel,QWidget,QHBoxLayout,QListWidget
+from PySide6.QtWidgets import QTableWidgetItem,QAbstractItemView,QCheckBox,QPushButton,QHeaderView,QApplication,QLabel,QWidget,QHBoxLayout,QListWidget,QLineEdit
 from PySide6.QtCore import Qt,Signal
 import src.db_function.db_email_function as db_email
 import math
@@ -7,6 +7,7 @@ import logging
 import json
 import sys
 import os
+import hashlib
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
@@ -34,6 +35,11 @@ def create_tag_widget(tag_names, color_manager,user_id,self):
     load_color_dictionery(self)
     for tag in tag_names:
         color = color_manager[tag]
+        if not color:
+            hash_object = hashlib.md5(tag.encode())
+            hex_color = '#' + hash_object.hexdigest()[:6]
+            color = hex_color
+            color_manager[tag] = color
         btn = ClickableLabel(tag)
         btn.setStyleSheet(f"""
             background-color: {color};
@@ -159,7 +165,8 @@ def load_data_from_database(self) -> None:
             self.all_emails_count = emailc_count
             logger.info("End load data")
             self.max_page = math.ceil((int(self.all_emails_count)/int(self.emails_per_page)))
-            self.ui.dataAnalysisPage.findChild(QLabel,"pageNumberLabel").setText(f"{self.current_page+1}/{self.max_page}")
+            self.ui.dataAnalysisPage.findChild(QLineEdit,"jumpToPagelineEdit").setText(f"{self.current_page+1}")
+            self.ui.dataAnalysisPage.findChild(QLabel,"pageNumberLabel").setText(f"/{self.max_page}")
             logger.info("Start create table")
             self.ui.tableWidget.setRowCount(len(data))
             self.ui.tableWidget.setColumnCount(7)

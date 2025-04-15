@@ -552,7 +552,7 @@ class Ui_MainWindow(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 520, 360))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 520, 415))
         sizePolicy1.setHeightForWidth(self.scrollAreaWidgetContents_3.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents_3.setSizePolicy(sizePolicy1)
         self.verticalLayout_34 = QVBoxLayout(self.scrollAreaWidgetContents_3)
@@ -990,6 +990,12 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_16.addWidget(self.sqlEmailDbName)
 
+        self.dirNameLabel = QLabel(self.frame_9)
+        self.dirNameLabel.setObjectName(u"dirNameLabel")
+        self.dirNameLabel.setFrameShape(QFrame.Shape.Box)
+
+        self.horizontalLayout_16.addWidget(self.dirNameLabel)
+
 
         self.verticalLayout_12.addWidget(self.frame_9)
 
@@ -1016,6 +1022,11 @@ class Ui_MainWindow(object):
         self.label_20.setSizePolicy(sizePolicy10)
 
         self.horizontalLayout_4.addWidget(self.label_20)
+
+        self.jumpToPagelineEdit = QLineEdit(self.widget_9)
+        self.jumpToPagelineEdit.setObjectName(u"jumpToPagelineEdit")
+
+        self.horizontalLayout_4.addWidget(self.jumpToPagelineEdit)
 
         self.pageNumberLabel = QLabel(self.widget_9)
         self.pageNumberLabel.setObjectName(u"pageNumberLabel")
@@ -1107,7 +1118,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 520, 382))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 520, 396))
         sizePolicy1.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents.setSizePolicy(sizePolicy1)
         self.verticalLayout_20 = QVBoxLayout(self.scrollAreaWidgetContents)
@@ -1919,7 +1930,7 @@ class Ui_MainWindow(object):
 
         self.menuBtn.setDefault(False)
         self.centerMenuPages.setCurrentIndex(2)
-        self.mainPages.setCurrentIndex(4)
+        self.mainPages.setCurrentIndex(1)
         self.startDataBtn.setDefault(False)
         self.rightMenuPages.setCurrentIndex(0)
 
@@ -2012,8 +2023,10 @@ class Ui_MainWindow(object):
         self.detailsBtn.setText(QCoreApplication.translate("MainWindow", u"P/U", None))
         self.label_22.setText(QCoreApplication.translate("MainWindow", u"Skrzynka: ", None))
         self.sqlEmailDbName.setText(QCoreApplication.translate("MainWindow", u"Skrzynka", None))
+        self.dirNameLabel.setText("")
         self.prevEmailTableBtn.setText("")
         self.label_20.setText(QCoreApplication.translate("MainWindow", u"Strona : ", None))
+        self.jumpToPagelineEdit.setPlaceholderText("")
         self.pageNumberLabel.setText(QCoreApplication.translate("MainWindow", u"XXX", None))
         self.nextEmailTableBtn.setText("")
         self.showSearchPanelBtn.setText(QCoreApplication.translate("MainWindow", u"Szukaj", None))
