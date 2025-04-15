@@ -373,15 +373,85 @@ def updata_label(db_connection,id_label,new_lebel_text):
             logger.error(f"Błąd podczas aktualizowania labelek: {e}")
             print(f"Błąd podczas aktualizowania labelek: {e}")
 
-def get_best_recipients(db_connection):
-    """10 najczęstrzych odbiorców"""
+def get_best_recipients(db_connection,name,email,sort_by):
+    """10 najczęstrzych odbiorców/nadawców
+        sort_by = 1 -> po ilości wysłanych
+        sort_by = 0 -> po ilości odebranych
+    """
+    query_part = ""
+    if sort_by == 0:
+        query_part = "received_count"
+    else:
+        query_part = "sent_count"
+
+
+    try:
+        query=f"""
+            WITH received AS (
+        SELECT 
+            recipients AS email,
+            COUNT(*) AS received_count
+        FROM emails
+        WHERE 
+            (sender_name LIKE '{name}' OR sender_email LIKE '{email}')
+            AND (recipients NOT LIKE '{name}' AND recipients NOT LIKE '{email}')
+        GROUP BY recipients
+    ),
+    sent AS (
+        SELECT 
+            sender_email AS email,
+            COUNT(*) AS sent_count
+        FROM emails
+        WHERE 
+            sender_name NOT LIKE '{name}' AND sender_email NOT LIKE '{email}'
+        GROUP BY sender_email
+    )
+    SELECT 
+        COALESCE(r.email, s.email) AS email,
+        COALESCE(received_count, 0) AS received_count,
+        COALESCE(sent_count, 0) AS sent_count
+    FROM received r
+    FULL OUTER JOIN sent s ON r.email = s.email
+    ORDER BY {query_part} DESC
+    LIMIT 5
+    ;
+        """
+        # SELECT recipients, COUNT(*) AS message_count
+        # FROM emails
+		# where sender_name Like 'Krzysztof Wnuk' or sender_email like 'kwnuk@robertpabich.eu'
+        # GROUP BY recipients
+        # ORDER BY message_count DESC
+        # limit 10;
+        # Wyłsane 
+        # SELECT recipients, COUNT(*) AS message_count
+        # FROM emails
+		# where (sender_name Like '{name}' or sender_email like '{email}') and (recipients not like '{name}' and recipients not like 'email' )
+        # GROUP BY recipients
+        # ORDER BY message_count DESC
+        # limit 10;
+
+        #odebrane 
+
+        # SELECT sender_email, COUNT(*) AS message_count
+        # FROM emails
+		# where (sender_name not Like 'Krzysztof Wnuk' or sender_email not like 'kwnuk@robertpabich.eu')
+        # GROUP BY sender_email
+        # ORDER BY message_count DESC
+        # limit 10;
+
+        cursor = db_connection.cursor()
+        cursor.execute(query)
+        results = cursor.fetchall()
+        return results
+    except sqlite3.Error as e:
+        logger.error(f"Błąd podczas pobierania 10 najczestrzych odbiorcow: {e}")
+        print(f"Błąd podczas pobierania 10 najczestrzych odbiorcow: {e}")
+def get_propaply_email_owner_data(db_connection):
+    """pobiera dane potencjalnego właściciela skrzyneki email"""
     try:
         query="""
-        SELECT recipients, COUNT(*) AS message_count
-        FROM emails
-        GROUP BY recipients
-        ORDER BY message_count DESC
-        limit 10;
+        SELECT sender_name,sender_email FROM emails WHERE folder_id LIKE
+        (SELECT id FROM folders WHERE path LIKE '%SENT' COLLATE NOCASE) limit 1
         """
         cursor = db_connection.cursor()
         cursor.execute(query)

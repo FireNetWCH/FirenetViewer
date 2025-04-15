@@ -414,6 +414,12 @@ class Ui_MainWindow(object):
         self.horizontalLayout_9.setSpacing(0)
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
         self.horizontalLayout_9.setContentsMargins(5, 5, 5, 5)
+        self.searchinp = QLineEdit(self.serachinpCont)
+        self.searchinp.setObjectName(u"searchinp")
+        self.searchinp.setMinimumSize(QSize(100, 0))
+
+        self.horizontalLayout_9.addWidget(self.searchinp)
+
         self.label_9 = QLabel(self.serachinpCont)
         self.label_9.setObjectName(u"label_9")
         self.label_9.setMinimumSize(QSize(16, 16))
@@ -422,12 +428,6 @@ class Ui_MainWindow(object):
         self.label_9.setScaledContents(True)
 
         self.horizontalLayout_9.addWidget(self.label_9)
-
-        self.searchinp = QLineEdit(self.serachinpCont)
-        self.searchinp.setObjectName(u"searchinp")
-        self.searchinp.setMinimumSize(QSize(100, 0))
-
-        self.horizontalLayout_9.addWidget(self.searchinp)
 
         self.searchBtn = QPushButton(self.serachinpCont)
         self.searchBtn.setObjectName(u"searchBtn")
@@ -1107,7 +1107,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 520, 398))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 520, 382))
         sizePolicy1.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents.setSizePolicy(sizePolicy1)
         self.verticalLayout_20 = QVBoxLayout(self.scrollAreaWidgetContents)
@@ -1575,12 +1575,14 @@ class Ui_MainWindow(object):
         self.horizontalLayout_40 = QHBoxLayout(self.widget_30)
         self.horizontalLayout_40.setObjectName(u"horizontalLayout_40")
         self.bestRecipientsTable = QTableWidget(self.widget_30)
-        if (self.bestRecipientsTable.columnCount() < 2):
-            self.bestRecipientsTable.setColumnCount(2)
+        if (self.bestRecipientsTable.columnCount() < 3):
+            self.bestRecipientsTable.setColumnCount(3)
         __qtablewidgetitem12 = QTableWidgetItem()
         self.bestRecipientsTable.setHorizontalHeaderItem(0, __qtablewidgetitem12)
         __qtablewidgetitem13 = QTableWidgetItem()
         self.bestRecipientsTable.setHorizontalHeaderItem(1, __qtablewidgetitem13)
+        __qtablewidgetitem14 = QTableWidgetItem()
+        self.bestRecipientsTable.setHorizontalHeaderItem(2, __qtablewidgetitem14)
         self.bestRecipientsTable.setObjectName(u"bestRecipientsTable")
         sizePolicy2.setHeightForWidth(self.bestRecipientsTable.sizePolicy().hasHeightForWidth())
         self.bestRecipientsTable.setSizePolicy(sizePolicy2)
@@ -1594,6 +1596,13 @@ class Ui_MainWindow(object):
         self.widget_31.setObjectName(u"widget_31")
         sizePolicy2.setHeightForWidth(self.widget_31.sizePolicy().hasHeightForWidth())
         self.widget_31.setSizePolicy(sizePolicy2)
+        self.verticalLayout_38 = QVBoxLayout(self.widget_31)
+        self.verticalLayout_38.setObjectName(u"verticalLayout_38")
+        self.graphWidget = QWidget(self.widget_31)
+        self.graphWidget.setObjectName(u"graphWidget")
+
+        self.verticalLayout_38.addWidget(self.graphWidget)
+
 
         self.horizontalLayout_27.addWidget(self.widget_31)
 
@@ -1910,7 +1919,7 @@ class Ui_MainWindow(object):
 
         self.menuBtn.setDefault(False)
         self.centerMenuPages.setCurrentIndex(2)
-        self.mainPages.setCurrentIndex(1)
+        self.mainPages.setCurrentIndex(4)
         self.startDataBtn.setDefault(False)
         self.rightMenuPages.setCurrentIndex(0)
 
@@ -1942,8 +1951,8 @@ class Ui_MainWindow(object):
         self.notificationBtn.setText("")
         self.moreBtn.setText("")
         self.profileBtn.setText("")
-        self.label_9.setText("")
         self.searchinp.setPlaceholderText(QCoreApplication.translate("MainWindow", u"search...", None))
+        self.label_9.setText("")
         self.searchBtn.setText(QCoreApplication.translate("MainWindow", u"Ctrl+K", None))
         self.minimalizeBtn.setText("")
         self.restoreBtn.setText("")
@@ -2057,7 +2066,9 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem12 = self.bestRecipientsTable.horizontalHeaderItem(0)
         ___qtablewidgetitem12.setText(QCoreApplication.translate("MainWindow", u"Odbiorca", None));
         ___qtablewidgetitem13 = self.bestRecipientsTable.horizontalHeaderItem(1)
-        ___qtablewidgetitem13.setText(QCoreApplication.translate("MainWindow", u"Ilo\u015b\u0107 wiadmo\u015bci", None));
+        ___qtablewidgetitem13.setText(QCoreApplication.translate("MainWindow", u"Ilo\u015b\u0107 wiadmo\u015bci wys\u0142anych ", None));
+        ___qtablewidgetitem14 = self.bestRecipientsTable.horizontalHeaderItem(2)
+        ___qtablewidgetitem14.setText(QCoreApplication.translate("MainWindow", u"Ilo\u015b\u0107 wiadmo\u015bci odebranych ", None));
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"Liczba za\u0142\u0105cznik\u00f3w:", None))
         self.attachmentsCountLabel.setText(QCoreApplication.translate("MainWindow", u"X", None))
         self.label_15.setText(QCoreApplication.translate("MainWindow", u"Liczba Odbiorc\u00f3w:", None))

@@ -1,7 +1,10 @@
 # -*- mode: python ; coding: utf-8 -*-
 
-import sys ; 
+import sys ;
+from PyInstaller.utils.hooks import collect_data_files
 sys.setrecursionlimit(sys.getrecursionlimit() * 5)
+
+pyvis_datas = collect_data_files('pyvis')
 a = Analysis(
     ['main.py'],
     pathex=[],
@@ -31,7 +34,8 @@ a = Analysis(
         ('Qss/icons/black/font_awesome/solid/rss.png','Qss/icons/black/font_awesome/solid/'),
         ('Qss/icons/black/feather/linkedin.png','Qss/icons/black/feather/'),
         ('Qss/icons/black/feather/facebook.png','Qss/icons/black/feather/'),
-        ('Qss/scss/*', 'Qss/scss')],
+        ('Qss/scss/*', 'Qss/scss'),
+        *pyvis_datas],
     hiddenimports=['PySide6','openpyxl','openpyxl.cell._writer','_ctypes'],
     hookspath=[],
     hooksconfig={},
