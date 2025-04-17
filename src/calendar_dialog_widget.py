@@ -69,17 +69,29 @@ class DateRangeDialog(QDialog):
         self.label2.setStyleSheet("background-color: #ffffff")
         self.label4.setStyleSheet("background-color: #ffffff")
     def setLabelData1(self):
-        # if self.last_data_start is not None:
-        #     self.calendar1.setDateTextFormat(self.last_data_start, self.fmt2)
+        if self.last_data_start is not None:
+            self.calendar1.setDateTextFormat(self.last_data_start, self.fmt2)
         selected_date = self.calendar1.selectedDate().toString("yyyy-MM-dd")
         self.label2.setText(selected_date)
         self.label2.setStyleSheet("background-color: #4f88ca")
+        current_date = QDate(1990, 1, 1)
+        while current_date < self.calendar1.selectedDate():
+            self.calendar1.setDateTextFormat(current_date, self.fmt)
+            current_date = current_date.addDays(1)
 
-        #self.calendar1.setDateTextFormat(self.calendar1.selectedDate(), self.fmt)
+        self.calendar1.setDateTextFormat(self.calendar1.selectedDate(), self.fmt)
     def setLabelData2(self):
+        if self.last_data_start is not None:
+            self.calendar2.setDateTextFormat(self.last_data_start, self.fmt2)
         selected_date = self.calendar2.selectedDate().toString("yyyy-MM-dd")
         self.label4.setText(selected_date)
         self.label4.setStyleSheet("background-color: #4f88ca")
+
+        current_date = QDate.currentDate()
+        selected_date = self.calendar2.selectedDate()
+        while selected_date < current_date:
+            self.calendar2.setDateTextFormat(selected_date, self.fmt)
+            selected_date = selected_date.addDays(1)
     def get_selected_dates(self):
         if self.exec() == QDialog.Accepted:
             return self.label2.text(), self.label4.text()

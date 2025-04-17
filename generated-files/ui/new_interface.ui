@@ -907,7 +907,7 @@
                   <number>0</number>
                  </property>
                  <property name="topMargin">
-                  <number>5</number>
+                  <number>0</number>
                  </property>
                  <property name="rightMargin">
                   <number>0</number>
@@ -1035,7 +1035,7 @@
                                     <x>0</x>
                                     <y>0</y>
                                     <width>520</width>
-                                    <height>415</height>
+                                    <height>420</height>
                                    </rect>
                                   </property>
                                   <property name="sizePolicy">
@@ -1857,58 +1857,122 @@
                          </widget>
                         </item>
                         <item>
-                         <widget class="QWidget" name="widget_7" native="true">
+                         <widget class="QWidget" name="widget_41" native="true">
                           <property name="sizePolicy">
-                           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                             <horstretch>0</horstretch>
                             <verstretch>0</verstretch>
                            </sizepolicy>
                           </property>
-                          <layout class="QHBoxLayout" name="horizontalLayout_13">
+                          <layout class="QVBoxLayout" name="verticalLayout_42">
+                           <property name="spacing">
+                            <number>0</number>
+                           </property>
+                           <property name="leftMargin">
+                            <number>0</number>
+                           </property>
                            <property name="topMargin">
-                            <number>2</number>
+                            <number>0</number>
                            </property>
                            <property name="bottomMargin">
-                            <number>2</number>
+                            <number>0</number>
                            </property>
                            <item>
-                            <widget class="QPushButton" name="export_pdf">
-                             <property name="cursor">
-                              <cursorShape>PointingHandCursor</cursorShape>
+                            <widget class="QWidget" name="widget_7" native="true">
+                             <property name="sizePolicy">
+                              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                               <horstretch>0</horstretch>
+                               <verstretch>0</verstretch>
+                              </sizepolicy>
                              </property>
-                             <property name="toolTip">
-                              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Eksportuj do PDF'a&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                             </property>
-                             <property name="text">
-                              <string/>
-                             </property>
-                             <property name="icon">
-                              <iconset>
-                               <normaloff>:/font_awesome/regular/icons/font_awesome/regular/file-pdf.png</normaloff>:/font_awesome/regular/icons/font_awesome/regular/file-pdf.png</iconset>
-                             </property>
+                             <layout class="QHBoxLayout" name="horizontalLayout_13">
+                              <property name="topMargin">
+                               <number>2</number>
+                              </property>
+                              <property name="bottomMargin">
+                               <number>2</number>
+                              </property>
+                              <item>
+                               <widget class="QPushButton" name="export_pdf">
+                                <property name="cursor">
+                                 <cursorShape>PointingHandCursor</cursorShape>
+                                </property>
+                                <property name="toolTip">
+                                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Eksportuj do PDF'a&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                                </property>
+                                <property name="text">
+                                 <string/>
+                                </property>
+                                <property name="icon">
+                                 <iconset>
+                                  <normaloff>:/font_awesome/regular/icons/font_awesome/regular/file-pdf.png</normaloff>:/font_awesome/regular/icons/font_awesome/regular/file-pdf.png</iconset>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QPushButton" name="exportExelBtn">
+                                <property name="cursor">
+                                 <cursorShape>PointingHandCursor</cursorShape>
+                                </property>
+                                <property name="toolTip">
+                                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Eksportuj do excel'a&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                                </property>
+                                <property name="text">
+                                 <string/>
+                                </property>
+                                <property name="icon">
+                                 <iconset>
+                                  <normaloff>:/font_awesome/regular/icons/font_awesome/regular/file-excel.png</normaloff>:/font_awesome/regular/icons/font_awesome/regular/file-excel.png</iconset>
+                                </property>
+                               </widget>
+                              </item>
+                              <item>
+                               <widget class="QPushButton" name="detailsBtn">
+                                <property name="text">
+                                 <string>P/U</string>
+                                </property>
+                               </widget>
+                              </item>
+                             </layout>
                             </widget>
                            </item>
                            <item>
-                            <widget class="QPushButton" name="exportExelBtn">
-                             <property name="cursor">
-                              <cursorShape>PointingHandCursor</cursorShape>
-                             </property>
-                             <property name="toolTip">
-                              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Eksportuj do excel'a&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                             </property>
-                             <property name="text">
-                              <string/>
-                             </property>
-                             <property name="icon">
-                              <iconset>
-                               <normaloff>:/font_awesome/regular/icons/font_awesome/regular/file-excel.png</normaloff>:/font_awesome/regular/icons/font_awesome/regular/file-excel.png</iconset>
-                             </property>
+                            <widget class="QWidget" name="widget_42" native="true">
+                             <layout class="QHBoxLayout" name="horizontalLayout_50">
+                              <property name="spacing">
+                               <number>0</number>
+                              </property>
+                              <property name="leftMargin">
+                               <number>0</number>
+                              </property>
+                              <property name="topMargin">
+                               <number>0</number>
+                              </property>
+                              <property name="rightMargin">
+                               <number>0</number>
+                              </property>
+                              <property name="bottomMargin">
+                               <number>0</number>
+                              </property>
+                              <item>
+                               <widget class="QLabel" name="exportCountLabel">
+                                <property name="text">
+                                 <string>TextLabel</string>
+                                </property>
+                               </widget>
+                              </item>
+                             </layout>
                             </widget>
                            </item>
                            <item>
-                            <widget class="QPushButton" name="detailsBtn">
-                             <property name="text">
-                              <string>P/U</string>
+                            <widget class="QProgressBar" name="progressBar">
+                             <property name="font">
+                              <font>
+                               <pointsize>5</pointsize>
+                              </font>
+                             </property>
+                             <property name="value">
+                              <number>100</number>
                              </property>
                             </widget>
                            </item>
@@ -2230,7 +2294,7 @@
                                 <x>0</x>
                                 <y>0</y>
                                 <width>520</width>
-                                <height>396</height>
+                                <height>389</height>
                                </rect>
                               </property>
                               <property name="sizePolicy">

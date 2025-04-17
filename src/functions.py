@@ -353,6 +353,9 @@ class GUIFunctions(QObject):
         # graph_layout.addWidget(scroll_area)
         # graph_widget = self.ui.graphWidget
         # graph_widget.setLayout(graph_layout)
+
+        self.ui.widget_42.hide()
+        self.ui.progressBar.hide()
     
     def _tymczaspwe_ukrycie_(self):
         #wyszukiwarka 
@@ -435,9 +438,9 @@ class GUIFunctions(QObject):
     @Slot(str,name="test")
     def date_wornig(self, text):
         '''Funkca wyświetla okno dialogowe z komuniektem:
-        "Data poczotkowa nie może \nbyć datą pużniejszą niż końcowa" '''
+        "Zakończenia exportu" '''
      
-        self.ui.sqlEmailDbName.setText(text)
+        #self.ui.sqlEmailDbName.setText(text)
         
         print(self.main)
         msgBox = QMessageBox(parent=self.main)
@@ -446,6 +449,12 @@ class GUIFunctions(QObject):
         msgBox.show()
     
         #msgBox.exec()
+    @Slot(int,int)
+    def export_progrs(self,all_count_export,count_export):
+        ''''''
+        self.ui.exportCountLabel.setText(f"Eksport:{count_export} / {all_count_export}")
+        self.ui.progressBar.setValue(count_export)
+       
     
     def show_context_menu(self, pos):
         context_widget = self.ui.EmailtabWidget.findChild(QLabel, "body")

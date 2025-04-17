@@ -18,10 +18,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QComboBox, QDockWidget,
     QFrame, QGraphicsView, QHBoxLayout, QHeaderView,
     QLabel, QLayout, QLineEdit, QListView,
-    QListWidget, QListWidgetItem, QMainWindow, QPushButton,
-    QScrollArea, QSizePolicy, QSpacerItem, QSplitter,
-    QTabWidget, QTableWidget, QTableWidgetItem, QTreeView,
-    QVBoxLayout, QWidget)
+    QListWidget, QListWidgetItem, QMainWindow, QProgressBar,
+    QPushButton, QScrollArea, QSizePolicy, QSpacerItem,
+    QSplitter, QTabWidget, QTableWidget, QTableWidgetItem,
+    QTreeView, QVBoxLayout, QWidget)
 
 from Custom_Widgets.QCustomQPushButton import QCustomQPushButton
 from Custom_Widgets.QCustomQStackedWidget import QCustomQStackedWidget
@@ -482,7 +482,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_10 = QVBoxLayout(self.mainPagesCont)
         self.verticalLayout_10.setSpacing(0)
         self.verticalLayout_10.setObjectName(u"verticalLayout_10")
-        self.verticalLayout_10.setContentsMargins(0, 5, 0, 0)
+        self.verticalLayout_10.setContentsMargins(0, 0, 0, 0)
         self.mainPages = QCustomQStackedWidget(self.mainPagesCont)
         self.mainPages.setObjectName(u"mainPages")
         self.page = QWidget()
@@ -552,7 +552,7 @@ class Ui_MainWindow(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 520, 415))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 520, 420))
         sizePolicy1.setHeightForWidth(self.scrollAreaWidgetContents_3.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents_3.setSizePolicy(sizePolicy1)
         self.verticalLayout_34 = QVBoxLayout(self.scrollAreaWidgetContents_3)
@@ -938,7 +938,15 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_18.addWidget(self.frame_11)
 
-        self.widget_7 = QWidget(self.serchEmailFrame)
+        self.widget_41 = QWidget(self.serchEmailFrame)
+        self.widget_41.setObjectName(u"widget_41")
+        sizePolicy8.setHeightForWidth(self.widget_41.sizePolicy().hasHeightForWidth())
+        self.widget_41.setSizePolicy(sizePolicy8)
+        self.verticalLayout_42 = QVBoxLayout(self.widget_41)
+        self.verticalLayout_42.setSpacing(0)
+        self.verticalLayout_42.setObjectName(u"verticalLayout_42")
+        self.verticalLayout_42.setContentsMargins(0, 0, -1, 0)
+        self.widget_7 = QWidget(self.widget_41)
         self.widget_7.setObjectName(u"widget_7")
         sizePolicy5.setHeightForWidth(self.widget_7.sizePolicy().hasHeightForWidth())
         self.widget_7.setSizePolicy(sizePolicy5)
@@ -969,7 +977,33 @@ class Ui_MainWindow(object):
         self.horizontalLayout_13.addWidget(self.detailsBtn)
 
 
-        self.horizontalLayout_18.addWidget(self.widget_7)
+        self.verticalLayout_42.addWidget(self.widget_7)
+
+        self.widget_42 = QWidget(self.widget_41)
+        self.widget_42.setObjectName(u"widget_42")
+        self.horizontalLayout_50 = QHBoxLayout(self.widget_42)
+        self.horizontalLayout_50.setSpacing(0)
+        self.horizontalLayout_50.setObjectName(u"horizontalLayout_50")
+        self.horizontalLayout_50.setContentsMargins(0, 0, 0, 0)
+        self.exportCountLabel = QLabel(self.widget_42)
+        self.exportCountLabel.setObjectName(u"exportCountLabel")
+
+        self.horizontalLayout_50.addWidget(self.exportCountLabel)
+
+
+        self.verticalLayout_42.addWidget(self.widget_42)
+
+        self.progressBar = QProgressBar(self.widget_41)
+        self.progressBar.setObjectName(u"progressBar")
+        font4 = QFont()
+        font4.setPointSize(5)
+        self.progressBar.setFont(font4)
+        self.progressBar.setValue(100)
+
+        self.verticalLayout_42.addWidget(self.progressBar)
+
+
+        self.horizontalLayout_18.addWidget(self.widget_41)
 
 
         self.verticalLayout_12.addWidget(self.serchEmailFrame)
@@ -1060,11 +1094,11 @@ class Ui_MainWindow(object):
         sizePolicy11.setHeightForWidth(self.showSearchPanelBtn.sizePolicy().hasHeightForWidth())
         self.showSearchPanelBtn.setSizePolicy(sizePolicy11)
         self.showSearchPanelBtn.setMinimumSize(QSize(100, 0))
-        font4 = QFont()
-        font4.setPointSize(10)
-        font4.setBold(False)
-        font4.setHintingPreference(QFont.PreferDefaultHinting)
-        self.showSearchPanelBtn.setFont(font4)
+        font5 = QFont()
+        font5.setPointSize(10)
+        font5.setBold(False)
+        font5.setHintingPreference(QFont.PreferDefaultHinting)
+        self.showSearchPanelBtn.setFont(font5)
         self.showSearchPanelBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         self.showSearchPanelBtn.setAutoDefault(False)
         self.showSearchPanelBtn.setFlat(False)
@@ -1129,7 +1163,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 520, 396))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 520, 389))
         sizePolicy1.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents.setSizePolicy(sizePolicy1)
         self.verticalLayout_20 = QVBoxLayout(self.scrollAreaWidgetContents)
@@ -2132,6 +2166,7 @@ class Ui_MainWindow(object):
 #endif // QT_CONFIG(tooltip)
         self.exportExelBtn.setText("")
         self.detailsBtn.setText(QCoreApplication.translate("MainWindow", u"P/U", None))
+        self.exportCountLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.label_22.setText(QCoreApplication.translate("MainWindow", u"Skrzynka: ", None))
         self.sqlEmailDbName.setText(QCoreApplication.translate("MainWindow", u"Skrzynka", None))
         self.dirNameLabel.setText("")

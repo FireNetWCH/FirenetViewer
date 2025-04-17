@@ -20,6 +20,7 @@ logger.setLevel(logging.DEBUG)
 class pdf_worker(QObject):
     finish = Signal()
     message = Signal(str)
+    progres_stats = Signal(int,int)
     def __init__(self, data,dir_path,attachments_options,path,sql_name):
         super().__init__()
         self.data = data
@@ -29,7 +30,7 @@ class pdf_worker(QObject):
         self.sql_name = sql_name
 
     def run(self):
-        print("thred start")
+        
         if self.data:
             first_row = self.data[0]
             num_columns = len(first_row)
@@ -47,7 +48,9 @@ class pdf_worker(QObject):
         self.dir_path = checked_path
 
         #file_path = file_path.removesuffix(os.path.dirname(dir_path))
-
+        all_doc = len(df)
+        
+        count_exported = 1
         for index, row in df.iterrows():
             if row["Temat"] is not None:
                 subject_to_path = re.sub(r'[?/*<>|\\:",.\s]','_',row["Temat"])
@@ -64,6 +67,8 @@ class pdf_worker(QObject):
                 generate_pdf(pdf_path,row["Nadawca"],row["Odbiorca"],row["Data"],row["Temat"],row["Załączniki"],row["Treść"],row["Id"],self.sql_name,False)
             except:
                 generate_pdf(pdf_path,row["Nadawca"],row["Odbiorca"],row["Data"],row["Temat"],row["Załączniki"],row["Treść"],row["Id"],self.sql_name,True)
+            self.progres_stats.emit(all_doc,count_exported)
+            count_exported = count_exported + 1 
         logger.info(f"Plik PDF zapisany jako: {self.dir_path}")
         self.message.emit("Export zostało zakończony")
         
@@ -72,6 +77,7 @@ class pdf_worker(QObject):
 class exel_worker(QObject):
     finish = Signal()
     message = Signal(str)
+    progres_stats = Signal(int,int)
     def __init__(self, data,dir_path,attachments_options,path,sql_name,file_path):
         super().__init__()
         self.data = data
@@ -85,9 +91,10 @@ class exel_worker(QObject):
         
         modified_data = []
         for row in self.data:
-            row_list = list(row) 
-            row_list[5] = remove_multi_new_line(row_list[5])
-            row_list[5].replace("<br>","")
+            row_list = list(row)
+            if row_list[5] is not None:
+                row_list[5] = remove_multi_new_line(row_list[5])
+                row_list[5].replace("<br>","")
             modified_data.append(tuple(row_list))
         self.dir_path = self.file_path
     
@@ -104,6 +111,10 @@ class exel_worker(QObject):
 
         os.mkdir(os.path.join(self.dir_path,"Attachments"))
         df = pd.DataFrame(modified_data, columns=["Id", "Data", "Nadawca", "Odbiorca", "Temat","Treść", "Załączniki"])
+
+        all_doc = len(df)
+        
+        count_exported = 1
         for index, row in df.iterrows():
             if row["Załączniki"] is not None and self.attachments_options:
                 subject_to_path = re.sub(r'[?/*<>|\\:",.\s]','_',row["Temat"])
@@ -112,6 +123,8 @@ class exel_worker(QObject):
                     shutil.copytree(os.path.join(self.path,self.sql_name,"Attachments",str(row["Id"])),os.path.join(self.dir_path,"Attachments","ID_"+str(row["Id"])+"_"+subject_to_path+"_Załączniki_wiadomości"))
                 except:
                     logger.error(f"brak zołączników we wskazanym miejscu{os.path.join(self.path,self.sql_name,"Attachments",str(row["Id"]))}")
+            self.progres_stats.emit(all_doc,count_exported)
+            count_exported = count_exported + 1
         with pd.ExcelWriter(os.path.join(self.dir_path,self.sql_name+".xlsx"), engine="xlsxwriter") as writer:
             df.to_excel(writer, sheet_name="Wiadomości", index=False)
             workbook = writer.book
@@ -271,6 +284,9 @@ def export_to_pdf(self,db_connection,path,sql_name,active_filters,emeils_grout,a
                 id_list.append(self.ui.tableWidget.item(row,0).text())
 
             data = db_email.emails_to_export(db_connection,list=id_list)
+        self.ui.progressBar.setMaximum(len(data))
+        self.ui.widget_42.show()
+        self.ui.progressBar.show()
         self.thread = QThread()
         self.worker = pdf_worker(data,dir_path,attachments_options,path,sql_name)
         self.worker.moveToThread(self.thread)
@@ -279,6 +295,7 @@ def export_to_pdf(self,db_connection,path,sql_name,active_filters,emeils_grout,a
         self.worker.finish.connect(self.worker.deleteLater)
         self.thread.finished.connect(self.thread.deleteLater)
         self.worker.message.connect(self.date_wornig,type=Qt.QueuedConnection)
+        self.worker.progres_stats.connect(self.export_progrs)
         self.thread.start()
 
 def export_to_excel(self,db_connection,path,sql_name,active_filters,emeils_grout,attachments_options) -> None:
@@ -298,6 +315,9 @@ def export_to_excel(self,db_connection,path,sql_name,active_filters,emeils_grout
             for row in selected_rows:
                 id_list.append(self.ui.tableWidget.item(row,0).text())
             data = db_email.emails_to_export(db_connection,list=id_list)
+        self.ui.progressBar.setMaximum(len(data))
+        self.ui.widget_42.show()
+        self.ui.progressBar.show()
         self.thread = QThread()
         self.worker = exel_worker(data,file_path,attachments_options,path,sql_name,file_path)
         self.worker.moveToThread(self.thread)
@@ -305,8 +325,7 @@ def export_to_excel(self,db_connection,path,sql_name,active_filters,emeils_grout
         self.worker.finish.connect(self.thread.quit)
         self.worker.finish.connect(self.worker.deleteLater)
         self.thread.finished.connect(self.thread.deleteLater)
-        print(self.main)
-        print(self)
+        self.worker.progres_stats.connect(self.export_progrs)
         self.worker.message.connect(self.date_wornig,type=Qt.QueuedConnection)
         self.thread.start()
         # modified_data = []
