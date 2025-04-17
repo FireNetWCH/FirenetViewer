@@ -1,4 +1,6 @@
 from PySide6.QtWidgets import (QPushButton, QDialog, QCalendarWidget, QVBoxLayout, QLabel,QHBoxLayout)
+from PySide6.QtGui import (QTextCharFormat, QColor)
+from PySide6.QtCore import (QDate)
 from src.message_box import date_warning
 
 class DateRangeDialog(QDialog):
@@ -7,9 +9,22 @@ class DateRangeDialog(QDialog):
         self.setWindowTitle("Wybierz datę")
         self.layout = QVBoxLayout()
         self.calendar_layout = QHBoxLayout()
-        
-        
+        self.last_data_start = QDate()
+        self.last_data_end = QDate()
+
+        self.fmt = QTextCharFormat()
+        self.fmt.setBackground(QColor("#4f88ca"))
+        self.fmt.setForeground(QColor("4f88ca"))
+
+        self.fmt2 = QTextCharFormat()
+        self.fmt2.setBackground(QColor("white"))
+        self.fmt2.setForeground(QColor("white"))
+
         self.calendar1 = QCalendarWidget()
+#         self.calendar1.setStyleSheet("""{background-color: #FFFFFF;
+#     border: 1px solid #D8D8D8;
+#     border-radius: 4px; }
+#   """)
         self.label1 = QLabel("Wybierz początek zakresu")
         self.label2 = QLabel("")
 
@@ -54,9 +69,13 @@ class DateRangeDialog(QDialog):
         self.label2.setStyleSheet("background-color: #ffffff")
         self.label4.setStyleSheet("background-color: #ffffff")
     def setLabelData1(self):
+        # if self.last_data_start is not None:
+        #     self.calendar1.setDateTextFormat(self.last_data_start, self.fmt2)
         selected_date = self.calendar1.selectedDate().toString("yyyy-MM-dd")
         self.label2.setText(selected_date)
         self.label2.setStyleSheet("background-color: #4f88ca")
+
+        #self.calendar1.setDateTextFormat(self.calendar1.selectedDate(), self.fmt)
     def setLabelData2(self):
         selected_date = self.calendar2.selectedDate().toString("yyyy-MM-dd")
         self.label4.setText(selected_date)

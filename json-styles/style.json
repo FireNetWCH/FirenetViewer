@@ -12,7 +12,7 @@
   "QMainWindow": [
     {
       "tittle": "FirenetViewer",
-      "icon": ":/font_awesome_brands/icons/font_awesome/brands/brave-reverse.png",
+      "icon": "C:\\Users\\firenet\\FirenetViewer_email_view\\FirenetViewer\\miniLogo.png",
       "frameless": true,
       "transluscentBg": true,
       "sizeGrip": "sizeGrip",

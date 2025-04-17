@@ -6,6 +6,7 @@ from src.ui_interface import Ui_MainWindow
 from Custom_Widgets import *
 from Custom_Widgets.QCustomQToolTip import QCustomQToolTipFilter
 from Custom_Widgets.QAppSettings import QAppSettings
+from PySide6.QtCore import QCoreApplication
 
  
 import os
@@ -23,7 +24,7 @@ class MainWindow(QMainWindow):
         super().__init__(parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-
+        
         json_style_path = get_resource_path("json-styles/style.json")
         loadJsonStyle(self, self.ui, jsonFiles={json_style_path})
 
@@ -37,6 +38,7 @@ class MainWindow(QMainWindow):
     
 
 if __name__ == "__main__":
+    QCoreApplication.setAttribute(Qt.AA_ShareOpenGLContexts)
     app = QApplication(sys.argv)
     # pixmap = QPixmap("logo.jpg") 
     # splash = CustomSplashScreen(pixmap)

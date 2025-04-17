@@ -129,7 +129,7 @@ def load_data_from_database(self) -> None:
         self.ui.clearBtn.setStyleSheet("background-color: #ffffff")
         if self.active_filters['tag']=="":
             query = f'''
-                SELECT e.id, e.sender_name, e.recipients, e.subject, e.date, e.flag, e.cc,e.bcc,
+                SELECT e.id, e.sender_email, e.recipients, e.subject, e.date, e.flag, e.cc,e.bcc,
                     GROUP_CONCAT(t.tag_name) AS tags 
                 FROM emails e
                 LEFT JOIN email_tags et ON e.id = et.email_id

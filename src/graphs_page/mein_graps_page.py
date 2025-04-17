@@ -34,8 +34,11 @@ def get_resource_path(relative_path):
 
 def load_stat(parent,connect):
     try:
+        # QApplication.setAttribute(Qt.AA_DisableHighDpiScaling)
         propaply_onwer = db_email.get_propaply_email_owner_data(connect)
-        print(propaply_onwer)
+        #print(propaply_onwer)
+        parent.ui.nameLabel.setText(propaply_onwer[0][0])
+        parent.ui.emailLabel.setText(propaply_onwer[0][1])
         best_sender = db_email.get_best_recipients(connect,propaply_onwer[0][0],propaply_onwer[0][1],1)
         best_recipients = db_email.get_best_recipients(connect,propaply_onwer[0][0],propaply_onwer[0][1],0)
         emails = defaultdict(lambda: [0, 0])
@@ -50,18 +53,18 @@ def load_stat(parent,connect):
 
         concat_list = [(email, dane[0], dane[1]) for email, dane in emails.items()]
 
-        table = parent.ui.bestRecipientsTable
-        table.setRowCount(len(concat_list))
-        table.setColumnCount(3)
+        # table = parent.ui.bestRecipientsTable
+        # table.setRowCount(len(concat_list))
+        # table.setColumnCount(3)
         
 
 
-        for row, (email, count,count_2) in enumerate(concat_list):
-            table.setItem(row, 0, QTableWidgetItem(email))
-            table.setItem(row, 1, QTableWidgetItem(str(count_2)))
-            table.setItem(row, 2, QTableWidgetItem(str(count)))
+        # for row, (email, count,count_2) in enumerate(concat_list):
+        #     table.setItem(row, 0, QTableWidgetItem(email))
+        #     table.setItem(row, 1, QTableWidgetItem(str(count_2)))
+        #     table.setItem(row, 2, QTableWidgetItem(str(count)))
 
-        table.resizeColumnsToContents()
+        # table.resizeColumnsToContents()
 
         # graph_widget = parent.ui.graphWidget
         # grapg_layout = QVBoxLayout()
@@ -84,7 +87,10 @@ def load_stat(parent,connect):
         # canvas = FigureCanvas(fig)
         # grapg_layout.addWidget(canvas)
         # graph_widget.setLayout(grapg_layout)
-        graph_widget = parent.ui.graphWidget
+
+        #$$$$$$$$$$$$$$$$$$$$$
+        
+        graph_widget = parent.ui.widget_30
         graph_layout = QVBoxLayout()
         G = nx.DiGraph()
         central_node = propaply_onwer[0][1]
@@ -146,27 +152,27 @@ def load_stat(parent,connect):
 
         view.load(url)
         # view.reload()
+        
+        graph_layout = parent.ui.widget_30.layout()
+        if graph_layout is None:
+            graph_layout = QVBoxLayout(parent.ui.widget_30)
+            parent.ui.widget_30.setLayout(graph_layout)
+        for i in reversed(range(graph_layout.count())):
+            widget_to_remove = graph_layout.itemAt(i).widget()
+            print(widget_to_remove)
+            if widget_to_remove:
+                widget_to_remove.setParent(None)
+                
         scroll_area = QScrollArea()
         scroll_area.setWidgetResizable(True)
         scroll_area.setWidget(view)
-        scroll_area.setMinimumSize(300, 300)
-        scroll_area.setMaximumSize(1200, 900)
         graph_layout.addWidget(scroll_area)
-        old_layout = graph_widget.layout()
-        if old_layout is not None:
-            while old_layout.count():
-                item = old_layout.takeAt(0)
-                widget = item.widget()
-                if widget is not None:
-                    widget.setParent(None)
-                    widget.deleteLater()
         
 
-        QWidget().setLayout(old_layout)
+        #QWidget().setLayout(old_layout)
         graph_widget.setLayout(graph_layout)
-
-
-
+        #parent.ui.widget_30.setLayout(old_layout)
+        #$$$$$$$$$$$$$$$$$$$$$
         group_date = db_email.get_grup_data(connect)
         df = pd.DataFrame(group_date, columns=['date', 'count'])
         date_list = df['date'].tolist()
@@ -232,10 +238,16 @@ def load_stat(parent,connect):
         #at = pd.DataFrame(all_attachments, columns=['id', 'attachment_name','email_id'])
         #len(all_attachments)
         parent.ui.attachmentsCountLabel.setText(str(len(all_attachments)))
+        parent.ui.attachmentsCountLabel.setStyleSheet("""color:#102339;
+                                                 font-weight: bold;""")
         all_recipients = db_email.get_all_recipients_by_group(connect)
         parent.ui.recipientsCountLabel.setText(str(len(all_recipients)))
+        parent.ui.recipientsCountLabel.setStyleSheet("""color:#102339;
+                                                 font-weight: bold;""")
         all_email = db_email.get_count_email(connect)
         parent.ui.emailCountLablel.setText(str(all_email[0][0]))
+        parent.ui.emailCountLablel.setStyleSheet("""color:#102339;
+                                                 font-weight: bold;""")
     except Exception as e:
         logger.error(f":błąd podczas tworzenia statystyk {e}")
         logger.exception("Błąd podczas tworzenia statystyk")

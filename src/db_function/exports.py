@@ -38,16 +38,32 @@ class pdf_worker(QObject):
         df = pd.DataFrame(self.data, columns=["Id", "Data", "Nadawca", "Odbiorca", "Temat","Treść", "Załączniki"])
         
         self.dir_path = os.path.join(self.dir_path,self.sql_name)
-        os.mkdir(self.dir_path)
+        count = 1
+        checked_path = self.dir_path
+        while os.path.exists(checked_path):
+            checked_path = self.dir_path + f"({count})"
+            count = count + 1
+        os.mkdir(checked_path)
+        self.dir_path = checked_path
+
         #file_path = file_path.removesuffix(os.path.dirname(dir_path))
 
         for index, row in df.iterrows():
-            subject_to_path = re.sub(r'[?/*<>|\\:",.\s]','_',row["Temat"])
-            subject_to_path = subject_to_path[:50]
-            if (row["Załączniki"] is not None) and self.attachments_options:    
-                shutil.copytree(os.path.join(self.path,self.sql_name,"Attachments",str(row["Id"])),os.path.join(self.dir_path,"ID_"+str(row["Id"])+"_"+subject_to_path+"_Załączniki_wiadomości"))
+            if row["Temat"] is not None:
+                subject_to_path = re.sub(r'[?/*<>|\\:",.\s]','_',row["Temat"])
+                subject_to_path = subject_to_path[:50]
+            else:
+                subject_to_path = "BRAK_TEMATU"
+            if (row["Załączniki"] is not None) and self.attachments_options:
+                try:   
+                    shutil.copytree(os.path.join(self.path,self.sql_name,"Attachments",str(row["Id"])),os.path.join(self.dir_path,"ID_"+str(row["Id"])+"_"+subject_to_path+"_Załączniki_wiadomości"))
+                except:
+                    logger.error(f"brak zołączników we wskazanym miejscu: {os.path.join(self.path,self.sql_name,"Attachments",str(row["Id"]))}")
             pdf_path = os.path.join(self.dir_path,"ID_"+str(row["Id"])+'_'+subject_to_path) +".pdf"
-            generate_pdf(pdf_path,row["Nadawca"],row["Odbiorca"],row["Data"],row["Temat"],row["Załączniki"],row["Treść"],row["Id"],self.sql_name)
+            try:
+                generate_pdf(pdf_path,row["Nadawca"],row["Odbiorca"],row["Data"],row["Temat"],row["Załączniki"],row["Treść"],row["Id"],self.sql_name,False)
+            except:
+                generate_pdf(pdf_path,row["Nadawca"],row["Odbiorca"],row["Data"],row["Temat"],row["Załączniki"],row["Treść"],row["Id"],self.sql_name,True)
         logger.info(f"Plik PDF zapisany jako: {self.dir_path}")
         self.message.emit("Export zostało zakończony")
         
@@ -76,15 +92,26 @@ class exel_worker(QObject):
         self.dir_path = self.file_path
     
         self.dir_path = os.path.join(self.dir_path,self.sql_name)
-        os.mkdir(self.dir_path)
+        count = 1
+        checked_path = self.dir_path
+        while os.path.exists(checked_path):
+            checked_path = self.dir_path + f"({count})"
+            count = count + 1
+        os.mkdir(checked_path)
+        self.dir_path = checked_path
+
+
+
         os.mkdir(os.path.join(self.dir_path,"Attachments"))
         df = pd.DataFrame(modified_data, columns=["Id", "Data", "Nadawca", "Odbiorca", "Temat","Treść", "Załączniki"])
         for index, row in df.iterrows():
             if row["Załączniki"] is not None and self.attachments_options:
                 subject_to_path = re.sub(r'[?/*<>|\\:",.\s]','_',row["Temat"])
                 subject_to_path = subject_to_path[:50]
-                shutil.copytree(os.path.join(self.path,self.sql_name,"Attachments",str(row["Id"])),os.path.join(self.dir_path,"Attachments","ID_"+str(row["Id"])+"_"+subject_to_path+"_Załączniki_wiadomości"))
-            
+                try:
+                    shutil.copytree(os.path.join(self.path,self.sql_name,"Attachments",str(row["Id"])),os.path.join(self.dir_path,"Attachments","ID_"+str(row["Id"])+"_"+subject_to_path+"_Załączniki_wiadomości"))
+                except:
+                    logger.error(f"brak zołączników we wskazanym miejscu{os.path.join(self.path,self.sql_name,"Attachments",str(row["Id"]))}")
         with pd.ExcelWriter(os.path.join(self.dir_path,self.sql_name+".xlsx"), engine="xlsxwriter") as writer:
             df.to_excel(writer, sheet_name="Wiadomości", index=False)
             workbook = writer.book
@@ -126,7 +153,7 @@ class exel_worker(QObject):
         self.message.emit("Export zostało zakończony")
         self.finish.emit()
 
-def generate_pdf(output_path, sender, receiver, date, subject, attachments, body,id_email,name_email_box):
+def generate_pdf(output_path, sender, receiver, date, subject, attachments, body,id_email,name_email_box,soft_text):
     """Eksportuje pojedynczą wiadomość email jako plik PDF z obsługą podziału na strony."""
     pdfmetrics.registerFont(TTFont('DejaVu', 'DejaVuSansCondensed.ttf'))
     doc = SimpleDocTemplate(output_path, pagesize=A4,
@@ -154,6 +181,8 @@ def generate_pdf(output_path, sender, receiver, date, subject, attachments, body
         date =""
     if body is None:
         body =""
+    if subject is None:
+        subject =""
     data = [
         ["Parametr:", "Wartość:"],
         ["Nadawca:", wrap_text(sender)],
@@ -188,8 +217,12 @@ def generate_pdf(output_path, sender, receiver, date, subject, attachments, body
             del tag['style']
         if tag.has_attr('class'):
             del tag['class']
-    for span_tag in soup.find_all(['span','a']):
-        span_tag.unwrap()
+    if soft_text == True:
+        for span_tag in soup.find_all(['span','a','br']):
+            span_tag.unwrap()
+    else:
+        for span_tag in soup.find_all(['span','a']):
+            span_tag.unwrap()
     for tag in soup.find_all(['span', 'style', 'script', 'head','font','a']):
         tag.decompose()
     heder = f"Wiadomość wyeksportowana ze skrzynki e-mail:{name_email_box} o ID:{id_email}"
@@ -245,8 +278,6 @@ def export_to_pdf(self,db_connection,path,sql_name,active_filters,emeils_grout,a
         self.worker.finish.connect(self.thread.quit)
         self.worker.finish.connect(self.worker.deleteLater)
         self.thread.finished.connect(self.thread.deleteLater)
-        print(self.main)
-        print(self)
         self.worker.message.connect(self.date_wornig,type=Qt.QueuedConnection)
         self.thread.start()
 

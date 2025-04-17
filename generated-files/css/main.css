@@ -1710,6 +1710,10 @@ QPushButton, QLineEdit, QDateEdit {
   border: 3px solid #102339;
   color: #102339; }
 
+#leftMenu #meilBoxBtn, #widget_3 #meilBoxBtn, #widget #meilBoxBtn, #widget_2 #meilBoxBtn, #verticalSpacer #meilBoxBtn, #widget #meilBoxBtn {
+  background-color: red;
+  border-right: 6px solid red; }
+
 #leftMenu QWidget, #widget_3 QWidget, #widget QWidget, #widget_2 QWidget, #verticalSpacer QWidget, #widget QWidget {
   background-color: #102339;
   border: 3px solid #102339;
@@ -1773,6 +1777,10 @@ QFrame #frame_11 {
   background-color: #102339;
   color: #FFFFFF; }
 
+#label_8, #label_15, #label_32 {
+  color: #102339;
+  font-weight: bold; }
+
 #header {
   border-bottom: 1px solid #D8D8D8; }
   #header #frame_3 {
@@ -1802,6 +1810,13 @@ QFrame #frame_11 {
     #mainPagesCont #homePage *, #mainPagesCont #homePage QWidgets {
       background-color: transparent;
       border: none; }
+      #mainPagesCont #homePage * #widget_38, #mainPagesCont #homePage * #widget_39, #mainPagesCont #homePage * #widget_40, #mainPagesCont #homePage QWidgets #widget_38, #mainPagesCont #homePage QWidgets #widget_39, #mainPagesCont #homePage QWidgets #widget_40 {
+        background-color: #ffffff; }
+        #mainPagesCont #homePage * #widget_38 *, #mainPagesCont #homePage * #widget_39 *, #mainPagesCont #homePage * #widget_40 *, #mainPagesCont #homePage QWidgets #widget_38 *, #mainPagesCont #homePage QWidgets #widget_39 *, #mainPagesCont #homePage QWidgets #widget_40 * {
+          border-top-left-radius: 15px;
+          border-top-right-radius: 15px;
+          border-bottom-left-radius: 0px;
+          border-bottom-right-radius: 0px; }
   #mainPagesCont #homePageFooterWidget * {
     background-color: #102339;
     color: #FFFFFF; }
@@ -1815,10 +1830,6 @@ QFrame #frame_11 {
     #mainPagesCont #widget_13 QPushButton {
       border: 5px solid #102339;
       color: #FFFFFF;
-      border-top-left-radius: 15px;
-      border-top-right-radius: 15px;
-      border-bottom-left-radius: 0px;
-      border-bottom-right-radius: 0px;
       padding: 5px 15px;
       background-color: #102339; }
   #mainPagesCont #dataAnalysisPage {
@@ -2112,6 +2123,15 @@ QTabBar::close-button:hover, QDockWidget QTabBar::close-button:hover {
 
 QTabBar::close-button:pressed, QDockWidget QTabBar::close-button:pressed {
   image: url(":feather/icons/feather/window_close_pressed.png"); }
+
+QCalendarWidget {
+  background-color: #FFFFFF;
+  border: 1px solid #D8D8D8;
+  border-radius: 4px; }
+
+QCalendarWidget:disabled {
+  background-color: #FFFFFF;
+  color: #999999; }
 
 QSizeGrip {
   background: transparent;

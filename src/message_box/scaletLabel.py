@@ -12,11 +12,11 @@ class ScalableLabel(QLabel):
 
     def setPixmap(self, pixmap):
         self.original_pixmap = pixmap
-        scaled = pixmap.scaled(self.size(), Qt.KeepAspectRatio, Qt.FastTransformation)
+        scaled = pixmap.scaled(self.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
         super().setPixmap(scaled)
 
     def resizeEvent(self, event):
         super().resizeEvent(event)
         if self.original_pixmap:
-            scaled = self.original_pixmap.scaled(self.size(), Qt.KeepAspectRatio, Qt.FastTransformation)
+            scaled = self.original_pixmap.scaled(self.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
             super().setPixmap(scaled)

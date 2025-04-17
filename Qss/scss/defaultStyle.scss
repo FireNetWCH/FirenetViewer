@@ -77,6 +77,10 @@ QPushButton, QLineEdit, QDateEdit{
         background-color: #102339;
         border: 3px solid #102339;
         color: #102339;}
+    #meilBoxBtn{
+            background-color: red;
+            border-right: 6px solid red;
+        }
         QWidget{
             background-color: #102339;
             border: 3px solid #102339;
@@ -108,13 +112,11 @@ QFrame #frame_11{
     border-right: 6px solid $COLOR_BACKGROUND_3;
     
 }
-// #meilBoxBtn:checked {
-//     background-color: red;
-//     border-right: 6px solid red;
-// }
+
 #centerMenu{
     border-left: 6px solid $COLOR_ACCENT_1;
     border-right: 6px solid $COLOR_BACKGROUND_3;
+    
 }
 
 #rightMenu{
@@ -143,6 +145,8 @@ QFrame #frame_11{
         background-color: transparent;
         border: none;
     }
+
+    
 }
 
 #header, #footer{
@@ -163,6 +167,10 @@ QFrame #frame_11{
     border: none;
     background-color: #102339;
     color: #FFFFFF;
+}
+#label_8,#label_15,#label_32{
+    color:#102339;
+    font-weight: bold;
 }
 
 #header{
@@ -206,7 +214,15 @@ QFrame #frame_11{
         *, QWidgets{
             background-color: transparent;
             border: none;
-           
+           #widget_38,#widget_39,#widget_40{
+            background-color: #ffffff;
+            *{
+            border-top-left-radius: 15px; 
+            border-top-right-radius: 15px;
+            border-bottom-left-radius: 0px;
+            border-bottom-right-radius: 0px;
+            }
+           }
             
         }
         
@@ -235,10 +251,7 @@ QFrame #frame_11{
             
             border: 5px solid #102339;
             color: #FFFFFF;
-            border-top-left-radius: 15px; 
-            border-top-right-radius: 15px;
-            border-bottom-left-radius: 0px;
-            border-bottom-right-radius: 0px;
+            
             padding: 5px 15px;
             background-color:#102339 ;
         }
@@ -580,6 +593,16 @@ image: url(":feather/icons/feather/window_close.png"); }
 QTabBar::close-button:pressed, QDockWidget QTabBar::close-button:pressed {
 image: url(":feather/icons/feather/window_close_pressed.png"); }
 
+QCalendarWidget {
+    background-color: #FFFFFF;
+    border: 1px solid #D8D8D8;
+    border-radius: 4px; }
+    QCalendarWidget:disabled {
+      background-color: #FFFFFF;
+      color: #999999; }
+ 
+
+
 QSizeGrip {
     background: transparent;
     width: 12px;
@@ -591,5 +614,7 @@ QSizeGrip {
 
         #mainPages {
             padding: 0px 0px 0px 0px;
+           
         }
         #titleTxt{color: #FFFFFF;}
+        

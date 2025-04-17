@@ -75,5 +75,6 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon = 'C:\\Users\\firenet\\FirenetViewer_email_view\\FirenetViewer\\miniLogo.png'
 )
 

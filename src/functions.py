@@ -5,10 +5,11 @@ from typing import Any, List, Dict, Optional
     
 from PySide6.QtCore import Qt, QSettings, QDir, QPoint,QEasingCurve,QDate,QUrl,QFile,Slot,QObject
 from PySide6.QtGui import QFont, QFontDatabase, QAction, QPixmap,QIcon,QDesktopServices,QImage
-from PySide6.QtWidgets import (QLineEdit,
+from PySide6.QtWidgets import (QLineEdit,QScrollArea,QApplication,
     QPushButton, QGraphicsScene, QTabBar,QMenu, QFileSystemModel,QSizePolicy,QSplitter,QFrame,QDialog,QMessageBox,
     QTreeView, QVBoxLayout, QFileDialog,QListWidgetItem, QTreeWidget, QMainWindow,QListWidget,QHeaderView,QSizeGrip
 )
+from PySide6.QtWebEngineWidgets import QWebEngineView
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from reportlab.lib.pagesizes import letter
@@ -19,6 +20,7 @@ from Custom_Widgets.QAppSettings import QAppSettings
 
 from src.email_page.multi_tag_dialog import MultiTagInputDialog
 from src.email_page.multi_tag_selector import MultiTagSelector
+from PySide6.QtGui import QDesktopServices
 from src.gui_function import display_file_content
 from src.email_page.key_press_filter import KeyPressFilter
 from src.calendar_dialog_widget import DateRangeDialog
@@ -58,7 +60,7 @@ class GUIFunctions(QObject):
         self.main = main_window
         self.ui = main_window.ui
         self.db_connection: Optional[sqlite3.Connection] = None
-        self.active_filters: Dict[str, str] = {'sender_name': "", "recipients": "", "subject": "", "date_fr": "", 'date_to':"","folder_id" : "1","body":"","flag":"False","tag":""}
+        self.active_filters: Dict[str, str] = {'sender_email': "", "recipients": "", "subject": "", "date_fr": "", 'date_to':"","folder_id" : "1","body":"","flag":"False","tag":""}
         self.columns_hidden: List[bool] = [False] * 7
         self.filtering_active: bool = False
         self.current_sort_order: Dict[int, Any] = {}
@@ -85,10 +87,11 @@ class GUIFunctions(QObject):
         self.all_emails_count = 0
         self.last_clicket_row = 0
         self.current_page = 0
-        self.emails_per_page = 500
+        self.emails_per_page = 100
         self.tag_color : Dict[str, str] = {}
         self._setup_ui(self.path)
         self._tymczaspwe_ukrycie_()
+
     def _setup_ui(self,path_database) -> None:
         """Inicjalizacja interfejsu – ustawienia czcionki, motywu oraz połączenia sygnałów."""
         self.enable_column_rearrangement()
@@ -176,7 +179,7 @@ class GUIFunctions(QObject):
         self.ui.settingsBtn.clicked.connect(lambda: self.ui.centerMenu.expandMenu())
         self.ui.infoBtn.clicked.connect(lambda: self.ui.centerMenu.expandMenu())
         #self.ui.helpBtn.clicked.connect(lambda: self.ui.centerMenu.expandMenu())
-        self.ui.meilBoxBtn.clicked.connect(lambda: self.ui.centerMenu.expandMenu())
+        self.ui.meilBoxBtn.clicked.connect(self.clicket_hamburger )
         self.ui.fileBtn.clicked.connect(lambda: self.ui.centerMenu.expandMenu())
         self.ui.closeCenterMenuBtn.clicked.connect(lambda: self.ui.centerMenu.collapseMenu())
         self.ui.notificationBtn.clicked.connect(lambda: self.ui.rightMenu.expandMenu())
@@ -184,10 +187,12 @@ class GUIFunctions(QObject):
         self.ui.profileBtn.clicked.connect(lambda: self.ui.rightMenu.expandMenu())
         self.ui.closeRightMenuBtn.clicked.connect(lambda: self.ui.rightMenu.collapseMenu())
         
+        
         self.ui.minimalizeBtn.clicked.connect(self.debuging)
         self.ui.restoreBtn.clicked.connect(self.toggle_window_state)
         self.ui.graphsBtn.clicked.connect(lambda :load_stat(self,self.db_connection))
         
+       
        
         #rozciąganie szerokości paska bocznego przy splitter
         self.ui.closeCenterMenuBtn.clicked.connect(lambda : self.ui.splitter.setSizes([0, 1]))
@@ -217,7 +222,7 @@ class GUIFunctions(QObject):
         self.ui.labelNameCrudBtn.clicked.connect(self.show_label_crud)
         self.ui.lableBtn.clicked.connect(self.open_label_page)
         self.ui.LabelTableWidget.cellClicked.connect(lambda row : load_clicked_email_on_labels(self,row))
-
+        self.ui.contactBtn.clicked.connect(self.show_email_client)
         self.ui.wwwBtn.clicked.connect(self.open_www_in_browser)
         self.ui.wwwBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\font_awesome\\solid\\rss.png")))
         self.ui.linkedinBtn.clicked.connect(self.open_linkedin_in_browser)
@@ -230,9 +235,10 @@ class GUIFunctions(QObject):
         self.ui.tagPuschBtn.clicked.connect(lambda: self.open_dialog_tag_selector(self.active_filters))
 
         self.ui.startDataLabel.selectionChanged.connect(self.serch_by_date_start)
+        self.ui.endDataLabel.selectionChanged.connect(self.serch_by_date_start)
         #self.ui.endDataLabel.selectionChanged.connect(self.serch_by_date_end)
         self.ui.startDataBtn.clicked.connect(self.serch_by_date_start)
-        #self.ui.endDataBtn.clicked.connect(self.serch_by_date_end)
+        #self.ui.endDataBtn.clicked.connect(self.serch_by_date_start)
         self.ui.startDataLabel.textChanged.connect(self.join_search)
         self.ui.endDataLabel.textChanged.connect(self.join_search)
 
@@ -327,6 +333,27 @@ class GUIFunctions(QObject):
         # else:
         #     print("Zasób NIE został znaleziony.")
 
+
+        # view = QWebEngineView()
+        # view.setMinimumSize(300, 300)
+        # view.setMaximumSize(1200, 900)
+        # view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        # # view.reload()
+        # # url = QUrl.fromLocalFile(html_path)
+        # # url.setQuery(f"t={QDateTime.currentDateTime().toMSecsSinceEpoch()}")
+
+        # # view.load(url)
+        # # view.reload()
+        # graph_layout = QVBoxLayout()
+        # scroll_area = QScrollArea()
+        # scroll_area.setWidgetResizable(True)
+        # scroll_area.setWidget(view)
+        # scroll_area.setMinimumSize(300, 300)
+        # scroll_area.setMaximumSize(1200, 900)
+        # graph_layout.addWidget(scroll_area)
+        # graph_widget = self.ui.graphWidget
+        # graph_widget.setLayout(graph_layout)
+    
     def _tymczaspwe_ukrycie_(self):
         #wyszukiwarka 
         self.ui.frame_2.hide()
@@ -346,16 +373,22 @@ class GUIFunctions(QObject):
     
     def toggle_window_state(self):
         self.ui.restoreBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\copy.png")))
-        print(self.main.windowState())
+        #print(self.main.windowState())
         state = self.main.windowState()
         if self.pom:
             self.main.showNormal()
-            self.main.resize(1264, 471)
             self.pom=False
         else:
             self.main.showMaximized()
             self.pom=True
-            
+    def show_email_client(self):
+        adres_email = "biuro@firenet.com.pl"
+        subject = "FireNet Viewer: "
+        body = ""
+
+        mailto_link = f"mailto:{adres_email}?subject={QUrl.toPercentEncoding(subject).data().decode()}&body={QUrl.toPercentEncoding(body).data().decode()}"
+        QDesktopServices.openUrl(QUrl(mailto_link))
+
     def show_tag_crud(self):
         dialog = TagCrud(self.db_connection)
         load_color_dictionery(self)
@@ -379,7 +412,9 @@ class GUIFunctions(QObject):
 
     def open_facebook_in_browser(self):
         QDesktopServices.openUrl(QUrl(self.url_fb))
-
+    def clicket_hamburger(self):
+        self.ui.centerMenu.expandMenu()
+        self.ui.meilBoxBtn.setCheckable(True)
     def open_label_page(self):
         load_all_labels(self)
         self.ui.mainPages.setCurrentIndex(0)
@@ -428,7 +463,14 @@ class GUIFunctions(QObject):
 
     def show_heder_winodw(self):
         if self.ui.emailHederDockWidget.isHidden():
+            self.ui.emailHederDockWidget.setFloating(True)
             self.ui.emailHederDockWidget.show()
+            screen_geometry = QApplication.primaryScreen().availableGeometry()
+            print(self.main)
+            window_geometry = self.main.frameGeometry()
+            center_point = screen_geometry.center()
+            window_geometry.moveCenter(center_point)
+            self.ui.emailHederDockWidget.move(window_geometry.center())
         else:
             self.ui.emailHederDockWidget.hide()
 
@@ -648,23 +690,27 @@ class GUIFunctions(QObject):
         tekst = emai_value[0][8]
         body_label.setTextFormat(Qt.TextFormat.RichText)
         #print(emai_value[0][8])
-        if isinstance(emai_value[0][8],str):
-            tekst = emai_value[0][8]
-        else:
-            tekst = emai_value[0][8].decode("utf-8")
-           
-
-        tekst_html = tekst.replace('\n', '<br>')
-        if(search_term ==""):
-            body_label.setText(tekst_html)
+        if emai_value[0][8] is not None:
+            if isinstance(emai_value[0][8],str):
+                tekst = emai_value[0][8]
+            else:
+                tekst = emai_value[0][8].decode("utf-8")
             
-        else:
+
             tekst_html = tekst.replace('\n', '<br>')
+            if(search_term ==""):
+                body_label.setText(tekst_html)
+                
+            else:
+                tekst_html = tekst.replace('\n', '<br>')
 
-            highlighted_content = pattern.sub(lambda match: f"<span style='background-color: yellow;'>{match.group()}</span>",tekst_html)
-            body_label.setTextFormat(Qt.TextFormat.RichText)    
-            body_label.setText(highlighted_content)
-
+                highlighted_content = pattern.sub(lambda match: f"<span style='background-color: yellow;'>{match.group()}</span>",tekst_html)
+                body_label.setTextFormat(Qt.TextFormat.RichText)    
+                body_label.setText(highlighted_content)
+        else:
+            #emai_value[0][8]=""
+            tekst = ""
+            body_label.setText("")
         subject_label.setText(emai_value[0][7])
         sender_label.setText(emai_value[0][3])
         date_label.setText(emai_value[0][1])
@@ -680,7 +726,7 @@ class GUIFunctions(QObject):
         else:
             cc_widget.show()
             cc_label.setText(emai_value[0][5])
-  
+
     def clear_filtr(self):
         self.ui.seachName.setText("")
         self.ui.seachSurname.setText("")
@@ -693,7 +739,7 @@ class GUIFunctions(QObject):
         self.ui.show_flags_btn.setChecked(False)
         #selected_tag_label = self.ui.emailHederDockWidget.findChild(QLabel,"selected_tag_label")
         self.ui.selectedTagLabel.setText("")
-        self.active_filters["sender_name"] = ""
+        self.active_filters["sender_email"] = ""
         self.active_filters["recipients"] = ""
         self.active_filters["subject"] = ""
         self.active_filters["body"] = ""
@@ -786,7 +832,7 @@ class GUIFunctions(QObject):
         self.main.setFont(product_sans)
 
     def load_filtr_dict(self) -> None:
-        self.active_filters["sender_name"] = self.ui.seachName.text().lower()
+        self.active_filters["sender_email"] = self.ui.seachName.text().lower()
         self.active_filters["recipients"] = self.ui.seachSurname.text().lower()
         self.active_filters["subject"] = self.ui.searchDate.text().lower()
         self.active_filters["date_fr"] = self.ui.startDataLabel.text().lower()

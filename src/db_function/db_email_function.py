@@ -86,7 +86,7 @@ def tag_query(filters):
     JOIN tags t ON et.tag_id = t.id
     WHERE t.tag_name IN {filters['tag']}
     )
-    SELECT e.id, e.sender_name, e.recipients, e.subject, e.date, e.flag, e.cc, e.bcc,
+    SELECT e.id, e.sender_email, e.recipients, e.subject, e.date, e.flag, e.cc, e.bcc,
         GROUP_CONCAT(ft.tag_name) AS tags
     FROM emails e
     JOIN filtered_tags ft ON e.id = ft.email_id
@@ -119,13 +119,13 @@ def update_flag(db_connection, email_id: int, state: int) -> None:
             print(f"Błąd podczas aktualizacji flagi: {e}")
 
 def emails_to_export(db_connection,filters = None,list = None):
-    """Zwraca id,date,sender_name,recipients, subject, body wraz z listą załączników wiadomości o flagowanych"""
+    """Zwraca id,date,sender_email,recipients, subject, body wraz z listą załączników wiadomości o flagowanych"""
     try:
         #print(list)
         cursor = db_connection.cursor()
         if (filters is None) and (list is None):
             query="""
-            SELECT e.id,e.date, e.sender_name, e.recipients, e.subject , e.body,
+            SELECT e.id,e.date, e.sender_email, e.recipients, e.subject , e.body,
             GROUP_CONCAT(a.attachment_filename) AS atach
             FROM emails e
             LEFT JOIN attachments a ON e.id = a.email_id
@@ -136,7 +136,7 @@ def emails_to_export(db_connection,filters = None,list = None):
         elif filters is not None:
             if filters['tag'] == "" :
                 query=f"""
-                SELECT e.id,e.date, e.sender_name, e.recipients, e.subject , e.body,
+                SELECT e.id,e.date, e.sender_email, e.recipients, e.subject , e.body,
                 GROUP_CONCAT(a.attachment_filename) AS atach
                 FROM emails e
                 LEFT JOIN attachments a ON e.id = a.email_id
@@ -151,7 +151,7 @@ def emails_to_export(db_connection,filters = None,list = None):
                 JOIN tags t ON et.tag_id = t.id
                 WHERE t.tag_name IN {filters['tag']}
                 )
-                SELECT e.id,e.date, e.sender_name, e.recipients, e.subject , e.body,
+                SELECT e.id,e.date, e.sender_email, e.recipients, e.subject , e.body,
                     GROUP_CONCAT(a.attachment_filename) AS atach
                 FROM emails e
                 JOIN filtered_tags ft ON e.id = ft.email_id
@@ -163,7 +163,7 @@ def emails_to_export(db_connection,filters = None,list = None):
         elif list is not None:
             placeholders = ", ".join(["?"] * len(list))
             query=f"""
-            SELECT e.id,e.date, e.sender_name, e.recipients, e.subject , e.body,
+            SELECT e.id,e.date, e.sender_email, e.recipients, e.subject , e.body,
             GROUP_CONCAT(a.attachment_filename) AS atach
             FROM emails e
             LEFT JOIN attachments a ON e.id = a.email_id
@@ -450,7 +450,7 @@ def get_propaply_email_owner_data(db_connection):
     """pobiera dane potencjalnego właściciela skrzyneki email"""
     try:
         query="""
-        SELECT sender_name,sender_email FROM emails WHERE folder_id LIKE
+        SELECT sender_email,sender_email FROM emails WHERE folder_id LIKE
         (SELECT id FROM folders WHERE path LIKE '%SENT' COLLATE NOCASE) limit 1
         """
         cursor = db_connection.cursor()
