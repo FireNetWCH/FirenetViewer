@@ -1,11 +1,11 @@
-from PySide6.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsPixmapItem, QVBoxLayout, QScrollArea, QWidget,QPushButton,QHBoxLayout
+from PySide6.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsPixmapItem, QVBoxLayout, QScrollArea, QWidget,QPushButton,QHBoxLayout,QLabel
 from PySide6.QtGui import QPixmap, QImage, QPainter, QWheelEvent,QIcon
 from PySide6.QtCore import Qt
 import fitz
 import logging
 
 class PDFViewer(QGraphicsView):
-    def __init__(self,pdf_document,parent=None):
+    def __init__(self,pdf_document,page_label: QLabel,all_page_count_label: QLabel,parent=None):
         super().__init__(parent)
         self.setRenderHint(QPainter.Antialiasing)
         self.setRenderHint(QPainter.SmoothPixmapTransform)
@@ -14,6 +14,8 @@ class PDFViewer(QGraphicsView):
         self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.scene = QGraphicsScene(self)
         self.setScene(self.scene)
+        self.curent_page_number_label = page_label
+        self.all_page_count_label = all_page_count_label
         self.scale_factor = 1.25
         self.page_number = 0
         self.pdf_document = pdf_document
@@ -48,6 +50,10 @@ class PDFViewer(QGraphicsView):
         self.setSceneRect(scene.itemsBoundingRect())
         self.resetTransform()
         self.scale(self.scale_factor, self.scale_factor)
+        self.ui = lambda: None
+        self.curent_page_number_label.setText(str(self.page_number))
+        self.all_page_count_label.setText(f"/ {len(self.pdf_document)}")
+
         self.update()
     
     def plus_size_view_pdf_chenger(self):
@@ -71,6 +77,8 @@ def display_pdf_content(pdf_document):
         scroll_area.setWidgetResizable(True)
         prev_btn = QPushButton()
         prev_btn.setIcon((QIcon(":feather\\icons\\feather\\arrow_left.png")))
+        curent_page_number_label = QLabel()
+        all_page_count_label = QLabel()
         next_btn = QPushButton()
         next_btn.setIcon((QIcon(":feather\\icons\\feather\\arrow_right.png")))    
 
@@ -78,7 +86,7 @@ def display_pdf_content(pdf_document):
         zoom_btn.setIcon((QIcon(":feather\\icons\\feather\\zoom-in.png")))
         rezoom_btn = QPushButton()
         rezoom_btn.setIcon((QIcon(":feather\\icons\\feather\\zoom-out.png")))
-        pdf_view = PDFViewer(pdf_document)
+        pdf_view = PDFViewer(pdf_document,curent_page_number_label,all_page_count_label)
        
         prev_btn.pressed.connect(lambda: pdf_view.change_page(-1))
         next_btn.pressed.connect(lambda: pdf_view.change_page(1))
@@ -90,6 +98,8 @@ def display_pdf_content(pdf_document):
         layout_horizontal = QHBoxLayout()
         
         layout_horizontal.addWidget(prev_btn)
+        layout_horizontal.addWidget(curent_page_number_label)
+        layout_horizontal.addWidget(all_page_count_label)
         layout_horizontal.addWidget(next_btn)
         layout_horizontal.addWidget(zoom_btn)
         layout_horizontal.addWidget(rezoom_btn)
