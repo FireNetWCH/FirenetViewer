@@ -1,13 +1,14 @@
-from PySide6.QtWidgets import QListWidget, QListWidgetItem, QPushButton, QVBoxLayout, QDialog,QLineEdit,QHBoxLayout,QWidget
+from PySide6.QtWidgets import QListWidget, QListWidgetItem, QPushButton, QVBoxLayout, QDialog,QLineEdit,QHBoxLayout,QWidget,QLabel
 from PySide6.QtCore import QSize
 from PySide6.QtGui import QIcon
 from src.db_function.db_email_function import delate_tag,updata_tag
 from src.email_page.multi_tag_dialog import MultiTagInputDialog
 class TagCrud(QDialog):
     """Dialog do edycji tagów użytkownika."""
-    def __init__(self, connection, parent=None):
+    def __init__(self, connection, sql_name,parent=None,):
         super().__init__(parent)
         self.connection = connection
+        self.sql_name=sql_name
         self.setWindowTitle("Wybierz kategorie")
         self.tag_list = QListWidget(self)
         self.tag_list.setObjectName("sekectorTag")
@@ -18,19 +19,24 @@ class TagCrud(QDialog):
         self.ok_btn.clicked.connect(self.accept)
         self.add_btn.clicked.connect(self.open_add_tag_dialog)
 
-        layout = QVBoxLayout(self)       
+        layout = QVBoxLayout(self) 
+        label = QLabel(f"Skrzynak Email: {self.sql_name}")
+        layout.addWidget(label)      
         layout.addWidget(self.tag_list)
         layout.addWidget(self.add_btn)
         layout.addWidget(self.ok_btn)
         self.setLayout(layout)
         self.load_tags(connection)
+        
 
     def load_tags(self,connection) -> None:
-        """Ładuje wszystkie tagi i zaznacza te przypisane do użytkownika."""
+        """Ładuje wszystkie tagi do edycji"""
         cursor = self.connection.cursor()
         self.tag_list.clear()
         cursor.execute("SELECT id, tag_name FROM tags")
         all_tags = cursor.fetchall()
+        
+        
         #name_tags = {row[0] for row in cursor.fetchall()}
         for tag_id, tag_name in all_tags:
             item = QListWidgetItem(self.tag_list)
@@ -54,7 +60,7 @@ class TagCrud(QDialog):
             container.setLayout(tag_layout)
             self.tag_list.addItem(item)
             self.tag_list.setItemWidget(item, container)
-    
+
     def open_add_tag_dialog(self) -> None:
         """Otwiera okno dialogowe umożliwiające dodanie nowego tagu."""
         dialog = MultiTagInputDialog(self.connection)

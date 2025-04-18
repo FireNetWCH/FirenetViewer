@@ -396,7 +396,7 @@ class GUIFunctions(QObject):
         QDesktopServices.openUrl(QUrl(mailto_link))
 
     def show_tag_crud(self):
-        dialog = TagCrud(self.db_connection)
+        dialog = TagCrud(self.db_connection,self.sql_name)
         load_color_dictionery(self)
         if dialog.exec():
             logger.info(f"Zaktualizowano tagi dla użytkownika")

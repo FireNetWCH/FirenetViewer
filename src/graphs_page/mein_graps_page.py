@@ -197,8 +197,18 @@ def load_stat(parent,connect):
         
         ################################
         date_nums = mdates.date2num(df['date'])
+        start_date = pd.to_datetime(df['date'].min())
+        end_date = pd.to_datetime(df['date'].max())
+        print(start_date)
+        start_num = mdates.date2num(start_date)
+        end_num = mdates.date2num(end_date)
         counts, bins = np.histogram(date_nums, bins=50)
+        print(bins)
         bin_centers = 0.5 * (bins[1:] + bins[:-1])
+        bin_width_days = bins[1] - bins[0]
+        from datetime import timedelta
+        bin_width_timedelta = timedelta(days=bin_width_days)
+        print(f"Zakres jednego słupka to : {bin_width_timedelta} dni")
         figure = Figure(figsize=(10, 4))
         figure.clf()
         figure.clear()
@@ -221,17 +231,24 @@ def load_stat(parent,connect):
         colors = plt.cm.Blues(counts / max(counts)) 
         bars = ax.bar(bin_centers, counts, width=np.diff(bins), align='center',
                     color=colors, edgecolor='black', linewidth=0.5)
+        
         ax.xaxis_date()
         ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
-        figure.autofmt_xdate(rotation=45)
+        figure.autofmt_xdate(rotation=30)
+
+        extra_ticks = [start_num, end_num]
+        xticks = list(ax.get_xticks()) + extra_ticks
+        xticks = sorted(set(xticks))  
+        ax.set_xticks(xticks)
         ax.xaxis.set_major_locator(mdates.AutoDateLocator(minticks=5, maxticks=10))
         ax.grid(True, linestyle='--', alpha=0.6)
-        ax.set_xlabel("Data", fontsize=12)
         ax.set_ylabel("Liczba wiadomości", fontsize=12)
-        ax.set_title("Histogram wiadomości (50 równych przedziałów czasu)", fontsize=14, fontweight='bold')
+        ax.set_xlabel(f"Zakres jednego słupka to : {bin_width_timedelta} dni", fontsize=6)
+        ax.set_title("Histogram wiadomości (50 równych przedziałów czasu)", fontsize=10, fontweight='bold')
         ax.tick_params(axis='x', labelsize=10)
         ax.tick_params(axis='y', labelsize=10)
         canvas.draw()
+        canvas.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         ########################
         
         all_attachments = db_email.get_all_attachment(connect)

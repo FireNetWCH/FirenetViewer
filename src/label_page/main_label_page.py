@@ -14,7 +14,7 @@ def load_all_labels(self):
     self.ui.LabelTableWidget.setRowCount(0)
     self.ui.LabelTableWidget.setRowCount(len(data))
     #self.ui.LabelTableWidget.setHorizontalHeaderItem(len(data[0]), QTableWidgetItem("Usuń"))
-
+    self.ui.sqlNameLabelPageLabel.setText(self.sql_name)
     for row_idx, row_data in enumerate(data):
         label_id = row_data[0]  
 

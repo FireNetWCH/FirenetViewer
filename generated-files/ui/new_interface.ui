@@ -918,13 +918,16 @@
                  <item>
                   <widget class="QCustomQStackedWidget" name="mainPages">
                    <property name="currentIndex">
-                    <number>1</number>
+                    <number>0</number>
                    </property>
                    <widget class="QWidget" name="page">
                     <layout class="QVBoxLayout" name="verticalLayout_36">
                      <item>
                       <widget class="QWidget" name="widget_21" native="true">
                        <layout class="QVBoxLayout" name="verticalLayout_37">
+                        <property name="spacing">
+                         <number>0</number>
+                        </property>
                         <item>
                          <widget class="QPushButton" name="labelNameCrudBtn">
                           <property name="sizePolicy">
@@ -936,6 +939,59 @@
                           <property name="text">
                            <string>            Ustawienia Etykiet            </string>
                           </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QWidget" name="widget_43" native="true">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <layout class="QHBoxLayout" name="horizontalLayout_51">
+                           <property name="spacing">
+                            <number>0</number>
+                           </property>
+                           <property name="leftMargin">
+                            <number>0</number>
+                           </property>
+                           <property name="topMargin">
+                            <number>0</number>
+                           </property>
+                           <property name="rightMargin">
+                            <number>0</number>
+                           </property>
+                           <property name="bottomMargin">
+                            <number>0</number>
+                           </property>
+                           <item>
+                            <widget class="QLabel" name="label_33">
+                             <property name="sizePolicy">
+                              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                               <horstretch>0</horstretch>
+                               <verstretch>0</verstretch>
+                              </sizepolicy>
+                             </property>
+                             <property name="text">
+                              <string>Skrzynka: </string>
+                             </property>
+                            </widget>
+                           </item>
+                           <item>
+                            <widget class="QLabel" name="sqlNameLabelPageLabel">
+                             <property name="sizePolicy">
+                              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                               <horstretch>0</horstretch>
+                               <verstretch>0</verstretch>
+                              </sizepolicy>
+                             </property>
+                             <property name="text">
+                              <string>sql_name</string>
+                             </property>
+                            </widget>
+                           </item>
+                          </layout>
                          </widget>
                         </item>
                         <item>
@@ -1035,7 +1091,7 @@
                                     <x>0</x>
                                     <y>0</y>
                                     <width>520</width>
-                                    <height>420</height>
+                                    <height>409</height>
                                    </rect>
                                   </property>
                                   <property name="sizePolicy">
@@ -3440,6 +3496,9 @@
                    </widget>
                    <widget class="QWidget" name="chartPage">
                     <layout class="QVBoxLayout" name="verticalLayout_14">
+                     <property name="spacing">
+                      <number>0</number>
+                     </property>
                      <item>
                       <widget class="QWidget" name="widget_34" native="true">
                        <property name="sizePolicy">
@@ -3696,6 +3755,19 @@
                       </widget>
                      </item>
                      <item>
+                      <widget class="QLabel" name="label_31">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <property name="text">
+                        <string>Najczęstsze konwersacje użytkownika:</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
                       <widget class="QWidget" name="widget_29" native="true">
                        <layout class="QHBoxLayout" name="horizontalLayout_27">
                         <property name="spacing">
@@ -3739,10 +3811,23 @@
                            </property>
                            <item>
                             <widget class="QWidget" name="graphWidget" native="true">
+                             <property name="sizePolicy">
+                              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                               <horstretch>0</horstretch>
+                               <verstretch>0</verstretch>
+                              </sizepolicy>
+                             </property>
                              <layout class="QHBoxLayout" name="horizontalLayout_40">
+                              <property name="topMargin">
+                               <number>0</number>
+                              </property>
                               <item>
                                <widget class="QWidget" name="widget_30" native="true">
-                                <layout class="QHBoxLayout" name="horizontalLayout_43"/>
+                                <layout class="QHBoxLayout" name="horizontalLayout_43">
+                                 <property name="topMargin">
+                                  <number>0</number>
+                                 </property>
+                                </layout>
                                </widget>
                               </item>
                              </layout>
@@ -3755,7 +3840,33 @@
                       </widget>
                      </item>
                      <item>
-                      <widget class="QWidget" name="timeLineWiget" native="true"/>
+                      <widget class="QScrollArea" name="scrollArea_4">
+                       <property name="widgetResizable">
+                        <bool>true</bool>
+                       </property>
+                       <widget class="QWidget" name="scrollAreaWidgetContents_4">
+                        <property name="geometry">
+                         <rect>
+                          <x>0</x>
+                          <y>0</y>
+                          <width>742</width>
+                          <height>233</height>
+                         </rect>
+                        </property>
+                        <layout class="QVBoxLayout" name="verticalLayout_43">
+                         <item>
+                          <widget class="QWidget" name="timeLineWiget" native="true">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
+                       </widget>
+                      </widget>
                      </item>
                     </layout>
                    </widget>
