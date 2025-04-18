@@ -118,7 +118,6 @@ def load_data_from_database(self) -> None:
         """
         QApplication.setOverrideCursor(Qt.WaitCursor)
         # określa który pakiet email trzeba pobrać  
-        logger.info("Start load data")
         offset = self.current_page * self.emails_per_page
         if not self.db_connection:
             logger.error("Brak połączenia z bazą danych.")
@@ -160,29 +159,22 @@ def load_data_from_database(self) -> None:
             data = cursor.fetchall()
             cursor.execute(f'''SELECT COUNT() FROM emails 
             {db_email.apply_filters(self.active_filters)}''')
-
             emailc_count = cursor.fetchall()[0][0]
             self.all_emails_count = emailc_count
-            logger.info("End load data")
             self.max_page = math.ceil((int(self.all_emails_count)/int(self.emails_per_page)))
             self.ui.dataAnalysisPage.findChild(QLineEdit,"jumpToPagelineEdit").setText(f"{self.current_page+1}")
             self.ui.dataAnalysisPage.findChild(QLabel,"pageNumberLabel").setText(f"/{self.max_page}")
-            logger.info("Start create table")
             self.ui.tableWidget.setRowCount(len(data))
             self.ui.tableWidget.setColumnCount(7)
             #print(data)
-            
             create_main_email_tale(self,data)
-            logger.info("End create table")
             self.ui.tableWidget.verticalHeader().setVisible(False)
             if self.ui.tableWidget.rowCount() > 0:
                 self.ui.tableWidget.selectRow(0)
                 self.load_clicked_email(0,0)
             else:
-                clear_deteils_email(self)
-                 
+                clear_deteils_email(self)      
             QApplication.restoreOverrideCursor()
-            logger.info(f"END")
         except sqlite3.Error as e:
                 QApplication.restoreOverrideCursor()
                 logger.error(f"Błąd podczas wykonywania zapytania: {e}")

@@ -80,20 +80,49 @@ def apply_filters(active_filters) -> None:
 
 def tag_query(filters):
     """Generuje zapytanie umorzliwające selekcje po wybranych tagach"""
-    query=  f'''WITH filtered_tags AS (
-    SELECT et.email_id, t.tag_name
-    FROM email_tags et
-    JOIN tags t ON et.tag_id = t.id
-    WHERE t.tag_name IN {filters['tag']}
-    )
-    SELECT e.id, e.sender_email, e.recipients, e.subject, e.date, e.flag, e.cc, e.bcc,
-        GROUP_CONCAT(ft.tag_name) AS tags
-    FROM emails e
-    JOIN filtered_tags ft ON e.id = ft.email_id
-    {apply_filters(filters)}
-    GROUP BY e.id
-    '''
+    print(filters['tag'])
+    if '#_empty_#'not in filters['tag']:
+        query=  f'''WITH filtered_tags AS (
+        SELECT et.email_id, t.tag_name
+        FROM email_tags et
+        JOIN tags t ON et.tag_id = t.id
+        WHERE t.tag_name IN {filters['tag']}
+        )
+        SELECT e.id, e.sender_email, e.recipients, e.subject, e.date, e.flag, e.cc, e.bcc,
+            GROUP_CONCAT(ft.tag_name) AS tags
+        FROM emails e
+        JOIN filtered_tags ft ON e.id = ft.email_id
+        {apply_filters(filters)}
+        GROUP BY e.id
+        '''
+    else :
+        _and = ""
+        for key, value in filters.items():
+            if key == "folder_id":
+                if str(value) != "1":
+                    _and = 'AND'      
+            elif key == "flag":
+                if value != "False":
+                    _and = 'AND'
+            elif key == "tag":
+                pass        
+            elif value != "":
+                _and = 'AND'
+            
 
+        query=  f'''SELECT e.id, e.sender_email, e.recipients, e.subject, e.date, e.flag, e.cc,e.bcc,
+                    GROUP_CONCAT(t.tag_name) AS tags 
+                FROM emails e
+                LEFT JOIN email_tags et ON e.id = et.email_id
+                LEFT JOIN tags t ON et.tag_id = t.id
+                WHERE e.id NOT IN (SELECT DISTINCT email_id FROM email_tags)
+                {_and} {apply_filters(filters).replace('WHERE',"")}
+                GROUP BY e.id
+        '''
+        # query = f'''SELECT id, sender_email, recipients, subject, date, flag, cc, bcc FROM emails 
+        # WHERE id NOT IN (SELECT DISTINCT email_id FROM email_tags)
+        # {apply_filters(filters)}
+        # '''
     return query
 
 def update_multi_flags(db_connection,id_list,state):

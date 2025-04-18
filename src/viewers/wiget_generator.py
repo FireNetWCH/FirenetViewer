@@ -8,7 +8,6 @@ def generator_wiget(file,ext):
        Arkusz kalkulacyjny -> file is dataFrama(pandas)
        PDF ->file is fitz.document
        txt ->file is string
-
     '''   
     if ext in ['.jpg','.jpeg','.png','.gif','.bmp','.ppm']:
         return display_img_content(file)

@@ -66,8 +66,8 @@ class GUIFunctions(QObject):
         self.current_sort_order: Dict[int, Any] = {}
 
         self.url_www = "https://www.firenet.com.pl/"
-        self.url_linkedin = "https://www."
-        self.url_fb = "https://fb"
+        self.url_linkedin = "https://www.linkedin.com/in/firenet-informatyka-%C5%9Bledcza-71197a357/"
+        self.url_fb = "https://www.facebook.com/profile.php?id=61574549756781&locale=pl_PL"
        
         #Parametry do obsługi emeil
         #kolumna w tabeli emaili gdzie znajdzuje się checbox
@@ -224,11 +224,10 @@ class GUIFunctions(QObject):
         self.ui.LabelTableWidget.cellClicked.connect(lambda row : load_clicked_email_on_labels(self,row))
         self.ui.contactBtn.clicked.connect(self.show_email_client)
         self.ui.wwwBtn.clicked.connect(self.open_www_in_browser)
-        self.ui.wwwBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\font_awesome\\solid\\rss.png")))
+        
         self.ui.linkedinBtn.clicked.connect(self.open_linkedin_in_browser)
-        self.ui.linkedinBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\linkedin.png")))
+        
         self.ui.fbBtn.clicked.connect(self.open_facebook_in_browser)
-        self.ui.fbBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\facebook.png")))
         
         #self.ui.checkBoxData.checkStateChanged.connect(self.date_state_box)
 
@@ -326,6 +325,10 @@ class GUIFunctions(QObject):
         self.ui.minimalizeBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\minus.png")))
         self.ui.prevEmailTableBtn.setIcon(QIcon(":feather/icons/feather/arrow_left.png"))
         self.ui.nextEmailTableBtn.setIcon(QIcon(":feather/icons/feather/arrow_right.png"))
+        
+        self.ui.fbBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\facebook.png")))
+        self.ui.wwwBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\font_awesome\\solid\\rss.png")))
+        self.ui.linkedinBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\linkedin.png")))
         # file = QFile(":feather/FFFFFF/feather/activity.png")
 
         # if file.exists():
@@ -614,6 +617,8 @@ class GUIFunctions(QObject):
         dialog = SekectorTag(self.db_connection, self.active_filters,self.main)
         if dialog.exec():
             logger.info(f"Zaktualizowano tagi dla użytkownika {user_id}")
+            selected_list = self.active_filters['tag']
+            selected_list = selected_list.replace("#_empty_#","BRAK KATEGORI")
             self.ui.selectedTagLabel.setText(f"Wybrane kategorie: {self.active_filters['tag'].removeprefix("(").removesuffix(")")}")
             self.current_page = 0
             load_data_from_database(self)

@@ -193,3 +193,4 @@
 #multi_part_query(input_string)
 
 # Wyświetlanie wyników
+#'jupyterlab','notebook','jedi','panel','sphinx'

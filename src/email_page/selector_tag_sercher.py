@@ -19,9 +19,19 @@ class SekectorTag(QDialog):
         self.load_tags(user_tag)
 
     def load_tags(self,user_tags) -> None:
-        """Ładuje wszystkie tagi i zaznacza te przypisane do użytkownika."""
+        """Ładuje wszystkie tagi i zaznacza te przypisane do skrzynki."""
         cursor = self.connection.cursor()
         self.tag_list.clear()
+        default_item = QListWidgetItem(self.tag_list)
+        default_item.setSizeHint(QSize(150, 28))
+        default_checkbox = QCheckBox("BEZ KATEGORI")
+        tag_list = user_tags['tag'].strip("()").replace("'", "").split(',')
+        if "#_empty_#" in tag_list:
+            default_checkbox.setChecked(True)
+        else:
+            default_checkbox.setChecked(False)
+        self.tag_list.addItem(default_item)
+        self.tag_list.setItemWidget(default_item, default_checkbox)
         cursor.execute("SELECT id, tag_name FROM tags")
         all_tags = cursor.fetchall()
         #name_tags = {row[0] for row in cursor.fetchall()}
@@ -29,7 +39,6 @@ class SekectorTag(QDialog):
             item = QListWidgetItem(self.tag_list)
             item.setSizeHint(QSize(150, 28))
             checkbox = QCheckBox(tag_name)
-            tag_list = user_tags['tag'].strip("()").replace("'", "").split(',')
             checkbox.setChecked(tag_name in tag_list)
             self.tag_list.addItem(item)
             self.tag_list.setItemWidget(item, checkbox)
@@ -40,11 +49,16 @@ class SekectorTag(QDialog):
             item = self.tag_list.item(i)
             checkbox = self.tag_list.itemWidget(item)
             if checkbox.isChecked():
-                if string !="":
-                    string += ",'"+checkbox.text()+"'"
+                if checkbox.text() !="BEZ KATEGORI":
+                    if string !="":
+                        string += ",'"+checkbox.text()+"'"
+                    else:
+                        string+= "'"+checkbox.text()+"'"
                 else:
-                    string+= "'"+checkbox.text()+"'"
-        
+                    if string !="":
+                        string += ",'"+"#_empty_#"+"'"
+                    else:
+                        string+= "'"+"#_empty_#"+"'"
         if string != "":
             user_tag['tag'] = "("+string+")"
         else:
