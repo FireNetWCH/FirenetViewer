@@ -532,6 +532,37 @@ def get_operators(string):
         operators_in_case.append(re.findall(r'\((or|and)\)', part,re.IGNORECASE))
     return operators_in_case
 
+def get_it_tags(name_tag,db_connection):
+    """Zwraca id wskazanego tagu"""
+    try:
+        
+        query=f"""
+        SELECT * 
+        FROM tags
+        WHERE tag_name LIKE '{name_tag}'
+        """
+        print(query)
+        cursor = db_connection.cursor()
+        cursor.execute(query)
+        results = cursor.fetchall()
+        return results
+    except sqlite3.Error as e:
+        logger.error(f"Błąd podczas pobierania id wybranego tagu: {e}")
+        print(f"Błąd podczas pobierania id wybranego tagu {e}")
+
+def multi_insert_tag(list,db_connection):
+    try:
+        print(list)
+        query=f"""INSERT OR IGNORE INTO email_tags (tag_id,email_id)
+                VALUES {list}"""
+        cursor = db_connection.cursor()
+        print(query)
+        cursor.execute(query)
+        db_connection.commit()
+    except sqlite3.Error as e:
+        logger.error(f"Błąd podczas dodawania wielu tagow {e}")
+        print(f"Błąd podczas dodawania wielu tagow {e}")
+        
 def multi_part_query(key,string):
     matches = get_part_query(string)
     if len(matches) > 0:

@@ -40,7 +40,7 @@ import src.db_function.db_email_function as db_email_function
 from src.graphs_page.mein_graps_page import load_stat 
 import shutil 
 import sys
-import json
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -131,7 +131,13 @@ class GUIFunctions(QObject):
         tab_bar = self.ui.EmailtabWidget.tabBar()
         tab_bar.setTabButton(0, QTabBar.RightSide, None)
 
-
+        # splitter2 = QSplitter(Qt.Horizontal)
+        # #dada_layout = self.ui.dataAnalysisPage.layout()
+        # splitter2.addWidget(self.ui.widget_45)
+        # splitter2.addWidget(self.ui.widget_48)
+        #dada_layout.addWidget(self.ui.widget_46) 
+        dada_layout.addWidget(self.ui.widget_46)
+        
         
         #ukrycie okna naglowkow email
         self.ui.emailHederDockWidget.hide()
@@ -418,6 +424,33 @@ class GUIFunctions(QObject):
 
     def open_facebook_in_browser(self):
         QDesktopServices.openUrl(QUrl(self.url_fb))
+
+    def set_tag(self,tag):
+        values = []
+        query_parts = []
+        scroll_pos = self.ui.tableWidget.verticalScrollBar().value()
+        id = db_email_function.get_it_tags(tag,self.db_connection)
+        query_list = ""
+        print(id)
+        for idx in self.ui.tableWidget.selectionModel().selectedRows():
+            row = idx.row()
+            
+            item = self.ui.tableWidget.item(row, 0) 
+            if item:
+                values.append(item.text())
+                query_list +=f"({id[0][0]},{item.text()})"
+                query_parts.append(f"({id[0][0]}, {item.text()})")  
+        if query_parts:
+            query_list = ", ".join(query_parts)
+       
+        last_row = self.ui.tableWidget.selectionModel().selectedRows()
+        db_email_function.multi_insert_tag(query_list,self.db_connection)
+        load_data_from_database(self)
+        print(last_row)
+        self.ui.tableWidget.selectRow(last_row[-1].row())
+        self.ui.tableWidget.verticalScrollBar().setValue(scroll_pos)
+
+
     def clicket_hamburger(self):
         self.ui.centerMenu.expandMenu()
         self.ui.meilBoxBtn.setCheckable(True)

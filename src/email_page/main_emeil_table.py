@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QTableWidgetItem,QAbstractItemView,QCheckBox,QPushButton,QHeaderView,QApplication,QLabel,QWidget,QHBoxLayout,QListWidget,QLineEdit
+from PySide6.QtWidgets import QTableWidgetItem,QAbstractItemView,QCheckBox,QPushButton,QHeaderView,QSizePolicy,QApplication,QLabel,QWidget,QHBoxLayout,QListWidget,QLineEdit
 from PySide6.QtCore import Qt,Signal
 import src.db_function.db_email_function as db_email
 import math
@@ -57,13 +57,13 @@ def create_tag_widget(tag_names, color_manager,user_id,self):
     
     return container
 
-def create_main_email_tale(self,data):
+def create_main_email_table(self,data):
         self.ui.tableWidget.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.ui.tableWidget.setUpdatesEnabled(False)
         for row_idx, row_data in enumerate(data):
-            user_id = row_data[0]
+            email_id = row_data[0]
             #dodanie ukrytej kolumn col = 0 przechowującej id(emaila)
-            item_id = QTableWidgetItem(str(user_id))
+            item_id = QTableWidgetItem(str(email_id))
             self.ui.tableWidget.setItem(row_idx, 0, item_id)
             load_color_dictionery(self)
             for col_idx, cell_data in enumerate(row_data[1:]):
@@ -80,28 +80,98 @@ def create_main_email_tale(self,data):
                     checkbox.setChecked(bool(cell_data))
                     checkbox.setFocusPolicy(Qt.NoFocus)
                     checkbox.stateChanged.connect(
-                        lambda state, uid=user_id: db_email.update_flag(self.db_connection,uid, state)
+                        lambda state, uid=email_id: db_email.update_flag(self.db_connection,uid, state)
                     )
                     self.ui.tableWidget.setCellWidget(row_idx, real_col_idx, checkbox)
                 elif real_col_idx == 8:
                     
                     if cell_data is not None:
                         
-                        tag_widget = create_tag_widget(cell_data.split(','), self.tag_color,user_id,self)
+                        tag_widget = create_tag_widget(cell_data.split(','), self.tag_color,email_id,self)
                         btn = QPushButton()
                         self.ui.tableWidget.setCellWidget(row_idx, 6, tag_widget)
+                        
                     else:
                          btn = QPushButton("")
                          self.ui.tableWidget.setCellWidget(row_idx, 6, btn)
 
-                    btn.clicked.connect(lambda _, uid=user_id: self.open_tag_selector(uid))
-                    btn.setFocusPolicy(Qt.NoFocus)  
+                    btn.clicked.connect(lambda _, uid=email_id: self.open_tag_selector(uid))
+                    btn.setFocusPolicy(Qt.NoFocus)
                 else:
                     if real_col_idx != 6:
                         item = QTableWidgetItem(str(cell_data) if cell_data else "")
                         self.ui.tableWidget.setItem(row_idx, real_col_idx, item)
                         item.setFlags(item.flags() & ~Qt.ItemIsEditable)
+      #  print(self.ui.widget_48)
+        container = self.ui.widget_45
+        layout = self.ui.widget_45.layout()
+        
+        load_color_dictionery(self)
+        tag_names = db_email.get_all_labels_name(self.db_connection)
+        while layout.count():
+            item = layout.takeAt(0)
+            widget = item.widget()
+            if widget is not None:
+                widget.setParent(None)
+        for id,tag in tag_names:
+            #color = self.tag_color[tag]
             
+            
+            hash_object = hashlib.md5(tag.encode())
+            hex_color = '#' + hash_object.hexdigest()[:6]
+            color = hex_color
+            #self.tag_color[tag] = color
+            btn = ClickableLabel(tag)    
+            btn.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+
+            btn.setStyleSheet(f"""
+                background-color: {color};
+                color: black;
+                border-radius: 6px;
+                padding: 2px 6px;
+                font-size: 11px;
+                border: none;
+            """)
+            #btn.clicked.connect(lambda uid=user_id: self.open_tag_selector(uid))
+
+            layout.addWidget(btn)
+
+        container.setLayout(layout)
+
+        container2 = self.ui.widget_48
+        layout2 = self.ui.widget_48.layout()
+        
+        
+        tag_names = db_email.get_all_tags(self.db_connection)
+        while layout2.count():
+            item = layout2.takeAt(0)
+            widget = item.widget()
+            if widget is not None:
+                widget.setParent(None)
+        for id,tag in tag_names:
+            print(tag)
+            color = self.tag_color[tag]
+            print(color)
+            if not color:
+                hash_object = hashlib.md5(tag.encode())
+                hex_color = '#' + hash_object.hexdigest()[:6]
+                color = hex_color
+                self.tag_color[tag] = color
+            btn = ClickableLabel(tag)
+            btn.setStyleSheet(f"""
+                background-color: {color};
+                color: black;
+                border-radius: 6px;
+                padding: 2px 6px;
+                font-size: 11px;
+                border: none;
+            """)
+            btn.clicked.connect(lambda tag=tag: self.set_tag(tag))
+            layout2.addWidget(btn)
+        container2.setLayout(layout2)
+        
+        # LW = 
+        # LW.addWidget(container)
         self.ui.tableWidget.horizontalHeader().setSectionResizeMode(0, QHeaderView.Fixed)
         self.ui.tableWidget.setColumnWidth(0, 50)
         self.ui.tableWidget.horizontalHeader().setSectionResizeMode(5, QHeaderView.Fixed)
@@ -114,7 +184,7 @@ def load_data_from_database(self) -> None:
         
         """
         Wczytuje dane z bazy SQLite i wypełnia tabelę widżetem.
-        Używa zapytania SQL z lewym łączeniem, aby zebrać informacje o użytkownikach oraz ich tagach.
+        Używa zapytania SQL z lewym łączeniem, aby zebrać informacje o emailach oraz ich tagach.
         """
         QApplication.setOverrideCursor(Qt.WaitCursor)
         # określa który pakiet email trzeba pobrać  
@@ -167,7 +237,7 @@ def load_data_from_database(self) -> None:
             self.ui.tableWidget.setRowCount(len(data))
             self.ui.tableWidget.setColumnCount(7)
             #print(data)
-            create_main_email_tale(self,data)
+            create_main_email_table(self,data)
             self.ui.tableWidget.verticalHeader().setVisible(False)
             if self.ui.tableWidget.rowCount() > 0:
                 self.ui.tableWidget.selectRow(0)

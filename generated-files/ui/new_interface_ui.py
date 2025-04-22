@@ -31,7 +31,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(2250, 655)
+        MainWindow.resize(2250, 654)
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -534,9 +534,15 @@ class Ui_MainWindow(object):
 
         self.widget_27 = QWidget(self.widget_21)
         self.widget_27.setObjectName(u"widget_27")
-        self.horizontalLayout_38 = QHBoxLayout(self.widget_27)
-        self.horizontalLayout_38.setObjectName(u"horizontalLayout_38")
-        self.LabelTableWidget = QTableWidget(self.widget_27)
+        self.verticalLayout_44 = QVBoxLayout(self.widget_27)
+        self.verticalLayout_44.setObjectName(u"verticalLayout_44")
+        self.widget_44 = QWidget(self.widget_27)
+        self.widget_44.setObjectName(u"widget_44")
+        self.horizontalLayout_52 = QHBoxLayout(self.widget_44)
+        self.horizontalLayout_52.setSpacing(0)
+        self.horizontalLayout_52.setObjectName(u"horizontalLayout_52")
+        self.horizontalLayout_52.setContentsMargins(0, 0, 0, 0)
+        self.LabelTableWidget = QTableWidget(self.widget_44)
         if (self.LabelTableWidget.columnCount() < 5):
             self.LabelTableWidget.setColumnCount(5)
         __qtablewidgetitem = QTableWidgetItem()
@@ -560,9 +566,9 @@ class Ui_MainWindow(object):
         self.LabelTableWidget.horizontalHeader().setStretchLastSection(True)
         self.LabelTableWidget.verticalHeader().setCascadingSectionResizes(True)
 
-        self.horizontalLayout_38.addWidget(self.LabelTableWidget)
+        self.horizontalLayout_52.addWidget(self.LabelTableWidget)
 
-        self.EmailtabWidget_2 = QTabWidget(self.widget_27)
+        self.EmailtabWidget_2 = QTabWidget(self.widget_44)
         self.EmailtabWidget_2.setObjectName(u"EmailtabWidget_2")
         sizePolicy3.setHeightForWidth(self.EmailtabWidget_2.sizePolicy().hasHeightForWidth())
         self.EmailtabWidget_2.setSizePolicy(sizePolicy3)
@@ -581,7 +587,7 @@ class Ui_MainWindow(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 520, 409))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 520, 360))
         sizePolicy1.setHeightForWidth(self.scrollAreaWidgetContents_3.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents_3.setSizePolicy(sizePolicy1)
         self.verticalLayout_34 = QVBoxLayout(self.scrollAreaWidgetContents_3)
@@ -806,7 +812,10 @@ class Ui_MainWindow(object):
 
         self.EmailtabWidget_2.addTab(self.EmailtabWidgetPage1_2, "")
 
-        self.horizontalLayout_38.addWidget(self.EmailtabWidget_2)
+        self.horizontalLayout_52.addWidget(self.EmailtabWidget_2)
+
+
+        self.verticalLayout_44.addWidget(self.widget_44)
 
 
         self.verticalLayout_37.addWidget(self.widget_27)
@@ -1189,7 +1198,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 520, 389))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 520, 382))
         sizePolicy1.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents.setSizePolicy(sizePolicy1)
         self.verticalLayout_20 = QVBoxLayout(self.scrollAreaWidgetContents)
@@ -1390,6 +1399,11 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_21.addWidget(self.label_18)
 
+        self.widget_50 = QWidget(self.widget_6)
+        self.widget_50.setObjectName(u"widget_50")
+
+        self.horizontalLayout_21.addWidget(self.widget_50)
+
         self.subject = QLabel(self.widget_6)
         self.subject.setObjectName(u"subject")
         sizePolicy6.setHeightForWidth(self.subject.sizePolicy().hasHeightForWidth())
@@ -1433,6 +1447,66 @@ class Ui_MainWindow(object):
 
 
         self.verticalLayout_12.addLayout(self.horizontalLayout_15)
+
+        self.widget_46 = QWidget(self.dataAnalysisPage)
+        self.widget_46.setObjectName(u"widget_46")
+        sizePolicy9.setHeightForWidth(self.widget_46.sizePolicy().hasHeightForWidth())
+        self.widget_46.setSizePolicy(sizePolicy9)
+        self.horizontalLayout_53 = QHBoxLayout(self.widget_46)
+        self.horizontalLayout_53.setSpacing(10)
+        self.horizontalLayout_53.setObjectName(u"horizontalLayout_53")
+        self.horizontalLayout_53.setContentsMargins(10, 10, 10, 10)
+        self.scrollArea_6 = QScrollArea(self.widget_46)
+        self.scrollArea_6.setObjectName(u"scrollArea_6")
+        self.scrollArea_6.setWidgetResizable(True)
+        self.scrollAreaWidgetContents_6 = QWidget()
+        self.scrollAreaWidgetContents_6.setObjectName(u"scrollAreaWidgetContents_6")
+        self.scrollAreaWidgetContents_6.setGeometry(QRect(0, 0, 355, 69))
+        self.horizontalLayout_56 = QHBoxLayout(self.scrollAreaWidgetContents_6)
+        self.horizontalLayout_56.setObjectName(u"horizontalLayout_56")
+        self.widget_48 = QWidget(self.scrollAreaWidgetContents_6)
+        self.widget_48.setObjectName(u"widget_48")
+        sizePolicy1.setHeightForWidth(self.widget_48.sizePolicy().hasHeightForWidth())
+        self.widget_48.setSizePolicy(sizePolicy1)
+        self.horizontalLayout_38 = QHBoxLayout(self.widget_48)
+        self.horizontalLayout_38.setSpacing(0)
+        self.horizontalLayout_38.setObjectName(u"horizontalLayout_38")
+        self.horizontalLayout_38.setContentsMargins(0, 0, 0, 0)
+
+        self.horizontalLayout_56.addWidget(self.widget_48)
+
+        self.scrollArea_6.setWidget(self.scrollAreaWidgetContents_6)
+
+        self.horizontalLayout_53.addWidget(self.scrollArea_6)
+
+        self.scrollArea_5 = QScrollArea(self.widget_46)
+        self.scrollArea_5.setObjectName(u"scrollArea_5")
+        self.scrollArea_5.setWidgetResizable(True)
+        self.scrollAreaWidgetContents_5 = QWidget()
+        self.scrollAreaWidgetContents_5.setObjectName(u"scrollAreaWidgetContents_5")
+        self.scrollAreaWidgetContents_5.setGeometry(QRect(0, 0, 355, 69))
+        self.horizontalLayout_55 = QHBoxLayout(self.scrollAreaWidgetContents_5)
+        self.horizontalLayout_55.setObjectName(u"horizontalLayout_55")
+        self.widget_45 = QWidget(self.scrollAreaWidgetContents_5)
+        self.widget_45.setObjectName(u"widget_45")
+        sizePolicy1.setHeightForWidth(self.widget_45.sizePolicy().hasHeightForWidth())
+        self.widget_45.setSizePolicy(sizePolicy1)
+        self.widget_45.setSizeIncrement(QSize(0, 1000))
+        self.widget_45.setBaseSize(QSize(0, 100))
+        self.widget_45.setAutoFillBackground(False)
+        self.horizontalLayout_54 = QHBoxLayout(self.widget_45)
+        self.horizontalLayout_54.setSpacing(0)
+        self.horizontalLayout_54.setObjectName(u"horizontalLayout_54")
+        self.horizontalLayout_54.setContentsMargins(0, 0, 0, 0)
+
+        self.horizontalLayout_55.addWidget(self.widget_45)
+
+        self.scrollArea_5.setWidget(self.scrollAreaWidgetContents_5)
+
+        self.horizontalLayout_53.addWidget(self.scrollArea_5)
+
+
+        self.verticalLayout_12.addWidget(self.widget_46)
 
         self.mainPages.addWidget(self.dataAnalysisPage)
         self.homePage = QWidget()
@@ -1889,7 +1963,7 @@ class Ui_MainWindow(object):
         self.scrollArea_4.setWidgetResizable(True)
         self.scrollAreaWidgetContents_4 = QWidget()
         self.scrollAreaWidgetContents_4.setObjectName(u"scrollAreaWidgetContents_4")
-        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 742, 233))
+        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 742, 232))
         self.verticalLayout_43 = QVBoxLayout(self.scrollAreaWidgetContents_4)
         self.verticalLayout_43.setObjectName(u"verticalLayout_43")
         self.timeLineWiget = QWidget(self.scrollAreaWidgetContents_4)
@@ -2038,7 +2112,7 @@ class Ui_MainWindow(object):
         self.scrollArea_2.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignTop)
         self.scrollAreaWidgetContents_2 = QWidget()
         self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
-        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 960, 608))
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 960, 607))
         self.verticalLayout_29 = QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_29.setSpacing(0)
         self.verticalLayout_29.setObjectName(u"verticalLayout_29")
@@ -2118,7 +2192,7 @@ class Ui_MainWindow(object):
 
         self.menuBtn.setDefault(False)
         self.centerMenuPages.setCurrentIndex(2)
-        self.mainPages.setCurrentIndex(0)
+        self.mainPages.setCurrentIndex(1)
         self.startDataBtn.setDefault(False)
         self.rightMenuPages.setCurrentIndex(0)
 
