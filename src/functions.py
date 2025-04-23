@@ -431,7 +431,7 @@ class GUIFunctions(QObject):
         scroll_pos = self.ui.tableWidget.verticalScrollBar().value()
         id = db_email_function.get_it_tags(tag,self.db_connection)
         query_list = ""
-        print(id)
+        # print(id)
         for idx in self.ui.tableWidget.selectionModel().selectedRows():
             row = idx.row()
             
@@ -446,7 +446,7 @@ class GUIFunctions(QObject):
         last_row = self.ui.tableWidget.selectionModel().selectedRows()
         db_email_function.multi_insert_tag(query_list,self.db_connection)
         load_data_from_database(self)
-        print(last_row)
+        # print(last_row)
         self.ui.tableWidget.selectRow(last_row[-1].row())
         self.ui.tableWidget.verticalScrollBar().setValue(scroll_pos)
 
@@ -478,7 +478,7 @@ class GUIFunctions(QObject):
      
         #self.ui.sqlEmailDbName.setText(text)
         
-        print(self.main)
+        # print(self.main)
         msgBox = QMessageBox(parent=self.main)
         msgBox.setText(text)
         msgBox.setStandardButtons(QMessageBox.Ok)
@@ -506,7 +506,7 @@ class GUIFunctions(QObject):
         db_email_function.add_label(self.db_connection,id_labels_name,self.id_selected_email,selected_text)
     
     def set_labels(self,id_labels):
-        print(self.ui.body.selectedText())
+        # print(self.ui.body.selectedText())
         
         db_email_function.add_label(self.db_connection,id_labels,self.id_selected_email,self.ui.body.selectedText())
 
@@ -515,7 +515,7 @@ class GUIFunctions(QObject):
             self.ui.emailHederDockWidget.setFloating(True)
             self.ui.emailHederDockWidget.show()
             screen_geometry = QApplication.primaryScreen().availableGeometry()
-            print(self.main)
+            # print(self.main)
             window_geometry = self.main.frameGeometry()
             center_point = screen_geometry.center()
             window_geometry.moveCenter(center_point)
@@ -529,10 +529,10 @@ class GUIFunctions(QObject):
         dialog_calendar = DateRangeDialog()
         
         date = dialog_calendar.get_selected_dates()
-        print(date)
-        print(date[0])
+        # print(date)
+        # print(date[0])
         if date[0] != "":
-            print(date[0])
+            # print(date[0])
             start_date = QDate.fromString(date[0], "yyyy-MM-dd")
             if self.active_filters['date_to'] !="":
                 filter_end_date = QDate.fromString(self.active_filters['date_to'], "yyyy-MM-dd")
@@ -547,7 +547,7 @@ class GUIFunctions(QObject):
             self.ui.startDataLabel.setText("")
 
         if date[1] != "":
-            print(date[1])
+            # print(date[1])
             end_date = QDate.fromString(date[1], "yyyy-MM-dd")
             if self.active_filters['date_fr'] !="":
                 filter_start_date = QDate.fromString(self.active_filters['date_fr'], "yyyy-MM-dd")
@@ -629,7 +629,7 @@ class GUIFunctions(QObject):
             self.db_connection.close()
             print("zamknięto polaczenie")
         self.current_page = 0
-        print(self.path)
+        # print(self.path)
         db_path = os.path.join(self.path,item.text().removesuffix('.sqlite'),item.text())
         #print(db_path)
         
@@ -642,7 +642,7 @@ class GUIFunctions(QObject):
         load_color_dictionery(self)
  
 
-        print(self.tag_color)
+        # print(self.tag_color)
         load_data_from_database(self)
         self.display_folders_in_help_page()
         tw = self.ui.helpPage.findChild(QTreeWidget,"folders_tree")
@@ -680,7 +680,7 @@ class GUIFunctions(QObject):
         id = self.ui.tableWidget.item(row,0).text()
         #print(self.active_filters)
         self.id_selected_email = id
-        print(id)
+        # print(id)
         query =f'''
         SELECT * from emails WHERE id = {id}
         '''
@@ -1075,7 +1075,7 @@ class GUIFunctions(QObject):
         if self.db_connection is None and len(sql_list_file) > 0 :
             try:
                 #db_path = os.path.join(self.path,item.text().removesuffix('.sqlite'),item.text())
-                print(f"sql_list[0]: {sql_list_file[0]}")
+                # print(f"sql_list[0]: {sql_list_file[0]}")
                 db_email_function.connect_to_database(self,path_to_dir+"\\"+sql_list_file[0].removesuffix('.sqlite')+"\\"+sql_list_file[0])
                 load_color_dictionery(self)
                 load_data_from_database(self)
@@ -1087,7 +1087,7 @@ class GUIFunctions(QObject):
                 logger.info(f"Połączono z pierwszą odnalezioną bazą SQLite: {self.sql_name}")
             except Exception as e:
                 logger.error(f"Bład przy pierwszym łaczeniu do SQLite: {e}")
-        print(sql_list_file)
+        # print(sql_list_file)
         self.list_widget.addItems(sql_list_file)    
         layout = self.ui.helpPage.layout()
         layout.addWidget(self.list_widget)

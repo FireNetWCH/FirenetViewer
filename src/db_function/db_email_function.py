@@ -80,7 +80,7 @@ def apply_filters(active_filters) -> None:
 
 def tag_query(filters):
     """Generuje zapytanie umorzliwające selekcje po wybranych tagach"""
-    print(filters['tag'])
+    # print(filters['tag'])
     if '#_empty_#'not in filters['tag']:
         query=  f'''WITH filtered_tags AS (
         SELECT et.email_id, t.tag_name
@@ -566,7 +566,7 @@ def get_it_tags(name_tag,db_connection):
 
 def multi_insert_tag(list,db_connection):
     try:
-        print(list)
+        # print(list)
         query=f"""INSERT OR IGNORE INTO email_tags (tag_id,email_id)
                 VALUES {list}"""
         cursor = db_connection.cursor()
@@ -641,7 +641,7 @@ def word_to_highline(string):
     
     matches = get_part_query(string)
     if len(matches) > 0:
-        print(matches)
+        # print(matches)
         operators_summary = get_operators_summary(string)
         operators_in_case = get_operators(matches)
         result = []

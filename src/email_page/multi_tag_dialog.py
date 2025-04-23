@@ -34,13 +34,13 @@ class MultiTagInputDialog(QDialog):
         if new_tag_name:
             if self.radio_btn_local.isChecked():
                 cursor = self.db_connection.cursor()
-                cursor.execute("INSERT INTO tags (tag_name) VALUES (?)", (new_tag_name,))
+                cursor.execute("INSERT OR IGNORE INTO tags (tag_name) VALUES (?)", (new_tag_name,))
                 self.db_connection.commit()
                 self.accept()
             else:
                 all_dir = os.scandir(self.path)
                 for path in all_dir:
-                    print(os.path.join(self.path,path.name,path.name+'.sqlite'))
+                    # print(os.path.join(self.path,path.name,path.name+'.sqlite'))
                     db_email.connect_to_database(self,os.path.join(self.path,path.name,path.name+'.sqlite'))
                     cursor = self.db_connection.cursor()
                     cursor.execute("INSERT OR IGNORE INTO tags (tag_name) VALUES (?)", (new_tag_name,))

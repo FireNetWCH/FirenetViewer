@@ -50,7 +50,7 @@ class FileListItem(QWidget):
 
     def preview_file(self):
         ext = self.file_name.split(".")[-1]
-        print(ext)
+        # print(ext)
         if ext in ['jpg','jpeg','png','gif','bmp','ppm']:
             file = QPixmap(self.file_path)
             tab_wiget = generator_wiget(file,".jpg")
@@ -101,7 +101,7 @@ class FileListItem(QWidget):
         downloadBtn.setIcon(QIcon(get_resource_path("Qss/icons/black/feather/download.png")))
         downloadBtn.setObjectName("standard")
         downloadBtn.setStyleSheet("QPushButton{font-weight: bold; border-radius: 5px;border: 2px solid #A0C8FF} QPushButton::hover{background-color:#A0C8FF}")
-        print(downloadBtn)
+        # print(downloadBtn)
         downloadBtn.clicked.connect(lambda : self.copy_file(self.file_path))
         return downloadBtn
     

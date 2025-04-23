@@ -155,7 +155,7 @@ def load_stat(parent,connect):
             parent.ui.widget_30.setLayout(graph_layout)
         for i in reversed(range(graph_layout.count())):
             widget_to_remove = graph_layout.itemAt(i).widget()
-            print(widget_to_remove)
+            # print(widget_to_remove)
             if widget_to_remove:
                 widget_to_remove.setParent(None)
                 
@@ -195,16 +195,16 @@ def load_stat(parent,connect):
         date_nums = mdates.date2num(df['date'])
         start_date = pd.to_datetime(df['date'].min())
         end_date = pd.to_datetime(df['date'].max())
-        print(start_date)
+        # print(start_date)
         start_num = mdates.date2num(start_date)
         end_num = mdates.date2num(end_date)
         counts, bins = np.histogram(date_nums, bins=50)
-        print(bins)
+        # print(bins)
         bin_centers = 0.5 * (bins[1:] + bins[:-1])
         bin_width_days = bins[1] - bins[0]
         from datetime import timedelta
         bin_width_timedelta = timedelta(days=bin_width_days)
-        print(f"Zakres jednego słupka to : {bin_width_timedelta} dni")
+        # print(f"Zakres jednego słupka to : {bin_width_timedelta} dni")
         figure = Figure(figsize=(10, 4))
         figure.clf()
         figure.clear()

@@ -149,9 +149,9 @@ def create_main_email_table(self,data):
             if widget is not None:
                 widget.setParent(None)
         for id,tag in tag_names:
-            print(tag)
+            # print(tag)
             color = self.tag_color[tag]
-            print(color)
+            # print(color)
             if not color:
                 hash_object = hashlib.md5(tag.encode())
                 hex_color = '#' + hash_object.hexdigest()[:6]

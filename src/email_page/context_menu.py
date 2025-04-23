@@ -5,7 +5,7 @@ import src.db_function.db_email_function as db_email
 from src.label_page.main_label_page import load_all_labels,load_clicked_email_on_labels
 from src.email_page.label_dialog import LabelsCrud
 import logging
-
+from src.email_page.main_emeil_table import load_data_from_database
 from src.email_page.multi_tag_selector import MultiTagSelectorMultiEmail
 from src.email_page.main_emeil_table import load_data_from_database
 
@@ -52,7 +52,8 @@ class LabelContextMenu(ContextMenu):
         dialog = LabelsCrud(self.db_connection,self.path)
         if dialog.exec():
             logger.info(f"Zaktualizowano tagi dla użytkownika")
-            
+            load_data_from_database(self.parent)
+
     def super_add_label(self,context_widget):
         self.show_label_crud()
         selected_text = context_widget.selectedText()

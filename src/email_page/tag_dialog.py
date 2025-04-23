@@ -68,7 +68,7 @@ class TagCrud(QDialog):
 
     def open_add_tag_dialog(self) -> None:
         """Otwiera okno dialogowe umożliwiające dodanie nowego tagu."""
-        print(self.path)
+        # print(self.path)
         dialog = MultiTagInputDialog(self.connection,path=self.path)
         if dialog.exec():
             print("Nowy tag został dodany.")
@@ -82,7 +82,7 @@ def delete_and_refresh(self, connection, tag_id,tag_name):
         if dialog.is_global_delete():
             all_dir = os.scandir(self.path)
             for path in all_dir:
-                print(os.path.join(self.path,path.name,path.name+'.sqlite'))
+                # print(os.path.join(self.path,path.name,path.name+'.sqlite'))
                 db_email.connect_to_database(self,os.path.join(self.path,path.name,path.name+'.sqlite'))
                 cursor = self.db_connection.cursor()
                 cursor.execute("DELETE FROM tags WHERE tag_name = ?", (tag_name,))

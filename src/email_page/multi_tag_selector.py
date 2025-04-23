@@ -64,7 +64,7 @@ class MultiTagSelector(QDialog):
         """Otwiera okno dialogowe umożliwiające dodanie nowego tagu."""
         dialog = MultiTagInputDialog(self.connection,path = self.path)
         if dialog.exec():
-            print("Nowy tag został dodany.")
+            #print("Nowy tag został dodany.")
             self.load_tags()
     
     def open_tag_crud(self):
@@ -90,7 +90,7 @@ class MultiTagSelectorMultiEmail(QDialog):
 
     def load_tags(self) -> None:
         """Ładuje wszystkie tagi i zaznacza te przypisane do emaila."""
-        print(self.connection)
+        #print(self.connection)
         cursor = self.connection.cursor()
         self.tag_list.clear()
         cursor.execute("SELECT id, tag_name FROM tags")

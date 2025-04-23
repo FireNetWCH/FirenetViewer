@@ -72,7 +72,7 @@ def delete_and_refresh(self, connection, tag_id,label_name):
         if dialog.is_global_delete():
             all_dir = os.scandir(self.path)
             for path in all_dir:
-                print(os.path.join(self.path,path.name,path.name+'.sqlite'))
+                # print(os.path.join(self.path,path.name,path.name+'.sqlite'))
                 connect_to_database(self,os.path.join(self.path,path.name,path.name+'.sqlite'))
                 cursor = self.db_connection.cursor()
                 cursor.execute("DELETE FROM labels_name WHERE label_name = ?", (label_name,))
@@ -121,15 +121,17 @@ class LabelInputDialog(QDialog):
         if new_label_name:
             if self.radio_local.isChecked():
                 cursor = self.connection.cursor()
-                cursor.execute("INSERT INTO labels_name (label_name) VALUES (?)", (new_label_name,))
+                print("IGNORE TEST")
+                cursor.execute("INSERT OR IGNORE INTO labels_name (label_name) VALUES (?)", (new_label_name,))
                 self.connection.commit()
                 self.accept()
             else:
                 all_dir = os.scandir(self.path)
                 for path in all_dir:
-                    print(os.path.join(self.path,path.name,path.name+'.sqlite'))
+                    # print(os.path.join(self.path,path.name,path.name+'.sqlite'))
                     connect_to_database(self,os.path.join(self.path,path.name,path.name+'.sqlite'))
                     cursor = self.db_connection.cursor()
+                    print("IGNORE TEST2")
                     cursor.execute("INSERT OR IGNORE INTO labels_name (label_name) VALUES (?)", (new_label_name,))
                     self.db_connection.commit()
                 self.accept()
