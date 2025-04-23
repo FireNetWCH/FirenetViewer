@@ -2,10 +2,11 @@ from PySide6.QtWidgets import QListWidget, QListWidgetItem, QCheckBox, QPushButt
 from src.email_page.multi_tag_dialog import MultiTagInputDialog
 class MultiTagSelector(QDialog):
     """Dialog do edycji tagów użytkownika."""
-    def __init__(self, user_id=None, connection=None, parent=None):
+    def __init__(self, user_id=None, connection=None, parent=None,path =None):
         super().__init__(parent)
         self.user_id = user_id
         self.connection = connection
+        self.path = path
         self.setWindowTitle("Wybierz kategorie")
         self.tag_list = QListWidget(self)
         self.ok_btn = QPushButton("OK", self)
@@ -56,7 +57,7 @@ class MultiTagSelector(QDialog):
 
     def open_add_tag_dialog(self) -> None:
         """Otwiera okno dialogowe umożliwiające dodanie nowego tagu."""
-        dialog = MultiTagInputDialog(self.connection)
+        dialog = MultiTagInputDialog(self.connection,path = self.path)
         if dialog.exec():
             print("Nowy tag został dodany.")
             self.load_tags()

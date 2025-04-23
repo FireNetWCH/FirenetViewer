@@ -1,13 +1,15 @@
-from PySide6.QtWidgets import QListWidget, QListWidgetItem, QPushButton, QVBoxLayout, QDialog,QLineEdit,QHBoxLayout,QWidget
+from PySide6.QtWidgets import QListWidget, QListWidgetItem, QPushButton, QVBoxLayout, QDialog,QLineEdit,QHBoxLayout,QWidget,QRadioButton,QButtonGroup
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import QSize
-from src.db_function.db_email_function import delate_label,updata_label_name
-
+from src.db_function.db_email_function import delate_label,updata_label_name,connect_to_database
+import os
+from src.email_page.tag_dialog import DeleteConfirmDialog
 class LabelsCrud(QDialog):
     """Dialog do edycji labelek użytkownika."""
-    def __init__(self, connection, parent=None):
+    def __init__(self, connection,path, parent=None):
         super().__init__(parent)
         self.connection = connection
+        self.path = path
         self.setWindowTitle("Wybierz etykiete")
         self.label_list = QListWidget(self)
         self.label_list.setObjectName("labelCrud")
@@ -26,7 +28,7 @@ class LabelsCrud(QDialog):
         self.load_labels(connection)
 
     def load_labels(self,connection) -> None:
-        """Ładuje wszystkie tagi i zaznacza te przypisane do użytkownika."""
+        """Ładuje wszystkie labelki."""
         cursor = self.connection.cursor()
         self.label_list.clear()
         cursor.execute("SELECT id, label_name FROM labels_name")
@@ -40,7 +42,7 @@ class LabelsCrud(QDialog):
             remove_button = QPushButton()
             remove_button.setIcon((QIcon(":feather\\icons\\feather\\trash.png")))
             remove_button.setFixedSize(30, 30)
-            remove_button.clicked.connect(lambda _, id=tag_id: delete_and_refresh(self,connection, id))
+            remove_button.clicked.connect(lambda _, id=tag_id,label_name = label_name: delete_and_refresh(self,connection, id,label_name))
             save_button = QPushButton()
             save_button.setIcon((QIcon(":feather\\icons\\feather\\save.png")))
             save_button.setFixedSize(30, 30)
@@ -57,29 +59,60 @@ class LabelsCrud(QDialog):
     
     def open_add_label_dialog(self) -> None:
         """Otwiera okno dialogowe umożliwiające dodanie nowego tagu."""
-        dialog = LabelInputDialog(self.connection)
+        dialog = LabelInputDialog(self.connection,path = self.path)
         if dialog.exec():
             print("Nowy tag został dodany.")
             self.load_labels(self.connection)
 
-def delete_and_refresh(self, connection, tag_id):
+def delete_and_refresh(self, connection, tag_id,label_name):
     """Usuwa labelke, a następnie odświeża listę."""
-    delate_label(connection, tag_id) 
-    self.load_labels(connection)
+    dialog = DeleteConfirmDialog(self)
+    result = dialog.exec()
+    if result == QDialog.Accepted:
+        if dialog.is_global_delete():
+            all_dir = os.scandir(self.path)
+            for path in all_dir:
+                print(os.path.join(self.path,path.name,path.name+'.sqlite'))
+                connect_to_database(self,os.path.join(self.path,path.name,path.name+'.sqlite'))
+                cursor = self.db_connection.cursor()
+                cursor.execute("DELETE FROM labels_name WHERE label_name = ?", (label_name,))
+                self.db_connection.commit()
+            self.load_labels(connection)
+        else:
+            delate_label(connection, tag_id) 
+            self.load_labels(connection)
+    # delate_label(connection, tag_id) 
+    # self.load_labels(connection)
 
 
 class LabelInputDialog(QDialog):
     """Dialog do dodawania nowej labelki."""
-    def __init__(self, connection, parent=None):
+    def __init__(self, connection,path, parent=None ):
         super().__init__(parent)
         self.connection = connection
+        self.path = path
+        self.db_connection = None
         self.setWindowTitle("Dodaj nową etykete")
         self.new_tag_input = QLineEdit(self)
         self.new_tag_input.setPlaceholderText("Wpisz nową etykete tutaj...")
+
+        self.radio_local = QRadioButton("Dodaj etykiete loklanie")
+        self.radio_global = QRadioButton("Dodaj etykiete globalnie")
+        self.radio_local.setChecked(True)
+
+        self.button_group = QButtonGroup(self)
+        self.button_group.addButton(self.radio_local)
+        self.button_group.addButton(self.radio_global)
+
+        
+
+
         self.ok_btn = QPushButton("OK", self)
         self.ok_btn.clicked.connect(self.add_new_tag)
         layout = QVBoxLayout(self)
         layout.addWidget(self.new_tag_input)
+        layout.addWidget(self.radio_local)
+        layout.addWidget(self.radio_global)
         layout.addWidget(self.ok_btn)
         self.setLayout(layout)
 
@@ -87,10 +120,19 @@ class LabelInputDialog(QDialog):
         """Dodaje nową etykete do bazy danych."""
         new_label_name = self.new_tag_input.text().strip()
         if new_label_name:
-            cursor = self.connection.cursor()
-            cursor.execute("INSERT INTO labels_name (label_name) VALUES (?)", (new_label_name,))
-            self.connection.commit()
-            self.accept()
-
+            if self.radio_local.isChecked():
+                cursor = self.connection.cursor()
+                cursor.execute("INSERT INTO labels_name (label_name) VALUES (?)", (new_label_name,))
+                self.connection.commit()
+                self.accept()
+            else:
+                all_dir = os.scandir(self.path)
+                for path in all_dir:
+                    print(os.path.join(self.path,path.name,path.name+'.sqlite'))
+                    connect_to_database(self,os.path.join(self.path,path.name,path.name+'.sqlite'))
+                    cursor = self.db_connection.cursor()
+                    cursor.execute("INSERT OR IGNORE INTO labels_name (label_name) VALUES (?)", (new_label_name,))
+                    self.db_connection.commit()
+                self.accept()
             
             

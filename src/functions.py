@@ -73,7 +73,7 @@ class GUIFunctions(QObject):
         #kolumna w tabeli emaili gdzie znajdzuje się checbox
         self.column_check_box= 5
         # config_path = get_resource_path("config.json")
-        print(os.getcwd())
+        #print(os.getcwd())
         # config_path = os.getcwd()+"\\SQL"
         self.pom = True
         # config = json.load(config_path)
@@ -225,7 +225,7 @@ class GUIFunctions(QObject):
         self.ui.tagiBtn.clicked.connect(self.show_tag_crud)
 
 
-        self.ui.labelNameCrudBtn.clicked.connect(self.show_label_crud)
+        self.ui.labelNameCrudBtn.clicked.connect(lambda :self.show_label_crud(self.path))
         self.ui.lableBtn.clicked.connect(self.open_label_page)
         self.ui.LabelTableWidget.cellClicked.connect(lambda row : load_clicked_email_on_labels(self,row))
         self.ui.contactBtn.clicked.connect(self.show_email_client)
@@ -402,15 +402,15 @@ class GUIFunctions(QObject):
         QDesktopServices.openUrl(QUrl(mailto_link))
 
     def show_tag_crud(self):
-        dialog = TagCrud(self.db_connection,self.sql_name)
+        dialog = TagCrud(self.db_connection,self.sql_name,path = self.path)
         load_color_dictionery(self)
         if dialog.exec():
             logger.info(f"Zaktualizowano tagi dla użytkownika")
             #self.ui.selectedTagLabel.setText(f"Wybrane Tagi: {self.active_filters['tag'].removeprefix("(").removesuffix(")")}")
             
     
-    def show_label_crud(self):
-        dialog = LabelsCrud(self.db_connection)
+    def show_label_crud(self,path):
+        dialog = LabelsCrud(self.db_connection,path = path)
         if dialog.exec():
             logger.info(f"Zaktualizowano labelki")
             load_all_labels(self)
@@ -494,7 +494,7 @@ class GUIFunctions(QObject):
     
     def show_context_menu(self, pos):
         context_widget = self.ui.EmailtabWidget.findChild(QLabel, "body")
-        context_menu = LabelContextMenu(self.main, self.db_connection,self)
+        context_menu = LabelContextMenu(self.main, self.db_connection,self,path=self.path)
         context_menu.show(pos, context_widget)
 
     def show_context_menu_email_body(self,pos):
@@ -629,7 +629,7 @@ class GUIFunctions(QObject):
             self.db_connection.close()
             print("zamknięto polaczenie")
         self.current_page = 0
-        
+        print(self.path)
         db_path = os.path.join(self.path,item.text().removesuffix('.sqlite'),item.text())
         #print(db_path)
         
@@ -829,7 +829,7 @@ class GUIFunctions(QObject):
     def open_tag_selector(self, email_id: int) -> None:
         """Otwiera okno dialogowe do edycji tagów użytkownika."""
         load_color_dictionery(self)
-        dialog = MultiTagSelector(email_id, self.db_connection, self.main)
+        dialog = MultiTagSelector(email_id, self.db_connection, self.main, self.path)
         dialog.load_tags()
         if dialog.exec():
             logger.info(f"Zaktualizowano kategorie dla użytkownika {email_id}")

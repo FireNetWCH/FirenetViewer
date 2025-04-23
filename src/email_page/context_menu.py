@@ -21,9 +21,10 @@ class ContextMenu:
         raise NotImplementedError("Metoda 'show' musi być zaimplementowana w klasie pochodnej")
 
 class LabelContextMenu(ContextMenu):
-    def __init__(self, main, db_connection,parent):
+    def __init__(self, main, db_connection,parent,path):
         super().__init__(main, db_connection)
         self.parent= parent
+        self.path = path
 
     def add_lebels_to_db(self,id_labels_name,selected_text,parent):
         db_email.add_label(parent.db_connection,id_labels_name,parent.id_selected_email,selected_text)
@@ -48,7 +49,7 @@ class LabelContextMenu(ContextMenu):
         labelContextMenu.exec(context_widget.mapToGlobal(pos))
 
     def show_label_crud(self):
-        dialog = LabelsCrud(self.db_connection)
+        dialog = LabelsCrud(self.db_connection,self.path)
         if dialog.exec():
             logger.info(f"Zaktualizowano tagi dla użytkownika")
             
