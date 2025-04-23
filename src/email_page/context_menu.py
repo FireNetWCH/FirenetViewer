@@ -57,7 +57,7 @@ class LabelContextMenu(ContextMenu):
         selected_text = context_widget.selectedText()
         if selected_text != "":
             all_labels = db_email.get_all_labels_name(self.db_connection)
-            print(all_labels)
+            #print(all_labels)
             self.add_lebels_to_db(all_labels[-1][0], selected_text,self.parent)
             
 

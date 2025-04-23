@@ -21,10 +21,11 @@ def get_resource_path(relative_path):
 
 class ClickableLabel(QLabel):
     clicked = Signal()
-
+    
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
             self.clicked.emit()
+            
         super().mousePressEvent(event)
 
 def create_tag_widget(tag_names, color_manager,user_id,self):
@@ -114,16 +115,13 @@ def create_main_email_table(self,data):
             if widget is not None:
                 widget.setParent(None)
         for id,tag in tag_names:
-            #color = self.tag_color[tag]
-            
-            
             hash_object = hashlib.md5(tag.encode())
             hex_color = '#' + hash_object.hexdigest()[:6]
             color = hex_color
             #self.tag_color[tag] = color
             btn = ClickableLabel(tag)    
             btn.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-
+            btn.setFocusPolicy(Qt.NoFocus)
             btn.setStyleSheet(f"""
                 background-color: {color};
                 color: black;
@@ -132,7 +130,9 @@ def create_main_email_table(self,data):
                 font-size: 11px;
                 border: none;
             """)
-            #btn.clicked.connect(lambda uid=user_id: self.open_tag_selector(uid))
+            btn.clicked.connect(lambda label_id  = id :self.set_labels(label_id))
+                       
+
 
             layout.addWidget(btn)
 
@@ -158,6 +158,7 @@ def create_main_email_table(self,data):
                 color = hex_color
                 self.tag_color[tag] = color
             btn = ClickableLabel(tag)
+            btn.setFocusPolicy(Qt.NoFocus)
             btn.setStyleSheet(f"""
                 background-color: {color};
                 color: black;

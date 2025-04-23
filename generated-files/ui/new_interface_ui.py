@@ -1198,7 +1198,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 520, 382))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, -85, 520, 382))
         sizePolicy1.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents.setSizePolicy(sizePolicy1)
         self.verticalLayout_20 = QVBoxLayout(self.scrollAreaWidgetContents)
@@ -1481,6 +1481,7 @@ class Ui_MainWindow(object):
 
         self.scrollArea_5 = QScrollArea(self.widget_46)
         self.scrollArea_5.setObjectName(u"scrollArea_5")
+        self.scrollArea_5.setFocusPolicy(Qt.FocusPolicy.NoFocus)
         self.scrollArea_5.setWidgetResizable(True)
         self.scrollAreaWidgetContents_5 = QWidget()
         self.scrollAreaWidgetContents_5.setObjectName(u"scrollAreaWidgetContents_5")

@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import QTableWidgetItem,QAbstractItemView,QPushButton,QHeaderView,QLabel,QListWidget,QListWidgetItem,QComboBox
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QColor,QPalette
 import src.db_function.db_email_function as db_email
 import logging
 import os
@@ -8,7 +9,7 @@ from src.db_function.db_email_function import select_all_label
 from src.atachment_list_widget import FileListItem
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
-
+import hashlib
 def load_all_labels(self):
     data = select_all_label(self.db_connection)
     self.ui.LabelTableWidget.setRowCount(0)
@@ -28,12 +29,27 @@ def load_all_labels(self):
         for col_idx, cell_data in enumerate(row_data):
             if col_idx == 2:
                 combo_box = QComboBox()
-                for id_, name in all_labels:
-                    combo_box.addItem(name, id_) 
+                for idx, (id_, name) in enumerate(all_labels):
+                    combo_box.addItem(name, id_)
+                    item = combo_box.model().item(idx)
+                    hash_object = hashlib.md5(name.encode())
+                    hex_color = '#' + hash_object.hexdigest()[:6]
+                    item.setBackground(QColor(hex_color))
+                     
                 combo_box.setCurrentText(str(cell_data))
+                hash_object = hashlib.md5(str(cell_data).encode())
+                hex_color = '#' + hash_object.hexdigest()[:6]
+                combo_box.setStyleSheet("QComboBox"
+                                     "{"
+                                     f"background-color: {hex_color};"
+                                     "}")
+                
+                
+                    
+                
                 combo_box.setFocusPolicy(Qt.NoFocus)
                 combo_box.wheelEvent = lambda event: event.ignore()
-                combo_box.currentIndexChanged.connect(lambda _, row=label_id, cb=combo_box: label_name_changed(self, self.db_connection, row, cb.currentData()))
+                combo_box.currentIndexChanged.connect(lambda _, row=label_id, cb=combo_box: label_name_changed(self, self.db_connection, row, cb))
                 self.ui.LabelTableWidget.setCellWidget(row_idx, col_idx, combo_box)
             else:
                 item = QTableWidgetItem(str(cell_data) if cell_data else "")
@@ -48,18 +64,29 @@ def load_all_labels(self):
 
     logger.info("Dane zostały załadowane do tabeli.")
 
-def label_name_changed(self,db_connection,id_email_label,id_label):
-    db_email.update_id_labels_name(db_connection,id_email_label,id_label)
+def label_name_changed(self,db_connection,id_email_label,cb):
+    db_email.update_id_labels_name(db_connection,id_email_label,cb.currentData())
+    label_name = db_email.get_label_name(db_connection,cb.currentData())
+    hash_object = hashlib.md5(label_name[0][0].encode())
+    hex_color = '#' + hash_object.hexdigest()[:6]
+    cb.setStyleSheet("QComboBox"
+                                     "{"
+                                     f"background-color: {hex_color};"
+                                     "}")
     load_all_labels(self)
 
 def delete_row (self,id_email_label):
     db_email.delate_email_labels(self.db_connection,id_email_label)
     load_all_labels(self)
     
+def make_index_changed_handler(row, cb,self):
+    return lambda _: label_name_changed(self, self.db_connection, row, cb)
 
 def load_clicked_email_on_labels(self, row):
     self.last_clicket_row = row
     id = self.ui.LabelTableWidget.item(row, 3).text()
+    label_name = self.ui.LabelTableWidget.cellWidget(row, 2).currentText()
+    # print(label_name)
     search_term = self.ui.LabelTableWidget.item(row, 1).text().strip()
     self.id_selected_label = self.ui.LabelTableWidget.item(row, 0).text()
     self.id_selected_email = id
@@ -117,8 +144,9 @@ def load_clicked_email_on_labels(self, row):
     pattern_str = re.sub(r"\\\s+", r"\\s*+", escaped_term) 
     
     pattern = re.compile(pattern_str, re.IGNORECASE)
-
-    highlighted_content = pattern.sub(lambda match: f"<span style='background-color: yellow;'>{match.group()}</span>", tekst)
+    hash_object = hashlib.md5(label_name.encode())
+    hex_color = '#' + hash_object.hexdigest()[:6]
+    highlighted_content = pattern.sub(lambda match: f"<span style='background-color: {hex_color};'>{match.group()}</span>", tekst)
     highlighted_content = highlighted_content.replace('\n', '<br>')
 
     body_label.setTextFormat(Qt.TextFormat.RichText)

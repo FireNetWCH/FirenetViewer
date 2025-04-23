@@ -424,7 +424,7 @@ class GUIFunctions(QObject):
 
     def open_facebook_in_browser(self):
         QDesktopServices.openUrl(QUrl(self.url_fb))
-
+    
     def set_tag(self,tag):
         values = []
         query_parts = []
@@ -504,7 +504,11 @@ class GUIFunctions(QObject):
 
     def add_lebels_to_db(self,id_labels_name,selected_text):
         db_email_function.add_label(self.db_connection,id_labels_name,self.id_selected_email,selected_text)
+    
+    def set_labels(self,id_labels):
+        print(self.ui.body.selectedText())
         
+        db_email_function.add_label(self.db_connection,id_labels,self.id_selected_email,self.ui.body.selectedText())
 
     def show_heder_winodw(self):
         if self.ui.emailHederDockWidget.isHidden():
@@ -625,6 +629,7 @@ class GUIFunctions(QObject):
             self.db_connection.close()
             print("zamknięto polaczenie")
         self.current_page = 0
+        
         db_path = os.path.join(self.path,item.text().removesuffix('.sqlite'),item.text())
         #print(db_path)
         
@@ -750,7 +755,6 @@ class GUIFunctions(QObject):
                 
             else:
                 tekst_html = tekst.replace('\n', '<br>')
-
                 highlighted_content = pattern.sub(lambda match: f"<span style='background-color: yellow;'>{match.group()}</span>",tekst_html)
                 body_label.setTextFormat(Qt.TextFormat.RichText)    
                 body_label.setText(highlighted_content)
@@ -1070,8 +1074,9 @@ class GUIFunctions(QObject):
 
         if self.db_connection is None and len(sql_list_file) > 0 :
             try:
-               
-                db_email_function.connect_to_database(self,path_to_dir+"\\"+sql_list_file[0].split('.')[-2]+"\\"+sql_list_file[0])
+                #db_path = os.path.join(self.path,item.text().removesuffix('.sqlite'),item.text())
+                print(f"sql_list[0]: {sql_list_file[0]}")
+                db_email_function.connect_to_database(self,path_to_dir+"\\"+sql_list_file[0].removesuffix('.sqlite')+"\\"+sql_list_file[0])
                 load_color_dictionery(self)
                 load_data_from_database(self)
                 

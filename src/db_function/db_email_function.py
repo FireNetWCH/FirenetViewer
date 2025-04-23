@@ -134,6 +134,20 @@ def update_multi_flags(db_connection,id_list,state):
     cursor.execute(query, (state, *id_list))
     db_connection.commit()
 
+def get_label_name(db_connection,id_label):
+    """Zwraca nazwę labelki o wskazanym id"""
+    try:
+        query=f"""
+        SELECT label_name from labels_name where id = {id_label}
+        """
+        cursor = db_connection.cursor()
+        cursor.execute(query)
+        results = cursor.fetchall()
+        return results
+    except sqlite3.Error as e:
+        logger.error(f"Błąd podczas pobierania nazwy labelki o wskazanym id: {e}")
+        print(f"Błąd podczas pobierania nazwy labelki o wskazanym id: {e}")
+
     
 def update_flag(db_connection, email_id: int, state: int) -> None:
         """Aktualizuje flagę użytkownika w bazie danych."""
