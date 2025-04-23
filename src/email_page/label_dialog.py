@@ -81,8 +81,7 @@ def delete_and_refresh(self, connection, tag_id,label_name):
         else:
             delate_label(connection, tag_id) 
             self.load_labels(connection)
-    # delate_label(connection, tag_id) 
-    # self.load_labels(connection)
+    
 
 
 class LabelInputDialog(QDialog):

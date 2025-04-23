@@ -1,29 +1,34 @@
 from PySide6.QtWidgets import QListWidget, QListWidgetItem, QCheckBox, QPushButton, QVBoxLayout, QDialog
 from src.email_page.multi_tag_dialog import MultiTagInputDialog
+from src.email_page.tag_dialog import TagCrud
 class MultiTagSelector(QDialog):
     """Dialog do edycji tagów użytkownika."""
-    def __init__(self, user_id=None, connection=None, parent=None,path =None):
+    def __init__(self, user_id=None,sql_name = None, connection=None, parent=None,path =None):
         super().__init__(parent)
         self.user_id = user_id
         self.connection = connection
         self.path = path
+        self.sql_name = sql_name
         self.setWindowTitle("Wybierz kategorie")
         self.tag_list = QListWidget(self)
         self.ok_btn = QPushButton("OK", self)
         self.ok_btn.clicked.connect(self.apply_changes)
+        self.edit_btn = QPushButton("Edycja", self)
         self.add_btn = QPushButton("Dodaj Kategorie")
 
         self.add_btn.clicked.connect(self.open_add_tag_dialog)
+        self.edit_btn.clicked.connect(self.open_tag_crud)
         layout = QVBoxLayout(self)
         layout.addWidget(self.tag_list)
         layout.addWidget(self.add_btn)
         layout.addWidget(self.ok_btn)
+        layout.addWidget(self.edit_btn)
         self.setLayout(layout)
         
 
     def load_tags(self) -> None:
         """Ładuje wszystkie tagi i zaznacza te przypisane do emaila."""
-        print(self.connection)
+        #print(self.connection)
         cursor = self.connection.cursor()
         self.tag_list.clear()
         cursor.execute("SELECT id, tag_name FROM tags")
@@ -61,8 +66,11 @@ class MultiTagSelector(QDialog):
         if dialog.exec():
             print("Nowy tag został dodany.")
             self.load_tags()
-
-
+    
+    def open_tag_crud(self):
+        dialog = TagCrud(self.connection,self.sql_name,self,self.path)
+        if dialog.exec():
+            self.load_tags()
 class MultiTagSelectorMultiEmail(QDialog):
     """Dialog do edycji tagów użytkownika."""
     def __init__(self, user_id=None, connection=None, parent=None):

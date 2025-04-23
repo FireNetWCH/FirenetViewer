@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QTableWidgetItem,QAbstractItemView,QPushButton,QHeaderView,QLabel,QListWidget,QListWidgetItem,QComboBox
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QColor,QPalette
+from PySide6.QtGui import QColor
 import src.db_function.db_email_function as db_email
 import logging
 import os
@@ -43,10 +43,6 @@ def load_all_labels(self):
                                      "{"
                                      f"background-color: {hex_color};"
                                      "}")
-                
-                
-                    
-                
                 combo_box.setFocusPolicy(Qt.NoFocus)
                 combo_box.wheelEvent = lambda event: event.ignore()
                 combo_box.currentIndexChanged.connect(lambda _, row=label_id, cb=combo_box: label_name_changed(self, self.db_connection, row, cb))

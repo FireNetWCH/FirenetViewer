@@ -29,6 +29,7 @@ class TagCrud(QDialog):
         layout.addWidget(self.tag_list)
         layout.addWidget(self.add_btn)
         layout.addWidget(self.ok_btn)
+        
         self.setLayout(layout)
         self.load_tags(connection)
         

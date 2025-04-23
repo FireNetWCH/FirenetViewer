@@ -1,6 +1,5 @@
 import sys
-from PySide6.QtWidgets import QApplication, QMainWindow,QMessageBox
-from PySide6.QtCore import Slot
+from PySide6.QtWidgets import QApplication, QMainWindow
 from src.functions import GUIFunctions
 from src.ui_interface import Ui_MainWindow
 from Custom_Widgets import *

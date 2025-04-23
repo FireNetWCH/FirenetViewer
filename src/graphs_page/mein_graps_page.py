@@ -1,13 +1,10 @@
 import src.db_function.db_email_function as db_email
-from PySide6.QtWidgets import QTableWidgetItem,QVBoxLayout,QWidget
+from PySide6.QtWidgets import QVBoxLayout,QWidget
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from PySide6.QtCharts import QChart, QChartView, QBarSeries, QBarSet, QBarCategoryAxis, QValueAxis
 from PySide6.QtWidgets import QVBoxLayout, QWidget,QSizePolicy,QScrollArea
 from PySide6.QtWebEngineWidgets import QWebEngineView
-from PySide6.QtCore import QUrl, QDateTime
+from PySide6.QtCore import QUrl
 from matplotlib.figure import Figure
-from matplotlib.colors import LinearSegmentedColormap
-import matplotlib.ticker as ticker
 import matplotlib.dates as mdates
 import numpy as np
 from collections import defaultdict
@@ -18,7 +15,6 @@ import os
 import sys
 import logging
 import matplotlib as plt
-from PySide6.QtCore import Qt
 import matplotlib.dates as mdates
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)

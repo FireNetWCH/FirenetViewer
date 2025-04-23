@@ -3,13 +3,13 @@ import sqlite3
 import logging
 from typing import Any, List, Dict, Optional
     
-from PySide6.QtCore import Qt, QSettings, QDir, QPoint,QEasingCurve,QDate,QUrl,QFile,Slot,QObject
+from PySide6.QtCore import Qt, QSettings, QDir, QPoint,QEasingCurve,QDate,QUrl,Slot,QObject
 from PySide6.QtGui import QFont, QFontDatabase, QAction, QPixmap,QIcon,QDesktopServices,QImage
-from PySide6.QtWidgets import (QLineEdit,QScrollArea,QApplication,
+from PySide6.QtWidgets import (QLineEdit,QApplication,
     QPushButton, QGraphicsScene, QTabBar,QMenu, QFileSystemModel,QSizePolicy,QSplitter,QFrame,QDialog,QMessageBox,
     QTreeView, QVBoxLayout, QFileDialog,QListWidgetItem, QTreeWidget, QMainWindow,QListWidget,QHeaderView,QSizeGrip
 )
-from PySide6.QtWebEngineWidgets import QWebEngineView
+
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from reportlab.lib.pagesizes import letter
@@ -499,7 +499,7 @@ class GUIFunctions(QObject):
 
     def show_context_menu_email_body(self,pos):
         context_widget = self.ui.page.findChild(QLabel, "body_2")
-        context_menu = EditLabelContextMenu(self.main, self.db_connection,self)
+        context_menu = EditLabelContextMenu(self.main, self.db_connection,self,path= self.path)
         context_menu.show(pos, context_widget)
 
     def add_lebels_to_db(self,id_labels_name,selected_text):
@@ -829,7 +829,7 @@ class GUIFunctions(QObject):
     def open_tag_selector(self, email_id: int) -> None:
         """Otwiera okno dialogowe do edycji tagów użytkownika."""
         load_color_dictionery(self)
-        dialog = MultiTagSelector(email_id, self.db_connection, self.main, self.path)
+        dialog = MultiTagSelector(email_id,self.sql_name, self.db_connection, self.main, self.path)
         dialog.load_tags()
         if dialog.exec():
             logger.info(f"Zaktualizowano kategorie dla użytkownika {email_id}")

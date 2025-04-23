@@ -5,7 +5,7 @@ import src.db_function.db_email_function as db_email
 from src.label_page.main_label_page import load_all_labels,load_clicked_email_on_labels
 from src.email_page.label_dialog import LabelsCrud
 import logging
-from src.email_page.main_emeil_table import ClickableLabel
+
 from src.email_page.multi_tag_selector import MultiTagSelectorMultiEmail
 from src.email_page.main_emeil_table import load_data_from_database
 
@@ -63,10 +63,10 @@ class LabelContextMenu(ContextMenu):
             
 
 class EditLabelContextMenu(LabelContextMenu):
-    def __init__(self, main, db_connection,parent):
-        super().__init__(main, db_connection,parent)
+    def __init__(self, main, db_connection,parent,path):
+        super().__init__(main, db_connection,parent,path)
         self.parent = parent
-
+        self.path = path
     def add_lebels_to_db(self,id_labels_name,selected_text,parent):
         super().add_lebels_to_db(id_labels_name,selected_text,parent)
         load_all_labels(parent)

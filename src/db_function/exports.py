@@ -5,10 +5,10 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import Paragraph,Table, TableStyle,SimpleDocTemplate
 from reportlab.lib.styles import getSampleStyleSheet,ParagraphStyle
 import src.db_function.db_email_function as db_email
-from PySide6.QtCore import QObject, QThread, Signal, Slot,Qt
+from PySide6.QtCore import QObject, QThread, Signal,Qt
 import re
 import os
-from PySide6.QtWidgets import QFileDialog,QMessageBox
+from PySide6.QtWidgets import QFileDialog
 import logging
 import shutil 
 import pandas as pd
