@@ -314,27 +314,36 @@ class GUIFunctions(QObject):
 
         #ustawienie odpowiednich ikon i kolorów tła
     
-        self.ui.homeBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\home.png")))
-        self.ui.infoBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\activity.png")))
-        self.ui.dataBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\mail.png")))
-        self.ui.graphsBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\font_awesome\\solid\\chart-pie.png")))
-        self.ui.meilBoxBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\material_design\\format_align_justify.png")))
+       
         self.ui.export_pdf.setIcon(QIcon(":feather/icons/feather/pdf.png"))
-        self.ui.closeCenterMenuBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\icons\\font_awesome\\solid\\circle-xmark.png")))
+        
         self.ui.exportExelBtn.setIcon(QIcon(":feather/icons/feather/xls.png"))
-        self.ui.startDataBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\icons\\font_awesome\\regular\\calendar.png")))
+        
         self.ui.clearBtn.setIcon(QIcon(":material_design/icons/material_design/hide_source.png"))
         self.ui.show_table_btn.setIcon(QIcon(":feather/icons/feather/rotate-cw.png"))
         self.ui.leftMenu.setStyleSheet("background-color: #102339; border: 3px solid #102339;")
-        self.ui.restoreBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\copy.png")))
-        self.ui.closeBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\x.png")))
-        self.ui.minimalizeBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\minus.png")))
+
+        self.ui.homeBtn.setIcon(QIcon(":feather/FFFFFF/feather/home.png"))
+        self.ui.infoBtn.setIcon(QIcon(":feather/FFFFFF/feather/activity.png"))
+        self.ui.dataBtn.setIcon(QIcon(":feather/FFFFFF/feather/mail.png"))
+        self.ui.restoreBtn.setIcon(QIcon(":feather/FFFFFF/feather/copy.png"))
+        self.ui.closeBtn.setIcon(QIcon(":feather/FFFFFF/feather/x.png"))
+        self.ui.linkedinBtn.setIcon(QIcon(":feather/FFFFFF/feather/linkedin.png"))
+        self.ui.fbBtn.setIcon(QIcon(":feather/FFFFFF/feather/facebook.png"))
+
+        self.ui.graphsBtn.setIcon(QIcon(":font_awesome/FFFFFF/font_awesome/solid/chart-pie.png"))
+        self.ui.meilBoxBtn.setIcon(QIcon(":material_design/FFFFFF/material_design/format_align_justify.png"))
+        
+        self.ui.closeCenterMenuBtn.setIcon(QIcon(":font_awesome/icons/font_awesome/solid/circle-xmark.png"))
+        self.ui.startDataBtn.setIcon(QIcon(":font_awesome/icons/font_awesome/regular/calendar.png"))
+
+        self.ui.minimalizeBtn.setIcon(QIcon(":feather/FFFFFF/feather/minus.png"))
         self.ui.prevEmailTableBtn.setIcon(QIcon(":feather/icons/feather/arrow_left.png"))
         self.ui.nextEmailTableBtn.setIcon(QIcon(":feather/icons/feather/arrow_right.png"))
         
-        self.ui.fbBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\facebook.png")))
-        self.ui.wwwBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\font_awesome\\solid\\rss.png")))
-        self.ui.linkedinBtn.setIcon(QIcon(get_resource_path("Qss\\icons\\FFFFFF\\feather\\linkedin.png")))
+        self.ui.fbBtn.setIcon(QIcon(":feather/FFFFFF/feather/facebook.png"))
+        self.ui.wwwBtn.setIcon(QIcon(":feather/FFFFFF/font_awesome/solid/rss.png"))
+        
         # file = QFile(":feather/FFFFFF/feather/activity.png")
 
         # if file.exists():
