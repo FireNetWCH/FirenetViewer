@@ -32,15 +32,16 @@ from src.db_function.exports import export_to_pdf,export_to_excel
 from src.email_page.export_options import ExportSelector
 from src.label_page.main_label_page import load_all_labels,load_clicked_email_on_labels
 from src.db_function.db_email_folders_tree import load_folders_data_into_tree
-from src.email_page.main_emeil_table import load_data_from_database,load_color_dictionery
+from src.email_page.main_emeil_table import load_data_from_database,load_color_dictionery,ClickableLabel
 from src.email_page.context_menu import LabelContextMenu,EditLabelContextMenu,TableContextMenu
 from src.message_box.scaletLabel import ScalableLabel
 #from src.label_context_menu import show_context_menu
 import src.db_function.db_email_function as db_email_function
 from src.graphs_page.mein_graps_page import load_stat 
+from src.message_box.date_warning import add_labels_worning
 import shutil 
 import sys
-
+import hashlib
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -402,6 +403,7 @@ class GUIFunctions(QObject):
         else:
             self.main.showMaximized()
             self.pom=True
+            
     def show_email_client(self):
         adres_email = "biuro@firenet.com.pl"
         subject = "FireNet Viewer: "
@@ -458,6 +460,8 @@ class GUIFunctions(QObject):
         # print(last_row)
         self.ui.tableWidget.selectRow(last_row[-1].row())
         self.ui.tableWidget.verticalScrollBar().setValue(scroll_pos)
+        
+        self.load_clicked_email(last_row[-1].row(),0)
 
 
     def clicket_hamburger(self):
@@ -513,12 +517,12 @@ class GUIFunctions(QObject):
 
     def add_lebels_to_db(self,id_labels_name,selected_text):
         db_email_function.add_label(self.db_connection,id_labels_name,self.id_selected_email,selected_text)
-    
+        add_labels_worning()
     def set_labels(self,id_labels):
         # print(self.ui.body.selectedText())
         
         db_email_function.add_label(self.db_connection,id_labels,self.id_selected_email,self.ui.body.selectedText())
-
+        add_labels_worning()
     def show_heder_winodw(self):
         if self.ui.emailHederDockWidget.isHidden():
             self.ui.emailHederDockWidget.setFloating(True)
@@ -687,6 +691,56 @@ class GUIFunctions(QObject):
 
     def load_clicked_email(self,row,column):
         id = self.ui.tableWidget.item(row,0).text()
+        tag_list_widget = self.ui.tableWidget.cellWidget(row,6)
+        tag_list_layout = tag_list_widget.layout()
+        tag_list = []
+        if tag_list_layout is not None: 
+            if tag_list_layout.count() > 0:
+                for i in range(tag_list_layout.count()):
+                    widget = tag_list_layout.itemAt(i).widget()
+                    tag_list.append(widget.text())
+
+        down_tag_widget =  self.ui.downTagWidget
+        layout_tag_widget = down_tag_widget.layout()
+        if layout_tag_widget is not None:
+            if layout_tag_widget.count() > 0:
+                print(layout_tag_widget.count())
+                for i in range(layout_tag_widget.count()):
+                    if tag_list:
+                        print(layout_tag_widget.itemAt(i).widget().text())
+                        if layout_tag_widget.itemAt(i).widget().text() in tag_list:
+                        # print(tag)
+                            tag_widget = layout_tag_widget.itemAt(i).widget()
+                            print(tag_widget)
+                            tag = layout_tag_widget.itemAt(i).widget().text()
+                            color = self.tag_color[tag]
+                            # print(color)
+                            if not color:
+                                hash_object = hashlib.md5(tag.encode())
+                                hex_color = '#' + hash_object.hexdigest()[:6]
+                                color = hex_color
+                                self.tag_color[tag] = color
+                            # btn = ClickableLabel(tag)
+                            # btn.setFocusPolicy(Qt.NoFocus)
+                            tag_widget.setStyleSheet(f"""
+                                background-color: {color};
+                                color: black;
+                                border-radius: 6px;
+                                padding: 2px 6px;
+                                font-size: 11px;
+                                border: none;
+                            """)
+                        else:
+                            tag_widget = layout_tag_widget.itemAt(i).widget()
+                            tag_widget.setStyleSheet(f"""
+                                background-color: #FFFFFF;
+                                color: black;
+                                border-radius: 6px;
+                                padding: 2px 6px;
+                                font-size: 11px;
+                                border: 1px solid black;
+                                
+                            """)
         #print(self.active_filters)
         self.id_selected_email = id
         # print(id)

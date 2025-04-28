@@ -103,9 +103,10 @@ def create_main_email_table(self,data):
                         item = QTableWidgetItem(str(cell_data) if cell_data else "")
                         self.ui.tableWidget.setItem(row_idx, real_col_idx, item)
                         item.setFlags(item.flags() & ~Qt.ItemIsEditable)
-      #  print(self.ui.widget_48)
-        container = self.ui.widget_45
-        layout = self.ui.widget_45.layout()
+        #  print(self.ui.widget_48)
+        
+        container = self.ui.downLabelWidget
+        layout = self.ui.downLabelWidget.layout()
         
         load_color_dictionery(self)
         tag_names = db_email.get_all_labels_name(self.db_connection)
@@ -138,10 +139,11 @@ def create_main_email_table(self,data):
 
         container.setLayout(layout)
 
-        container2 = self.ui.widget_48
-        layout2 = self.ui.widget_48.layout()
         
         
+        container2 = self.ui.downTagWidget
+        layout2 = self.ui.downTagWidget.layout()
+
         tag_names = db_email.get_all_tags(self.db_connection)
         while layout2.count():
             item = layout2.takeAt(0)

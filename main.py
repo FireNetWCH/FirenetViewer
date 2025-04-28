@@ -47,7 +47,7 @@ if __name__ == "__main__":
     app.installEventFilter(app_tooltip_filter)
     window = MainWindow()
     if getattr(sys, 'frozen', False):
-        import pyi_splash
+        import pyi_splash # type: ignore
         if getattr(sys, 'frozen', False):
             pyi_splash.close()
     

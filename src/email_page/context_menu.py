@@ -8,7 +8,7 @@ import logging
 from src.email_page.main_emeil_table import load_data_from_database
 from src.email_page.multi_tag_selector import MultiTagSelectorMultiEmail
 from src.email_page.main_emeil_table import load_data_from_database
-
+from src.message_box.date_warning import add_labels_worning
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
@@ -28,6 +28,7 @@ class LabelContextMenu(ContextMenu):
 
     def add_lebels_to_db(self,id_labels_name,selected_text,parent):
         db_email.add_label(parent.db_connection,id_labels_name,parent.id_selected_email,selected_text)
+        add_labels_worning()
 
     def show(self, pos, context_widget):
         all_labels = db_email.get_all_labels_name(self.db_connection)

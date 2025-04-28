@@ -427,7 +427,7 @@
                  <enum>Qt::ContextMenuPolicy::DefaultContextMenu</enum>
                 </property>
                 <property name="currentIndex">
-                 <number>2</number>
+                 <number>0</number>
                 </property>
                 <widget class="QWidget" name="settingsPage">
                  <property name="sizePolicy">
@@ -1109,7 +1109,7 @@
                                        <x>0</x>
                                        <y>0</y>
                                        <width>520</width>
-                                       <height>360</height>
+                                       <height>408</height>
                                       </rect>
                                      </property>
                                      <property name="sizePolicy">
@@ -2267,6 +2267,9 @@
                      </item>
                      <item>
                       <layout class="QHBoxLayout" name="horizontalLayout_15">
+                       <property name="spacing">
+                        <number>1</number>
+                       </property>
                        <item>
                         <widget class="QTableWidget" name="tableWidget">
                          <property name="enabled">
@@ -2369,7 +2372,7 @@
                               <property name="geometry">
                                <rect>
                                 <x>0</x>
-                                <y>-85</y>
+                                <y>-65</y>
                                 <width>520</width>
                                 <height>382</height>
                                </rect>
@@ -2556,7 +2559,7 @@
                                      </widget>
                                     </item>
                                     <item>
-                                     <widget class="QWidget" name="widget_5" native="true">
+                                     <widget class="QWidget" name="widget_51" native="true">
                                       <property name="sizePolicy">
                                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                                         <horstretch>0</horstretch>
@@ -2745,7 +2748,7 @@
                                      </widget>
                                     </item>
                                     <item>
-                                     <widget class="QWidget" name="widget_7" native="true">
+                                     <widget class="QWidget" name="widget_71" native="true">
                                       <property name="sizePolicy">
                                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                                         <horstretch>0</horstretch>
@@ -2819,7 +2822,7 @@
                                      </widget>
                                     </item>
                                     <item>
-                                     <widget class="QWidget" name="widget_6" native="true">
+                                     <widget class="QWidget" name="widget_61" native="true">
                                       <property name="sizePolicy">
                                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                                         <horstretch>0</horstretch>
@@ -2949,39 +2952,51 @@
                        </property>
                        <layout class="QHBoxLayout" name="horizontalLayout_53" stretch="0,0">
                         <property name="spacing">
-                         <number>10</number>
+                         <number>0</number>
+                        </property>
+                        <property name="sizeConstraint">
+                         <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
                         </property>
                         <property name="leftMargin">
-                         <number>10</number>
+                         <number>0</number>
                         </property>
                         <property name="topMargin">
-                         <number>10</number>
+                         <number>0</number>
                         </property>
                         <property name="rightMargin">
-                         <number>10</number>
+                         <number>0</number>
                         </property>
                         <property name="bottomMargin">
-                         <number>10</number>
+                         <number>0</number>
                         </property>
                         <item>
                          <widget class="QScrollArea" name="scrollArea_6">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
                           <property name="widgetResizable">
                            <bool>true</bool>
+                          </property>
+                          <property name="alignment">
+                           <set>Qt::AlignmentFlag::AlignBottom|Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft</set>
                           </property>
                           <widget class="QWidget" name="scrollAreaWidgetContents_6">
                            <property name="geometry">
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>355</width>
+                             <width>370</width>
                              <height>69</height>
                             </rect>
                            </property>
                            <layout class="QHBoxLayout" name="horizontalLayout_56">
                             <item>
-                             <widget class="QWidget" name="widget_48" native="true">
+                             <widget class="QWidget" name="downTagWidget" native="true">
                               <property name="sizePolicy">
-                               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                                 <horstretch>0</horstretch>
                                 <verstretch>0</verstretch>
                                </sizepolicy>
@@ -3005,12 +3020,31 @@
                               </layout>
                              </widget>
                             </item>
+                            <item>
+                             <spacer name="horizontalSpacer_8">
+                              <property name="orientation">
+                               <enum>Qt::Orientation::Horizontal</enum>
+                              </property>
+                              <property name="sizeHint" stdset="0">
+                               <size>
+                                <width>40</width>
+                                <height>20</height>
+                               </size>
+                              </property>
+                             </spacer>
+                            </item>
                            </layout>
                           </widget>
                          </widget>
                         </item>
                         <item>
                          <widget class="QScrollArea" name="scrollArea_5">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
                           <property name="focusPolicy">
                            <enum>Qt::FocusPolicy::NoFocus</enum>
                           </property>
@@ -3022,15 +3056,15 @@
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>355</width>
+                             <width>370</width>
                              <height>69</height>
                             </rect>
                            </property>
                            <layout class="QHBoxLayout" name="horizontalLayout_55">
                             <item>
-                             <widget class="QWidget" name="widget_45" native="true">
+                             <widget class="QWidget" name="downLabelWidget" native="true">
                               <property name="sizePolicy">
-                               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                                 <horstretch>0</horstretch>
                                 <verstretch>0</verstretch>
                                </sizepolicy>
@@ -3068,6 +3102,22 @@
                                </property>
                               </layout>
                              </widget>
+                            </item>
+                            <item>
+                             <spacer name="horizontalSpacer_9">
+                              <property name="orientation">
+                               <enum>Qt::Orientation::Horizontal</enum>
+                              </property>
+                              <property name="sizeType">
+                               <enum>QSizePolicy::Policy::Expanding</enum>
+                              </property>
+                              <property name="sizeHint" stdset="0">
+                               <size>
+                                <width>40</width>
+                                <height>1</height>
+                               </size>
+                              </property>
+                             </spacer>
                             </item>
                            </layout>
                           </widget>
