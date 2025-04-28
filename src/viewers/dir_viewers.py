@@ -30,7 +30,7 @@ class DirViewers(QWidget):
         file_path = self.file_system_model.filePath(index)
         if self.file_system_model.isDir(index):  
             self.set_directory(file_path)
-            parent.ui.label_11.setText(file_path)
+            parent.ui.pathLabel.setText(file_path)
         else:
             import src.viewers.display_chenger as g
             meta_data_system_file = MetaDataTableWiget(file_path)

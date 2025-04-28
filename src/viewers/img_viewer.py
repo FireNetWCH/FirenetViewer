@@ -83,5 +83,5 @@ def display_img_content(context, pixmap) -> None:
         # layoutRP.addWidget(meta_data_system_file)
     except Exception as e:
         print(f"Error displaying image: {e}")
-        context.ui.label_11.setText(f"Nie można wyświetlić obrazu: {e}")
+        context.ui.pathLabel.setText(f"Nie można wyświetlić obrazu: {e}")
 

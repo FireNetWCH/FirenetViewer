@@ -29,7 +29,7 @@ def prev_item(self,path_now=str ):
         file_path = path_parts[-1]
     else:
         file_path = path_parts[0]
-    self.ui.label_11.setText(file_path)
+    self.ui.pathLabel.setText(file_path)
     return path_now.replace("/"+file_path,"")
 
 def get_image_metadata(image_path):

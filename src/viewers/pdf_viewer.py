@@ -109,6 +109,6 @@ def display_pdf_content(context, num_page,zoom,file_path: str) -> None:
         q_tab.setCurrentWidget(tab_content)
     except Exception as e:
         print(f"Error displaying PDF: {e}")
-        context.ui.label_11.setText(f"Nie można wyświetlić PDF: {e}")
+        context.ui.pathLabel.setText(f"Nie można wyświetlić PDF: {e}")
 
 

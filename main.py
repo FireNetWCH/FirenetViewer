@@ -6,6 +6,8 @@ from Custom_Widgets import *
 from Custom_Widgets.QCustomQToolTip import QCustomQToolTipFilter
 from Custom_Widgets.QAppSettings import QAppSettings
 
+import _icons_rc
+
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)

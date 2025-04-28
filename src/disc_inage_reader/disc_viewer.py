@@ -7,19 +7,23 @@ import pytsk3
 import pyewf
 import os
 import traceback
-
+import json
 class DiscViewers(QWidget):
     def __init__(self,parent = None):
         super().__init__()
-        filename = os.listdir("D:\\Laptop HP\\dysk_twardy_hgst_w51k obraz")
+        file_config = open(".\\config.json")
+        config = json.load(file_config)
+        base_path = config['path']
+        nr_partycji = config['numer_partycji']
+        filename = os.listdir(base_path)
         for i in range(len(filename)):
-            filename[i] = os.path.join("D:\\Laptop HP\\dysk_twardy_hgst_w51k obraz", filename[i])
+            filename[i] = os.path.join(base_path, filename[i])
         ewf_handle = pyewf.handle()
         ewf_handle.open(filename)
         img = EWFImgInfo(ewf_handle)
         volume = pytsk3.Volume_Info(img)
         partitions = list(volume)
-        first_partition = partitions[7]
+        first_partition = partitions[nr_partycji]
         print(first_partition)
         self.fs = pytsk3.FS_Info(img, offset=first_partition.start * 512)
         

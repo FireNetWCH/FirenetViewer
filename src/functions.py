@@ -3,7 +3,7 @@ import logging
 from typing import Any, List, Dict, Optional
 import pandas as pd
 from PySide6.QtCore import Qt, QSettings, QDir, QPoint
-from PySide6.QtGui import QFont, QFontDatabase, QAction
+from PySide6.QtGui import QFont, QFontDatabase, QAction,QIcon
 from PySide6.QtWidgets import (
     QCheckBox, QPushButton, QGraphicsScene, QTableWidgetItem, QMenu, QFileSystemModel,
     QTreeView, QVBoxLayout, QFileDialog, QMainWindow,QTabBar
@@ -21,9 +21,18 @@ from src.viewers.display_chenger import display_file_content
 from src.viewers.explorer_function import prev_item,histor_stack
 from src.viewers.dir_viewers import DirViewers
 from src.disc_inage_reader.disc_viewer import DiscViewers
+from src.style_app import style_app
+import sys,os
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
+def get_resource_path(relative_path):
+    """Zwraca poprawną ścieżkę do zasobów, obsługując tryb onefile"""
+    if getattr(sys, 'frozen', False):  
+        base_path = sys._MEIPASS  
+    else:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
 
 class GUIFunctions:
     """ Klasa zawierająca funkcje obsługujące interfejs graficzny i logikę aplikacji. """
@@ -38,6 +47,7 @@ class GUIFunctions:
         self.histor = histor_stack()
         self.back_hisotry = histor_stack()
         self.active_path =""
+        self.statusWindowMaxymalize = True
         self._setup_ui()
         self._connect_to_database("nazwa_bazy.db")
         self.load_data_from_database()
@@ -68,8 +78,8 @@ class GUIFunctions:
         tab_bar.setTabButton(0, QTabBar.RightSide, None)
 
         self.disc_imgae_explorer = DiscViewers(parent=self)
-        self.ui.disgImagePage.findChild(QWidget,"frame_5").findChild(QWidget,"tabWidget_2").addTab(self.disc_imgae_explorer,"DISC_IMG")
-        tab_bar = self.ui.disgImagePage.findChild(QWidget,"frame_5").findChild(QWidget,"tabWidget_2").tabBar()
+        self.ui.tabWidget_2.addTab(self.disc_imgae_explorer,"DISC_IMG")
+        tab_bar = self.ui.tabWidget_2.tabBar()
         tab_bar.setTabButton(0, QTabBar.RightSide, None)  
     def _connect_signals(self) -> None:
         """Łączy sygnały z odpowiednimi metodami."""
@@ -83,29 +93,30 @@ class GUIFunctions:
         self.ui.moreBtn.clicked.connect(lambda: self.ui.rightMenu.expandMenu())
         self.ui.profileBtn.clicked.connect(lambda: self.ui.rightMenu.expandMenu())
         self.ui.closeRightMenuBtn.clicked.connect(lambda: self.ui.rightMenu.collapseMenu())
-
+        self.ui.restoreBtn.clicked.connect(self.toggle_window_state)
+        self.ui.minimalizeBtn.clicked.connect(self.minimalize)
         #ładowanie mofelu obrazu dysku
         #self.ui.select_img_disc_btn.clicked.connect(lambda)
         #Left Menu 
         #print(self.ui.mainPages)
         
-        self.ui.eksploratorImgBtn.clicked.connect(lambda: self.ui.mainPages.setCurrentIndex(4))
+        self.ui.eksploratorImgBtn.clicked.connect(lambda: self.ui.customQStackedWidget.setCurrentIndex(4))
 
         # Obsługa wyszukiwania i filtrów
-        self.ui.searchBtn.clicked.connect(self.show_search_results)
-        self.ui.seachName.returnPressed.connect(self.search_by_first_name)
-        self.ui.seachSurname.returnPressed.connect(self.search_by_last_name)
-        self.ui.searchDate.returnPressed.connect(self.search_by_birth_date)
-        self.ui.serachOld.returnPressed.connect(self.search_by_age)
-        self.ui.filter_table_btn.clicked.connect(self.apply_filters)
-        self.ui.show_table_btn.clicked.connect(self.show_all_columns)
-        self.ui.show_flags_btn.clicked.connect(self.toggle_filter_flags)
-        self.ui.export_pdf.clicked.connect(self.export_to_pdf)
-        self.ui.export_excel.clicked.connect(self.export_to_excel)
-        self.ui.pst_files_btn.clicked.connect(self.upload_pst_file)
+        # self.ui.searchBtn.clicked.connect(self.show_search_results)
+        # self.ui.seachName.returnPressed.connect(self.search_by_first_name)
+        # self.ui.seachSurname.returnPressed.connect(self.search_by_last_name)
+        # self.ui.searchDate.returnPressed.connect(self.search_by_birth_date)
+        # self.ui.serachOld.returnPressed.connect(self.search_by_age)
+        # self.ui.filter_table_btn.clicked.connect(self.apply_filters)
+        # self.ui.show_table_btn.clicked.connect(self.show_all_columns)
+        # self.ui.show_flags_btn.clicked.connect(self.toggle_filter_flags)
+        # self.ui.export_pdf.clicked.connect(self.export_to_pdf)
+        # self.ui.export_excel.clicked.connect(self.export_to_excel)
+        # self.ui.pst_files_btn.clicked.connect(self.upload_pst_file)
         
         #główne przyciski
-        self.ui.up_btn.clicked.connect(lambda :display_file_content(self,prev_item(self,self.ui.label_11.text())))
+        self.ui.up_btn.clicked.connect(lambda :display_file_content(self,prev_item(self,self.ui.pathLabel.text())))
         
         self.ui.up_btn_2.clicked.connect(lambda : self.disc_imgae_explorer.prevItem())
         #Podłączenie zamknięcia karty exploratora 
@@ -120,7 +131,14 @@ class GUIFunctions:
         header = self.ui.tableWidget.horizontalHeader()
         header.setContextMenuPolicy(Qt.CustomContextMenu)
         header.customContextMenuRequested.connect(self.show_column_menu)
+        style =  style_app(self)
+        style.set_style()
+        
+        self._tymczasowe_ukrycie()
 
+    def _tymczasowe_ukrycie(self):
+        #self.ui.dataBtn.hide()
+        pass
     def _connect_to_database(self, db_name: str) -> None:
         """Nawiązuje połączenie z bazą danych SQLite."""
         try:
@@ -129,6 +147,19 @@ class GUIFunctions:
         except sqlite3.Error as e:
             logger.error(f"Błąd podczas łączenia z bazą danych: {e}")
             self.db_connection = None
+
+    def toggle_window_state(self):
+        self.ui.restoreBtn.setIcon(QIcon(":feather/FFFFFF/feather/copy.png"))
+        #print(self.main.windowState())
+        state = self.main.windowState()
+        if self.statusWindowMaxymalize:
+            self.main.showNormal()
+            self.statusWindowMaxymalize=False
+        else:
+            self.main.showMaximized()
+            self.statusWindowMaxymalize=True
+    def minimalize(self):
+        self.main.showMinimized()
 
     def load_data_from_database(self) -> None:
         """
@@ -461,7 +492,7 @@ class GUIFunctions:
 
     def replace_label_with_treeview(self, directory: str) -> None:
         """Zamienia etykietę na widok drzewa katalogów."""
-        self.ui.label_11.setText(directory)
+        self.ui.pathLabel.setText(directory)
         display_file_content(self,directory)
         self.file_system_model.setRootPath(directory)
         self.file_system_model.setFilter(QDir.AllEntries | QDir.NoDotAndDotDot)
@@ -487,11 +518,11 @@ class GUIFunctions:
         if selected_indexes:
             selected_file_path = self.file_system_model.filePath(selected_indexes[0])
             display_file_content(self,selected_file_path)
-            self.ui.label_11.setText(selected_file_path)
+            self.ui.pathLabel.setText(selected_file_path)
 
     def display_image_message(self, message: str) -> None:
         """Wyświetla komunikat (np. informujący o niedostępnej funkcjonalności)."""
-        self.ui.label_11.setText(message)
+        self.ui.pathLabel.setText(message)
 
     def upload_pst_file(self) -> None:
         """Pozwala wybrać plik PST i wywołuje funkcję jego przetwarzania."""

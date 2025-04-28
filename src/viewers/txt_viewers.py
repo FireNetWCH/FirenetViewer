@@ -11,9 +11,9 @@ class TxtViewers (QTextEdit):
         super().__init__()
         self.setReadOnly(True)
  
-def display_txt_content(context,txt):
+def display_txt_content(parent,txt):
     txt_viewers = TxtViewers()
-    layout = context.ui.reportsPage.layout()
+    layout = parent.ui.reportsPage.layout()
     
     txt_viewers.setText(txt)
       
@@ -49,8 +49,8 @@ def display_txt_content(context,txt):
          #     else:
         #return "Brak strumienia 'WordDocument' w pliku"
     #meta_data_system_file = MetaDataTableWiget(txt_path)
-    view_cleaer(layout,context)
-    q_tab = context.ui.reportsPage.findChild(QWidget,"function_bar").findChild(QWidget,"tabWidget")
+    view_cleaer(layout,parent)
+    q_tab = parent.ui.reportsPage.findChild(QWidget,"function_bar").findChild(QWidget,"tabWidget")
     tab_content = QWidget()
     tab_layout = QVBoxLayout(tab_content)
  

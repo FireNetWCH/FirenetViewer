@@ -16,12 +16,12 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QComboBox, QDockWidget,
-    QFrame, QHBoxLayout, QHeaderView, QLabel,
-    QLayout, QLineEdit, QListView, QListWidget,
-    QListWidgetItem, QMainWindow, QProgressBar, QPushButton,
-    QScrollArea, QSizePolicy, QSpacerItem, QSplitter,
-    QTabWidget, QTableWidget, QTableWidgetItem, QTreeView,
-    QVBoxLayout, QWidget)
+    QFrame, QGraphicsView, QHBoxLayout, QHeaderView,
+    QLabel, QLayout, QLineEdit, QListView,
+    QListWidget, QListWidgetItem, QMainWindow, QProgressBar,
+    QPushButton, QScrollArea, QSizePolicy, QSpacerItem,
+    QSplitter, QTabWidget, QTableWidget, QTableWidgetItem,
+    QTreeView, QVBoxLayout, QWidget)
 
 from Custom_Widgets.QCustomQPushButton import QCustomQPushButton
 from Custom_Widgets.QCustomQStackedWidget import QCustomQStackedWidget
@@ -45,7 +45,9 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.centralwidget.setMinimumSize(QSize(1264, 471))
         self.horizontalLayout_39 = QHBoxLayout(self.centralwidget)
+        self.horizontalLayout_39.setSpacing(0)
         self.horizontalLayout_39.setObjectName(u"horizontalLayout_39")
+        self.horizontalLayout_39.setContentsMargins(10, 10, 10, 10)
         self.frame_13 = QFrame(self.centralwidget)
         self.frame_13.setObjectName(u"frame_13")
         self.frame_13.setFrameShape(QFrame.Shape.StyledPanel)
@@ -80,7 +82,9 @@ class Ui_MainWindow(object):
         self.widget_2.setObjectName(u"widget_2")
         self.widget_2.setMinimumSize(QSize(140, 146))
         self.verticalLayout_3 = QVBoxLayout(self.widget_2)
+        self.verticalLayout_3.setSpacing(5)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.verticalLayout_3.setContentsMargins(0, 5, 0, 5)
         self.homeBtn = QPushButton(self.widget_2)
         self.homeBtn.setObjectName(u"homeBtn")
         self.homeBtn.setMaximumSize(QSize(16777215, 16777215))
@@ -95,16 +99,6 @@ class Ui_MainWindow(object):
         self.meilBoxBtn.setCheckable(True)
 
         self.verticalLayout_3.addWidget(self.meilBoxBtn)
-
-        self.eksploratorImgBtn = QPushButton(self.widget_2)
-        self.eksploratorImgBtn.setObjectName(u"eksploratorImgBtn")
-
-        self.verticalLayout_3.addWidget(self.eksploratorImgBtn)
-
-        self.exploratorImageBtn = QPushButton(self.widget_2)
-        self.exploratorImageBtn.setObjectName(u"exploratorImageBtn")
-
-        self.verticalLayout_3.addWidget(self.exploratorImageBtn)
 
         self.dataBtn = QPushButton(self.widget_2)
         self.dataBtn.setObjectName(u"dataBtn")
@@ -489,8 +483,8 @@ class Ui_MainWindow(object):
         self.verticalLayout_10.setSpacing(0)
         self.verticalLayout_10.setObjectName(u"verticalLayout_10")
         self.verticalLayout_10.setContentsMargins(0, 0, 0, 0)
-        self.customQStackedWidget = QCustomQStackedWidget(self.mainPagesCont)
-        self.customQStackedWidget.setObjectName(u"customQStackedWidget")
+        self.mainPages = QCustomQStackedWidget(self.mainPagesCont)
+        self.mainPages.setObjectName(u"mainPages")
         self.page = QWidget()
         self.page.setObjectName(u"page")
         self.verticalLayout_36 = QVBoxLayout(self.page)
@@ -593,7 +587,7 @@ class Ui_MainWindow(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 520, 410))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 520, 360))
         sizePolicy1.setHeightForWidth(self.scrollAreaWidgetContents_3.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents_3.setSizePolicy(sizePolicy1)
         self.verticalLayout_34 = QVBoxLayout(self.scrollAreaWidgetContents_3)
@@ -829,7 +823,7 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_36.addWidget(self.widget_21)
 
-        self.customQStackedWidget.addWidget(self.page)
+        self.mainPages.addWidget(self.page)
         self.dataAnalysisPage = QWidget()
         self.dataAnalysisPage.setObjectName(u"dataAnalysisPage")
         self.verticalLayout_12 = QVBoxLayout(self.dataAnalysisPage)
@@ -1467,7 +1461,7 @@ class Ui_MainWindow(object):
         self.scrollArea_6.setWidgetResizable(True)
         self.scrollAreaWidgetContents_6 = QWidget()
         self.scrollAreaWidgetContents_6.setObjectName(u"scrollAreaWidgetContents_6")
-        self.scrollAreaWidgetContents_6.setGeometry(QRect(0, 0, 356, 69))
+        self.scrollAreaWidgetContents_6.setGeometry(QRect(0, 0, 355, 69))
         self.horizontalLayout_56 = QHBoxLayout(self.scrollAreaWidgetContents_6)
         self.horizontalLayout_56.setObjectName(u"horizontalLayout_56")
         self.widget_48 = QWidget(self.scrollAreaWidgetContents_6)
@@ -1491,7 +1485,7 @@ class Ui_MainWindow(object):
         self.scrollArea_5.setWidgetResizable(True)
         self.scrollAreaWidgetContents_5 = QWidget()
         self.scrollAreaWidgetContents_5.setObjectName(u"scrollAreaWidgetContents_5")
-        self.scrollAreaWidgetContents_5.setGeometry(QRect(0, 0, 356, 69))
+        self.scrollAreaWidgetContents_5.setGeometry(QRect(0, 0, 355, 69))
         self.horizontalLayout_55 = QHBoxLayout(self.scrollAreaWidgetContents_5)
         self.horizontalLayout_55.setObjectName(u"horizontalLayout_55")
         self.widget_45 = QWidget(self.scrollAreaWidgetContents_5)
@@ -1515,7 +1509,7 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_12.addWidget(self.widget_46)
 
-        self.customQStackedWidget.addWidget(self.dataAnalysisPage)
+        self.mainPages.addWidget(self.dataAnalysisPage)
         self.homePage = QWidget()
         self.homePage.setObjectName(u"homePage")
         self.verticalLayout_11 = QVBoxLayout(self.homePage)
@@ -1776,140 +1770,23 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_11.addWidget(self.homePageFooterWidget)
 
-        self.customQStackedWidget.addWidget(self.homePage)
+        self.mainPages.addWidget(self.homePage)
         self.reportsPage = QWidget()
         self.reportsPage.setObjectName(u"reportsPage")
         self.verticalLayout_13 = QVBoxLayout(self.reportsPage)
         self.verticalLayout_13.setObjectName(u"verticalLayout_13")
-        self.function_bar = QFrame(self.reportsPage)
-        self.function_bar.setObjectName(u"function_bar")
-        sizePolicy7.setHeightForWidth(self.function_bar.sizePolicy().hasHeightForWidth())
-        self.function_bar.setSizePolicy(sizePolicy7)
-        self.function_bar.setMinimumSize(QSize(679, 288))
-        self.function_bar.setContextMenuPolicy(Qt.ContextMenuPolicy.NoContextMenu)
-        self.function_bar.setAutoFillBackground(True)
-        self.verticalLayout_49 = QVBoxLayout(self.function_bar)
-        self.verticalLayout_49.setObjectName(u"verticalLayout_49")
-        self.frame_18 = QFrame(self.function_bar)
-        self.frame_18.setObjectName(u"frame_18")
-        self.frame_18.setEnabled(True)
-        sizePolicy6.setHeightForWidth(self.frame_18.sizePolicy().hasHeightForWidth())
-        self.frame_18.setSizePolicy(sizePolicy6)
-        self.frame_18.setFrameShape(QFrame.Shape.StyledPanel)
-        self.frame_18.setFrameShadow(QFrame.Shadow.Raised)
-        self.horizontalLayout_59 = QHBoxLayout(self.frame_18)
-        self.horizontalLayout_59.setObjectName(u"horizontalLayout_59")
-        self.left_btn = QPushButton(self.frame_18)
-        self.left_btn.setObjectName(u"left_btn")
-        sizePolicy6.setHeightForWidth(self.left_btn.sizePolicy().hasHeightForWidth())
-        self.left_btn.setSizePolicy(sizePolicy6)
-        self.left_btn.setAutoDefault(False)
-        self.left_btn.setFlat(False)
+        self.graphicsView_2 = QGraphicsView(self.reportsPage)
+        self.graphicsView_2.setObjectName(u"graphicsView_2")
 
-        self.horizontalLayout_59.addWidget(self.left_btn)
+        self.verticalLayout_13.addWidget(self.graphicsView_2)
 
-        self.rigth_btn = QPushButton(self.frame_18)
-        self.rigth_btn.setObjectName(u"rigth_btn")
-        self.rigth_btn.setEnabled(True)
-        sizePolicy6.setHeightForWidth(self.rigth_btn.sizePolicy().hasHeightForWidth())
-        self.rigth_btn.setSizePolicy(sizePolicy6)
+        self.label_11 = QLabel(self.reportsPage)
+        self.label_11.setObjectName(u"label_11")
+        self.label_11.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.horizontalLayout_59.addWidget(self.rigth_btn)
+        self.verticalLayout_13.addWidget(self.label_11)
 
-        self.up_btn = QPushButton(self.frame_18)
-        self.up_btn.setObjectName(u"up_btn")
-        sizePolicy6.setHeightForWidth(self.up_btn.sizePolicy().hasHeightForWidth())
-        self.up_btn.setSizePolicy(sizePolicy6)
-        self.up_btn.setAutoDefault(False)
-        self.up_btn.setFlat(False)
-
-        self.horizontalLayout_59.addWidget(self.up_btn)
-
-
-        self.verticalLayout_49.addWidget(self.frame_18)
-
-        self.pathLabel = QLabel(self.function_bar)
-        self.pathLabel.setObjectName(u"pathLabel")
-        sizePolicy6.setHeightForWidth(self.pathLabel.sizePolicy().hasHeightForWidth())
-        self.pathLabel.setSizePolicy(sizePolicy6)
-        self.pathLabel.setAutoFillBackground(False)
-        self.pathLabel.setFrameShape(QFrame.Shape.NoFrame)
-        self.pathLabel.setFrameShadow(QFrame.Shadow.Plain)
-        self.pathLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.pathLabel.setWordWrap(False)
-
-        self.verticalLayout_49.addWidget(self.pathLabel)
-
-        self.tabWidget = QTabWidget(self.function_bar)
-        self.tabWidget.setObjectName(u"tabWidget")
-        self.tabWidget.setTabsClosable(True)
-
-        self.verticalLayout_49.addWidget(self.tabWidget)
-
-
-        self.verticalLayout_13.addWidget(self.function_bar)
-
-        self.customQStackedWidget.addWidget(self.reportsPage)
-        self.disgImagePage = QWidget()
-        self.disgImagePage.setObjectName(u"disgImagePage")
-        self.verticalLayout_47 = QVBoxLayout(self.disgImagePage)
-        self.verticalLayout_47.setObjectName(u"verticalLayout_47")
-        self.frame_15 = QFrame(self.disgImagePage)
-        self.frame_15.setObjectName(u"frame_15")
-        sizePolicy.setHeightForWidth(self.frame_15.sizePolicy().hasHeightForWidth())
-        self.frame_15.setSizePolicy(sizePolicy)
-        self.frame_15.setFrameShape(QFrame.Shape.StyledPanel)
-        self.frame_15.setFrameShadow(QFrame.Shadow.Raised)
-        self.verticalLayout_46 = QVBoxLayout(self.frame_15)
-        self.verticalLayout_46.setObjectName(u"verticalLayout_46")
-        self.frame_16 = QFrame(self.frame_15)
-        self.frame_16.setObjectName(u"frame_16")
-        self.frame_16.setEnabled(True)
-        sizePolicy6.setHeightForWidth(self.frame_16.sizePolicy().hasHeightForWidth())
-        self.frame_16.setSizePolicy(sizePolicy6)
-        self.frame_16.setFrameShape(QFrame.Shape.StyledPanel)
-        self.frame_16.setFrameShadow(QFrame.Shadow.Raised)
-        self.horizontalLayout_58 = QHBoxLayout(self.frame_16)
-        self.horizontalLayout_58.setObjectName(u"horizontalLayout_58")
-        self.left_btn_2 = QPushButton(self.frame_16)
-        self.left_btn_2.setObjectName(u"left_btn_2")
-        sizePolicy6.setHeightForWidth(self.left_btn_2.sizePolicy().hasHeightForWidth())
-        self.left_btn_2.setSizePolicy(sizePolicy6)
-        self.left_btn_2.setAutoDefault(False)
-        self.left_btn_2.setFlat(False)
-
-        self.horizontalLayout_58.addWidget(self.left_btn_2)
-
-        self.rigth_btn_2 = QPushButton(self.frame_16)
-        self.rigth_btn_2.setObjectName(u"rigth_btn_2")
-        self.rigth_btn_2.setEnabled(True)
-        sizePolicy6.setHeightForWidth(self.rigth_btn_2.sizePolicy().hasHeightForWidth())
-        self.rigth_btn_2.setSizePolicy(sizePolicy6)
-
-        self.horizontalLayout_58.addWidget(self.rigth_btn_2)
-
-        self.up_btn_2 = QPushButton(self.frame_16)
-        self.up_btn_2.setObjectName(u"up_btn_2")
-        sizePolicy6.setHeightForWidth(self.up_btn_2.sizePolicy().hasHeightForWidth())
-        self.up_btn_2.setSizePolicy(sizePolicy6)
-        self.up_btn_2.setAutoDefault(False)
-        self.up_btn_2.setFlat(False)
-
-        self.horizontalLayout_58.addWidget(self.up_btn_2)
-
-
-        self.verticalLayout_46.addWidget(self.frame_16)
-
-        self.tabWidget_2 = QTabWidget(self.frame_15)
-        self.tabWidget_2.setObjectName(u"tabWidget_2")
-        self.tabWidget_2.setTabsClosable(True)
-
-        self.verticalLayout_46.addWidget(self.tabWidget_2)
-
-
-        self.verticalLayout_47.addWidget(self.frame_15)
-
-        self.customQStackedWidget.addWidget(self.disgImagePage)
+        self.mainPages.addWidget(self.reportsPage)
         self.chartPage = QWidget()
         self.chartPage.setObjectName(u"chartPage")
         self.verticalLayout_14 = QVBoxLayout(self.chartPage)
@@ -2087,7 +1964,7 @@ class Ui_MainWindow(object):
         self.scrollArea_4.setWidgetResizable(True)
         self.scrollAreaWidgetContents_4 = QWidget()
         self.scrollAreaWidgetContents_4.setObjectName(u"scrollAreaWidgetContents_4")
-        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 744, 233))
+        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 742, 232))
         self.verticalLayout_43 = QVBoxLayout(self.scrollAreaWidgetContents_4)
         self.verticalLayout_43.setObjectName(u"verticalLayout_43")
         self.timeLineWiget = QWidget(self.scrollAreaWidgetContents_4)
@@ -2101,9 +1978,9 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_14.addWidget(self.scrollArea_4)
 
-        self.customQStackedWidget.addWidget(self.chartPage)
+        self.mainPages.addWidget(self.chartPage)
 
-        self.verticalLayout_10.addWidget(self.customQStackedWidget)
+        self.verticalLayout_10.addWidget(self.mainPages)
 
 
         self.horizontalLayout_11.addWidget(self.mainPagesCont)
@@ -2326,15 +2203,8 @@ class Ui_MainWindow(object):
 
         self.menuBtn.setDefault(False)
         self.centerMenuPages.setCurrentIndex(2)
-        self.customQStackedWidget.setCurrentIndex(4)
+        self.mainPages.setCurrentIndex(4)
         self.startDataBtn.setDefault(False)
-        self.left_btn.setDefault(True)
-        self.rigth_btn.setDefault(True)
-        self.up_btn.setDefault(True)
-        self.left_btn_2.setDefault(True)
-        self.rigth_btn_2.setDefault(True)
-        self.up_btn_2.setDefault(True)
-        self.tabWidget_2.setCurrentIndex(-1)
         self.rightMenuPages.setCurrentIndex(0)
 
 
@@ -2346,8 +2216,6 @@ class Ui_MainWindow(object):
         self.menuBtn.setText("")
         self.homeBtn.setText(QCoreApplication.translate("MainWindow", u"          Home", None))
         self.meilBoxBtn.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
-        self.eksploratorImgBtn.setText(QCoreApplication.translate("MainWindow", u"Eksplorator Dysku", None))
-        self.exploratorImageBtn.setText(QCoreApplication.translate("MainWindow", u"Eksplorator obrazu", None))
         self.dataBtn.setText(QCoreApplication.translate("MainWindow", u"          Data analysis", None))
         self.reportsBtn.setText(QCoreApplication.translate("MainWindow", u"          Reports", None))
         self.graphsBtn.setText(QCoreApplication.translate("MainWindow", u"          Graphs", None))
@@ -2504,13 +2372,7 @@ class Ui_MainWindow(object):
         self.linkedinBtn.setText("")
         self.fbBtn.setText("")
         self.wwwBtn.setText("")
-        self.left_btn.setText(QCoreApplication.translate("MainWindow", u"<-", None))
-        self.rigth_btn.setText(QCoreApplication.translate("MainWindow", u"->", None))
-        self.up_btn.setText(QCoreApplication.translate("MainWindow", u"^", None))
-        self.pathLabel.setText(QCoreApplication.translate("MainWindow", u"Analiza danych", None))
-        self.left_btn_2.setText(QCoreApplication.translate("MainWindow", u"<-", None))
-        self.rigth_btn_2.setText(QCoreApplication.translate("MainWindow", u"->", None))
-        self.up_btn_2.setText(QCoreApplication.translate("MainWindow", u"^", None))
+        self.label_11.setText(QCoreApplication.translate("MainWindow", u"Analiza danych", None))
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"W\u0142a\u015bciciel skrzynki:", None))
         self.nameLabel.setText(QCoreApplication.translate("MainWindow", u"Nazwa", None))
         self.emailLabel.setText(QCoreApplication.translate("MainWindow", u"Adres Email", None))

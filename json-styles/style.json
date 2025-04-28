@@ -63,8 +63,11 @@
 		"Buttons": [
 		  "homeBtn",
 		  "dataBtn",
+		  "meilBoxBtn",
 		  "reportsBtn",
-		  "graphsBtn"
+		  "graphsBtn",
+		  "eksploratorImgBtn",
+		  "exploratorImageBtn"
 		],
 		"ActiveButton": "homeBtn",
 		"Style": [
@@ -201,7 +204,7 @@
   ],
   "QCustomQStackedWidget": [
 	  {
-		"name": "mainPages",
+		"name": "customQStackedWidget",
 		"navigation": [
 		  {
 			"navigationButtons": [
@@ -209,7 +212,9 @@
 				"homeBtn": "homePage",
 				"dataBtn": "dataAnalysisPage",
 				"reportsBtn": "reportsPage",
-				"graphsBtn": "chartPage"
+				"graphsBtn": "chartPage",		
+		  		"exploratorImageBtn":"reportsPage"
+
 			  }
 			]
 		  }
@@ -236,6 +241,7 @@
 				"infoBtn": "informationPage",
 				"fileBtn": "fileReader",
 				"helpBtn": "helpPage"
+				
 			  }
 			]
 		  }
