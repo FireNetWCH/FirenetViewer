@@ -20,7 +20,7 @@ from src.multi_tag_selector import MultiTagSelector
 from src.viewers.display_chenger import display_file_content
 from src.viewers.explorer_function import prev_item,histor_stack
 from src.viewers.dir_viewers import DirViewers
-from src.disc_inage_reader.disc_viewer import DiscViewers
+from src.disc_image_reader.disc_viewer import DiscViewers
 from src.style_app import style_app
 import sys,os
 logger = logging.getLogger(__name__)

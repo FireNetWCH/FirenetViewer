@@ -5,8 +5,12 @@ from src.viewers.dir_viewers import display_dir_content
 from src.viewers.docx_viewers import display_docx_content
 from src.viewers.table_viewers import display_table_content
 from src.viewers.txt_viewers import display_txt_content
+from src.viewers.not_support_file import NotSupportFileView
+from src.firenet_viewer_widget.downloadButtona import downloadButton
+from src.disc_image_reader.download_menager import download_manager
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QWidget
+from PySide6.QtCore import Qt
 import pytsk3
 import os
 import io
@@ -98,21 +102,29 @@ def display_file_content(self, file_path,history_flag = 1,file_system = None) ->
                     display_img_content(self,pixmap)
                     q_tab = self.ui.tabWidget_2
                     tab_content = display_img_content(self,pixmap)
+                    dm = download_manager(file_path)
+                    download_buttona = downloadButton(file_path.info.name.name.decode().lower(),lambda: dm.download_file_img())
+                    q_tab = self.ui.tabWidget_2
+                    tab_content.layout().addWidget(download_buttona, alignment=Qt.AlignCenter)
                     q_tab.addTab(tab_content,"IMG")
                     q_tab.setCurrentWidget(tab_content)
 
-                if ext in ['.txt', '.py', '.log']:
+                elif ext in ['.txt', '.py', '.log']:
                     file_hoke = file_system.open_meta(file_path.info.name.meta_addr)
                     if file_hoke.info.meta.size > 0: 
                         file_data = file_hoke.read_random(0,file_hoke.info.meta.size)
                         txt = file_data.decode("utf-8")     
                         q_tab = self.ui.tabWidget_2
                         tab_content = display_txt_content(self,txt)
+                        dm = download_manager(file_path)
+                        download_buttona = downloadButton(file_path.info.name.name.decode().lower(),lambda: dm.download_file_img())
+                        q_tab = self.ui.tabWidget_2
+                        tab_content.layout().addWidget(download_buttona, alignment=Qt.AlignCenter)
                         q_tab.addTab(tab_content,"TXT")
                         q_tab.setCurrentWidget(tab_content)
                     else:
                         print("Plik jest pósty - 'dodać widget i logi '")
-                if ext in['.csv','.xlsx','.xls','.odf','.ods','.xlsm','.xlsb']:
+                elif ext in['.csv','.xlsx','.xls','.odf','.ods','.xlsm','.xlsb']:
                     file_hoke = file_system.open_meta(file_path.info.name.meta_addr)
                     file_data = file_hoke.read_random(0,file_hoke.info.meta.size)
                     if file_data is None:
@@ -132,9 +144,20 @@ def display_file_content(self, file_path,history_flag = 1,file_system = None) ->
                         print(f"Nieobsługiwane rozszerzenie: {ext}")
                         return None
                     tab_content = display_table_content(self, df,ext)
+                    dm = download_manager(file_path)
+                    download_buttona = downloadButton(file_path.info.name.name.decode().lower(),lambda: dm.download_file_img())
                     q_tab = self.ui.tabWidget_2
+                    tab_content.layout().addWidget(download_buttona, alignment=Qt.AlignCenter)
                     q_tab.addTab(tab_content,"EXEL")
                     q_tab.setCurrentWidget(tab_content)
-                        
+                else:
+                    tab_content = NotSupportFileView()
+                    dm = download_manager(file_path)
+                    download_buttona = downloadButton(file_path.info.name.name.decode().lower(),lambda: dm.download_file_img())
+                    q_tab = self.ui.tabWidget_2
+                    tab_content.layout().addWidget(download_buttona, alignment=Qt.AlignCenter)
+                    q_tab.addTab(tab_content,"Not Suport Fiel")
+                    q_tab.setCurrentWidget(tab_content)
+
             except Exception as e:
-                print(f"Bład w PyTSK3: {e}")
+                print(f"Bład w PyTSK3 w display_chebger.py : {e}")

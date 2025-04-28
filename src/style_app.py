@@ -2,7 +2,7 @@ from PySide6.QtCore import Qt,QFile
 from PySide6.QtGui import QPixmap,QIcon,QImage
 from PySide6.QtWidgets import QSizeGrip,QLabel
 import sys,os
-from src.firenet_widget.ScalableLabel import ScalableLabel
+from src.firenet_viewer_widget.scalableLabel import scalableLabel
 def get_resource_path(relative_path):
     """Zwraca poprawną ścieżkę do zasobów, obsługując tryb onefile"""
     if getattr(sys, 'frozen', False):  
@@ -27,7 +27,7 @@ class style_app():
         # Ustawienie obrazu w ScalableLabel
 
         old_label = self.parent.ui.homePage.findChild(QLabel, "label_7")
-        new_label = ScalableLabel(parent=old_label.parent())
+        new_label = scalableLabel(parent=old_label.parent())
         new_label.setObjectName("label_7")
         new_label.setGeometry(old_label.geometry())
 
@@ -65,12 +65,12 @@ class style_app():
         self.parent.ui.dataBtn.setIcon(QIcon(":feather/FFFFFF/feather/mail.png"))
         self.parent.ui.restoreBtn.setIcon(QIcon(":feather/FFFFFF/feather/copy.png"))
 
-        file = QFile(":feather/FFFFFF/feather/copy.png")
+        # file = QFile(":feather/FFFFFF/feather/copy.png")
 
-        if file.exists():
-            print("Zasób został poprawnie załadowany!")
-        else:
-            print("Zasób NIE został znaleziony.")
+        # if file.exists():
+        #     print("Zasób został poprawnie załadowany!")
+        # else:
+        #     print("Zasób NIE został znaleziony.")
         self.parent.ui.closeBtn.setIcon(QIcon(":feather/FFFFFF/feather/x.png"))
         self.parent.ui.linkedinBtn.setIcon(QIcon(":feather/FFFFFF/feather/linkedin.png"))
         self.parent.ui.fbBtn.setIcon(QIcon(":feather/FFFFFF/feather/facebook.png"))
@@ -87,6 +87,8 @@ class style_app():
        
         self.parent.ui.fbBtn.setIcon(QIcon(":feather/FFFFFF/feather/facebook.png"))
         self.parent.ui.wwwBtn.setIcon(QIcon(":feather/FFFFFF/font_awesome/solid/rss.png"))
+        self.parent.ui.eksploratorImgBtn.setIcon(QIcon(":feather/FFFFFF/font_awesome/solid/rss.png"))
+        self.parent.ui.exploratorImageBtn.setIcon(QIcon(":feather/FFFFFF/font_awesome/solid/rss.png"))
 
         #UKRYWANIE ZBĘDNYCH PRZYCISKÓW
         #
@@ -95,6 +97,7 @@ class style_app():
         self.parent.ui.searchinp.hide()
         self.parent.ui.label_9.hide()
         self.parent.ui.serachinpCont.hide()
+        self.parent.ui.emailHederDockWidget.hide()
         #przyciski
 
         self.parent.ui.graphsBtn.hide()

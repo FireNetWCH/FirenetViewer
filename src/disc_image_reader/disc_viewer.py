@@ -1,8 +1,8 @@
 from PySide6.QtWidgets import QWidget,QFileSystemModel,QVBoxLayout,QListView,QSizePolicy,QPushButton
 from PySide6.QtCore import QSize
 from src.viewers.explorer_function import view_cleaer,MetaDataTableWiget
-from src.disc_inage_reader.ewf_info import EWFImgInfo
-from src.disc_inage_reader.image_file_model import TSKFileSystemModel
+from src.disc_image_reader.ewf_info import EWFImgInfo
+from src.disc_image_reader.image_file_model import TSKFileSystemModel
 import pytsk3
 import pyewf
 import os
