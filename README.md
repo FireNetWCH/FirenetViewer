@@ -34,3 +34,7 @@ Pamiętaj, aby skopiować foldery:
 = Qss
 
 do dist/main
+
+**ONE-FILE**
+Przy przygotowywaniu pliku EXE w wersji jedno plikowej należy zmodyfikować dwa pliki (SassCompiler.py i colorsystem.py) z biblioteki Custom_Widgets.
+Należy przed zasobami pobieranymi z plików umieścić funkcję która przy uruchamianiu z EXE wskaże na zasoby umieszczone w folderze tymczasowym tworzonym przez pyInstallera. (Zmodyfikowane pliku są umieszczone w repozytorium można je tylko przekleić.)

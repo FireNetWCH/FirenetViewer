@@ -4,6 +4,10 @@ from PySide6.QtCore import QSize
 from src.db_function.db_email_function import delate_label,updata_label_name,connect_to_database
 import os
 from src.email_page.tag_dialog import DeleteConfirmDialog
+import logging
+import sqlite3
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 class LabelsCrud(QDialog):
     """Dialog do edycji labelek użytkownika."""
     def __init__(self, connection,path, parent=None):
@@ -70,16 +74,25 @@ def delete_and_refresh(self, connection, tag_id,label_name):
     result = dialog.exec()
     if result == QDialog.Accepted:
         if dialog.is_global_delete():
-            all_dir = os.scandir(self.path)
-            for path in all_dir:
-                # print(os.path.join(self.path,path.name,path.name+'.sqlite'))
-                connect_to_database(self,os.path.join(self.path,path.name,path.name+'.sqlite'))
-                cursor = self.db_connection.cursor()
-                cursor.execute("DELETE FROM labels_name WHERE label_name = ?", (label_name,))
-                self.db_connection.commit()
+            try:
+                all_dir = os.scandir(self.path)
+                for path in all_dir:
+                    # print(os.path.join(self.path,path.name,path.name+'.sqlite'))
+                    connect_to_database(self,os.path.join(self.path,path.name,path.name+'.sqlite'))
+                    cursor = self.db_connection.cursor()
+                    cursor.execute("DELETE FROM labels_name WHERE label_name = ?", (label_name,))
+                    self.db_connection.commit()
+            except sqlite3.Error as e:
+                    logger.error(f"Błąd podczas usuwania lokalnie etykiety: {e} z bazy {path.name}")
+                    print(f"Błąd podczas usuwania lokalnie etykiety: {e} z bazy {path.name}")
             self.load_labels(connection)
         else:
-            delate_label(connection, tag_id) 
+            try:
+                delate_label(connection, tag_id) 
+            except sqlite3.Error as e:    
+                logger.error(f"Błąd podczas usuwania lokalnie etykiety: {e}")
+                print(f"Błąd podczas usuwania lokalnie etykiety: {e}")
+
             self.load_labels(connection)
     
 
@@ -120,20 +133,27 @@ class LabelInputDialog(QDialog):
         new_label_name = self.new_tag_input.text().strip()
         if new_label_name:
             if self.radio_local.isChecked():
-                cursor = self.connection.cursor()
-                print("IGNORE TEST")
-                cursor.execute("INSERT OR IGNORE INTO labels_name (label_name) VALUES (?)", (new_label_name,))
-                self.connection.commit()
+                try:
+                    cursor = self.connection.cursor()
+                    cursor.execute("INSERT OR IGNORE INTO labels_name (label_name) VALUES (?)", (new_label_name,))
+                    self.connection.commit()
+                except sqlite3.Error as e:    
+                    logger.error(f"Błąd podczas usuwania lokalnie etykiety: {e}")
+                    print(f"Błąd podczas usuwania lokalnie etykiety: {e}")
                 self.accept()
             else:
                 all_dir = os.scandir(self.path)
-                for path in all_dir:
-                    # print(os.path.join(self.path,path.name,path.name+'.sqlite'))
-                    connect_to_database(self,os.path.join(self.path,path.name,path.name+'.sqlite'))
-                    cursor = self.db_connection.cursor()
-                    print("IGNORE TEST2")
-                    cursor.execute("INSERT OR IGNORE INTO labels_name (label_name) VALUES (?)", (new_label_name,))
-                    self.db_connection.commit()
+                try:
+                    for path in all_dir:
+                        # print(os.path.join(self.path,path.name,path.name+'.sqlite'))
+                        connect_to_database(self,os.path.join(self.path,path.name,path.name+'.sqlite'))
+                        cursor = self.db_connection.cursor()
+                        print("IGNORE TEST2")
+                        cursor.execute("INSERT OR IGNORE INTO labels_name (label_name) VALUES (?)", (new_label_name,))
+                        self.db_connection.commit()
+                except:
+                    logger.error(f"Błąd podczas dodawania globalnie etykiety: {e} do bazy {path.name}")
+                    print(f"Błąd podczas dodawania globalnie etykiety: {e} do bazy {path.name}")
                 self.accept()
             
             

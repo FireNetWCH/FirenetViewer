@@ -32,7 +32,7 @@ class MainWindow(QMainWindow):
         self.app_functions = GUIFunctions(self)
 
     def scssCompilationProgress(self, n: int) -> None:
-        self.ui.activityProgress.setValue(n)
+        self.ui.activityProgress.setValue(n) 
     
     
 

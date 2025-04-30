@@ -222,7 +222,6 @@ class GUIFunctions(QObject):
         self.ui.clearBtn.clicked.connect(self.clear_filtr)
        
         self.ui.exportExelBtn.clicked.connect(self.open_dialog_export_selector_to_exel)
-        self.ui.pst_files_btn.clicked.connect(self.upload_pst_file)
         self.ui.tagiBtn.clicked.connect(self.show_tag_crud)
 
 
@@ -352,27 +351,6 @@ class GUIFunctions(QObject):
         # else:
         #     print("Zasób NIE został znaleziony.")
 
-
-        # view = QWebEngineView()
-        # view.setMinimumSize(300, 300)
-        # view.setMaximumSize(1200, 900)
-        # view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        # # view.reload()
-        # # url = QUrl.fromLocalFile(html_path)
-        # # url.setQuery(f"t={QDateTime.currentDateTime().toMSecsSinceEpoch()}")
-
-        # # view.load(url)
-        # # view.reload()
-        # graph_layout = QVBoxLayout()
-        # scroll_area = QScrollArea()
-        # scroll_area.setWidgetResizable(True)
-        # scroll_area.setWidget(view)
-        # scroll_area.setMinimumSize(300, 300)
-        # scroll_area.setMaximumSize(1200, 900)
-        # graph_layout.addWidget(scroll_area)
-        # graph_widget = self.ui.graphWidget
-        # graph_widget.setLayout(graph_layout)
-
         self.ui.widget_42.hide()
         self.ui.progressBar.hide()
     
@@ -441,21 +419,43 @@ class GUIFunctions(QObject):
         query_parts = []
         scroll_pos = self.ui.tableWidget.verticalScrollBar().value()
         id = db_email_function.get_it_tags(tag,self.db_connection)
+        widgets_ = []
         query_list = ""
         # print(id)
+        pom = True
         for idx in self.ui.tableWidget.selectionModel().selectedRows():
             row = idx.row()
-            
+            widget = self.ui.tableWidget.cellWidget(row, 6)
+
+            widgets_.append(widget)
             item = self.ui.tableWidget.item(row, 0) 
             if item:
                 values.append(item.text())
                 query_list +=f"({id[0][0]},{item.text()})"
-                query_parts.append(f"({id[0][0]}, {item.text()})")  
+                query_parts.append(f"({id[0][0]}, {item.text()})") 
+                
         if query_parts:
             query_list = ", ".join(query_parts)
-       
+        for items in widgets_:
+            layout = items.layout()
+            in_widget = False
+            if layout is not None:
+                for i in range(layout.count()):
+                    child = layout.itemAt(i).widget()
+                    if child.text() == tag:
+                        in_widget = True
+                        # print("ZMIANA")
+                        break
+                    #print(f"child:{child.text()}")
+            pom = in_widget
+            if pom == False:
+                break
+        #print(pom)
         last_row = self.ui.tableWidget.selectionModel().selectedRows()
-        db_email_function.multi_insert_tag(query_list,self.db_connection)
+        if pom:
+            db_email_function.delate_multi_tags(self.db_connection,query_list)
+        else:
+            db_email_function.multi_insert_tag(query_list,self.db_connection)
         load_data_from_database(self)
         # print(last_row)
         self.ui.tableWidget.selectRow(last_row[-1].row())
@@ -518,11 +518,14 @@ class GUIFunctions(QObject):
     def add_lebels_to_db(self,id_labels_name,selected_text):
         db_email_function.add_label(self.db_connection,id_labels_name,self.id_selected_email,selected_text)
         add_labels_worning()
+        self.load_clicked_email(self.ui.tableWidget.currentRow(),0)
     def set_labels(self,id_labels):
         # print(self.ui.body.selectedText())
+        if self.ui.body.selectedText() is not None and self.ui.body.selectedText()!="":
+            db_email_function.add_label(self.db_connection,id_labels,self.id_selected_email,self.ui.body.selectedText())
+            add_labels_worning()
         
-        db_email_function.add_label(self.db_connection,id_labels,self.id_selected_email,self.ui.body.selectedText())
-        add_labels_worning()
+            self.load_clicked_email(self.ui.tableWidget.currentRow(),0)
     def show_heder_winodw(self):
         if self.ui.emailHederDockWidget.isHidden():
             self.ui.emailHederDockWidget.setFloating(True)
@@ -644,9 +647,9 @@ class GUIFunctions(QObject):
         self.current_page = 0
         # print(self.path)
         db_path = os.path.join(self.path,item.text().removesuffix('.sqlite'),item.text())
-        #print(db_path)
+        print(db_path)
         
-        db_email_function.connect_to_database(self,db_path)
+        db_email_function.connect_to_database(self,db_path+".sqlite")
         
         sql_name = db_path.split('\\')[-1]
         sql_name = sql_name.removesuffix('.sqlite')
@@ -676,6 +679,7 @@ class GUIFunctions(QObject):
     
        
     def open_dialog_export_selector_to_pdf(self):
+        '''Funkcja wyswietlajaca okno dialogowe opcji exportu plikow do PDF'''
         dialog = ExportSelector()
         if dialog.exec_() == QDialog.Accepted:
             selected_option = dialog.get_selected_option()
@@ -683,13 +687,22 @@ class GUIFunctions(QObject):
             export_to_pdf(self,self.db_connection,self.path,self.sql_name,self.active_filters,selected_option,is_checkBox_checked)
             
     def open_dialog_export_selector_to_exel(self):
+        '''Funkcja wyswietlajaca okno dialogowe opcji exportu plikow do exele'''
         dialog = ExportSelector()
         if dialog.exec_() == QDialog.Accepted:
             selected_option = dialog.get_selected_option()
             is_checkBox_checked = dialog.get_checkBox_state()
             export_to_excel(self,self.db_connection,self.path,self.sql_name,self.active_filters,selected_option,is_checkBox_checked)
+    
+    def set_color_label(self,color,border):
+        '''Funkcja do stylowanie labelek(przycikow) w dolnej czesci widoku gluwnego GUI'''
+        if border:
+            return f"""background-color: {color}; color: black;border-radius: 6px;padding: 2px 6px;font-size: 11px;border: 1px solid black;"""
+        else:
+            return f"""background-color: {color}; color: black;border-radius: 6px;padding: 2px 6px;font-size: 11px;border:none;"""            
 
     def load_clicked_email(self,row,column):
+        '''Funkcja wyświetla kliknienty emeil z tabeli glownej w ramce w prawej czesci GUI'''
         id = self.ui.tableWidget.item(row,0).text()
         tag_list_widget = self.ui.tableWidget.cellWidget(row,6)
         tag_list_layout = tag_list_widget.layout()
@@ -704,43 +717,47 @@ class GUIFunctions(QObject):
         layout_tag_widget = down_tag_widget.layout()
         if layout_tag_widget is not None:
             if layout_tag_widget.count() > 0:
-                print(layout_tag_widget.count())
                 for i in range(layout_tag_widget.count()):
                     if tag_list:
-                        print(layout_tag_widget.itemAt(i).widget().text())
                         if layout_tag_widget.itemAt(i).widget().text() in tag_list:
-                        # print(tag)
                             tag_widget = layout_tag_widget.itemAt(i).widget()
-                            print(tag_widget)
                             tag = layout_tag_widget.itemAt(i).widget().text()
                             color = self.tag_color[tag]
-                            # print(color)
                             if not color:
                                 hash_object = hashlib.md5(tag.encode())
                                 hex_color = '#' + hash_object.hexdigest()[:6]
                                 color = hex_color
                                 self.tag_color[tag] = color
-                            # btn = ClickableLabel(tag)
-                            # btn.setFocusPolicy(Qt.NoFocus)
-                            tag_widget.setStyleSheet(f"""
-                                background-color: {color};
-                                color: black;
-                                border-radius: 6px;
-                                padding: 2px 6px;
-                                font-size: 11px;
-                                border: none;
-                            """)
+                            tag_widget.setStyleSheet(self.set_color_label(color,False))
                         else:
                             tag_widget = layout_tag_widget.itemAt(i).widget()
-                            tag_widget.setStyleSheet(f"""
-                                background-color: #FFFFFF;
-                                color: black;
-                                border-radius: 6px;
-                                padding: 2px 6px;
-                                font-size: 11px;
-                                border: 1px solid black;
-                                
-                            """)
+                            tag_widget.setStyleSheet(self.set_color_label("#FFFFFF",True))
+                    else:
+                        tag_widget = layout_tag_widget.itemAt(i).widget()
+                        tag_widget.setStyleSheet(self.set_color_label("#FFFFFF",True))
+        down_label_widget =  self.ui.downLabelWidget
+        layout_label_widget = down_label_widget.layout()
+
+        label_list = db_email_function.get_unique_email_label_name(self.db_connection,id,self.sql_name)
+        label_list = [item[0] for item in label_list]
+        #print(label_list)
+        if layout_label_widget is not None:
+            if layout_label_widget.count() > 0:
+                for i in range(layout_label_widget.count()):
+                    if label_list:
+                        #print(layout_label_widget.itemAt(i).widget().text())
+                        if layout_label_widget.itemAt(i).widget().text() in label_list:
+                            layout_widget = layout_label_widget.itemAt(i).widget()
+                            hash_object = hashlib.md5(layout_label_widget.itemAt(i).widget().text().encode())
+                            hex_color = '#' + hash_object.hexdigest()[:6]
+                            layout_widget.setStyleSheet(self.set_color_label(hex_color,False))
+                        else:
+                            layout_widget = layout_label_widget.itemAt(i).widget()
+                            layout_widget.setStyleSheet(self.set_color_label("#FFFFFF",True))
+                    else:
+                        for i in range(layout_label_widget.count()):
+                            layout_widget = layout_label_widget.itemAt(i).widget()
+                            layout_widget.setStyleSheet(self.set_color_label("#FFFFFF",True))
         #print(self.active_filters)
         self.id_selected_email = id
         # print(id)
@@ -763,12 +780,21 @@ class GUIFunctions(QObject):
         header_email_label = self.ui.emailHederDockWidget.findChild(QLabel,"headerEmailLabel")
         header_email_id_label = self.ui.emailHederDockWidget.findChild(QLabel,"idEmailHeaderLabel")
         header_email_id_label.setText(str(id))
-        cursor = self.db_connection.cursor()
-        cursor.execute(query)
-        emai_value = cursor.fetchall()
+        try:
+            cursor = self.db_connection.cursor()
+            cursor.execute(query)
+        except sqlite3.Error as e:
+            logger.error(f"Błąd podczas pobierania emaeila o id:{id} z bazą danych:{self.sql_name} {e}")
+            print(f"Błąd podczas pobierania emaeila o id:{id} z bazą danych:{self.sql_name} {e}")
 
-        query_attachments = f'''SELECT * FROM attachments WHERE email_id ={emai_value[0][0]}'''
-        cursor.execute(query_attachments)
+        emai_value = cursor.fetchall()
+        try:
+            query_attachments = f'''SELECT * FROM attachments WHERE email_id ={emai_value[0][0]}'''
+            cursor.execute(query_attachments)
+        except sqlite3.Error as e:
+            logger.error(f"Błąd podczas pobierania zalacznikow z bazą danych:{self.sql_name} {e}")
+            print(f"Błąd podczas pobierania zalacznikow z bazą danych:{self.sql_name} {e}")
+
         attachments_value = cursor.fetchall()
         if len(attachments_value) > 0:
             listAttachments = self.ui.EmailtabWidget.findChild(QListWidget, "listAttachments")
@@ -793,53 +819,59 @@ class GUIFunctions(QObject):
             self.ui.EmailtabWidget.findChild(QListWidget, "listAttachments").hide()
         search_term = self.active_filters['body']
         search_term = db_email_function.word_to_highline(search_term)
-        #
 
         if isinstance(search_term, list):
             escaped_terms = [re.escape(term) for term in search_term if term] 
-            pattern = re.compile('|'.join(escaped_terms), re.IGNORECASE)
+            pattern = re.compile('|'.join(escaped_terms), re.IGNOREfCASE)
         else:
             pattern = re.compile(re.escape(search_term), re.IGNORECASE)
 
-
-        tekst = emai_value[0][8]
-        body_label.setTextFormat(Qt.TextFormat.RichText)
-        #print(emai_value[0][8])
-        if emai_value[0][8] is not None:
-            if isinstance(emai_value[0][8],str):
-                tekst = emai_value[0][8]
-            else:
-                tekst = emai_value[0][8].decode("utf-8")
-            
-
-            tekst_html = tekst.replace('\n', '<br>')
-            if(search_term ==""):
-                body_label.setText(tekst_html)
+        try:
+            tekst = emai_value[0][8]
+            body_label.setTextFormat(Qt.TextFormat.RichText)
+            #print(emai_value[0][8])
+            if emai_value[0][8] is not None:
+                if isinstance(emai_value[0][8],str):
+                    tekst = emai_value[0][8]
+                else:
+                    tekst = emai_value[0][8].decode("utf-8")
                 
-            else:
+
                 tekst_html = tekst.replace('\n', '<br>')
-                highlighted_content = pattern.sub(lambda match: f"<span style='background-color: yellow;'>{match.group()}</span>",tekst_html)
-                body_label.setTextFormat(Qt.TextFormat.RichText)    
-                body_label.setText(highlighted_content)
-        else:
-            #emai_value[0][8]=""
-            tekst = ""
-            body_label.setText("")
-        subject_label.setText(emai_value[0][7])
-        sender_label.setText(emai_value[0][3])
-        date_label.setText(emai_value[0][1])
-        recipients_label.setText(emai_value[0][4])
-        header_email_label.setText(emai_value[0][11])
-        if emai_value[0][6] is None:
-            bcc_widget.hide()
-        else:
-            bcc_widget.show()
-            bcc_label.setText(emai_value[0][6])
-        if emai_value[0][5] is None:
-            cc_widget.hide()
-        else:
-            cc_widget.show()
-            cc_label.setText(emai_value[0][5])
+                if(search_term ==""):
+                    body_label.setText(tekst_html)
+                    
+                else:
+                    tekst_html = tekst.replace('\n', '<br>')
+                    highlighted_content = pattern.sub(lambda match: f"<span style='background-color: yellow;'>{match.group()}</span>",tekst_html)
+                    body_label.setTextFormat(Qt.TextFormat.RichText)    
+                    body_label.setText(highlighted_content)
+            else:
+                #emai_value[0][8]=""
+                tekst = ""
+                body_label.setText("")
+        except:
+            logger.error(f"Błąd podczas parsowania body wiadomości email id:{id} {e}")
+            print(f"Błąd podczas parsowania body wiadomości email id:{id} {e}")
+        try:
+            subject_label.setText(emai_value[0][7])
+            sender_label.setText(emai_value[0][3])
+            date_label.setText(emai_value[0][1])
+            recipients_label.setText(emai_value[0][4])
+            header_email_label.setText(emai_value[0][11])
+            if emai_value[0][6] is None:
+                bcc_widget.hide()
+            else:
+                bcc_widget.show()
+                bcc_label.setText(emai_value[0][6])
+            if emai_value[0][5] is None:
+                cc_widget.hide()
+            else:
+                cc_widget.show()
+                cc_label.setText(emai_value[0][5])
+        except:
+            logger.error(f"Błąd podczas parsowania usawiania wartosci meta_danych email id:{id} {e}")
+            print(f"Błąd podczas parsowania usawiania wartosci meta_danych email id:{id} {e}")
 
     def clear_filtr(self):
         self.ui.seachName.setText("")
@@ -1009,21 +1041,6 @@ class GUIFunctions(QObject):
         header.setSectionsMovable(True)
         header.setDragEnabled(True)
 
-    def plot_data(self, ages: List[int]) -> None:
-        """Tworzy histogram wieku użytkowników i wyświetla go na widżecie."""
-        scene = QGraphicsScene()
-        fig, ax = plt.subplots(figsize=(5, 4))
-        if ages:
-            bins = range(min(ages), max(ages) + 2)
-            ax.hist(ages, bins=bins, alpha=0.7, color='blue')
-        ax.set_title("Wiek ludzi z danych z tabeli")
-        ax.set_xlabel("Wiek")
-        ax.set_ylabel("Częstotliwość")
-        canvas = FigureCanvas(fig)
-        canvas.draw()
-        scene.addWidget(canvas)
-        self.ui.graphicsView.setScene(scene)
-
     def open_add_tag_dialog(self) -> None:
         """Otwiera okno dialogowe umożliwiające dodanie nowego tagu."""
         dialog = MultiTagInputDialog(self.db_connection, self.main)
@@ -1077,20 +1094,6 @@ class GUIFunctions(QObject):
             selected_file_path = self.file_system_model.filePath(selected_indexes[0])
             display_file_content(self,selected_file_path)
 
-    def display_image_message(self, message: str) -> None:
-        """Wyświetla komunikat (np. informujący o niedostępnej funkcjonalności)."""
-        self.ui.label_11.setText(message)
-
-    def upload_pst_file(self) -> None:
-        """Pozwala wybrać plik PST i wywołuje funkcję jego przetwarzania."""
-        pst_file, _ = QFileDialog.getOpenFileName(self.main, "Wybierz plik .pst", "", "PST Files (*.pst)")
-        if pst_file:
-            self.process_pst_file(pst_file)
-
-    def process_pst_file(self, pst_file: str) -> None:
-        """Przetwarza plik PST (implementację uzupełnij według potrzeb)."""
-        logger.info(f"Przetwarzanie pliku PST: {pst_file}")
-
     def display_folders_in_help_page(self):
         self.folders_tree = QTreeWidget()
         self.folders_tree.setHeaderLabel("Struktura folderów (z bazy)")
@@ -1132,18 +1135,18 @@ class GUIFunctions(QObject):
                     if os.path.isfile(os.path.join(path_to_dir,file,sq_file)) :
                         _, ext = os.path.splitext(sq_file.name.lower())
                         if ext == '.sqlite':
-                            sql_list_file.append(sq_file.name)
+                            sql_list_file.append(sq_file.name.removesuffix('.sqlite'))
 
 
         if self.db_connection is None and len(sql_list_file) > 0 :
             try:
                 #db_path = os.path.join(self.path,item.text().removesuffix('.sqlite'),item.text())
                 # print(f"sql_list[0]: {sql_list_file[0]}")
-                db_email_function.connect_to_database(self,path_to_dir+"\\"+sql_list_file[0].removesuffix('.sqlite')+"\\"+sql_list_file[0])
+                db_email_function.connect_to_database(self,path_to_dir+"\\"+sql_list_file[0].removesuffix('.sqlite')+"\\"+sql_list_file[0]+".sqlite")
                 load_color_dictionery(self)
                 load_data_from_database(self)
                 
-                self.sql_name =sql_list_file[0].split('.')[-2]
+                self.sql_name =sql_list_file[0].removesuffix('.sqlite')
                 
                 self.ui.dataAnalysisPage.findChild(QLabel,"sqlEmailDbName").setText(self.sql_name)
                 

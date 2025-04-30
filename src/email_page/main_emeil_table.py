@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import QTableWidgetItem,QAbstractItemView,QCheckBox,QPushButton,QHeaderView,QSizePolicy,QApplication,QLabel,QWidget,QHBoxLayout,QListWidget,QLineEdit
 from PySide6.QtCore import Qt,Signal
+from PySide6.QtGui import QCursor
 import src.db_function.db_email_function as db_email
 import math
 import sqlite3
@@ -20,6 +21,9 @@ def get_resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 class ClickableLabel(QLabel):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.setCursor(QCursor(Qt.PointingHandCursor))
     clicked = Signal()
     
     def mousePressEvent(self, event):

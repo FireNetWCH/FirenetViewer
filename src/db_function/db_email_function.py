@@ -2,6 +2,7 @@ import sqlite3
 import logging
 import re
 import itertools
+import logging
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
@@ -280,6 +281,25 @@ def updata_tag(db_connection,id_tag,new_tag_name):
             logger.error(f"Błąd podczas aktualizowania tagów: {e}")
             print(f"Błąd podczas aktualizowania tagów: {e}")
 
+def get_unique_email_label_name(db_connection,id_email,sql_name = None):
+    """Zwraca unikalne wartości label_name dla wskazanego emaila"""
+    try:
+        query = f"""
+        select l.label_name from email_labels el
+        left join labels_name l on el.id_labels_name = l.id
+        where el.id_email = {id_email}
+        group by el.id_labels_name
+
+            """ 
+        cursor = db_connection.cursor()
+        cursor.execute(query)
+        results = cursor.fetchall()
+        return results 
+    except sqlite3.Error as e:
+        logger.error(f"Błąd podczas pobierania unikalnych labelek dla wskazanego emaila: {e} sql_name: {sql_name}")
+        print(f"Błąd podczas pobierania unikalnych labelek dla wskazanego emaila: {e}")
+
+
 
 def delate_label(db_connection,id_tag):
     """Usuwa labelke o wskazanym id"""
@@ -387,6 +407,21 @@ def delate_email_labels(db_connection, id_email_labels):
     except sqlite3.Error as e:
             logger.error(f"Błąd podczas usuwania labelki z tabeli labels_name: {e}")
             print(f"Błąd podczas usuwania labelki z tabeli labels_name: {e}")
+
+def delate_multi_tags(db_connection, tuple_lise):
+    """Usuwa tagu dla wieli emaili"""
+    try:
+        query = f""" 
+        DELETE FROM email_tags
+            WHERE (tag_id, email_id) IN ({tuple_lise});
+        """
+        #print(query)
+        cursor = db_connection.cursor()
+        cursor.execute(query)
+        db_connection.commit()
+    except sqlite3.Error as e:
+            logger.error(f"Błąd podczas usuwania tagu dla wieli emaili: {e}")
+            print(f"Błąd podczas usuwania tagu dla wieli emaili: {e}")
 
 def update_id_labels_name(db_connection,id_labels, id_labels_name):
     """Zmienia id_labels_name w tabeli email_labels"""

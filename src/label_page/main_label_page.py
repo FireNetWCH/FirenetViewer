@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QTableWidgetItem,QAbstractItemView,QPushButton,QHe
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor
 import src.db_function.db_email_function as db_email
+import sqlite3
 import logging
 import os
 import re
@@ -97,21 +98,27 @@ def load_clicked_email_on_labels(self, row):
     date_label = self.ui.EmailtabWidget_2.findChild(QLabel, "date_2")
     cc_label = self.ui.EmailtabWidget_2.findChild(QLabel, "cc_2")
     fraze_label = self.ui.EmailtabWidget_2.findChild(QLabel, "frazeLabel")
-    cursor = self.db_connection.cursor()
-    cursor.execute(query)
-    email_value = cursor.fetchall()
-
-    query_attachments = f"SELECT * FROM attachments WHERE email_id = {email_value[0][0]}"
-    cursor.execute(query_attachments)
+    try:
+        cursor = self.db_connection.cursor()
+        cursor.execute(query)
+        email_value = cursor.fetchall()
+    except sqlite3.Error as e:
+        logger.error(f"Błąd podczas pobierania emeila po strinie labelek o id: {id} {e}")
+        print(f"Błąd podczas pobierania emeila po strinie labelek o id: {id} {e}")
+         
+    try:
+        query_attachments = f"SELECT * FROM attachments WHERE email_id = {email_value[0][0]}"
+        cursor.execute(query_attachments)
+    except sqlite3.Error as e:
+        logger.error(f"Błąd podczas pobierania zalacznikow dla emeila id: {id} {e}")
+        print(f"Błąd podczas pobierania zalacznikow dla emeila id: {id} {e}")
     attachments_value = cursor.fetchall()
     listAttachments = self.ui.EmailtabWidget_2.findChild(QListWidget, "listAttachments_2")
     listAttachments.clear()
     def on_item_clicked(item):
-            # print(item)
             widget = listAttachments.itemWidget(item)
             if widget:
                 widget.preview_file()
-                # print(widget)
     for _, file_name, extra_value in attachments_value:
         file_path = os.path.join(self.path, self.sql_name, "Attachments", str(self.id_selected_email), file_name)
         widget = FileListItem(f"{file_name}", file_path, self.ui.EmailtabWidget_2)
@@ -124,29 +131,31 @@ def load_clicked_email_on_labels(self, row):
     
     listAttachments.setFixedHeight(60)
 
-  
-    if isinstance(email_value[0][8], str):
-        tekst = email_value[0][8]
-    else:
-        tekst = email_value[0][8].decode("utf-8")
+    try:
+        if isinstance(email_value[0][8], str):
+            tekst = email_value[0][8]
+        else:
+            tekst = email_value[0][8].decode("utf-8")
 
 
-    if not search_term:
-        tekst_html = tekst.replace('\n', '<br>')
-        body_label.setText(tekst_html)
-        return  
-    
-    escaped_term = re.escape(search_term)  
-    pattern_str = re.sub(r"\\\s+", r"\\s*+", escaped_term) 
-    
-    pattern = re.compile(pattern_str, re.IGNORECASE)
-    hash_object = hashlib.md5(label_name.encode())
-    hex_color = '#' + hash_object.hexdigest()[:6]
-    highlighted_content = pattern.sub(lambda match: f"<span style='background-color: {hex_color};'>{match.group()}</span>", tekst)
-    highlighted_content = highlighted_content.replace('\n', '<br>')
+        if not search_term:
+            tekst_html = tekst.replace('\n', '<br>')
+            body_label.setText(tekst_html)
+            return  
+        
+        escaped_term = re.escape(search_term)  
+        pattern_str = re.sub(r"\\\s+", r"\\s*+", escaped_term) 
+        
+        pattern = re.compile(pattern_str, re.IGNORECASE)
+        hash_object = hashlib.md5(label_name.encode())
+        hex_color = '#' + hash_object.hexdigest()[:6]
+        highlighted_content = pattern.sub(lambda match: f"<span style='background-color: {hex_color};'>{match.group()}</span>", tekst)
+        highlighted_content = highlighted_content.replace('\n', '<br>')
 
-    body_label.setTextFormat(Qt.TextFormat.RichText)
-    body_label.setText(highlighted_content)
+        body_label.setTextFormat(Qt.TextFormat.RichText)
+        body_label.setText(highlighted_content)
+    except Exception as e:
+                logger.error(f"Bład podczas parsowania body na stronie Labelek: {e}")
 
     subject_label.setText(email_value[0][7])
     sender_label.setText(email_value[0][3])

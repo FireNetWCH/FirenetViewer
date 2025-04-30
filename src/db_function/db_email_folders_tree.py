@@ -29,7 +29,7 @@ def load_folders_data_into_tree(self,db_connection,folders_tree):
             add_items_to_tree(self,folders_tree,tree_dict)
             
         except sqlite3.Error as e:
-            print(f"Błąd zapytania do bazy: {e}")
+            print(f"Błąd zapytania do bazy podczas ladowania drzewa katalogow: {e}")
 
 def add_items_to_tree(self, parent, tree_level: dict):
         for folder_name, folder_data in tree_level.items():
