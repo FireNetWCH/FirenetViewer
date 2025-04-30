@@ -34,7 +34,7 @@
      <height>471</height>
     </size>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout_39">
+   <layout class="QVBoxLayout" name="verticalLayout_50">
     <item>
      <widget class="QFrame" name="frame_13">
       <property name="frameShape">
@@ -3765,6 +3765,36 @@
                          </widget>
                         </item>
                        </layout>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                   <widget class="QWidget" name="pcInfoPage">
+                    <layout class="QVBoxLayout" name="verticalLayout_48">
+                     <item>
+                      <widget class="QTabWidget" name="tabWidget_3">
+                       <property name="currentIndex">
+                        <number>0</number>
+                       </property>
+                       <widget class="QWidget" name="tab">
+                        <attribute name="title">
+                         <string>Tab 1</string>
+                        </attribute>
+                        <layout class="QGridLayout" name="gridLayout">
+                         <item row="0" column="1">
+                          <widget class="QTableWidget" name="softwareInfoTableWidget"/>
+                         </item>
+                         <item row="0" column="0">
+                          <widget class="QTableWidget" name="deviceInfoTableWidget"/>
+                         </item>
+                         <item row="1" column="0">
+                          <widget class="QTableWidget" name="networkConfigTableWidget"/>
+                         </item>
+                         <item row="1" column="1">
+                          <widget class="QTableWidget" name="installedSoftwareTableWidget"/>
+                         </item>
+                        </layout>
+                       </widget>
                       </widget>
                      </item>
                     </layout>

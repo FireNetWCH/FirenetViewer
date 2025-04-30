@@ -16,12 +16,12 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QComboBox, QDockWidget,
-    QFrame, QHBoxLayout, QHeaderView, QLabel,
-    QLayout, QLineEdit, QListView, QListWidget,
-    QListWidgetItem, QMainWindow, QProgressBar, QPushButton,
-    QScrollArea, QSizePolicy, QSpacerItem, QSplitter,
-    QTabWidget, QTableWidget, QTableWidgetItem, QTreeView,
-    QVBoxLayout, QWidget)
+    QFrame, QGridLayout, QHBoxLayout, QHeaderView,
+    QLabel, QLayout, QLineEdit, QListView,
+    QListWidget, QListWidgetItem, QMainWindow, QProgressBar,
+    QPushButton, QScrollArea, QSizePolicy, QSpacerItem,
+    QSplitter, QTabWidget, QTableWidget, QTableWidgetItem,
+    QTreeView, QVBoxLayout, QWidget)
 
 from Custom_Widgets.QCustomQPushButton import QCustomQPushButton
 from Custom_Widgets.QCustomQStackedWidget import QCustomQStackedWidget
@@ -44,8 +44,8 @@ class Ui_MainWindow(object):
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.centralwidget.setMinimumSize(QSize(1264, 471))
-        self.horizontalLayout_39 = QHBoxLayout(self.centralwidget)
-        self.horizontalLayout_39.setObjectName(u"horizontalLayout_39")
+        self.verticalLayout_50 = QVBoxLayout(self.centralwidget)
+        self.verticalLayout_50.setObjectName(u"verticalLayout_50")
         self.frame_13 = QFrame(self.centralwidget)
         self.frame_13.setObjectName(u"frame_13")
         self.frame_13.setFrameShape(QFrame.Shape.StyledPanel)
@@ -1850,6 +1850,41 @@ class Ui_MainWindow(object):
         self.verticalLayout_13.addWidget(self.function_bar)
 
         self.customQStackedWidget.addWidget(self.reportsPage)
+        self.pcInfoPage = QWidget()
+        self.pcInfoPage.setObjectName(u"pcInfoPage")
+        self.verticalLayout_48 = QVBoxLayout(self.pcInfoPage)
+        self.verticalLayout_48.setObjectName(u"verticalLayout_48")
+        self.tabWidget_3 = QTabWidget(self.pcInfoPage)
+        self.tabWidget_3.setObjectName(u"tabWidget_3")
+        self.tab = QWidget()
+        self.tab.setObjectName(u"tab")
+        self.gridLayout = QGridLayout(self.tab)
+        self.gridLayout.setObjectName(u"gridLayout")
+        self.softwareInfoTableWidget = QTableWidget(self.tab)
+        self.softwareInfoTableWidget.setObjectName(u"softwareInfoTableWidget")
+
+        self.gridLayout.addWidget(self.softwareInfoTableWidget, 0, 1, 1, 1)
+
+        self.deviceInfoTableWidget = QTableWidget(self.tab)
+        self.deviceInfoTableWidget.setObjectName(u"deviceInfoTableWidget")
+
+        self.gridLayout.addWidget(self.deviceInfoTableWidget, 0, 0, 1, 1)
+
+        self.networkConfigTableWidget = QTableWidget(self.tab)
+        self.networkConfigTableWidget.setObjectName(u"networkConfigTableWidget")
+
+        self.gridLayout.addWidget(self.networkConfigTableWidget, 1, 0, 1, 1)
+
+        self.installedSoftwareTableWidget = QTableWidget(self.tab)
+        self.installedSoftwareTableWidget.setObjectName(u"installedSoftwareTableWidget")
+
+        self.gridLayout.addWidget(self.installedSoftwareTableWidget, 1, 1, 1, 1)
+
+        self.tabWidget_3.addTab(self.tab, "")
+
+        self.verticalLayout_48.addWidget(self.tabWidget_3)
+
+        self.customQStackedWidget.addWidget(self.pcInfoPage)
         self.disgImagePage = QWidget()
         self.disgImagePage.setObjectName(u"disgImagePage")
         self.verticalLayout_47 = QVBoxLayout(self.disgImagePage)
@@ -2234,7 +2269,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_24.addWidget(self.splitter)
 
 
-        self.horizontalLayout_39.addWidget(self.frame_13)
+        self.verticalLayout_50.addWidget(self.frame_13)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.emailHederDockWidget = QDockWidget(MainWindow)
@@ -2357,6 +2392,7 @@ class Ui_MainWindow(object):
         self.left_btn.setDefault(True)
         self.rigth_btn.setDefault(True)
         self.up_btn.setDefault(True)
+        self.tabWidget_3.setCurrentIndex(0)
         self.left_btn_2.setDefault(True)
         self.rigth_btn_2.setDefault(True)
         self.up_btn_2.setDefault(True)
@@ -2534,6 +2570,7 @@ class Ui_MainWindow(object):
         self.rigth_btn.setText(QCoreApplication.translate("MainWindow", u"->", None))
         self.up_btn.setText(QCoreApplication.translate("MainWindow", u"^", None))
         self.pathLabel.setText(QCoreApplication.translate("MainWindow", u"Analiza danych", None))
+        self.tabWidget_3.setTabText(self.tabWidget_3.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Tab 1", None))
         self.left_btn_2.setText(QCoreApplication.translate("MainWindow", u"<-", None))
         self.rigth_btn_2.setText(QCoreApplication.translate("MainWindow", u"->", None))
         self.up_btn_2.setText(QCoreApplication.translate("MainWindow", u"^", None))

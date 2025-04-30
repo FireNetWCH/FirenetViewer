@@ -15,6 +15,7 @@ from reportlab.pdfgen import canvas
 
 from Custom_Widgets import *
 from Custom_Widgets.QAppSettings import QAppSettings
+from src.pc_browser.pc_browser import pc_browser
 from src.multi_tag_dialog import MultiTagInputDialog
 from src.multi_tag_selector import MultiTagSelector
 from src.viewers.display_chenger import display_file_content
@@ -22,6 +23,7 @@ from src.viewers.explorer_function import prev_item,histor_stack
 from src.viewers.dir_viewers import DirViewers
 from src.disc_image_reader.disc_viewer import DiscViewers
 from src.style_app import style_app
+from src.db_function.pc_db import database_pc_manager
 import sys,os
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -41,6 +43,7 @@ class GUIFunctions:
         self.ui = main_window.ui
         self.db_connection: Optional[sqlite3.Connection] = None
         self.db_menager = None
+        self.pc_browser = None
         self.active_filters: Dict[int, str] = {0: "", 1: "", 2: "", 3: ""}
         self.columns_hidden: List[bool] = [False] * 6
         self.filtering_active: bool = False
@@ -61,7 +64,7 @@ class GUIFunctions:
         self.load_product_sans_font()
         self.initialize_app_theme()
         self._connect_signals()
-
+        self.inicialize_pc_browser()
         # Konfiguracja widoku drzewa katalogów
         self.ui.select_directory.clicked.connect(self.select_directory)
         self.file_system_model = QFileSystemModel()
@@ -140,7 +143,19 @@ class GUIFunctions:
     def _tymczasowe_ukrycie(self):
         #self.ui.dataBtn.hide()
         pass
+    
+    def inicialize_pc_browser(self):
+        first_path = "C:\\Users\\firenet\\Desktop\\sqlite\\os_extraction.db"
 
+        self.db_menager = database_pc_manager(first_path)
+        self.db_menager.connect_to_db(first_path)
+
+        self.ui.customQStackedWidget.setCurrentIndex(4)
+        self.pc_browser = pc_browser(first_path,self,self.db_menager)
+        self.pc_browser.load_device_info()
+        self.pc_browser.load_software_info()
+        self.pc_browser.load_network_config()
+        self.pc_browser.load_installed_software()
     def toggle_window_state(self):
         self.ui.restoreBtn.setIcon(QIcon(":feather/FFFFFF/feather/copy.png"))
         #print(self.main.windowState())

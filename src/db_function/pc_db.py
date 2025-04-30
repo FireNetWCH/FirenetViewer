@@ -14,7 +14,7 @@ class database_pc_manager:
         else:
             logger.error(f"Nie można połączyć z bazą danych SQLite: {db_file}")
 
-    def connect_to_db(db_file):
+    def connect_to_db(self,db_file):
         try:
             connection = sqlite3.connect(db_file)
             print("Połączono z bazą danych SQLite")
@@ -22,6 +22,7 @@ class database_pc_manager:
             cursor.execute("SELECT sqlite_version();")
             sqlite_version = cursor.fetchone()
             print(f"Wersja SQLite: {sqlite_version[0]}")
+            self.connection = connection
             return connection
         except sqlite3.Error as e:
             print(f"Błąd podczas połączenia z bazą danych: {e}")
