@@ -1900,6 +1900,29 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_46.addWidget(self.frame_16)
 
+        self.widget_47 = QWidget(self.frame_15)
+        self.widget_47.setObjectName(u"widget_47")
+        sizePolicy6.setHeightForWidth(self.widget_47.sizePolicy().hasHeightForWidth())
+        self.widget_47.setSizePolicy(sizePolicy6)
+        self.horizontalLayout_57 = QHBoxLayout(self.widget_47)
+        self.horizontalLayout_57.setSpacing(0)
+        self.horizontalLayout_57.setObjectName(u"horizontalLayout_57")
+        self.horizontalLayout_57.setContentsMargins(-1, 0, 0, 0)
+        self.startPathImageLabel = QLabel(self.widget_47)
+        self.startPathImageLabel.setObjectName(u"startPathImageLabel")
+        sizePolicy6.setHeightForWidth(self.startPathImageLabel.sizePolicy().hasHeightForWidth())
+        self.startPathImageLabel.setSizePolicy(sizePolicy6)
+
+        self.horizontalLayout_57.addWidget(self.startPathImageLabel)
+
+        self.pathImageLabel = QLabel(self.widget_47)
+        self.pathImageLabel.setObjectName(u"pathImageLabel")
+
+        self.horizontalLayout_57.addWidget(self.pathImageLabel)
+
+
+        self.verticalLayout_46.addWidget(self.widget_47)
+
         self.tabWidget_2 = QTabWidget(self.frame_15)
         self.tabWidget_2.setObjectName(u"tabWidget_2")
         self.tabWidget_2.setTabsClosable(True)
@@ -2321,6 +2344,9 @@ class Ui_MainWindow(object):
 
         self.emailHederDockWidget.setWidget(self.dockWidgetContents_8)
         MainWindow.addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, self.emailHederDockWidget)
+#if QT_CONFIG(shortcut)
+        self.startPathImageLabel.setBuddy(self.startPathImageLabel)
+#endif // QT_CONFIG(shortcut)
 
         self.retranslateUi(MainWindow)
 
@@ -2511,6 +2537,8 @@ class Ui_MainWindow(object):
         self.left_btn_2.setText(QCoreApplication.translate("MainWindow", u"<-", None))
         self.rigth_btn_2.setText(QCoreApplication.translate("MainWindow", u"->", None))
         self.up_btn_2.setText(QCoreApplication.translate("MainWindow", u"^", None))
+        self.startPathImageLabel.setText(QCoreApplication.translate("MainWindow", u"X:", None))
+        self.pathImageLabel.setText("")
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"W\u0142a\u015bciciel skrzynki:", None))
         self.nameLabel.setText(QCoreApplication.translate("MainWindow", u"Nazwa", None))
         self.emailLabel.setText(QCoreApplication.translate("MainWindow", u"Adres Email", None))

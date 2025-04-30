@@ -40,6 +40,7 @@ class GUIFunctions:
         self.main = main_window
         self.ui = main_window.ui
         self.db_connection: Optional[sqlite3.Connection] = None
+        self.db_menager = None
         self.active_filters: Dict[int, str] = {0: "", 1: "", 2: "", 3: ""}
         self.columns_hidden: List[bool] = [False] * 6
         self.filtering_active: bool = False
@@ -47,9 +48,9 @@ class GUIFunctions:
         self.histor = histor_stack()
         self.back_hisotry = histor_stack()
         self.active_path =""
+        self.img_path = ""
         self.statusWindowMaxymalize = True
         self._setup_ui()
-        self._connect_to_database("nazwa_bazy.db")
         self.load_data_from_database()
         self.load_data_and_plot()
         self.organizationName = "FireNet"
@@ -118,7 +119,7 @@ class GUIFunctions:
         #główne przyciski
         self.ui.up_btn.clicked.connect(lambda :display_file_content(self,prev_item(self,self.ui.pathLabel.text())))
         
-        self.ui.up_btn_2.clicked.connect(lambda : self.disc_imgae_explorer.prevItem())
+        self.ui.up_btn_2.clicked.connect(lambda : self.disc_imgae_explorer.prevItem(self))
         #Podłączenie zamknięcia karty exploratora 
         self.ui.tabWidget.tabCloseRequested.connect(lambda index: self.ui.tabWidget.removeTab(index))
         self.ui.tabWidget_2.tabCloseRequested.connect(lambda index: self.ui.tabWidget_2.removeTab(index))
@@ -139,14 +140,6 @@ class GUIFunctions:
     def _tymczasowe_ukrycie(self):
         #self.ui.dataBtn.hide()
         pass
-    def _connect_to_database(self, db_name: str) -> None:
-        """Nawiązuje połączenie z bazą danych SQLite."""
-        try:
-            self.db_connection = sqlite3.connect(db_name)
-            logger.info(f"Połączono z bazą danych {db_name}")
-        except sqlite3.Error as e:
-            logger.error(f"Błąd podczas łączenia z bazą danych: {e}")
-            self.db_connection = None
 
     def toggle_window_state(self):
         self.ui.restoreBtn.setIcon(QIcon(":feather/FFFFFF/feather/copy.png"))
@@ -289,21 +282,6 @@ class GUIFunctions:
         product_sans = QFont(font_families[0] if font_families else 'Sans Serif')
         self.main.setFont(product_sans)
 
-    def search_by_first_name(self) -> None:
-        self.active_filters[0] = self.ui.seachName.text().lower()
-        self.apply_filters()
-
-    def search_by_last_name(self) -> None:
-        self.active_filters[1] = self.ui.seachSurname.text().lower()
-        self.apply_filters()
-
-    def search_by_birth_date(self) -> None:
-        self.active_filters[2] = self.ui.searchDate.text().lower()
-        self.apply_filters()
-
-    def search_by_age(self) -> None:
-        self.active_filters[3] = self.ui.serachOld.text().lower()
-        self.apply_filters()
 
     def apply_filters(self) -> None:
         """

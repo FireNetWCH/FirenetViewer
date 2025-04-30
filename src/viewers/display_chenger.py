@@ -6,6 +6,7 @@ from src.viewers.docx_viewers import display_docx_content
 from src.viewers.table_viewers import display_table_content
 from src.viewers.txt_viewers import display_txt_content
 from src.viewers.not_support_file import NotSupportFileView
+from src.viewers.empty_file_viewer import EmptyFileView
 from src.firenet_viewer_widget.downloadButtona import downloadButton
 from src.disc_image_reader.download_menager import download_manager
 from PySide6.QtGui import QPixmap
@@ -93,6 +94,7 @@ def display_file_content(self, file_path,history_flag = 1,file_system = None) ->
         
         else:
             try:
+                print(file_path)
                 _, ext = os.path.splitext(file_path.info.name.name.decode().lower())
                 if ext in ['.jpg','.jpeg','.png','.gif','.bmp','.ppm']:
                     file_hoke = file_system.open_meta(file_path.info.name.meta_addr)
@@ -123,7 +125,13 @@ def display_file_content(self, file_path,history_flag = 1,file_system = None) ->
                         q_tab.addTab(tab_content,"TXT")
                         q_tab.setCurrentWidget(tab_content)
                     else:
-                        print("Plik jest pósty - 'dodać widget i logi '")
+                        tab_content = EmptyFileView()
+                        dm = download_manager(file_path)
+                        download_buttona = downloadButton(file_path.info.name.name.decode().lower(),lambda: dm.download_file_img())
+                        q_tab = self.ui.tabWidget_2
+                        tab_content.layout().addWidget(download_buttona, alignment=Qt.AlignCenter)
+                        q_tab.addTab(tab_content,"Empty Fiel")
+                        q_tab.setCurrentWidget(tab_content)
                 elif ext in['.csv','.xlsx','.xls','.odf','.ods','.xlsm','.xlsb']:
                     file_hoke = file_system.open_meta(file_path.info.name.meta_addr)
                     file_data = file_hoke.read_random(0,file_hoke.info.meta.size)

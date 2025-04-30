@@ -46,14 +46,21 @@ class DiscViewers(QWidget):
     #     self.file_system_model.setRootPath(dir_path)
     #     self.list_view.setRootIndex(self.file_system_model.index(dir_path))
 
-    def prevItem(self):
+    def prevItem(self,parent):
+        parent.img_path = parent.img_path.rsplit("/", 1)[0]
+        parent.ui.pathImageLabel.setText(parent.img_path)
         self.list_view.setRootIndex(self.model.parent(self.list_view.rootIndex()))
+        
 
     def itemDoubleClicked(self,index,parent):
         """Obsługuje kliknięcie elementu – jeśli katalog, przechodzi do niego."""
         item = index.internalPointer()
         if item.info.name.type == pytsk3.TSK_FS_NAME_TYPE_DIR:
             self.list_view.setRootIndex(index)
+            print(item.info.name.name.decode())
+            parent.img_path = f"{parent.img_path}/{item.info.name.name.decode()}"
+            parent.ui.pathImageLabel.setText(parent.img_path)
+            
         else:
             import src.viewers.display_chenger as g
             item = index.internalPointer()
