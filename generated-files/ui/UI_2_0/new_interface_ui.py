@@ -2553,16 +2553,22 @@ class Ui_MainWindow(object):
 
         self.profileComboBox = QComboBox(self.widget_78)
         self.profileComboBox.setObjectName(u"profileComboBox")
+        sizePolicy6.setHeightForWidth(self.profileComboBox.sizePolicy().hasHeightForWidth())
+        self.profileComboBox.setSizePolicy(sizePolicy6)
 
         self.horizontalLayout_89.addWidget(self.profileComboBox)
 
         self.userComboBox = QComboBox(self.widget_78)
         self.userComboBox.setObjectName(u"userComboBox")
+        sizePolicy6.setHeightForWidth(self.userComboBox.sizePolicy().hasHeightForWidth())
+        self.userComboBox.setSizePolicy(sizePolicy6)
 
         self.horizontalLayout_89.addWidget(self.userComboBox)
 
         self.browserComboBox = QComboBox(self.widget_78)
         self.browserComboBox.setObjectName(u"browserComboBox")
+        sizePolicy6.setHeightForWidth(self.browserComboBox.sizePolicy().hasHeightForWidth())
+        self.browserComboBox.setSizePolicy(sizePolicy6)
 
         self.horizontalLayout_89.addWidget(self.browserComboBox)
 
