@@ -2,7 +2,7 @@ import sqlite3
 import logging
 from typing import Any, List, Dict, Optional
 import pandas as pd
-from PySide6.QtCore import Qt, QSettings, QDir, QPoint
+from PySide6.QtCore import Qt, QSettings, QDir, QPoint,QDate
 from PySide6.QtGui import QFont, QFontDatabase, QAction,QIcon
 from PySide6.QtWidgets import (
     QCheckBox, QPushButton, QGraphicsScene, QTableWidgetItem, QMenu, QFileSystemModel,
@@ -24,6 +24,7 @@ from src.viewers.dir_viewers import DirViewers
 from src.disc_image_reader.disc_viewer import DiscViewers
 from src.style_app import style_app
 from src.db_function.pc_db import database_pc_manager
+from src.firenet_viewer_widget.calendar_dialog_widget import DateRangeDialog
 import sys,os
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -44,7 +45,9 @@ class GUIFunctions:
         self.db_connection: Optional[sqlite3.Connection] = None
         self.db_menager = None
         self.pc_browser = None
-        self.active_filters: Dict[int, str] = {0: "", 1: "", 2: "", 3: ""}
+        self.download_history_filters: Dict[str, str] = {"url": "", "path": "", "start_date": "", "end_date": ""}
+        self.history_browser_filters: Dict[str, str] = {"url": "","title": "", "visit_count": "0","start_date": "", "end_date": ""}
+        self.history_browser_marge_filters: Dict[str, str] = {"name": "", "profile_name": "","u.id": ""}
         self.columns_hidden: List[bool] = [False] * 6
         self.filtering_active: bool = False
         self.current_sort_order: Dict[int, Any] = {}
@@ -145,17 +148,83 @@ class GUIFunctions:
         pass
     
     def inicialize_pc_browser(self):
-        first_path = "C:\\Users\\firenet\\Desktop\\sqlite\\os_extraction.db"
+        first_path = "C:\\Users\\firenet\\FirenetViewer\\pc_storage\\sqlite\\os_extraction.db"
 
         self.db_menager = database_pc_manager(first_path)
         self.db_menager.connect_to_db(first_path)
 
-        self.ui.customQStackedWidget.setCurrentIndex(4)
+        self.ui.customQStackedWidget.setCurrentIndex(5)
         self.pc_browser = pc_browser(first_path,self,self.db_menager)
         self.pc_browser.load_device_info()
         self.pc_browser.load_software_info()
         self.pc_browser.load_network_config()
         self.pc_browser.load_installed_software()
+        self.pc_browser.load_borowser_download_history('google_chrome_dowsnloads')
+        self.pc_browser.load_history_browser()
+        self.pc_browser.generate_pc_tree()
+        self.pc_browser.generate_sercher_history_browser_combo_box()
+
+        self.ui.domenaLineEdit.editingFinished.connect(self.update_domena_filter)
+        self.ui.titleLineEdit.editingFinished.connect(self.update_title_filter)
+        self.ui.visitCountLineEdit.editingFinished.connect(self.update_visit_count_filter)
+        self.ui.browserComboBox.currentTextChanged.connect(self.update_browser_name_filter)
+        self.ui.profileComboBox.currentTextChanged.connect(self.update_profile_name_filter)
+        self.ui.userComboBox.currentTextChanged.connect(self.update_user_name_id_filter)
+        self.ui.calendarBtn.clicked.connect(self.serch_by_date_start)
+        self.ui.startDateLineEdit.textChanged.connect(self.update_data_filter)
+        self.ui.endDatelineEdit.textChanged.connect(self.update_data_filter)
+
+    def update_data_filter(self):
+        self.history_browser_filters["start_date"] = self.ui.startDateLineEdit.text()
+        self.history_browser_filters["end_date"] = self.ui.endDatelineEdit.text()
+        self.pc_browser.load_history_browser()
+    def update_domena_filter(self):
+        self.history_browser_filters["url"] = self.ui.domenaLineEdit.text()
+        self.pc_browser.load_history_browser()
+
+    def update_title_filter(self):
+        self.history_browser_filters["title"] = self.ui.titleLineEdit.text()
+        self.pc_browser.load_history_browser()
+
+    def update_visit_count_filter(self):
+        count = self.ui.visitCountLineEdit.text()
+        if count == "":
+            self.history_browser_filters["visit_count"] = "0"
+            self.pc_browser.load_history_browser()
+        else:
+            try:
+                count = int(count)
+                self.history_browser_filters["visit_count"] = count
+                self.pc_browser.load_history_browser()
+            except ValueError:
+                logger.error("Invalid visit count value")
+                self.ui.visitCountLineEdit.setText("0")
+
+    def update_profile_name_filter(self):
+        if self.ui.profileComboBox.currentText() == "Wszystkie":
+            self.history_browser_marge_filters["profile_name"] = ""
+            self.pc_browser.load_history_browser()
+        else:
+            self.history_browser_marge_filters["profile_name"] = self.ui.profileComboBox.currentText()
+        self.pc_browser.load_history_browser()
+
+    def update_browser_name_filter(self):
+        if self.ui.browserComboBox.currentText() == "Wszystkie":
+            self.history_browser_marge_filters["name"] = ""
+            self.pc_browser.load_history_browser()
+        else:
+            self.history_browser_marge_filters["name"] = self.ui.browserComboBox.currentText()
+        self.pc_browser.load_history_browser()
+        #self.history_browser_filters["visit_count"] = self.ui.visitCountLineEdit.text()
+
+    def update_user_name_id_filter(self):
+        if self.ui.userComboBox.currentText() == "Wszystkie":
+            self.history_browser_marge_filters["u.id"] = ""
+            self.pc_browser.load_history_browser()
+        else:
+            self.history_browser_marge_filters["u.id"] = self.ui.userComboBox.currentData()
+            print(self.history_browser_marge_filters["u.id"])
+        self.pc_browser.load_history_browser()
     def toggle_window_state(self):
         self.ui.restoreBtn.setIcon(QIcon(":feather/FFFFFF/feather/copy.png"))
         #print(self.main.windowState())
@@ -213,6 +282,42 @@ class GUIFunctions:
             logger.info("Dane zostały załadowane do tabeli.")
         except sqlite3.Error as e:
             logger.error(f"Błąd podczas wykonywania zapytania: {e}")
+
+    def serch_by_date_start(self):
+        dialog_calendar = DateRangeDialog()
+        
+        date = dialog_calendar.get_selected_dates()
+        # print(date)
+        # print(date[0])
+        if date[0] != "":
+            # print(date[0])
+            start_date = QDate.fromString(date[0], "yyyy-MM-dd")
+            if self.history_browser_filters['start_date'] !="":
+                filter_end_date = QDate.fromString(self.history_browser_filters['start_date'], "yyyy-MM-dd")
+                if start_date > filter_end_date:
+                    self.ui.startDateLineEdit.setText("")
+                    self.ui.endDatelineEdit.setText("")
+                else:
+                    self.ui.startDateLineEdit.setText(date[0])
+            else:
+                self.ui.startDateLineEdit.setText(date[0])
+        else:
+            self.ui.startDateLineEdit.setText("")
+
+        if date[1] != "":
+            # print(date[1])
+            end_date = QDate.fromString(date[1], "yyyy-MM-dd")
+            if self.history_browser_filters['end_date'] !="":
+                filter_start_date = QDate.fromString(self.history_browser_filters['end_date'], "yyyy-MM-dd")
+                if end_date < filter_start_date:
+                    self.ui.endDatelineEdit.setText("")
+                    self.ui.startDataLabel.setText("")
+                else:
+                    self.ui.endDatelineEdit.setText(date[1])
+            else:
+                self.ui.endDatelineEdit.setText(date[1])
+        else:
+            self.ui.endDatelineEdit.setText("")
 
     def open_tag_selector(self, user_id: int) -> None:
         """Otwiera okno dialogowe do edycji tagów użytkownika."""

@@ -82,7 +82,8 @@
 		  "settingsBtn",
 		  "infoBtn",
 		  "helpBtn",
-		  "fileBtn"
+		  "fileBtn",
+		  "pcTreeBtn"
 		
 		],
 		"ActiveButton": "fileBtn",
@@ -241,7 +242,8 @@
 				"settingsBtn": "settingsPage",
 				"infoBtn": "informationPage",
 				"fileBtn": "fileReader",
-				"helpBtn": "helpPage"
+				"helpBtn": "helpPage",
+				"pcTreeBtn": "pcTreePage"
 				
 			  }
 			]
