@@ -91,21 +91,19 @@ class pc_browser:
                     item = QTableWidgetItem(str(value))
                     self.parent.ui.installedSoftwareTableWidget.setItem(row_position, i, item)
     
-    def load_borowser_download_history(self, browser_name):
-        rows = self.db_menager.get_url_paths_from_browsers("google_chrome_downloads")
+    def load_borowser_download_history(self):
+        rows = self.db_menager.get_download_history_browser_from_all_browser(self.db_menager.get_download_history_browser_list(),self.parent.history_download_browser_filters,self.parent.history_browser_marge_filters,100000000,0)
 
         self.parent.ui.networkBrowserTable.setRowCount(0)
         self.parent.ui.networkBrowserTable.setColumnCount(0)
-        self.parent.ui.networkBrowserTable.setColumnCount(3)
-        self.parent.ui.networkBrowserTable.setHorizontalHeaderLabels(["id","Domena", "Nazwa pliku"])
+        self.parent.ui.networkBrowserTable.setColumnCount(7)
+        self.parent.ui.networkBrowserTable.setHorizontalHeaderLabels(["id","Domena", "Nazwa pliku","Data","Profil","Urzytkownik","Przeglądarka"])
         if rows:
             for row in rows:
                 row_position = self.parent.ui.networkBrowserTable.rowCount()
                 self.parent.ui.networkBrowserTable.insertRow(row_position)
                 for i, value in enumerate(row):
-                    if i == 0:
-                        item = QTableWidgetItem(str(value))
-                        self.parent.ui.networkBrowserTable.setItem(row_position, i, item)
+                    
                     if i == 1:
                         if value is not None:
                             sufix = tldextract.extract(value).suffix
@@ -113,11 +111,14 @@ class pc_browser:
                             domein = tldextract.extract(value).domain
                             item = QTableWidgetItem(str(f"{domein}.{sufix}"))
                             self.parent.ui.networkBrowserTable.setItem(row_position, i, item)
-                    if i ==2 :
+                    elif i ==2 :
                         if value is not None:
                             file_name = value.split("\\")[-1]
                             item = QTableWidgetItem(str(file_name))
-                            self.parent.ui.networkBrowserTable.setItem(row_position, i, item) 
+                            self.parent.ui.networkBrowserTable.setItem(row_position, i, item)
+                    else:
+                        item = QTableWidgetItem(str(value))
+                        self.parent.ui.networkBrowserTable.setItem(row_position, i, item)
         self.parent.ui.networkBrowserTable.horizontalHeader().setSectionResizeMode(0,QHeaderView.Interactive)                   
         self.parent.ui.networkBrowserTable.horizontalHeader().setSectionResizeMode(1,QHeaderView.Interactive)
         self.parent.ui.networkBrowserTable.horizontalHeader().setSectionResizeMode(2,QHeaderView.Stretch)
@@ -125,7 +126,10 @@ class pc_browser:
 
     def load_download_deteils(self, row, column):
         id = self.parent.ui.networkBrowserTable.item(row, 0).text()
-        rows = self.db_menager.get_download_deteils("google_chrome_downloads",id)
+        browser_name = self.parent.ui.networkBrowserTable.item(row,6).text()
+        browser_name = browser_name.lower()
+        browser_name = browser_name.replace(" ","_")
+        rows = self.db_menager.get_download_deteils(browser_name+"_downloads",id)
         if rows:
             if rows[0][1] is not None:
                 self.parent.ui.urlLabel.setText(str(rows[0][1]))
@@ -229,11 +233,19 @@ class pc_browser:
         model.setHorizontalHeaderLabels(["Zawartość systemu"])
 
         hisotry_browser_liset = self.db_menager.get_history_browser_list()
-        
+        download_history_list = self.db_menager.get_download_history_browser_list()
+        save_login = self.db_menager.get_save_login_browser_list()
+        sercher_list = self.db_menager.get_sercher_list()
         browser_branch = []
 
         if hisotry_browser_liset:
             browser_branch.append("Historia przegladarek")
+        if download_history_list:
+            browser_branch.append("Historia pobierania")
+        if save_login:
+            browser_branch.append("Zapisane loginy w przeglądarkach")
+        if sercher_list:
+            browser_branch.append("Historia wyszukiwania")
 
         data = {
             "Informacje o urządzeniu": ["Wiinformacje o Systemie", "Połączenia Sieciowe", "GPU"],
@@ -265,6 +277,15 @@ class pc_browser:
             elif item_name == "Wiinformacje o Systemie":
                 self.parent.ui.customQStackedWidget.setCurrentIndex(4)
                 self.load_device_info()
+            elif item_name == "Historia pobierania":
+                self.parent.ui.customQStackedWidget.setCurrentIndex(5)
+                self.db_menager.get_download_history_browser_from_all_browser(self.db_menager.get_download_history_browser_list(),self.parent.history_download_browser_filters,self.parent.history_browser_marge_filters,100000000,0)
+            elif item_name == "Zapisane loginy w przeglądarkach":
+                self.parent.ui.customQStackedWidget.setCurrentIndex(9)
+                self.load_save_login()
+            elif item_name == "Historia wyszukiwania":
+                self.parent.ui.customQStackedWidget.setCurrentIndex(10)
+                self.load_sercher()
     
     def set_item_combo_box(self, list_values,combo_box):
         combo_box.clear()
@@ -273,7 +294,7 @@ class pc_browser:
             for value in list_values:
                 combo_box.addItem(value[1],value[0])
     
-    def generate_sercher_history_browser_combo_box(self):
+    def generate_sercher_history_browser_combo_box(self,profil_box, browser_box, user_box):
         browser_list = self.db_menager.get_detected_browsers()
         broweser_combo_box_list = []
         for i in range(len(browser_list)):
@@ -295,10 +316,99 @@ class pc_browser:
                 seen.add(profile_list[i][2]) 
                 profile_combo_box_list.append((profile_list[i][0],profile_list[i][2]))
         
-        self.set_item_combo_box(profile_combo_box_list,self.parent.ui.profileComboBox)
-        self.set_item_combo_box(broweser_combo_box_list,self.parent.ui.browserComboBox)
-        self.set_item_combo_box(user_combo_box_list,self.parent.ui.userComboBox)
-        
-        print(user_list)
+        self.set_item_combo_box(profile_combo_box_list,profil_box)
+        self.set_item_combo_box(broweser_combo_box_list,browser_box)
+        self.set_item_combo_box(user_combo_box_list,user_box)
+
+    def load_save_login(self):
+        rows = self.db_menager.get_all_save_logins(self.db_menager.get_save_login_browser_list(),self.parent.save_login_filters,self.parent.history_browser_marge_filters,100000000,0)
+
+        self.parent.ui.saveLoginTableWidget.setRowCount(0)
+        self.parent.ui.saveLoginTableWidget.setColumnCount(0)
+        self.parent.ui.saveLoginTableWidget.setColumnCount(7)
+        self.parent.ui.saveLoginTableWidget.setHorizontalHeaderLabels(["id","Domena", "Login","Data","Profil","Urzytkownik","Przeglądarka"])
+        if rows:
+            for row in rows:
+                row_position = self.parent.ui.saveLoginTableWidget.rowCount()
+                self.parent.ui.saveLoginTableWidget.insertRow(row_position)
+                for i, value in enumerate(row):
+                    
+                    if i == 1:
+                        if value is not None:
+                            sufix = tldextract.extract(value).suffix
+                            #subdomain = tldextract.extract(value).subdomain
+                            domein = tldextract.extract(value).domain
+                            item = QTableWidgetItem(str(f"{domein}.{sufix}"))
+                            self.parent.ui.saveLoginTableWidget.setItem(row_position, i, item)
+                    else:
+                        item = QTableWidgetItem(str(value))
+                        self.parent.ui.saveLoginTableWidget.setItem(row_position, i, item)
+        self.parent.ui.saveLoginTableWidget.cellClicked.connect(self.load_logins_deteils)
 
 
+    def load_logins_deteils(self, row, column):
+        id = self.parent.ui.saveLoginTableWidget.item(row, 0).text()
+        browser_name = self.parent.ui.saveLoginTableWidget.item(row,6).text()
+        browser_name = browser_name.lower()
+        browser_name = browser_name.replace(" ","_")
+        rows = self.db_menager.get_logins_deteils(browser_name+"_logins",id)
+        if rows:
+            print(rows)
+            if rows[0][1] is not None:
+                self.parent.ui.saveLoginUrlLabel.setText(str(rows[0][1]))
+            else:
+                self.parent.ui.saveLoginUrlLabel.setText("Brak adresu URL")
+            if rows[0][2] is not None:
+                self.parent.ui.loginLabel.setText(str(rows[0][2]))
+            else:
+                self.parent.ui.loginLabel.setText("Brak zapisanego loginu")
+            if rows[0][3] is not None:
+                self.parent.ui.lastDateUseLabel.setText(str(rows[0][3]))
+            else:
+                self.parent.ui.lastDateUseLabel.setText("Brak ostatniej dayty wizyty")
+
+    def load_sercher(self):
+        rows = self.db_menager.get_all_seracher(self.db_menager.get_sercher_list(),self.parent.sercher_list_filters,self.parent.history_browser_marge_filters,100000000,0)
+
+        self.parent.ui.sercherTableWidget.setRowCount(0)
+        self.parent.ui.sercherTableWidget.setColumnCount(0)
+        self.parent.ui.sercherTableWidget.setColumnCount(7)
+        self.parent.ui.sercherTableWidget.setHorizontalHeaderLabels(["id","Fraza", "Domena","Data","Profil","Urzytkownik","Przeglądarka"])
+        if rows:
+            for row in rows:
+                row_position = self.parent.ui.sercherTableWidget.rowCount()
+                self.parent.ui.sercherTableWidget.insertRow(row_position)
+                for i, value in enumerate(row):
+                    
+                    if i == 2:
+                        if value is not None:
+                            sufix = tldextract.extract(value).suffix
+                            #subdomain = tldextract.extract(value).subdomain
+                            domein = tldextract.extract(value).domain
+                            item = QTableWidgetItem(str(f"{domein}.{sufix}"))
+                            self.parent.ui.sercherTableWidget.setItem(row_position, i, item)
+                    else:
+                        item = QTableWidgetItem(str(value))
+                        self.parent.ui.sercherTableWidget.setItem(row_position, i, item)
+        self.parent.ui.sercherTableWidget.cellClicked.connect(self.load_sercher_deteils)
+
+    def load_sercher_deteils(self, row, column):
+        id = self.parent.ui.sercherTableWidget.item(row, 0).text()
+        browser_name = self.parent.ui.sercherTableWidget.item(row,6).text()
+        browser_name = browser_name.lower()
+        browser_name = browser_name.replace(" ","_")
+        rows = self.db_menager.get_sercher_deteils(browser_name+"_searchhistory",id)
+        if rows:
+            print(rows)
+            if rows[0][1] is not None:
+                self.parent.ui.sercherUrlLabel.setText(str(rows[0][1]))
+            else:
+                self.parent.ui.sercherUrlLabel.setText("Brak adresu URL")
+            if rows[0][2] is not None:
+                self.parent.ui.termLabel.setText(str(rows[0][2]))
+            else:
+                self.parent.ui.termLabel.setText("Brak zapisanego Frazy")
+            if rows[0][3] is not None:
+                self.parent.ui.sercherDateLabel.setText(str(rows[0][3]))
+            else:
+                self.parent.ui.sercherDateLabel.setText("Brak ostatniej dayty wizyty")

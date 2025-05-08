@@ -45,9 +45,15 @@ class GUIFunctions:
         self.db_connection: Optional[sqlite3.Connection] = None
         self.db_menager = None
         self.pc_browser = None
-        self.download_history_filters: Dict[str, str] = {"url": "", "path": "", "start_date": "", "end_date": ""}
         self.history_browser_filters: Dict[str, str] = {"url": "","title": "", "visit_count": "0","start_date": "", "end_date": ""}
         self.history_browser_marge_filters: Dict[str, str] = {"name": "", "profile_name": "","u.id": ""}
+
+        self.history_download_browser_filters: Dict[str, str] = {"url": "","download_path": "", "file_size": "0","start_time": "", "end_time": ""}
+
+        self.save_login_filters: Dict[str, str] = {"url": "","username": "","start_date":"", "end_date": ""}
+
+        self.sercher_list_filters: Dict[str, str] = {"term": "","url": "","start_date":"", "end_date": ""}
+
         self.columns_hidden: List[bool] = [False] * 6
         self.filtering_active: bool = False
         self.current_sort_order: Dict[int, Any] = {}
@@ -159,32 +165,81 @@ class GUIFunctions:
         self.pc_browser.load_software_info()
         self.pc_browser.load_network_config()
         self.pc_browser.load_installed_software()
-        self.pc_browser.load_borowser_download_history('google_chrome_dowsnloads')
+        self.pc_browser.load_borowser_download_history()
         self.pc_browser.load_history_browser()
         self.pc_browser.generate_pc_tree()
-        self.pc_browser.generate_sercher_history_browser_combo_box()
+        self.pc_browser.generate_sercher_history_browser_combo_box(self.ui.profileComboBox,self.ui.browserComboBox,self.ui.userComboBox)
 
-        self.ui.domenaLineEdit.editingFinished.connect(self.update_domena_filter)
-        self.ui.titleLineEdit.editingFinished.connect(self.update_title_filter)
+        self.ui.domenaLineEdit.editingFinished.connect(lambda : self.update_filter(self.history_browser_filters,"url",self.pc_browser.load_history_browser,self.ui.domenaLineEdit))
+        self.ui.titleLineEdit.editingFinished.connect(lambda : self.update_filter(self.history_browser_filters,"title",self.pc_browser.load_history_browser,self.ui.titleLineEdit))
         self.ui.visitCountLineEdit.editingFinished.connect(self.update_visit_count_filter)
-        self.ui.browserComboBox.currentTextChanged.connect(self.update_browser_name_filter)
-        self.ui.profileComboBox.currentTextChanged.connect(self.update_profile_name_filter)
-        self.ui.userComboBox.currentTextChanged.connect(self.update_user_name_id_filter)
-        self.ui.calendarBtn.clicked.connect(self.serch_by_date_start)
-        self.ui.startDateLineEdit.textChanged.connect(self.update_data_filter)
-        self.ui.endDatelineEdit.textChanged.connect(self.update_data_filter)
+        self.ui.browserComboBox.currentTextChanged.connect(lambda : self.update_browser_name_filter(self.ui.browserComboBox,self.pc_browser.load_history_browser))
+        self.ui.profileComboBox.currentTextChanged.connect(lambda : self.update_profile_name_filter(self.ui.profileComboBox,self.pc_browser.load_history_browser))
+        self.ui.userComboBox.currentTextChanged.connect(lambda : self.update_user_name_id_filter(self.ui.userComboBox,self.pc_browser.load_history_browser))
+        self.ui.calendarBtn.clicked.connect(lambda : self.serch_by_date_start(self.ui.startDateLineEdit,self.ui.endDatelineEdit,self.history_browser_filters,"start_date","end_date"))
+        self.ui.startDateLineEdit.textChanged.connect(lambda : self.update_data_filter(self.history_browser_filters,"start_date","end_date",self.pc_browser.load_history_browser,self.ui.startDateLineEdit,self.ui.endDatelineEdit))
+        self.ui.endDatelineEdit.textChanged.connect(lambda : self.update_data_filter(self.history_browser_filters,"start_date","end_date",self.pc_browser.load_history_browser,self.ui.startDateLineEdit,self.ui.endDatelineEdit))
+        
+        #download history connect
+        self.ui.downloadDomenLineEdit.editingFinished.connect(lambda : self.update_filter(self.history_download_browser_filters,"url",self.pc_browser.load_borowser_download_history,self.ui.downloadDomenLineEdit))
+        self.ui.fileNameLineEdit.editingFinished.connect(lambda : self.update_filter(self.history_download_browser_filters,"download_path",self.pc_browser.load_borowser_download_history,self.ui.fileNameLineEdit))
+        self.ui.downloadHistoryCalendarBtn.clicked.connect(lambda : self.serch_by_date_start(self.ui.startDateDownloadLineEdit,self.ui.endDateDownloadLineEdit,self.history_download_browser_filters,"start_time","end_time"))
+        self.ui.startDateDownloadLineEdit.textChanged.connect(lambda :self.update_data_filter(self.history_download_browser_filters,"start_time","end_time",self.pc_browser.load_borowser_download_history,self.ui.startDateDownloadLineEdit,self.ui.endDateDownloadLineEdit))
+        self.ui.endDateDownloadLineEdit.textChanged.connect(lambda:self.update_data_filter(self.history_download_browser_filters,"start_time","end_time",self.pc_browser.load_borowser_download_history,self.ui.startDateDownloadLineEdit,self.ui.endDateDownloadLineEdit))
+        self.pc_browser.generate_sercher_history_browser_combo_box(self.ui.downloadProfileComboBox,self.ui.downloadBrowserComboBox,self.ui.downladaUserComboBox)
+        self.ui.downloadBrowserComboBox.currentTextChanged.connect(lambda : self.update_browser_name_filter(self.ui.downloadBrowserComboBox,self.pc_browser.load_borowser_download_history))
+        self.ui.downloadProfileComboBox.currentTextChanged.connect(lambda : self.update_profile_name_filter(self.ui.downloadProfileComboBox,self.pc_browser.load_borowser_download_history))
+        self.ui.downladaUserComboBox.currentTextChanged.connect(lambda : self.update_user_name_id_filter(self.ui.downladaUserComboBox,self.pc_browser.load_borowser_download_history))
+        
+        #save login connect
+        self.ui.saveLoginDomenLineEdit.editingFinished.connect(lambda : self.update_filter(self.save_login_filters,"url",self.pc_browser.load_save_login,self.ui.saveLoginDomenLineEdit))
+        self.ui.loginLineEdit.editingFinished.connect(lambda : self.update_filter(self.save_login_filters,"username",self.pc_browser.load_save_login,self.ui.loginLineEdit))
+        self.ui.saveLoginCalendarBtn.clicked.connect(lambda : self.serch_by_date_start(self.ui.startDataSaveLoginLineEdit,self.ui.endDataSaveLoginLineEdit,self.save_login_filters,"start_date","end_date"))
+        self.ui.startDataSaveLoginLineEdit.textChanged.connect(lambda : self.update_data_filter(self.save_login_filters,"start_date","end_date",self.pc_browser.load_save_login,self.ui.startDataSaveLoginLineEdit,self.ui.endDataSaveLoginLineEdit))
+        self.ui.endDataSaveLoginLineEdit.textChanged.connect(lambda : self.update_data_filter(self.save_login_filters,"start_date","end_date",self.pc_browser.load_save_login,self.ui.startDataSaveLoginLineEdit,self.ui.endDataSaveLoginLineEdit))
+        self.pc_browser.generate_sercher_history_browser_combo_box(self.ui.saveLoginProfilComboBox,self.ui.saveLoginBrowserComboBox,self.ui.saveLoginUserComboBox)
+        self.ui.saveLoginBrowserComboBox.currentTextChanged.connect(lambda : self.update_browser_name_filter(self.ui.saveLoginBrowserComboBox,self.pc_browser.load_save_login))
+        self.ui.saveLoginProfilComboBox.currentTextChanged.connect(lambda : self.update_profile_name_filter(self.ui.saveLoginProfilComboBox,self.pc_browser.load_save_login))
+        self.ui.saveLoginUserComboBox.currentTextChanged.connect(lambda : self.update_user_name_id_filter(self.ui.saveLoginUserComboBox,self.pc_browser.load_save_login))
 
-    def update_data_filter(self):
-        self.history_browser_filters["start_date"] = self.ui.startDateLineEdit.text()
-        self.history_browser_filters["end_date"] = self.ui.endDatelineEdit.text()
-        self.pc_browser.load_history_browser()
-    def update_domena_filter(self):
-        self.history_browser_filters["url"] = self.ui.domenaLineEdit.text()
-        self.pc_browser.load_history_browser()
+        #sercher history connect
+        self.ui.termLineEdit.editingFinished.connect(lambda : self.update_filter(self.sercher_list_filters,"term",self.pc_browser.load_sercher,self.ui.termLineEdit))
+        self.ui.sercherUrlLineEdit.editingFinished.connect(lambda : self.update_filter(self.sercher_list_filters,"url",self.pc_browser.load_sercher,self.ui.sercherUrlLineEdit))
+        self.pc_browser.generate_sercher_history_browser_combo_box(self.ui.sercherProfilComboBox,self.ui.sercherBrowserComboBox,self.ui.sercherUserComboBox)
+        self.ui.sercherBrowserComboBox.currentTextChanged.connect(lambda : self.update_browser_name_filter(self.ui.sercherBrowserComboBox,self.pc_browser.load_sercher))
+        self.ui.sercherProfilComboBox.currentTextChanged.connect(lambda : self.update_profile_name_filter(self.ui.sercherProfilComboBox,self.pc_browser.load_sercher))
+        self.ui.sercherUserComboBox.currentTextChanged.connect(lambda : self.update_user_name_id_filter(self.ui.sercherUserComboBox,self.pc_browser.load_sercher))
 
-    def update_title_filter(self):
-        self.history_browser_filters["title"] = self.ui.titleLineEdit.text()
-        self.pc_browser.load_history_browser()
+    
+    def update_profile_name_filter(self,profil_como_box,ladder_function):
+        if profil_como_box.currentText() == "Wszystkie":
+            self.history_browser_marge_filters["profile_name"] = ""
+        else:
+            self.history_browser_marge_filters["profile_name"] = profil_como_box.currentText()
+        ladder_function()
+            
+    def update_browser_name_filter(self,browser_combo_box,ladder_function):
+        if browser_combo_box.currentText() == "Wszystkie":
+            self.history_browser_marge_filters["name"] = ""
+        else:
+            self.history_browser_marge_filters["name"] = browser_combo_box.currentText()
+        ladder_function()
+            
+    def update_user_name_id_filter(self,user_combo_box,ladder_function):
+        if user_combo_box.currentText() == "Wszystkie":
+            self.history_browser_marge_filters["u.id"] = ""
+        else:
+            self.history_browser_marge_filters["u.id"] = user_combo_box.currentData()
+        ladder_function()
+
+    def update_filter(self,filter_list,filter_key,load_function,line_edit):
+        filter_list[filter_key] = line_edit.text()
+        load_function()
+
+    def update_data_filter(self,list_filter,stert_key,end_key,load_function,start_line_edit,end_line_edit):
+        list_filter[stert_key] = start_line_edit.text()
+        list_filter[end_key] = end_line_edit.text()
+        load_function()
 
     def update_visit_count_filter(self):
         count = self.ui.visitCountLineEdit.text()
@@ -199,32 +254,7 @@ class GUIFunctions:
             except ValueError:
                 logger.error("Invalid visit count value")
                 self.ui.visitCountLineEdit.setText("0")
-
-    def update_profile_name_filter(self):
-        if self.ui.profileComboBox.currentText() == "Wszystkie":
-            self.history_browser_marge_filters["profile_name"] = ""
-            self.pc_browser.load_history_browser()
-        else:
-            self.history_browser_marge_filters["profile_name"] = self.ui.profileComboBox.currentText()
-        self.pc_browser.load_history_browser()
-
-    def update_browser_name_filter(self):
-        if self.ui.browserComboBox.currentText() == "Wszystkie":
-            self.history_browser_marge_filters["name"] = ""
-            self.pc_browser.load_history_browser()
-        else:
-            self.history_browser_marge_filters["name"] = self.ui.browserComboBox.currentText()
-        self.pc_browser.load_history_browser()
-        #self.history_browser_filters["visit_count"] = self.ui.visitCountLineEdit.text()
-
-    def update_user_name_id_filter(self):
-        if self.ui.userComboBox.currentText() == "Wszystkie":
-            self.history_browser_marge_filters["u.id"] = ""
-            self.pc_browser.load_history_browser()
-        else:
-            self.history_browser_marge_filters["u.id"] = self.ui.userComboBox.currentData()
-            print(self.history_browser_marge_filters["u.id"])
-        self.pc_browser.load_history_browser()
+    
     def toggle_window_state(self):
         self.ui.restoreBtn.setIcon(QIcon(":feather/FFFFFF/feather/copy.png"))
         #print(self.main.windowState())
@@ -283,7 +313,8 @@ class GUIFunctions:
         except sqlite3.Error as e:
             logger.error(f"Błąd podczas wykonywania zapytania: {e}")
 
-    def serch_by_date_start(self):
+    def serch_by_date_start(self,start_data_lineEdit,end_data_lineEdit,list_filter,start_key,end_key):
+        """Otwiera okno dialogowe do wyboru zakresu dat."""
         dialog_calendar = DateRangeDialog()
         
         date = dialog_calendar.get_selected_dates()
@@ -292,32 +323,32 @@ class GUIFunctions:
         if date[0] != "":
             # print(date[0])
             start_date = QDate.fromString(date[0], "yyyy-MM-dd")
-            if self.history_browser_filters['start_date'] !="":
-                filter_end_date = QDate.fromString(self.history_browser_filters['start_date'], "yyyy-MM-dd")
+            if list_filter[start_key] !="":
+                filter_end_date = QDate.fromString(list_filter[start_key], "yyyy-MM-dd")
                 if start_date > filter_end_date:
-                    self.ui.startDateLineEdit.setText("")
-                    self.ui.endDatelineEdit.setText("")
+                    start_data_lineEdit.setText("")
+                    end_data_lineEdit.setText("")
                 else:
-                    self.ui.startDateLineEdit.setText(date[0])
+                    start_data_lineEdit.setText(date[0])
             else:
-                self.ui.startDateLineEdit.setText(date[0])
+                start_data_lineEdit.setText(date[0])
         else:
-            self.ui.startDateLineEdit.setText("")
+            start_data_lineEdit.setText("")
 
         if date[1] != "":
             # print(date[1])
             end_date = QDate.fromString(date[1], "yyyy-MM-dd")
-            if self.history_browser_filters['end_date'] !="":
-                filter_start_date = QDate.fromString(self.history_browser_filters['end_date'], "yyyy-MM-dd")
+            if list_filter[end_key] !="":
+                filter_start_date = QDate.fromString(list_filter[end_key], "yyyy-MM-dd")
                 if end_date < filter_start_date:
-                    self.ui.endDatelineEdit.setText("")
-                    self.ui.startDataLabel.setText("")
+                    end_data_lineEdit.setText("")
+                    start_data_lineEdit.setText("")
                 else:
-                    self.ui.endDatelineEdit.setText(date[1])
+                    end_data_lineEdit.setText(date[1])
             else:
-                self.ui.endDatelineEdit.setText(date[1])
+                end_data_lineEdit.setText(date[1])
         else:
-            self.ui.endDatelineEdit.setText("")
+            end_data_lineEdit.setText("")
 
     def open_tag_selector(self, user_id: int) -> None:
         """Otwiera okno dialogowe do edycji tagów użytkownika."""

@@ -120,18 +120,8 @@ class database_pc_manager:
             logger.error(f"Błąd podczas pobierania ścieżek URL z przeglądarek: {e}")
             print(f"Błąd podczas pobierania ścieżek URL z przeglądarek: {e}")
             return None
-
-    def get_download_deteils(self,browser_name,id_download):
-        """Pobiera szczegóły wybranego rekordu pobierania z bazy danych"""
-        try:
-            self.cursor.execute(f"SELECT * FROM {browser_name} WHERE id = ?", (id_download,))
-            rows = self.cursor.fetchall()
-            return rows
-        except sqlite3.Error as e:
-            logger.error(f"Błąd podczas pobierania szczegółów pobierania: {e}")
-            print(f"Błąd podczas pobierania szczegółów pobierania: {e}")
-            return None
         
+# HISTORY
     def get_history_deteils(self,browser_name,id_page):
         """Pobiera szczegóły wybranego rekordu historii przeglądania z bazy danych"""
         try:
@@ -180,17 +170,14 @@ class database_pc_manager:
             full_query += self.generate_part_history_browser_query(table,history_browser_filters)
             is_last = index == len(history_browser_list) - 1
             if is_last:
-                # tu dodać filtr na dołączne dane 
                 marge_filters = self.generate_part_history_browser_filers_marge_query(history_browser_marge_filters)
                 full_query += f""") AS h
                 LEFT JOIN detected_browsers AS d ON h.browser_id = d.id
                 LEFT JOIN os_users AS u ON d.user_id = u.id
                 {marge_filters}
                 LIMIT {LIMIT} OFFSET {OFFSET}"""
-                #np. po ostanim left join dodac u.full_name = "JAN KOWALSKI" itd. 
             else:
                 full_query += " UNION ALL "
-        print(full_query)
         self.cursor.execute(full_query)
         return self.cursor.fetchall()
     
@@ -255,3 +242,267 @@ class database_pc_manager:
         
         return part_query
         
+#DOWNLOAD HISTORY
+    def get_download_deteils(self,browser_name,id_download):
+        """Pobiera szczegóły wybranego rekordu pobierania z bazy danych"""
+        try:
+            self.cursor.execute(f"SELECT * FROM {browser_name} WHERE id = ?", (id_download,))
+            rows = self.cursor.fetchall()
+            return rows
+        except sqlite3.Error as e:
+            logger.error(f"Błąd podczas pobierania szczegółów pobierania: {e}")
+            print(f"Błąd podczas pobierania szczegółów pobierania: {e}")
+            return None
+    
+    def get_download_history_browser_list(self):
+        """Pobiera listę przeglądarek, które zawierają historie pobierania"""
+        try:
+            self.cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
+            table_db_list = self.cursor.fetchall()
+            history_download_tables = []
+            for table in table_db_list:
+                if table[0].endswith("_downloads"):
+                    history_download_tables.append(table[0])
+            return history_download_tables
+        except sqlite3.Error as e:
+            logger.error(f"Błąd podczas pobierania listy przeglądarek zawierających historie pobierania: {e}")
+            print(f"Błąd podczas pobierania listy przeglądarek zawierających historie pobierania: {e}")
+            return None
+        
+
+    
+
+    def generate_part_download_history_browser_query(self,table_name,history_download_browser_filters):
+        """Generuje część zapytania SQL dla historii pobierania zawierająca filtry"""
+        part_query = f"SELECT * FROM {table_name}"
+        one_filter = True
+        
+        if history_download_browser_filters:
+            for key, value in history_download_browser_filters.items():
+                if key == "file_size":
+                    if value != "0":
+                        if one_filter:
+                            part_query += f" WHERE {key} > '{value}'"
+                            one_filter = False
+                        else:
+                            part_query += f" AND {key} > '{value}'"
+                elif (key == "start_time"):
+                    if value != "":
+                        if one_filter:
+                            part_query += f" WHERE start_time > '{value}' "
+                            one_filter = False
+                        else:
+                            part_query = part_query +f" AND start_time > '{value}' "
+                elif (key == "end_time"):
+                    if value != "":
+                        if one_filter:
+                            part_query += f" WHERE start_time < '{value} "
+                            one_filter = False
+                        else:
+                            part_query = part_query +f" AND start_time < '{value} '"
+                else: 
+                    if value != "":
+                        if one_filter:
+                            part_query += f" WHERE {key} LIKE '%{value}%'"
+                            one_filter = False
+                        else:
+                            part_query += f" AND {key} LIKE '%{value}%'"
+        else:
+            return part_query
+        
+        return part_query
+
+    
+
+    def get_download_history_browser_from_all_browser(self,download_history_browser_list, download_history_browser_filters,download_history_browser_marge_filters,LIMIT=100, OFFSET=0):
+        full_query = "SELECT h.id , url, download_path ,h.start_time ,d.profile_name, full_name,d.name FROM("
+        print(download_history_browser_list)
+        for index, table in enumerate(download_history_browser_list):
+            full_query += self.generate_part_download_history_browser_query(table,download_history_browser_filters)
+            is_last = index == len(download_history_browser_list) - 1
+            if is_last:
+                marge_filters = self.generate_part_history_browser_filers_marge_query(download_history_browser_marge_filters)
+                full_query += f""") AS h
+                LEFT JOIN detected_browsers AS d ON h.browser_id = d.id
+                LEFT JOIN os_users AS u ON d.user_id = u.id
+                {marge_filters}
+                LIMIT {LIMIT} OFFSET {OFFSET}"""
+            else:
+                full_query += " UNION ALL "
+                
+        print(full_query)
+        self.cursor.execute(full_query)
+        return self.cursor.fetchall()
+    
+### LOGINY 
+
+    def get_save_login_browser_list(self):
+        """Pobiera listę przeglądarek, które zawierają historie pobierania"""
+        try:
+            self.cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
+            table_db_list = self.cursor.fetchall()
+            history_download_tables = []
+            for table in table_db_list:
+                if table[0].endswith("_logins"):
+                    history_download_tables.append(table[0])
+            return history_download_tables
+        except sqlite3.Error as e:
+            logger.error(f"Błąd podczas pobierania listy przeglądarek zawierających loginy: {e}")
+            print(f"Błąd podczas pobierania listy przeglądarek zawierających loginy: {e}")
+            return None
+
+    def get_all_save_logins(self,browser_list, save_login_filters,download_history_browser_marge_filters,LIMIT=100, OFFSET=0):
+        full_query = "SELECT h.id , url ,h.username,h.last_used ,d.profile_name, full_name,d.name FROM("
+        print(browser_list)
+        for index, table in enumerate(browser_list):
+            full_query += self.generate_save_login_part_query(table,save_login_filters)
+            is_last = index == len(browser_list) - 1
+            if is_last:
+                marge_filters = self.generate_part_history_browser_filers_marge_query(download_history_browser_marge_filters)
+                full_query += f""") AS h
+                LEFT JOIN detected_browsers AS d ON h.browser_id = d.id
+                LEFT JOIN os_users AS u ON d.user_id = u.id
+                {marge_filters}
+                LIMIT {LIMIT} OFFSET {OFFSET}"""
+            else:
+                full_query += " UNION ALL "
+        print(full_query)
+        self.cursor.execute(full_query)
+        return self.cursor.fetchall()
+
+    def generate_save_login_part_query(self,table_name,save_login_filters):
+        """Generuje część zapytania SQL dla historii pobierania zawierająca filtry"""
+        part_query = f"SELECT * FROM {table_name}"
+        one_filter = True
+        
+        if save_login_filters:
+            for key, value in save_login_filters.items():
+                
+                if (key == "start_date"):
+                    if value != "":
+                        print(key)
+                        if one_filter:
+                            part_query += f" WHERE last_used > '{value}' "
+                            one_filter = False
+                        else:
+                            part_query = part_query +f" AND last_used > '{value}' "
+                elif (key == "end_date"):
+                    if value != "":
+                        print(key)
+                        if one_filter:
+                            part_query += f" WHERE last_used < '{value}' "
+                            one_filter = False
+                        else:
+                            part_query = part_query +f" AND last_used < '{value}'"
+                else: 
+                    if value != "":
+                        if one_filter:
+                            part_query += f" WHERE {key} LIKE '%{value}%'"
+                            one_filter = False
+                        else:
+                            part_query += f" AND {key} LIKE '%{value}%'"
+        else:
+            return part_query
+        
+        return part_query
+    
+
+    def get_logins_deteils(self,browser_name,id_page):
+        """Pobiera szczegóły wybranego rekordu loginów z bazy danych"""
+        try:
+            self.cursor.execute(f"""
+            SELECT h.id ,h.url, h.last_used, d.profile_name FROM {browser_name} 
+            as h LEFT JOIN detected_browsers as d ON h.browser_id = d.id
+            WHERE h.id = {id_page}""")
+            rows = self.cursor.fetchall()
+            return rows
+        except sqlite3.Error as e:
+            logger.error(f"Błąd podczas pobierania szczegółów zapisanych loginów: {e}")
+            print(f"Błąd podczas pobierania szczegółów zapisanych loginów: {e}")
+            return None
+        
+    # SEARCH HISTORY
+    
+    def get_sercher_list(self):
+            """Pobiera listę przeglądarek, które zawierają historie wyszukiwania"""
+            try:
+                self.cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
+                table_db_list = self.cursor.fetchall()
+                history_download_tables = []
+                for table in table_db_list:
+                    if table[0].endswith("_searchhistory"):
+                        history_download_tables.append(table[0])
+                return history_download_tables
+            except sqlite3.Error as e:
+                logger.error(f"Błąd podczas pobierania listy przeglądarek zawierających historie wyszukiwania: {e}")
+                print(f"Błąd podczas pobierania listy przeglądarek zawierających historie wyszukiwania: {e}")
+                return None
+            
+    def get_all_seracher(self,browser_list, save_login_filters,download_history_browser_marge_filters,LIMIT=100, OFFSET=0):
+            full_query = "SELECT h.id  ,h.term, url,h.last_visit_time ,d.profile_name, full_name,d.name FROM("
+            print(browser_list)
+            for index, table in enumerate(browser_list):
+                full_query += self.generate_sarcher_part_query(table,save_login_filters)
+                is_last = index == len(browser_list) - 1
+                if is_last:
+                    marge_filters = self.generate_part_history_browser_filers_marge_query(download_history_browser_marge_filters)
+                    full_query += f""") AS h
+                    LEFT JOIN detected_browsers AS d ON h.browser_id = d.id
+                    LEFT JOIN os_users AS u ON d.user_id = u.id
+                    {marge_filters}
+                    LIMIT {LIMIT} OFFSET {OFFSET}"""
+                else:
+                    full_query += " UNION ALL "
+            print(full_query)
+            self.cursor.execute(full_query)
+            return self.cursor.fetchall()
+    
+    def generate_sarcher_part_query(self,table_name,sercher_filters):
+        """Generuje część zapytania SQL dla historii pobierania zawierająca filtry"""
+        part_query = f"SELECT * FROM {table_name}"
+        one_filter = True
+        
+        if sercher_filters:
+            for key, value in sercher_filters.items():
+                
+                if (key == "start_date"):
+                    if value != "":
+                        print(key)
+                        if one_filter:
+                            part_query += f" WHERE last_visit_time > '{value}' "
+                            one_filter = False
+                        else:
+                            part_query = part_query +f" AND last_visit_time > '{value}' "
+                elif (key == "end_date"):
+                    if value != "":
+                        print(key)
+                        if one_filter:
+                            part_query += f" WHERE last_visit_time < '{value}' "
+                            one_filter = False
+                        else:
+                            part_query = part_query +f" AND last_visit_time < '{value}'"
+                else: 
+                    if value != "":
+                        if one_filter:
+                            part_query += f" WHERE {key} LIKE '%{value}%'"
+                            one_filter = False
+                        else:
+                            part_query += f" AND {key} LIKE '%{value}%'"
+        else:
+            return part_query
+        
+        return part_query
+    
+    def get_sercher_deteils(self,browser_name,id_page):
+        """Pobiera szczegóły wybranego rekordu loginów z bazy danych"""
+        try:
+            self.cursor.execute(f"""
+            SELECT h.id  , h.url,h.term, h.last_visit_time FROM {browser_name} 
+            as h LEFT JOIN detected_browsers as d ON h.browser_id = d.id
+            WHERE h.id = {id_page}""")
+            rows = self.cursor.fetchall()
+            return rows
+        except sqlite3.Error as e:
+            logger.error(f"Błąd podczas pobierania szczegółów zapisanych loginów: {e}")
+            print(f"Błąd podczas pobierania szczegółów zapisanych loginów: {e}")
+            return None
