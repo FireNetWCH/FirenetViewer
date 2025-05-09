@@ -26,6 +26,7 @@ from src.style_app import style_app
 from src.db_function.pc_db import database_pc_manager
 from src.firenet_viewer_widget.calendar_dialog_widget import DateRangeDialog
 import sys,os
+from src.pc_browser.key_press_filter import KeyPressFilterTableBrowsers
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
@@ -53,6 +54,8 @@ class GUIFunctions:
         self.save_login_filters: Dict[str, str] = {"url": "","username": "","start_date":"", "end_date": ""}
 
         self.sercher_list_filters: Dict[str, str] = {"term": "","url": "","start_date":"", "end_date": ""}
+
+        self.autofill_filters: Dict[str, str] = {"fieldname" : "" , "value": "", "start_date":"", "end_date": ""}
 
         self.columns_hidden: List[bool] = [False] * 6
         self.filtering_active: bool = False
@@ -170,6 +173,8 @@ class GUIFunctions:
         self.pc_browser.generate_pc_tree()
         self.pc_browser.generate_sercher_history_browser_combo_box(self.ui.profileComboBox,self.ui.browserComboBox,self.ui.userComboBox)
 
+        
+
         self.ui.domenaLineEdit.editingFinished.connect(lambda : self.update_filter(self.history_browser_filters,"url",self.pc_browser.load_history_browser,self.ui.domenaLineEdit))
         self.ui.titleLineEdit.editingFinished.connect(lambda : self.update_filter(self.history_browser_filters,"title",self.pc_browser.load_history_browser,self.ui.titleLineEdit))
         self.ui.visitCountLineEdit.editingFinished.connect(self.update_visit_count_filter)
@@ -180,6 +185,9 @@ class GUIFunctions:
         self.ui.startDateLineEdit.textChanged.connect(lambda : self.update_data_filter(self.history_browser_filters,"start_date","end_date",self.pc_browser.load_history_browser,self.ui.startDateLineEdit,self.ui.endDatelineEdit))
         self.ui.endDatelineEdit.textChanged.connect(lambda : self.update_data_filter(self.history_browser_filters,"start_date","end_date",self.pc_browser.load_history_browser,self.ui.startDateLineEdit,self.ui.endDatelineEdit))
         
+        self.key_filter_browser_history = KeyPressFilterTableBrowsers(self.ui.historyBrowserTablet, self.pc_browser.load_history_deteils,self.pc_browser.load_history_deteils)
+        self.ui.historyBrowserTablet.installEventFilter(self.key_filter_browser_history)
+
         #download history connect
         self.ui.downloadDomenLineEdit.editingFinished.connect(lambda : self.update_filter(self.history_download_browser_filters,"url",self.pc_browser.load_borowser_download_history,self.ui.downloadDomenLineEdit))
         self.ui.fileNameLineEdit.editingFinished.connect(lambda : self.update_filter(self.history_download_browser_filters,"download_path",self.pc_browser.load_borowser_download_history,self.ui.fileNameLineEdit))
@@ -191,6 +199,9 @@ class GUIFunctions:
         self.ui.downloadProfileComboBox.currentTextChanged.connect(lambda : self.update_profile_name_filter(self.ui.downloadProfileComboBox,self.pc_browser.load_borowser_download_history))
         self.ui.downladaUserComboBox.currentTextChanged.connect(lambda : self.update_user_name_id_filter(self.ui.downladaUserComboBox,self.pc_browser.load_borowser_download_history))
         
+        self.key_filter_browser_download_history = KeyPressFilterTableBrowsers(self.ui.networkBrowserTable, self.pc_browser.load_download_deteils,self.pc_browser.load_download_deteils)
+        self.ui.networkBrowserTable.installEventFilter(self.key_filter_browser_download_history)
+
         #save login connect
         self.ui.saveLoginDomenLineEdit.editingFinished.connect(lambda : self.update_filter(self.save_login_filters,"url",self.pc_browser.load_save_login,self.ui.saveLoginDomenLineEdit))
         self.ui.loginLineEdit.editingFinished.connect(lambda : self.update_filter(self.save_login_filters,"username",self.pc_browser.load_save_login,self.ui.loginLineEdit))
@@ -202,6 +213,10 @@ class GUIFunctions:
         self.ui.saveLoginProfilComboBox.currentTextChanged.connect(lambda : self.update_profile_name_filter(self.ui.saveLoginProfilComboBox,self.pc_browser.load_save_login))
         self.ui.saveLoginUserComboBox.currentTextChanged.connect(lambda : self.update_user_name_id_filter(self.ui.saveLoginUserComboBox,self.pc_browser.load_save_login))
 
+        self.key_filter_browser_save_login = KeyPressFilterTableBrowsers(self.ui.saveLoginTableWidget, self.pc_browser.load_logins_deteils,self.pc_browser.load_logins_deteils)
+        self.ui.saveLoginTableWidget.installEventFilter(self.key_filter_browser_save_login)
+
+
         #sercher history connect
         self.ui.termLineEdit.editingFinished.connect(lambda : self.update_filter(self.sercher_list_filters,"term",self.pc_browser.load_sercher,self.ui.termLineEdit))
         self.ui.sercherUrlLineEdit.editingFinished.connect(lambda : self.update_filter(self.sercher_list_filters,"url",self.pc_browser.load_sercher,self.ui.sercherUrlLineEdit))
@@ -210,7 +225,23 @@ class GUIFunctions:
         self.ui.sercherProfilComboBox.currentTextChanged.connect(lambda : self.update_profile_name_filter(self.ui.sercherProfilComboBox,self.pc_browser.load_sercher))
         self.ui.sercherUserComboBox.currentTextChanged.connect(lambda : self.update_user_name_id_filter(self.ui.sercherUserComboBox,self.pc_browser.load_sercher))
 
-    
+        self.key_filter_browser_sercher = KeyPressFilterTableBrowsers(self.ui.sercherTableWidget, self.pc_browser.load_sercher_deteils,self.pc_browser.load_sercher_deteils)
+        self.ui.sercherTableWidget.installEventFilter(self.key_filter_browser_sercher)
+
+        #serch autofile connecr
+        self.ui.autofillFieldnameLineEdit.editingFinished.connect(lambda : self.update_filter(self.autofill_filters,"fieldname",self.pc_browser.load_autofill,self.ui.autofillFieldnameLineEdit))    
+        self.ui.autofillValueLineEdit.editingFinished.connect(lambda : self.update_filter(self.autofill_filters,"value",self.pc_browser.load_autofill,self.ui.autofillValueLineEdit))
+        self.ui.autofillCalendarBtn.clicked.connect(lambda : self.serch_by_date_start(self.ui.autofillStartDateLineEdit,self.ui.autofillEndDateLineEdit,self.autofill_filters,"start_date","end_date"))
+        self.ui.autofillStartDateLineEdit.textChanged.connect(lambda : self.update_data_filter(self.autofill_filters,"start_date","end_date",self.pc_browser.load_autofill,self.ui.autofillStartDateLineEdit,self.ui.autofillEndDateLineEdit))
+        self.ui.autofillEndDateLineEdit.textChanged.connect(lambda : self.update_data_filter(self.autofill_filters,"start_date","end_date",self.pc_browser.load_autofill,self.ui.autofillStartDateLineEdit,self.ui.autofillEndDateLineEdit))
+        self.pc_browser.generate_sercher_history_browser_combo_box(self.ui.autofillProfileComboBox,self.ui.autofillBrowserComboBox,self.ui.autofillUserComboBox)
+        self.ui.autofillBrowserComboBox.currentTextChanged.connect(lambda : self.update_browser_name_filter(self.ui.autofillBrowserComboBox,self.pc_browser.load_autofill))
+        self.ui.autofillProfileComboBox.currentTextChanged.connect(lambda : self.update_profile_name_filter(self.ui.autofillProfileComboBox,self.pc_browser.load_autofill))
+        self.ui.autofillUserComboBox.currentTextChanged.connect(lambda : self.update_user_name_id_filter(self.ui.autofillUserComboBox,self.pc_browser.load_autofill))
+
+        self.key_filter_browser_autofill = KeyPressFilterTableBrowsers(self.ui.autofillTableWidget, self.pc_browser.load_autofill_deteils,self.pc_browser.load_autofill_deteils)
+        self.ui.autofillTableWidget.installEventFilter(self.key_filter_browser_autofill)
+
     def update_profile_name_filter(self,profil_como_box,ladder_function):
         if profil_como_box.currentText() == "Wszystkie":
             self.history_browser_marge_filters["profile_name"] = ""

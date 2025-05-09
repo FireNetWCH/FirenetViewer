@@ -92,7 +92,7 @@ class pc_browser:
                     self.parent.ui.installedSoftwareTableWidget.setItem(row_position, i, item)
     
     def load_borowser_download_history(self):
-        rows = self.db_menager.get_download_history_browser_from_all_browser(self.db_menager.get_download_history_browser_list(),self.parent.history_download_browser_filters,self.parent.history_browser_marge_filters,100000000,0)
+        rows = self.db_menager.get_download_history_browser_from_all_browser(self.db_menager.get_browser_table_type_list("_downloads"),self.parent.history_download_browser_filters,self.parent.history_browser_marge_filters,100000000,0)
 
         self.parent.ui.networkBrowserTable.setRowCount(0)
         self.parent.ui.networkBrowserTable.setColumnCount(0)
@@ -169,7 +169,7 @@ class pc_browser:
         self.parent.ui.historyBrowserTablet.setColumnCount(9)
         self.parent.ui.historyBrowserTablet.setHorizontalHeaderLabels(["Id","Domena","Tytuł","Liczba Wizyt","Data Wizyty","Profil","Urzytkownik","Przeglądarka"])
         #print(self.db_menager.get_history_browser_list())
-        rows = self.db_menager.get_history_browser_from_all_browser(self.db_menager.get_history_browser_list(),self.parent.history_browser_filters,self.parent.history_browser_marge_filters,100000000,0)
+        rows = self.db_menager.get_history_browser_from_all_browser(self.db_menager.get_browser_table_type_list("_history"),self.parent.history_browser_filters,self.parent.history_browser_marge_filters,100000000,0)
 
         for row in rows:
             #print(row)
@@ -232,10 +232,11 @@ class pc_browser:
         model = QStandardItemModel()
         model.setHorizontalHeaderLabels(["Zawartość systemu"])
 
-        hisotry_browser_liset = self.db_menager.get_history_browser_list()
-        download_history_list = self.db_menager.get_download_history_browser_list()
-        save_login = self.db_menager.get_save_login_browser_list()
-        sercher_list = self.db_menager.get_sercher_list()
+        hisotry_browser_liset = self.db_menager.get_browser_table_type_list("_history")
+        download_history_list = self.db_menager.get_browser_table_type_list("_downloads")
+        save_login = self.db_menager.get_browser_table_type_list("_logins")
+        sercher_list = self.db_menager.get_browser_table_type_list("_searchhistory")
+        autofill_list = self.db_menager.get_browser_table_type_list("_autofill")
         browser_branch = []
 
         if hisotry_browser_liset:
@@ -246,7 +247,8 @@ class pc_browser:
             browser_branch.append("Zapisane loginy w przeglądarkach")
         if sercher_list:
             browser_branch.append("Historia wyszukiwania")
-
+        if autofill_list:
+            browser_branch.append("Zapisane dane autouzupełniania")
         data = {
             "Informacje o urządzeniu": ["Wiinformacje o Systemie", "Połączenia Sieciowe", "GPU"],
             "Przeglądarki": browser_branch,
@@ -273,19 +275,22 @@ class pc_browser:
             print("Clicked item name:", item_name)
             if item_name == "Historia przegladarek":
                 self.parent.ui.customQStackedWidget.setCurrentIndex(8)
-                self.db_menager.get_history_browser_from_all_browser(self.db_menager.get_history_browser_list(),self.parent.history_browser_filters,self.parent.history_browser_marge_filters,100000000,0)
+                self.db_menager.get_history_browser_from_all_browser(self.db_menager.get_browser_table_type_list("_history"),self.parent.history_browser_filters,self.parent.history_browser_marge_filters,100000000,0)
             elif item_name == "Wiinformacje o Systemie":
                 self.parent.ui.customQStackedWidget.setCurrentIndex(4)
                 self.load_device_info()
             elif item_name == "Historia pobierania":
                 self.parent.ui.customQStackedWidget.setCurrentIndex(5)
-                self.db_menager.get_download_history_browser_from_all_browser(self.db_menager.get_download_history_browser_list(),self.parent.history_download_browser_filters,self.parent.history_browser_marge_filters,100000000,0)
+                self.db_menager.get_download_history_browser_from_all_browser(self.db_menager.get_browser_table_type_list("_downloads"),self.parent.history_download_browser_filters,self.parent.history_browser_marge_filters,100000000,0)
             elif item_name == "Zapisane loginy w przeglądarkach":
                 self.parent.ui.customQStackedWidget.setCurrentIndex(9)
                 self.load_save_login()
             elif item_name == "Historia wyszukiwania":
                 self.parent.ui.customQStackedWidget.setCurrentIndex(10)
                 self.load_sercher()
+            elif item_name == "Zapisane dane autouzupełniania":
+                self.parent.ui.customQStackedWidget.setCurrentIndex(11)
+                self.load_autofill()
     
     def set_item_combo_box(self, list_values,combo_box):
         combo_box.clear()
@@ -321,7 +326,7 @@ class pc_browser:
         self.set_item_combo_box(user_combo_box_list,user_box)
 
     def load_save_login(self):
-        rows = self.db_menager.get_all_save_logins(self.db_menager.get_save_login_browser_list(),self.parent.save_login_filters,self.parent.history_browser_marge_filters,100000000,0)
+        rows = self.db_menager.get_all_save_logins(self.db_menager.get_browser_table_type_list("_logins"),self.parent.save_login_filters,self.parent.history_browser_marge_filters,100000000,0)
 
         self.parent.ui.saveLoginTableWidget.setRowCount(0)
         self.parent.ui.saveLoginTableWidget.setColumnCount(0)
@@ -368,7 +373,7 @@ class pc_browser:
                 self.parent.ui.lastDateUseLabel.setText("Brak ostatniej dayty wizyty")
 
     def load_sercher(self):
-        rows = self.db_menager.get_all_seracher(self.db_menager.get_sercher_list(),self.parent.sercher_list_filters,self.parent.history_browser_marge_filters,100000000,0)
+        rows = self.db_menager.get_all_seracher(self.db_menager.get_browser_table_type_list("_searchhistory"),self.parent.sercher_list_filters,self.parent.history_browser_marge_filters,100000000,0)
 
         self.parent.ui.sercherTableWidget.setRowCount(0)
         self.parent.ui.sercherTableWidget.setColumnCount(0)
@@ -412,3 +417,49 @@ class pc_browser:
                 self.parent.ui.sercherDateLabel.setText(str(rows[0][3]))
             else:
                 self.parent.ui.sercherDateLabel.setText("Brak ostatniej dayty wizyty")
+
+    def load_autofill(self):
+        rows = self.db_menager.get_all_autofill(self.db_menager.get_browser_table_type_list("_autofill"),self.parent.autofill_filters,self.parent.history_browser_marge_filters,100000000,0)
+
+        self.parent.ui.autofillTableWidget.setRowCount(0)
+        self.parent.ui.autofillTableWidget.setColumnCount(0)
+        self.parent.ui.autofillTableWidget.setColumnCount(7)
+        self.parent.ui.autofillTableWidget.setHorizontalHeaderLabels(["id","Etykieta", "Wartość","Data ostaniego urzycia","Profil","Urzytkownik","Przeglądarka"])
+        if rows:
+            for row in rows:
+                row_position = self.parent.ui.autofillTableWidget.rowCount()
+                self.parent.ui.autofillTableWidget.insertRow(row_position)
+                for i, value in enumerate(row):
+                        item = QTableWidgetItem(str(value))
+                        self.parent.ui.autofillTableWidget.setItem(row_position, i, item)
+        self.parent.ui.autofillTableWidget.cellClicked.connect(self.load_autofill_deteils)
+
+
+    def load_autofill_deteils(self, row, column):
+        id = self.parent.ui.autofillTableWidget.item(row, 0).text()
+        browser_name = self.parent.ui.autofillTableWidget.item(row,6).text()
+        browser_name = browser_name.lower()
+        browser_name = browser_name.replace(" ","_")
+        rows = self.db_menager.get_autofill_deteils(browser_name+"_autofill",id)
+        if rows:
+            print(rows)
+            if rows[0][1] is not None:
+                self.parent.ui.autofillNameLabel.setText(str(rows[0][1]))
+            else:
+                self.parent.ui.autofillNameLabel.setText("Brak etykiety")
+            if rows[0][2] is not None:
+                self.parent.ui.autofillValueLabel.setText(str(rows[0][2]))
+            else:
+                self.parent.ui.autofillValueLabel.setText("Brak zapisanej wartości")
+            if rows[0][3] is not None:
+                self.parent.ui.autofillCountUseLabel.setText(str(rows[0][3]))
+            else:
+                self.parent.ui.autofillCountUseLabel.setText("Brak ilości urzyć")
+            if rows[0][4] is not None:
+                self.parent.ui.autofillCreateDateLabel.setText(str(rows[0][4]))
+            else:
+                self.parent.ui.autofillCreateDateLabel.setText("Brak daty utworzenia")
+            if rows[0][5] is not None:
+                self.parent.ui.autofillLastUseDateLabel.setText(str(rows[0][5]))
+            else:
+                self.parent.ui.autofillLastUseDateLabel.setText("Brak daty ostaniego urzycia")
