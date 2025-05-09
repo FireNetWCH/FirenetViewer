@@ -127,7 +127,7 @@
 		],
 		"expandedSize": [
 		  {
-			"width": 130,
+			"width": "auto",
 			"height": "parent"
 		  }
 		],
@@ -165,7 +165,7 @@
       ],
       "expandedSize": [
         {
-        "width": 200,
+        "width": "auto",
         "height": "parent"
         }
       ],

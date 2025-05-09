@@ -15,6 +15,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
+from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QComboBox, QDockWidget,
     QFrame, QGridLayout, QHBoxLayout, QHeaderView,
     QLabel, QLayout, QLineEdit, QListView,
@@ -32,7 +33,7 @@ class Ui_MainWindow(object):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(2250, 654)
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
@@ -190,14 +191,16 @@ class Ui_MainWindow(object):
 
         self.splitter = QSplitter(self.frame_13)
         self.splitter.setObjectName(u"splitter")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.splitter.sizePolicy().hasHeightForWidth())
+        self.splitter.setSizePolicy(sizePolicy1)
         self.splitter.setOrientation(Qt.Orientation.Horizontal)
         self.splitter.setOpaqueResize(True)
         self.splitter.setHandleWidth(1)
         self.widget_8 = QWidget(self.splitter)
         self.widget_8.setObjectName(u"widget_8")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.widget_8.sizePolicy().hasHeightForWidth())
         self.widget_8.setSizePolicy(sizePolicy1)
         self.horizontalLayout_23 = QHBoxLayout(self.widget_8)
@@ -216,20 +219,24 @@ class Ui_MainWindow(object):
         self.verticalLayout_5.setContentsMargins(0, 6, 0, 6)
         self.widget_4 = QWidget(self.centerMenu)
         self.widget_4.setObjectName(u"widget_4")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.widget_4.sizePolicy().hasHeightForWidth())
-        self.widget_4.setSizePolicy(sizePolicy2)
+        sizePolicy.setHeightForWidth(self.widget_4.sizePolicy().hasHeightForWidth())
+        self.widget_4.setSizePolicy(sizePolicy)
         self.horizontalLayout_2 = QHBoxLayout(self.widget_4)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.label = QLabel(self.widget_4)
         self.label.setObjectName(u"label")
+        sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
+        self.label.setSizePolicy(sizePolicy)
 
         self.horizontalLayout_2.addWidget(self.label)
 
         self.closeCenterMenuBtn = QPushButton(self.widget_4)
         self.closeCenterMenuBtn.setObjectName(u"closeCenterMenuBtn")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.closeCenterMenuBtn.sizePolicy().hasHeightForWidth())
+        self.closeCenterMenuBtn.setSizePolicy(sizePolicy2)
         self.closeCenterMenuBtn.setMaximumSize(QSize(200, 16777215))
         icon8 = QIcon()
         icon8.addFile(u":/font_awesome/solid/icons/font_awesome/solid/circle-xmark.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
@@ -344,10 +351,14 @@ class Ui_MainWindow(object):
         self.centerMenuPages.addWidget(self.helpPage)
         self.pcTreePage = QWidget()
         self.pcTreePage.setObjectName(u"pcTreePage")
+        sizePolicy1.setHeightForWidth(self.pcTreePage.sizePolicy().hasHeightForWidth())
+        self.pcTreePage.setSizePolicy(sizePolicy1)
         self.horizontalLayout_78 = QHBoxLayout(self.pcTreePage)
         self.horizontalLayout_78.setObjectName(u"horizontalLayout_78")
         self.pcTree = QTreeView(self.pcTreePage)
         self.pcTree.setObjectName(u"pcTree")
+        sizePolicy3.setHeightForWidth(self.pcTree.sizePolicy().hasHeightForWidth())
+        self.pcTree.setSizePolicy(sizePolicy3)
 
         self.horizontalLayout_78.addWidget(self.pcTree)
 
@@ -361,8 +372,8 @@ class Ui_MainWindow(object):
         self.splitter.addWidget(self.widget_8)
         self.mainBody = QWidget(self.splitter)
         self.mainBody.setObjectName(u"mainBody")
-        sizePolicy2.setHeightForWidth(self.mainBody.sizePolicy().hasHeightForWidth())
-        self.mainBody.setSizePolicy(sizePolicy2)
+        sizePolicy.setHeightForWidth(self.mainBody.sizePolicy().hasHeightForWidth())
+        self.mainBody.setSizePolicy(sizePolicy)
         self.verticalLayout_9 = QVBoxLayout(self.mainBody)
         self.verticalLayout_9.setSpacing(0)
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
@@ -608,7 +619,7 @@ class Ui_MainWindow(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 520, 410))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 520, 360))
         sizePolicy1.setHeightForWidth(self.scrollAreaWidgetContents_3.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents_3.setSizePolicy(sizePolicy1)
         self.verticalLayout_34 = QVBoxLayout(self.scrollAreaWidgetContents_3)
@@ -811,8 +822,11 @@ class Ui_MainWindow(object):
 
         self.body_2 = QLabel(self.scrollAreaWidgetContents_3)
         self.body_2.setObjectName(u"body_2")
-        sizePolicy.setHeightForWidth(self.body_2.sizePolicy().hasHeightForWidth())
-        self.body_2.setSizePolicy(sizePolicy)
+        sizePolicy9 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+        sizePolicy9.setHorizontalStretch(0)
+        sizePolicy9.setVerticalStretch(0)
+        sizePolicy9.setHeightForWidth(self.body_2.sizePolicy().hasHeightForWidth())
+        self.body_2.setSizePolicy(sizePolicy9)
         self.body_2.setStyleSheet(u"")
         self.body_2.setFrameShape(QFrame.Shape.Box)
         self.body_2.setWordWrap(True)
@@ -894,11 +908,8 @@ class Ui_MainWindow(object):
 
         self.frame_10 = QFrame(self.frame_11)
         self.frame_10.setObjectName(u"frame_10")
-        sizePolicy9 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-        sizePolicy9.setHorizontalStretch(0)
-        sizePolicy9.setVerticalStretch(0)
-        sizePolicy9.setHeightForWidth(self.frame_10.sizePolicy().hasHeightForWidth())
-        self.frame_10.setSizePolicy(sizePolicy9)
+        sizePolicy2.setHeightForWidth(self.frame_10.sizePolicy().hasHeightForWidth())
+        self.frame_10.setSizePolicy(sizePolicy2)
         self.frame_10.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_10.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout_14 = QHBoxLayout(self.frame_10)
@@ -1076,8 +1087,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_16.setContentsMargins(2, 0, 2, 2)
         self.label_22 = QLabel(self.frame_9)
         self.label_22.setObjectName(u"label_22")
-        sizePolicy.setHeightForWidth(self.label_22.sizePolicy().hasHeightForWidth())
-        self.label_22.setSizePolicy(sizePolicy)
+        sizePolicy9.setHeightForWidth(self.label_22.sizePolicy().hasHeightForWidth())
+        self.label_22.setSizePolicy(sizePolicy9)
 
         self.horizontalLayout_16.addWidget(self.label_22)
 
@@ -1442,8 +1453,8 @@ class Ui_MainWindow(object):
 
         self.body = QLabel(self.scrollAreaWidgetContents)
         self.body.setObjectName(u"body")
-        sizePolicy.setHeightForWidth(self.body.sizePolicy().hasHeightForWidth())
-        self.body.setSizePolicy(sizePolicy)
+        sizePolicy9.setHeightForWidth(self.body.sizePolicy().hasHeightForWidth())
+        self.body.setSizePolicy(sizePolicy9)
         self.body.setStyleSheet(u"")
         self.body.setFrameShape(QFrame.Shape.Box)
         self.body.setWordWrap(True)
@@ -1471,8 +1482,8 @@ class Ui_MainWindow(object):
 
         self.widget_46 = QWidget(self.dataAnalysisPage)
         self.widget_46.setObjectName(u"widget_46")
-        sizePolicy9.setHeightForWidth(self.widget_46.sizePolicy().hasHeightForWidth())
-        self.widget_46.setSizePolicy(sizePolicy9)
+        sizePolicy2.setHeightForWidth(self.widget_46.sizePolicy().hasHeightForWidth())
+        self.widget_46.setSizePolicy(sizePolicy2)
         self.horizontalLayout_53 = QHBoxLayout(self.widget_46)
         self.horizontalLayout_53.setSpacing(10)
         self.horizontalLayout_53.setObjectName(u"horizontalLayout_53")
@@ -1482,7 +1493,7 @@ class Ui_MainWindow(object):
         self.scrollArea_6.setWidgetResizable(True)
         self.scrollAreaWidgetContents_6 = QWidget()
         self.scrollAreaWidgetContents_6.setObjectName(u"scrollAreaWidgetContents_6")
-        self.scrollAreaWidgetContents_6.setGeometry(QRect(0, 0, 356, 69))
+        self.scrollAreaWidgetContents_6.setGeometry(QRect(0, 0, 98, 28))
         self.horizontalLayout_56 = QHBoxLayout(self.scrollAreaWidgetContents_6)
         self.horizontalLayout_56.setObjectName(u"horizontalLayout_56")
         self.widget_48 = QWidget(self.scrollAreaWidgetContents_6)
@@ -1506,7 +1517,7 @@ class Ui_MainWindow(object):
         self.scrollArea_5.setWidgetResizable(True)
         self.scrollAreaWidgetContents_5 = QWidget()
         self.scrollAreaWidgetContents_5.setObjectName(u"scrollAreaWidgetContents_5")
-        self.scrollAreaWidgetContents_5.setGeometry(QRect(0, 0, 356, 69))
+        self.scrollAreaWidgetContents_5.setGeometry(QRect(0, 0, 98, 28))
         self.horizontalLayout_55 = QHBoxLayout(self.scrollAreaWidgetContents_5)
         self.horizontalLayout_55.setObjectName(u"horizontalLayout_55")
         self.widget_45 = QWidget(self.scrollAreaWidgetContents_5)
@@ -1596,8 +1607,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_44.setContentsMargins(0, 0, 0, 0)
         self.tagiBtn = QPushButton(self.widget_35)
         self.tagiBtn.setObjectName(u"tagiBtn")
-        sizePolicy9.setHeightForWidth(self.tagiBtn.sizePolicy().hasHeightForWidth())
-        self.tagiBtn.setSizePolicy(sizePolicy9)
+        sizePolicy2.setHeightForWidth(self.tagiBtn.sizePolicy().hasHeightForWidth())
+        self.tagiBtn.setSizePolicy(sizePolicy2)
         self.tagiBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         self.horizontalLayout_44.addWidget(self.tagiBtn)
@@ -1631,8 +1642,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_45.setContentsMargins(0, 0, 0, 0)
         self.lableBtn = QPushButton(self.widget_36)
         self.lableBtn.setObjectName(u"lableBtn")
-        sizePolicy9.setHeightForWidth(self.lableBtn.sizePolicy().hasHeightForWidth())
-        self.lableBtn.setSizePolicy(sizePolicy9)
+        sizePolicy2.setHeightForWidth(self.lableBtn.sizePolicy().hasHeightForWidth())
+        self.lableBtn.setSizePolicy(sizePolicy2)
         self.lableBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         self.horizontalLayout_45.addWidget(self.lableBtn)
@@ -1665,8 +1676,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_46.setContentsMargins(0, 0, 0, 0)
         self.contactBtn = QPushButton(self.widget_37)
         self.contactBtn.setObjectName(u"contactBtn")
-        sizePolicy9.setHeightForWidth(self.contactBtn.sizePolicy().hasHeightForWidth())
-        self.contactBtn.setSizePolicy(sizePolicy9)
+        sizePolicy2.setHeightForWidth(self.contactBtn.sizePolicy().hasHeightForWidth())
+        self.contactBtn.setSizePolicy(sizePolicy2)
         self.contactBtn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
 
         self.horizontalLayout_46.addWidget(self.contactBtn)
@@ -1993,120 +2004,19 @@ class Ui_MainWindow(object):
         self.scrollArea_7.setWidgetResizable(True)
         self.scrollAreaWidgetContents_7 = QWidget()
         self.scrollAreaWidgetContents_7.setObjectName(u"scrollAreaWidgetContents_7")
-        self.scrollAreaWidgetContents_7.setGeometry(QRect(0, 0, 369, 253))
+        self.scrollAreaWidgetContents_7.setGeometry(QRect(0, 0, 228, 179))
         self.verticalLayout_53 = QVBoxLayout(self.scrollAreaWidgetContents_7)
         self.verticalLayout_53.setObjectName(u"verticalLayout_53")
-        self.detailsNetworkBrowser = QWidget(self.scrollAreaWidgetContents_7)
-        self.detailsNetworkBrowser.setObjectName(u"detailsNetworkBrowser")
-        sizePolicy1.setHeightForWidth(self.detailsNetworkBrowser.sizePolicy().hasHeightForWidth())
-        self.detailsNetworkBrowser.setSizePolicy(sizePolicy1)
-        self.verticalLayout_51 = QVBoxLayout(self.detailsNetworkBrowser)
-        self.verticalLayout_51.setSpacing(5)
-        self.verticalLayout_51.setObjectName(u"verticalLayout_51")
-        self.verticalLayout_51.setSizeConstraint(QLayout.SizeConstraint.SetDefaultConstraint)
-        self.verticalLayout_51.setContentsMargins(0, 0, 0, 0)
-        self.label_15 = QLabel(self.detailsNetworkBrowser)
+        self.label_15 = QLabel(self.scrollAreaWidgetContents_7)
         self.label_15.setObjectName(u"label_15")
+        sizePolicy5.setHeightForWidth(self.label_15.sizePolicy().hasHeightForWidth())
+        self.label_15.setSizePolicy(sizePolicy5)
         self.label_15.setFont(font3)
         self.label_15.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.verticalLayout_51.addWidget(self.label_15)
+        self.verticalLayout_53.addWidget(self.label_15)
 
-        self.widget_49 = QWidget(self.detailsNetworkBrowser)
-        self.widget_49.setObjectName(u"widget_49")
-        sizePolicy6.setHeightForWidth(self.widget_49.sizePolicy().hasHeightForWidth())
-        self.widget_49.setSizePolicy(sizePolicy6)
-        self.horizontalLayout_61 = QHBoxLayout(self.widget_49)
-        self.horizontalLayout_61.setSpacing(0)
-        self.horizontalLayout_61.setObjectName(u"horizontalLayout_61")
-        self.horizontalLayout_61.setContentsMargins(0, 0, 0, 0)
-        self.downloadStaticPath = QLabel(self.widget_49)
-        self.downloadStaticPath.setObjectName(u"downloadStaticPath")
-        sizePolicy6.setHeightForWidth(self.downloadStaticPath.sizePolicy().hasHeightForWidth())
-        self.downloadStaticPath.setSizePolicy(sizePolicy6)
-        self.downloadStaticPath.setFont(font3)
-
-        self.horizontalLayout_61.addWidget(self.downloadStaticPath)
-
-        self.pathDownloadLabel = QLabel(self.widget_49)
-        self.pathDownloadLabel.setObjectName(u"pathDownloadLabel")
-        sizePolicy.setHeightForWidth(self.pathDownloadLabel.sizePolicy().hasHeightForWidth())
-        self.pathDownloadLabel.setSizePolicy(sizePolicy)
-        self.pathDownloadLabel.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
-        self.pathDownloadLabel.setWordWrap(False)
-
-        self.horizontalLayout_61.addWidget(self.pathDownloadLabel)
-
-
-        self.verticalLayout_51.addWidget(self.widget_49)
-
-        self.widget_55 = QWidget(self.detailsNetworkBrowser)
-        self.widget_55.setObjectName(u"widget_55")
-        sizePolicy6.setHeightForWidth(self.widget_55.sizePolicy().hasHeightForWidth())
-        self.widget_55.setSizePolicy(sizePolicy6)
-        self.horizontalLayout_65 = QHBoxLayout(self.widget_55)
-        self.horizontalLayout_65.setSpacing(0)
-        self.horizontalLayout_65.setObjectName(u"horizontalLayout_65")
-        self.horizontalLayout_65.setContentsMargins(0, 0, 0, 0)
-        self.label_39 = QLabel(self.widget_55)
-        self.label_39.setObjectName(u"label_39")
-        self.label_39.setFont(font3)
-
-        self.horizontalLayout_65.addWidget(self.label_39)
-
-        self.downloadTimeLabel = QLabel(self.widget_55)
-        self.downloadTimeLabel.setObjectName(u"downloadTimeLabel")
-
-        self.horizontalLayout_65.addWidget(self.downloadTimeLabel)
-
-
-        self.verticalLayout_51.addWidget(self.widget_55)
-
-        self.widget_53 = QWidget(self.detailsNetworkBrowser)
-        self.widget_53.setObjectName(u"widget_53")
-        sizePolicy6.setHeightForWidth(self.widget_53.sizePolicy().hasHeightForWidth())
-        self.widget_53.setSizePolicy(sizePolicy6)
-        self.horizontalLayout_63 = QHBoxLayout(self.widget_53)
-        self.horizontalLayout_63.setSpacing(0)
-        self.horizontalLayout_63.setObjectName(u"horizontalLayout_63")
-        self.horizontalLayout_63.setContentsMargins(0, 0, 0, 0)
-        self.label_35 = QLabel(self.widget_53)
-        self.label_35.setObjectName(u"label_35")
-        self.label_35.setFont(font3)
-
-        self.horizontalLayout_63.addWidget(self.label_35)
-
-        self.startTimeLabel = QLabel(self.widget_53)
-        self.startTimeLabel.setObjectName(u"startTimeLabel")
-
-        self.horizontalLayout_63.addWidget(self.startTimeLabel)
-
-
-        self.verticalLayout_51.addWidget(self.widget_53)
-
-        self.widget_54 = QWidget(self.detailsNetworkBrowser)
-        self.widget_54.setObjectName(u"widget_54")
-        sizePolicy6.setHeightForWidth(self.widget_54.sizePolicy().hasHeightForWidth())
-        self.widget_54.setSizePolicy(sizePolicy6)
-        self.horizontalLayout_64 = QHBoxLayout(self.widget_54)
-        self.horizontalLayout_64.setSpacing(0)
-        self.horizontalLayout_64.setObjectName(u"horizontalLayout_64")
-        self.horizontalLayout_64.setContentsMargins(0, 0, 0, 0)
-        self.label_37 = QLabel(self.widget_54)
-        self.label_37.setObjectName(u"label_37")
-        self.label_37.setFont(font3)
-
-        self.horizontalLayout_64.addWidget(self.label_37)
-
-        self.endTimeLabel = QLabel(self.widget_54)
-        self.endTimeLabel.setObjectName(u"endTimeLabel")
-
-        self.horizontalLayout_64.addWidget(self.endTimeLabel)
-
-
-        self.verticalLayout_51.addWidget(self.widget_54)
-
-        self.widget_511 = QWidget(self.detailsNetworkBrowser)
+        self.widget_511 = QWidget(self.scrollAreaWidgetContents_7)
         self.widget_511.setObjectName(u"widget_511")
         sizePolicy6.setHeightForWidth(self.widget_511.sizePolicy().hasHeightForWidth())
         self.widget_511.setSizePolicy(sizePolicy6)
@@ -2131,9 +2041,37 @@ class Ui_MainWindow(object):
         self.horizontalLayout_62.addWidget(self.urlLabel)
 
 
-        self.verticalLayout_51.addWidget(self.widget_511)
+        self.verticalLayout_53.addWidget(self.widget_511)
 
-        self.widget_56 = QWidget(self.detailsNetworkBrowser)
+        self.widget_49 = QWidget(self.scrollAreaWidgetContents_7)
+        self.widget_49.setObjectName(u"widget_49")
+        sizePolicy6.setHeightForWidth(self.widget_49.sizePolicy().hasHeightForWidth())
+        self.widget_49.setSizePolicy(sizePolicy6)
+        self.horizontalLayout_61 = QHBoxLayout(self.widget_49)
+        self.horizontalLayout_61.setSpacing(0)
+        self.horizontalLayout_61.setObjectName(u"horizontalLayout_61")
+        self.horizontalLayout_61.setContentsMargins(0, 0, 0, 0)
+        self.downloadStaticPath = QLabel(self.widget_49)
+        self.downloadStaticPath.setObjectName(u"downloadStaticPath")
+        sizePolicy6.setHeightForWidth(self.downloadStaticPath.sizePolicy().hasHeightForWidth())
+        self.downloadStaticPath.setSizePolicy(sizePolicy6)
+        self.downloadStaticPath.setFont(font3)
+
+        self.horizontalLayout_61.addWidget(self.downloadStaticPath)
+
+        self.pathDownloadLabel = QLabel(self.widget_49)
+        self.pathDownloadLabel.setObjectName(u"pathDownloadLabel")
+        sizePolicy9.setHeightForWidth(self.pathDownloadLabel.sizePolicy().hasHeightForWidth())
+        self.pathDownloadLabel.setSizePolicy(sizePolicy9)
+        self.pathDownloadLabel.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+        self.pathDownloadLabel.setWordWrap(False)
+
+        self.horizontalLayout_61.addWidget(self.pathDownloadLabel)
+
+
+        self.verticalLayout_53.addWidget(self.widget_49)
+
+        self.widget_56 = QWidget(self.scrollAreaWidgetContents_7)
         self.widget_56.setObjectName(u"widget_56")
         sizePolicy6.setHeightForWidth(self.widget_56.sizePolicy().hasHeightForWidth())
         self.widget_56.setSizePolicy(sizePolicy6)
@@ -2153,14 +2091,77 @@ class Ui_MainWindow(object):
         self.horizontalLayout_66.addWidget(self.sizeFileLabel)
 
 
-        self.verticalLayout_51.addWidget(self.widget_56)
+        self.verticalLayout_53.addWidget(self.widget_56)
+
+        self.widget_53 = QWidget(self.scrollAreaWidgetContents_7)
+        self.widget_53.setObjectName(u"widget_53")
+        sizePolicy6.setHeightForWidth(self.widget_53.sizePolicy().hasHeightForWidth())
+        self.widget_53.setSizePolicy(sizePolicy6)
+        self.horizontalLayout_63 = QHBoxLayout(self.widget_53)
+        self.horizontalLayout_63.setSpacing(0)
+        self.horizontalLayout_63.setObjectName(u"horizontalLayout_63")
+        self.horizontalLayout_63.setContentsMargins(0, 0, 0, 0)
+        self.label_35 = QLabel(self.widget_53)
+        self.label_35.setObjectName(u"label_35")
+        self.label_35.setFont(font3)
+
+        self.horizontalLayout_63.addWidget(self.label_35)
+
+        self.startTimeLabel = QLabel(self.widget_53)
+        self.startTimeLabel.setObjectName(u"startTimeLabel")
+
+        self.horizontalLayout_63.addWidget(self.startTimeLabel)
+
+
+        self.verticalLayout_53.addWidget(self.widget_53)
+
+        self.widget_54 = QWidget(self.scrollAreaWidgetContents_7)
+        self.widget_54.setObjectName(u"widget_54")
+        sizePolicy6.setHeightForWidth(self.widget_54.sizePolicy().hasHeightForWidth())
+        self.widget_54.setSizePolicy(sizePolicy6)
+        self.horizontalLayout_64 = QHBoxLayout(self.widget_54)
+        self.horizontalLayout_64.setSpacing(0)
+        self.horizontalLayout_64.setObjectName(u"horizontalLayout_64")
+        self.horizontalLayout_64.setContentsMargins(0, 0, 0, 0)
+        self.label_37 = QLabel(self.widget_54)
+        self.label_37.setObjectName(u"label_37")
+        self.label_37.setFont(font3)
+
+        self.horizontalLayout_64.addWidget(self.label_37)
+
+        self.endTimeLabel = QLabel(self.widget_54)
+        self.endTimeLabel.setObjectName(u"endTimeLabel")
+
+        self.horizontalLayout_64.addWidget(self.endTimeLabel)
+
+
+        self.verticalLayout_53.addWidget(self.widget_54)
+
+        self.widget_55 = QWidget(self.scrollAreaWidgetContents_7)
+        self.widget_55.setObjectName(u"widget_55")
+        sizePolicy6.setHeightForWidth(self.widget_55.sizePolicy().hasHeightForWidth())
+        self.widget_55.setSizePolicy(sizePolicy6)
+        self.horizontalLayout_65 = QHBoxLayout(self.widget_55)
+        self.horizontalLayout_65.setSpacing(0)
+        self.horizontalLayout_65.setObjectName(u"horizontalLayout_65")
+        self.horizontalLayout_65.setContentsMargins(0, 0, 0, 0)
+        self.label_39 = QLabel(self.widget_55)
+        self.label_39.setObjectName(u"label_39")
+        self.label_39.setFont(font3)
+
+        self.horizontalLayout_65.addWidget(self.label_39)
+
+        self.downloadTimeLabel = QLabel(self.widget_55)
+        self.downloadTimeLabel.setObjectName(u"downloadTimeLabel")
+
+        self.horizontalLayout_65.addWidget(self.downloadTimeLabel)
+
+
+        self.verticalLayout_53.addWidget(self.widget_55)
 
         self.verticalSpacer_11 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.verticalLayout_51.addItem(self.verticalSpacer_11)
-
-
-        self.verticalLayout_53.addWidget(self.detailsNetworkBrowser)
+        self.verticalLayout_53.addItem(self.verticalSpacer_11)
 
         self.scrollArea_7.setWidget(self.scrollAreaWidgetContents_7)
 
@@ -2186,8 +2187,8 @@ class Ui_MainWindow(object):
         self.verticalLayout_47.setObjectName(u"verticalLayout_47")
         self.frame_15 = QFrame(self.disgImagePage)
         self.frame_15.setObjectName(u"frame_15")
-        sizePolicy.setHeightForWidth(self.frame_15.sizePolicy().hasHeightForWidth())
-        self.frame_15.setSizePolicy(sizePolicy)
+        sizePolicy9.setHeightForWidth(self.frame_15.sizePolicy().hasHeightForWidth())
+        self.frame_15.setSizePolicy(sizePolicy9)
         self.frame_15.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_15.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_46 = QVBoxLayout(self.frame_15)
@@ -2405,8 +2406,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_27.setContentsMargins(0, 0, 0, 0)
         self.widget_31 = QWidget(self.widget_29)
         self.widget_31.setObjectName(u"widget_31")
-        sizePolicy2.setHeightForWidth(self.widget_31.sizePolicy().hasHeightForWidth())
-        self.widget_31.setSizePolicy(sizePolicy2)
+        sizePolicy.setHeightForWidth(self.widget_31.sizePolicy().hasHeightForWidth())
+        self.widget_31.setSizePolicy(sizePolicy)
         self.verticalLayout_38 = QVBoxLayout(self.widget_31)
         self.verticalLayout_38.setSpacing(0)
         self.verticalLayout_38.setObjectName(u"verticalLayout_38")
@@ -2440,7 +2441,7 @@ class Ui_MainWindow(object):
         self.scrollArea_4.setWidgetResizable(True)
         self.scrollAreaWidgetContents_4 = QWidget()
         self.scrollAreaWidgetContents_4.setObjectName(u"scrollAreaWidgetContents_4")
-        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 744, 233))
+        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 98, 28))
         self.verticalLayout_43 = QVBoxLayout(self.scrollAreaWidgetContents_4)
         self.verticalLayout_43.setObjectName(u"verticalLayout_43")
         self.timeLineWiget = QWidget(self.scrollAreaWidgetContents_4)
@@ -2472,36 +2473,21 @@ class Ui_MainWindow(object):
 
         self.widget_78 = QWidget(self.historyBrowserPage)
         self.widget_78.setObjectName(u"widget_78")
-        sizePolicy9.setHeightForWidth(self.widget_78.sizePolicy().hasHeightForWidth())
-        self.widget_78.setSizePolicy(sizePolicy9)
+        sizePolicy2.setHeightForWidth(self.widget_78.sizePolicy().hasHeightForWidth())
+        self.widget_78.setSizePolicy(sizePolicy2)
         self.horizontalLayout_89 = QHBoxLayout(self.widget_78)
         self.horizontalLayout_89.setSpacing(3)
         self.horizontalLayout_89.setObjectName(u"horizontalLayout_89")
-        self.horizontalLayout_89.setContentsMargins(0, 1, 0, 1)
-        self.label_58 = QLabel(self.widget_78)
-        self.label_58.setObjectName(u"label_58")
-
-        self.horizontalLayout_89.addWidget(self.label_58)
-
+        self.horizontalLayout_89.setContentsMargins(0, 0, 0, 0)
         self.domenaLineEdit = QLineEdit(self.widget_78)
         self.domenaLineEdit.setObjectName(u"domenaLineEdit")
 
         self.horizontalLayout_89.addWidget(self.domenaLineEdit)
 
-        self.label_59 = QLabel(self.widget_78)
-        self.label_59.setObjectName(u"label_59")
-
-        self.horizontalLayout_89.addWidget(self.label_59)
-
         self.titleLineEdit = QLineEdit(self.widget_78)
         self.titleLineEdit.setObjectName(u"titleLineEdit")
 
         self.horizontalLayout_89.addWidget(self.titleLineEdit)
-
-        self.label_60 = QLabel(self.widget_78)
-        self.label_60.setObjectName(u"label_60")
-
-        self.horizontalLayout_89.addWidget(self.label_60)
 
         self.visitCountLineEdit = QLineEdit(self.widget_78)
         self.visitCountLineEdit.setObjectName(u"visitCountLineEdit")
@@ -2568,15 +2554,30 @@ class Ui_MainWindow(object):
         self.widget_69 = QWidget(self.widget_68)
         self.widget_69.setObjectName(u"widget_69")
         self.verticalLayout_57 = QVBoxLayout(self.widget_69)
+        self.verticalLayout_57.setSpacing(3)
         self.verticalLayout_57.setObjectName(u"verticalLayout_57")
+        self.verticalLayout_57.setContentsMargins(0, 0, 0, 0)
         self.scrollArea_9 = QScrollArea(self.widget_69)
         self.scrollArea_9.setObjectName(u"scrollArea_9")
+        sizePolicy2.setHeightForWidth(self.scrollArea_9.sizePolicy().hasHeightForWidth())
+        self.scrollArea_9.setSizePolicy(sizePolicy2)
         self.scrollArea_9.setWidgetResizable(True)
         self.scrollAreaWidgetContents_9 = QWidget()
         self.scrollAreaWidgetContents_9.setObjectName(u"scrollAreaWidgetContents_9")
-        self.scrollAreaWidgetContents_9.setGeometry(QRect(0, 0, 351, 233))
+        self.scrollAreaWidgetContents_9.setGeometry(QRect(0, 0, 369, 180))
         self.verticalLayout_58 = QVBoxLayout(self.scrollAreaWidgetContents_9)
+        self.verticalLayout_58.setSpacing(3)
         self.verticalLayout_58.setObjectName(u"verticalLayout_58")
+        self.verticalLayout_58.setContentsMargins(0, 0, 0, 0)
+        self.label_61 = QLabel(self.scrollAreaWidgetContents_9)
+        self.label_61.setObjectName(u"label_61")
+        sizePolicy5.setHeightForWidth(self.label_61.sizePolicy().hasHeightForWidth())
+        self.label_61.setSizePolicy(sizePolicy5)
+        self.label_61.setFont(font3)
+        self.label_61.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.verticalLayout_58.addWidget(self.label_61)
+
         self.widget_70 = QWidget(self.scrollAreaWidgetContents_9)
         self.widget_70.setObjectName(u"widget_70")
         sizePolicy6.setHeightForWidth(self.widget_70.sizePolicy().hasHeightForWidth())
@@ -2704,17 +2705,33 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_58.addWidget(self.widget_75)
 
-        self.verticalSpacer_12 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.verticalSpacer_13 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.verticalLayout_58.addItem(self.verticalSpacer_12)
+        self.verticalLayout_58.addItem(self.verticalSpacer_13)
 
         self.scrollArea_9.setWidget(self.scrollAreaWidgetContents_9)
 
         self.verticalLayout_57.addWidget(self.scrollArea_9)
 
-        self.verticalSpacer_13 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.scrollArea_13 = QScrollArea(self.widget_69)
+        self.scrollArea_13.setObjectName(u"scrollArea_13")
+        self.scrollArea_13.setWidgetResizable(True)
+        self.scrollAreaWidgetContents_13 = QWidget()
+        self.scrollAreaWidgetContents_13.setObjectName(u"scrollAreaWidgetContents_13")
+        self.scrollAreaWidgetContents_13.setGeometry(QRect(0, 0, 369, 308))
+        self.verticalLayout_61 = QVBoxLayout(self.scrollAreaWidgetContents_13)
+        self.verticalLayout_61.setObjectName(u"verticalLayout_61")
+        self.historyWebEngineView = QWebEngineView(self.scrollAreaWidgetContents_13)
+        self.historyWebEngineView.setObjectName(u"historyWebEngineView")
+        sizePolicy1.setHeightForWidth(self.historyWebEngineView.sizePolicy().hasHeightForWidth())
+        self.historyWebEngineView.setSizePolicy(sizePolicy1)
+        self.historyWebEngineView.setUrl(QUrl(u"about:blank"))
 
-        self.verticalLayout_57.addItem(self.verticalSpacer_13)
+        self.verticalLayout_61.addWidget(self.historyWebEngineView)
+
+        self.scrollArea_13.setWidget(self.scrollAreaWidgetContents_13)
+
+        self.verticalLayout_57.addWidget(self.scrollArea_13)
 
 
         self.horizontalLayout_80.addWidget(self.widget_69)
@@ -2729,8 +2746,8 @@ class Ui_MainWindow(object):
         self.verticalLayout_54.setObjectName(u"verticalLayout_54")
         self.widget_63 = QWidget(self.saveLoginPage)
         self.widget_63.setObjectName(u"widget_63")
-        sizePolicy9.setHeightForWidth(self.widget_63.sizePolicy().hasHeightForWidth())
-        self.widget_63.setSizePolicy(sizePolicy9)
+        sizePolicy2.setHeightForWidth(self.widget_63.sizePolicy().hasHeightForWidth())
+        self.widget_63.setSizePolicy(sizePolicy2)
         self.horizontalLayout_70 = QHBoxLayout(self.widget_63)
         self.horizontalLayout_70.setSpacing(3)
         self.horizontalLayout_70.setObjectName(u"horizontalLayout_70")
@@ -2799,30 +2816,28 @@ class Ui_MainWindow(object):
         sizePolicy1.setHeightForWidth(self.widget_58.sizePolicy().hasHeightForWidth())
         self.widget_58.setSizePolicy(sizePolicy1)
         self.verticalLayout_55 = QVBoxLayout(self.widget_58)
+        self.verticalLayout_55.setSpacing(0)
         self.verticalLayout_55.setObjectName(u"verticalLayout_55")
+        self.verticalLayout_55.setContentsMargins(0, 0, 0, 0)
         self.scrollArea_8 = QScrollArea(self.widget_58)
         self.scrollArea_8.setObjectName(u"scrollArea_8")
         self.scrollArea_8.setWidgetResizable(True)
         self.scrollAreaWidgetContents_8 = QWidget()
         self.scrollAreaWidgetContents_8.setObjectName(u"scrollAreaWidgetContents_8")
-        self.scrollAreaWidgetContents_8.setGeometry(QRect(0, 0, 351, 238))
+        self.scrollAreaWidgetContents_8.setGeometry(QRect(0, 0, 175, 110))
         self.verticalLayout_60 = QVBoxLayout(self.scrollAreaWidgetContents_8)
         self.verticalLayout_60.setObjectName(u"verticalLayout_60")
-        self.widget_59 = QWidget(self.scrollAreaWidgetContents_8)
-        self.widget_59.setObjectName(u"widget_59")
-        self.verticalLayout_61 = QVBoxLayout(self.widget_59)
-        self.verticalLayout_61.setSpacing(3)
-        self.verticalLayout_61.setObjectName(u"verticalLayout_61")
-        self.verticalLayout_61.setContentsMargins(-1, 0, 0, 0)
-        self.label_47 = QLabel(self.widget_59)
+        self.label_47 = QLabel(self.scrollAreaWidgetContents_8)
         self.label_47.setObjectName(u"label_47")
+        sizePolicy5.setHeightForWidth(self.label_47.sizePolicy().hasHeightForWidth())
+        self.label_47.setSizePolicy(sizePolicy5)
         self.label_47.setFont(font3)
         self.label_47.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.label_47.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.verticalLayout_61.addWidget(self.label_47)
+        self.verticalLayout_60.addWidget(self.label_47)
 
-        self.widget_60 = QWidget(self.widget_59)
+        self.widget_60 = QWidget(self.scrollAreaWidgetContents_8)
         self.widget_60.setObjectName(u"widget_60")
         sizePolicy6.setHeightForWidth(self.widget_60.sizePolicy().hasHeightForWidth())
         self.widget_60.setSizePolicy(sizePolicy6)
@@ -2842,9 +2857,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_69.addWidget(self.saveLoginUrlLabel)
 
 
-        self.verticalLayout_61.addWidget(self.widget_60)
+        self.verticalLayout_60.addWidget(self.widget_60)
 
-        self.widget_61 = QWidget(self.widget_59)
+        self.widget_61 = QWidget(self.scrollAreaWidgetContents_8)
         self.widget_61.setObjectName(u"widget_61")
         sizePolicy6.setHeightForWidth(self.widget_61.sizePolicy().hasHeightForWidth())
         self.widget_61.setSizePolicy(sizePolicy6)
@@ -2864,9 +2879,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_68.addWidget(self.loginLabel)
 
 
-        self.verticalLayout_61.addWidget(self.widget_61)
+        self.verticalLayout_60.addWidget(self.widget_61)
 
-        self.widget_62 = QWidget(self.widget_59)
+        self.widget_62 = QWidget(self.scrollAreaWidgetContents_8)
         self.widget_62.setObjectName(u"widget_62")
         sizePolicy6.setHeightForWidth(self.widget_62.sizePolicy().hasHeightForWidth())
         self.widget_62.setSizePolicy(sizePolicy6)
@@ -2886,14 +2901,11 @@ class Ui_MainWindow(object):
         self.horizontalLayout_60.addWidget(self.lastDateUseLabel)
 
 
-        self.verticalLayout_61.addWidget(self.widget_62)
+        self.verticalLayout_60.addWidget(self.widget_62)
 
         self.verticalSpacer_10 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.verticalLayout_61.addItem(self.verticalSpacer_10)
-
-
-        self.verticalLayout_60.addWidget(self.widget_59)
+        self.verticalLayout_60.addItem(self.verticalSpacer_10)
 
         self.scrollArea_8.setWidget(self.scrollAreaWidgetContents_8)
 
@@ -2917,7 +2929,7 @@ class Ui_MainWindow(object):
         self.widget_84 = QWidget(self.searcherPage)
         self.widget_84.setObjectName(u"widget_84")
         self.horizontalLayout_77 = QHBoxLayout(self.widget_84)
-        self.horizontalLayout_77.setSpacing(4)
+        self.horizontalLayout_77.setSpacing(3)
         self.horizontalLayout_77.setObjectName(u"horizontalLayout_77")
         self.horizontalLayout_77.setContentsMargins(0, 0, 0, 0)
         self.termLineEdit = QLineEdit(self.widget_84)
@@ -2995,46 +3007,35 @@ class Ui_MainWindow(object):
         self.verticalLayout_64.setContentsMargins(0, 0, 0, 0)
         self.scrollArea_10 = QScrollArea(self.widget_80)
         self.scrollArea_10.setObjectName(u"scrollArea_10")
+        sizePolicy1.setHeightForWidth(self.scrollArea_10.sizePolicy().hasHeightForWidth())
+        self.scrollArea_10.setSizePolicy(sizePolicy1)
         self.scrollArea_10.setWidgetResizable(True)
+        self.scrollArea_10.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignTop)
         self.scrollAreaWidgetContents_10 = QWidget()
         self.scrollAreaWidgetContents_10.setObjectName(u"scrollAreaWidgetContents_10")
-        self.scrollAreaWidgetContents_10.setGeometry(QRect(0, 0, 369, 250))
+        self.scrollAreaWidgetContents_10.setGeometry(QRect(0, 0, 175, 77))
         self.verticalLayout_65 = QVBoxLayout(self.scrollAreaWidgetContents_10)
+        self.verticalLayout_65.setSpacing(0)
         self.verticalLayout_65.setObjectName(u"verticalLayout_65")
-        self.label_43 = QLabel(self.scrollAreaWidgetContents_10)
+        self.verticalLayout_65.setContentsMargins(0, 0, 0, 0)
+        self.widget_59 = QWidget(self.scrollAreaWidgetContents_10)
+        self.widget_59.setObjectName(u"widget_59")
+        sizePolicy2.setHeightForWidth(self.widget_59.sizePolicy().hasHeightForWidth())
+        self.widget_59.setSizePolicy(sizePolicy2)
+        self.verticalLayout_69 = QVBoxLayout(self.widget_59)
+        self.verticalLayout_69.setSpacing(3)
+        self.verticalLayout_69.setObjectName(u"verticalLayout_69")
+        self.verticalLayout_69.setContentsMargins(0, 0, 0, 0)
+        self.label_43 = QLabel(self.widget_59)
         self.label_43.setObjectName(u"label_43")
+        sizePolicy5.setHeightForWidth(self.label_43.sizePolicy().hasHeightForWidth())
+        self.label_43.setSizePolicy(sizePolicy5)
         self.label_43.setFont(font3)
         self.label_43.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.verticalLayout_65.addWidget(self.label_43)
+        self.verticalLayout_69.addWidget(self.label_43)
 
-        self.widget_83 = QWidget(self.scrollAreaWidgetContents_10)
-        self.widget_83.setObjectName(u"widget_83")
-        sizePolicy6.setHeightForWidth(self.widget_83.sizePolicy().hasHeightForWidth())
-        self.widget_83.setSizePolicy(sizePolicy6)
-        self.horizontalLayout_72 = QHBoxLayout(self.widget_83)
-        self.horizontalLayout_72.setSpacing(0)
-        self.horizontalLayout_72.setObjectName(u"horizontalLayout_72")
-        self.horizontalLayout_72.setContentsMargins(0, 0, 0, 0)
-        self.label_44 = QLabel(self.widget_83)
-        self.label_44.setObjectName(u"label_44")
-        sizePolicy6.setHeightForWidth(self.label_44.sizePolicy().hasHeightForWidth())
-        self.label_44.setSizePolicy(sizePolicy6)
-        self.label_44.setFont(font3)
-
-        self.horizontalLayout_72.addWidget(self.label_44)
-
-        self.sercherUrlLabel = QLabel(self.widget_83)
-        self.sercherUrlLabel.setObjectName(u"sercherUrlLabel")
-        sizePolicy6.setHeightForWidth(self.sercherUrlLabel.sizePolicy().hasHeightForWidth())
-        self.sercherUrlLabel.setSizePolicy(sizePolicy6)
-
-        self.horizontalLayout_72.addWidget(self.sercherUrlLabel)
-
-
-        self.verticalLayout_65.addWidget(self.widget_83)
-
-        self.widget_82 = QWidget(self.scrollAreaWidgetContents_10)
+        self.widget_82 = QWidget(self.widget_59)
         self.widget_82.setObjectName(u"widget_82")
         sizePolicy6.setHeightForWidth(self.widget_82.sizePolicy().hasHeightForWidth())
         self.widget_82.setSizePolicy(sizePolicy6)
@@ -3058,9 +3059,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_73.addWidget(self.termLabel)
 
 
-        self.verticalLayout_65.addWidget(self.widget_82)
+        self.verticalLayout_69.addWidget(self.widget_82)
 
-        self.widget_81 = QWidget(self.scrollAreaWidgetContents_10)
+        self.widget_81 = QWidget(self.widget_59)
         self.widget_81.setObjectName(u"widget_81")
         sizePolicy6.setHeightForWidth(self.widget_81.sizePolicy().hasHeightForWidth())
         self.widget_81.setSizePolicy(sizePolicy6)
@@ -3084,11 +3085,40 @@ class Ui_MainWindow(object):
         self.horizontalLayout_74.addWidget(self.sercherDateLabel)
 
 
-        self.verticalLayout_65.addWidget(self.widget_81)
+        self.verticalLayout_69.addWidget(self.widget_81)
 
-        self.verticalSpacer_15 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.widget_83 = QWidget(self.widget_59)
+        self.widget_83.setObjectName(u"widget_83")
+        sizePolicy6.setHeightForWidth(self.widget_83.sizePolicy().hasHeightForWidth())
+        self.widget_83.setSizePolicy(sizePolicy6)
+        self.horizontalLayout_72 = QHBoxLayout(self.widget_83)
+        self.horizontalLayout_72.setSpacing(0)
+        self.horizontalLayout_72.setObjectName(u"horizontalLayout_72")
+        self.horizontalLayout_72.setContentsMargins(0, 0, 0, 0)
+        self.label_44 = QLabel(self.widget_83)
+        self.label_44.setObjectName(u"label_44")
+        sizePolicy6.setHeightForWidth(self.label_44.sizePolicy().hasHeightForWidth())
+        self.label_44.setSizePolicy(sizePolicy6)
+        self.label_44.setFont(font3)
 
-        self.verticalLayout_65.addItem(self.verticalSpacer_15)
+        self.horizontalLayout_72.addWidget(self.label_44)
+
+        self.sercherUrlLabel = QLabel(self.widget_83)
+        self.sercherUrlLabel.setObjectName(u"sercherUrlLabel")
+        sizePolicy6.setHeightForWidth(self.sercherUrlLabel.sizePolicy().hasHeightForWidth())
+        self.sercherUrlLabel.setSizePolicy(sizePolicy6)
+
+        self.horizontalLayout_72.addWidget(self.sercherUrlLabel)
+
+
+        self.verticalLayout_69.addWidget(self.widget_83)
+
+
+        self.verticalLayout_65.addWidget(self.widget_59)
+
+        self.verticalSpacer_12 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout_65.addItem(self.verticalSpacer_12)
 
         self.scrollArea_10.setWidget(self.scrollAreaWidgetContents_10)
 
@@ -3097,10 +3127,29 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_63.addWidget(self.widget_80)
 
-        self.verticalSpacer_14 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.scrollArea_12 = QScrollArea(self.widget_67)
+        self.scrollArea_12.setObjectName(u"scrollArea_12")
+        self.scrollArea_12.setWidgetResizable(True)
+        self.scrollAreaWidgetContents_12 = QWidget()
+        self.scrollAreaWidgetContents_12.setObjectName(u"scrollAreaWidgetContents_12")
+        self.scrollAreaWidgetContents_12.setGeometry(QRect(0, 0, 98, 28))
+        self.verticalLayout_51 = QVBoxLayout(self.scrollAreaWidgetContents_12)
+        self.verticalLayout_51.setSpacing(0)
+        self.verticalLayout_51.setObjectName(u"verticalLayout_51")
+        self.verticalLayout_51.setContentsMargins(0, 0, 0, 0)
+        self.sercherWebEngineView = QWebEngineView(self.scrollAreaWidgetContents_12)
+        self.sercherWebEngineView.setObjectName(u"sercherWebEngineView")
+        sizePolicy1.setHeightForWidth(self.sercherWebEngineView.sizePolicy().hasHeightForWidth())
+        self.sercherWebEngineView.setSizePolicy(sizePolicy1)
+        self.sercherWebEngineView.setUrl(QUrl(u"about:blank"))
 
-        self.verticalLayout_63.addItem(self.verticalSpacer_14)
+        self.verticalLayout_51.addWidget(self.sercherWebEngineView)
 
+        self.scrollArea_12.setWidget(self.scrollAreaWidgetContents_12)
+
+        self.verticalLayout_63.addWidget(self.scrollArea_12)
+
+        self.verticalLayout_63.setStretch(1, 1)
 
         self.horizontalLayout_71.addWidget(self.widget_67)
 
@@ -3117,7 +3166,9 @@ class Ui_MainWindow(object):
         sizePolicy5.setHeightForWidth(self.widget_91.sizePolicy().hasHeightForWidth())
         self.widget_91.setSizePolicy(sizePolicy5)
         self.horizontalLayout_94 = QHBoxLayout(self.widget_91)
+        self.horizontalLayout_94.setSpacing(3)
         self.horizontalLayout_94.setObjectName(u"horizontalLayout_94")
+        self.horizontalLayout_94.setContentsMargins(0, 0, 0, 0)
         self.autofillFieldnameLineEdit = QLineEdit(self.widget_91)
         self.autofillFieldnameLineEdit.setObjectName(u"autofillFieldnameLineEdit")
 
@@ -3161,10 +3212,17 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_66.addWidget(self.widget_91)
 
+        self.label_56 = QLabel(self.page_2)
+        self.label_56.setObjectName(u"label_56")
+
+        self.verticalLayout_66.addWidget(self.label_56)
+
         self.widget_77 = QWidget(self.page_2)
         self.widget_77.setObjectName(u"widget_77")
         self.horizontalLayout_79 = QHBoxLayout(self.widget_77)
+        self.horizontalLayout_79.setSpacing(3)
         self.horizontalLayout_79.setObjectName(u"horizontalLayout_79")
+        self.horizontalLayout_79.setContentsMargins(0, 0, 0, 0)
         self.autofillTableWidget = QTableWidget(self.widget_77)
         self.autofillTableWidget.setObjectName(u"autofillTableWidget")
 
@@ -3175,13 +3233,15 @@ class Ui_MainWindow(object):
         sizePolicy1.setHeightForWidth(self.widget_85.sizePolicy().hasHeightForWidth())
         self.widget_85.setSizePolicy(sizePolicy1)
         self.verticalLayout_67 = QVBoxLayout(self.widget_85)
+        self.verticalLayout_67.setSpacing(3)
         self.verticalLayout_67.setObjectName(u"verticalLayout_67")
+        self.verticalLayout_67.setContentsMargins(0, 0, 0, 0)
         self.scrollArea_11 = QScrollArea(self.widget_85)
         self.scrollArea_11.setObjectName(u"scrollArea_11")
         self.scrollArea_11.setWidgetResizable(True)
         self.scrollAreaWidgetContents_11 = QWidget()
         self.scrollAreaWidgetContents_11.setObjectName(u"scrollAreaWidgetContents_11")
-        self.scrollAreaWidgetContents_11.setGeometry(QRect(0, 0, 341, 286))
+        self.scrollAreaWidgetContents_11.setGeometry(QRect(0, 0, 177, 156))
         self.verticalLayout_68 = QVBoxLayout(self.scrollAreaWidgetContents_11)
         self.verticalLayout_68.setObjectName(u"verticalLayout_68")
         self.label_42 = QLabel(self.scrollAreaWidgetContents_11)
@@ -3196,7 +3256,9 @@ class Ui_MainWindow(object):
         sizePolicy6.setHeightForWidth(self.widget_86.sizePolicy().hasHeightForWidth())
         self.widget_86.setSizePolicy(sizePolicy6)
         self.horizontalLayout_88 = QHBoxLayout(self.widget_86)
+        self.horizontalLayout_88.setSpacing(0)
         self.horizontalLayout_88.setObjectName(u"horizontalLayout_88")
+        self.horizontalLayout_88.setContentsMargins(0, 0, 0, 0)
         self.label_46 = QLabel(self.widget_86)
         self.label_46.setObjectName(u"label_46")
         self.label_46.setFont(font3)
@@ -3216,7 +3278,9 @@ class Ui_MainWindow(object):
         sizePolicy6.setHeightForWidth(self.widget_87.sizePolicy().hasHeightForWidth())
         self.widget_87.setSizePolicy(sizePolicy6)
         self.horizontalLayout_90 = QHBoxLayout(self.widget_87)
+        self.horizontalLayout_90.setSpacing(0)
         self.horizontalLayout_90.setObjectName(u"horizontalLayout_90")
+        self.horizontalLayout_90.setContentsMargins(0, 0, 0, 0)
         self.label_57 = QLabel(self.widget_87)
         self.label_57.setObjectName(u"label_57")
         self.label_57.setFont(font3)
@@ -3236,7 +3300,9 @@ class Ui_MainWindow(object):
         sizePolicy6.setHeightForWidth(self.widget_88.sizePolicy().hasHeightForWidth())
         self.widget_88.setSizePolicy(sizePolicy6)
         self.horizontalLayout_91 = QHBoxLayout(self.widget_88)
+        self.horizontalLayout_91.setSpacing(0)
         self.horizontalLayout_91.setObjectName(u"horizontalLayout_91")
+        self.horizontalLayout_91.setContentsMargins(0, 0, 0, 0)
         self.label_63 = QLabel(self.widget_88)
         self.label_63.setObjectName(u"label_63")
         self.label_63.setFont(font3)
@@ -3256,7 +3322,9 @@ class Ui_MainWindow(object):
         sizePolicy6.setHeightForWidth(self.widget_89.sizePolicy().hasHeightForWidth())
         self.widget_89.setSizePolicy(sizePolicy6)
         self.horizontalLayout_92 = QHBoxLayout(self.widget_89)
+        self.horizontalLayout_92.setSpacing(0)
         self.horizontalLayout_92.setObjectName(u"horizontalLayout_92")
+        self.horizontalLayout_92.setContentsMargins(0, 0, 0, 0)
         self.label_65 = QLabel(self.widget_89)
         self.label_65.setObjectName(u"label_65")
         self.label_65.setFont(font3)
@@ -3276,7 +3344,9 @@ class Ui_MainWindow(object):
         sizePolicy6.setHeightForWidth(self.widget_90.sizePolicy().hasHeightForWidth())
         self.widget_90.setSizePolicy(sizePolicy6)
         self.horizontalLayout_93 = QHBoxLayout(self.widget_90)
+        self.horizontalLayout_93.setSpacing(0)
         self.horizontalLayout_93.setObjectName(u"horizontalLayout_93")
+        self.horizontalLayout_93.setContentsMargins(0, 0, 0, 0)
         self.label_67 = QLabel(self.widget_90)
         self.label_67.setObjectName(u"label_67")
         self.label_67.setFont(font3)
@@ -3424,22 +3494,22 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.emailHederDockWidget = QDockWidget(MainWindow)
         self.emailHederDockWidget.setObjectName(u"emailHederDockWidget")
-        sizePolicy.setHeightForWidth(self.emailHederDockWidget.sizePolicy().hasHeightForWidth())
-        self.emailHederDockWidget.setSizePolicy(sizePolicy)
+        sizePolicy9.setHeightForWidth(self.emailHederDockWidget.sizePolicy().hasHeightForWidth())
+        self.emailHederDockWidget.setSizePolicy(sizePolicy9)
         self.emailHederDockWidget.setMinimumSize(QSize(982, 200))
         self.emailHederDockWidget.setFloating(True)
         self.emailHederDockWidget.setFeatures(QDockWidget.DockWidgetFeature.DockWidgetClosable|QDockWidget.DockWidgetFeature.DockWidgetFloatable|QDockWidget.DockWidgetFeature.DockWidgetMovable)
         self.emailHederDockWidget.setAllowedAreas(Qt.DockWidgetArea.AllDockWidgetAreas)
         self.dockWidgetContents_8 = QWidget()
         self.dockWidgetContents_8.setObjectName(u"dockWidgetContents_8")
-        sizePolicy.setHeightForWidth(self.dockWidgetContents_8.sizePolicy().hasHeightForWidth())
-        self.dockWidgetContents_8.setSizePolicy(sizePolicy)
+        sizePolicy9.setHeightForWidth(self.dockWidgetContents_8.sizePolicy().hasHeightForWidth())
+        self.dockWidgetContents_8.setSizePolicy(sizePolicy9)
         self.verticalLayout_27 = QVBoxLayout(self.dockWidgetContents_8)
         self.verticalLayout_27.setObjectName(u"verticalLayout_27")
         self.frame_7 = QFrame(self.dockWidgetContents_8)
         self.frame_7.setObjectName(u"frame_7")
-        sizePolicy.setHeightForWidth(self.frame_7.sizePolicy().hasHeightForWidth())
-        self.frame_7.setSizePolicy(sizePolicy)
+        sizePolicy9.setHeightForWidth(self.frame_7.sizePolicy().hasHeightForWidth())
+        self.frame_7.setSizePolicy(sizePolicy9)
         self.frame_7.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_7.setFrameShadow(QFrame.Shadow.Raised)
         self.verticalLayout_28 = QVBoxLayout(self.frame_7)
@@ -3496,8 +3566,8 @@ class Ui_MainWindow(object):
 
         self.frame_5 = QFrame(self.scrollAreaWidgetContents_2)
         self.frame_5.setObjectName(u"frame_5")
-        sizePolicy9.setHeightForWidth(self.frame_5.sizePolicy().hasHeightForWidth())
-        self.frame_5.setSizePolicy(sizePolicy9)
+        sizePolicy2.setHeightForWidth(self.frame_5.sizePolicy().hasHeightForWidth())
+        self.frame_5.setSizePolicy(sizePolicy2)
         self.frame_5.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_5.setFrameShadow(QFrame.Shadow.Raised)
         self.horizontalLayout = QHBoxLayout(self.frame_5)
@@ -3536,8 +3606,8 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.menuBtn.setDefault(False)
-        self.centerMenuPages.setCurrentIndex(4)
-        self.customQStackedWidget.setCurrentIndex(11)
+        self.centerMenuPages.setCurrentIndex(0)
+        self.customQStackedWidget.setCurrentIndex(8)
         self.startDataBtn.setDefault(False)
         self.left_btn.setDefault(True)
         self.rigth_btn.setDefault(True)
@@ -3729,18 +3799,18 @@ class Ui_MainWindow(object):
         self.endDateDownloadLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Data do", None))
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"Historia pobieranych plik\u00f3w:", None))
         self.label_15.setText(QCoreApplication.translate("MainWindow", u"SZCZWG\u00d3\u0141Y", None))
+        self.urlStaticLabel.setText(QCoreApplication.translate("MainWindow", u"URL:", None))
+        self.urlLabel.setText(QCoreApplication.translate("MainWindow", u"url", None))
         self.downloadStaticPath.setText(QCoreApplication.translate("MainWindow", u"Scie\u017cka docelowa:", None))
         self.pathDownloadLabel.setText(QCoreApplication.translate("MainWindow", u"path", None))
-        self.label_39.setText(QCoreApplication.translate("MainWindow", u"D\u0142ugo\u015b\u0107 pobierania:", None))
-        self.downloadTimeLabel.setText(QCoreApplication.translate("MainWindow", u"downloadTime", None))
+        self.label_41.setText(QCoreApplication.translate("MainWindow", u"Rozmiar pliku:", None))
+        self.sizeFileLabel.setText(QCoreApplication.translate("MainWindow", u"sizeFilel", None))
         self.label_35.setText(QCoreApplication.translate("MainWindow", u"Pocz\u0105tek pobierania:", None))
         self.startTimeLabel.setText(QCoreApplication.translate("MainWindow", u"startTime", None))
         self.label_37.setText(QCoreApplication.translate("MainWindow", u"Koniec pobierania:", None))
         self.endTimeLabel.setText(QCoreApplication.translate("MainWindow", u"endTime", None))
-        self.urlStaticLabel.setText(QCoreApplication.translate("MainWindow", u"URL:", None))
-        self.urlLabel.setText(QCoreApplication.translate("MainWindow", u"url", None))
-        self.label_41.setText(QCoreApplication.translate("MainWindow", u"Rozmiar pliku:", None))
-        self.sizeFileLabel.setText(QCoreApplication.translate("MainWindow", u"sizeFilel", None))
+        self.label_39.setText(QCoreApplication.translate("MainWindow", u"D\u0142ugo\u015b\u0107 pobierania:", None))
+        self.downloadTimeLabel.setText(QCoreApplication.translate("MainWindow", u"downloadTime", None))
         self.left_btn_2.setText(QCoreApplication.translate("MainWindow", u"<-", None))
         self.rigth_btn_2.setText(QCoreApplication.translate("MainWindow", u"->", None))
         self.up_btn_2.setText(QCoreApplication.translate("MainWindow", u"^", None))
@@ -3756,16 +3826,14 @@ class Ui_MainWindow(object):
         self.label_32.setText(QCoreApplication.translate("MainWindow", u"Liczba Wiadomo\u015bci:", None))
         self.emailCountLablel.setText(QCoreApplication.translate("MainWindow", u"X", None))
         self.label_31.setText(QCoreApplication.translate("MainWindow", u"Najcz\u0119stsze konwersacje u\u017cytkownika:", None))
-        self.label_58.setText("")
         self.domenaLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Domena:", None))
-        self.label_59.setText("")
         self.titleLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Tytu\u0142:", None))
-        self.label_60.setText("")
         self.visitCountLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Ods\u0142ony:", None))
         self.calendarBtn.setText("")
         self.startDateLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Data od", None))
         self.endDatelineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Data do", None))
         self.label_55.setText(QCoreApplication.translate("MainWindow", u"Historia przegl\u0105danych stron internetowych", None))
+        self.label_61.setText(QCoreApplication.translate("MainWindow", u"SZCZEG\u00d3\u0141Y", None))
         self.label_49.setText(QCoreApplication.translate("MainWindow", u"Nazwa Profilu:", None))
         self.profileNameLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.label_50.setText(QCoreApplication.translate("MainWindow", u"URL:", None))
@@ -3801,13 +3869,14 @@ class Ui_MainWindow(object):
         self.endSercharDateLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Data do", None))
         self.label_38.setText(QCoreApplication.translate("MainWindow", u"Historasz wyszukiwanych s\u0142\u00f3w", None))
         self.label_43.setText(QCoreApplication.translate("MainWindow", u"SZCZEG\u00d3\u0141Y", None))
-        self.label_44.setText(QCoreApplication.translate("MainWindow", u"Url:", None))
-        self.sercherUrlLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.label_48.setText(QCoreApplication.translate("MainWindow", u"Fraza:", None))
         self.termLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.label_62.setText(QCoreApplication.translate("MainWindow", u"Data wyszukiwania:", None))
         self.sercherDateLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.label_44.setText(QCoreApplication.translate("MainWindow", u"Url:", None))
+        self.sercherUrlLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.autofillCalendarBtn.setText("")
+        self.label_56.setText(QCoreApplication.translate("MainWindow", u"Zapisane dane autouzupe\u0142nianie w przegl\u0105darkach", None))
         self.label_42.setText(QCoreApplication.translate("MainWindow", u"SZCZEG\u00d3\u0141Y", None))
         self.label_46.setText(QCoreApplication.translate("MainWindow", u"Nazwa rekordu:", None))
         self.autofillNameLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))

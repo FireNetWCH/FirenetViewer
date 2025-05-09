@@ -1,6 +1,6 @@
 import src.db_function.pc_db as pc_db
 from PySide6.QtWidgets import QTableWidgetItem,QTableWidget, QHeaderView
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt,QTimer
 import tldextract
 from urllib.parse import urlparse
 from datetime import datetime
@@ -123,6 +123,7 @@ class pc_browser:
         self.parent.ui.networkBrowserTable.horizontalHeader().setSectionResizeMode(1,QHeaderView.Interactive)
         self.parent.ui.networkBrowserTable.horizontalHeader().setSectionResizeMode(2,QHeaderView.Stretch)
         self.parent.ui.networkBrowserTable.cellClicked.connect(self.load_download_deteils)
+        self.parent.ui.networkBrowserTable.verticalHeader().setVisible(False)
 
     def load_download_deteils(self, row, column):
         id = self.parent.ui.networkBrowserTable.item(row, 0).text()
@@ -179,22 +180,26 @@ class pc_browser:
                 item = QTableWidgetItem(str(value))
                 self.parent.ui.historyBrowserTablet.setItem(row_position, i, item)
                 if i == 1:
-                    parsed = urlparse(value)   
+                    parsed = urlparse(value)
                     if parsed.scheme in ('http', 'https', 'ftp'):
-                        sufix = tldextract.extract(value).suffix
-                        domein = tldextract.extract(value).domain
-                        item = QTableWidgetItem(str(f"{domein}.{sufix}"))
+                        stripped_value = value.removeprefix(f"{parsed.scheme}://")
+                        item = QTableWidgetItem(str(stripped_value))
                         self.parent.ui.historyBrowserTablet.setItem(row_position, i, item)
                     else:
                         item = QTableWidgetItem(str(value))
                         self.parent.ui.historyBrowserTablet.setItem(row_position, i, item)
-        self.parent.ui.historyBrowserTablet.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
-        for i in range(self.parent.ui.historyBrowserTablet.columnCount()):
-            if i != 2:
-                self.parent.ui.historyBrowserTablet.resizeColumnToContents(i)
         self.parent.ui.historyBrowserTablet.cellClicked.connect(self.load_history_deteils)
+        self.parent.ui.historyBrowserTablet.verticalHeader().setVisible(False)                
+        for i in range(self.parent.ui.historyBrowserTablet.columnCount()):
+            if i != 1:
+                self.parent.ui.historyBrowserTablet.resizeColumnToContents(i)
+        self.parent.ui.historyBrowserTablet.horizontalHeader().setSectionResizeMode(1,QHeaderView.Stretch)
         self.parent.ui.historyBrowserTablet.horizontalHeader().setSectionResizeMode(2,QHeaderView.Stretch)
+        def enable_column_resize():
+            self.parent.ui.historyBrowserTablet.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
+        QTimer.singleShot(0, enable_column_resize)
 
+        
 
     def load_history_deteils(self, row, column):
         id = self.parent.ui.historyBrowserTablet.item(row, 0).text()
@@ -209,6 +214,7 @@ class pc_browser:
                 self.parent.ui.profileNameLabel.setText("Brak nazwy profilu")
             if rows[0][1] is not None:
                 self.parent.ui.historyUrlLabel.setText(str(rows[0][1]))
+                self.parent.ui.historyWebEngineView.load(str(rows[0][1]))
             else:
                 self.parent.ui.historyUrlLabel.setText("Brak URL")
             if rows[0][2] is not None:
@@ -349,8 +355,13 @@ class pc_browser:
                         item = QTableWidgetItem(str(value))
                         self.parent.ui.saveLoginTableWidget.setItem(row_position, i, item)
         self.parent.ui.saveLoginTableWidget.cellClicked.connect(self.load_logins_deteils)
-
-
+        self.parent.ui.saveLoginTableWidget.verticalHeader().setVisible(False)
+        self.parent.ui.saveLoginTableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
+        for i in range(self.parent.ui.saveLoginTableWidget.columnCount()):
+            if i != 1 or i != 2:
+                self.parent.ui.saveLoginTableWidget.resizeColumnToContents(i)
+        self.parent.ui.saveLoginTableWidget.horizontalHeader().setSectionResizeMode(1,QHeaderView.Stretch)
+        self.parent.ui.saveLoginTableWidget.horizontalHeader().setSectionResizeMode(2,QHeaderView.Stretch)
     def load_logins_deteils(self, row, column):
         id = self.parent.ui.saveLoginTableWidget.item(row, 0).text()
         browser_name = self.parent.ui.saveLoginTableWidget.item(row,6).text()
@@ -396,6 +407,16 @@ class pc_browser:
                         item = QTableWidgetItem(str(value))
                         self.parent.ui.sercherTableWidget.setItem(row_position, i, item)
         self.parent.ui.sercherTableWidget.cellClicked.connect(self.load_sercher_deteils)
+        self.parent.ui.sercherTableWidget.verticalHeader().setVisible(False)
+        for i in range(self.parent.ui.sercherTableWidget.columnCount()):
+            if i != 1 and i != 2:
+                self.parent.ui.sercherTableWidget.resizeColumnToContents(i)
+        self.parent.ui.sercherTableWidget.horizontalHeader().setSectionResizeMode(1,QHeaderView.Stretch)
+        self.parent.ui.sercherTableWidget.horizontalHeader().setSectionResizeMode(2,QHeaderView.Stretch)
+        def enable_column_resize():
+            self.parent.ui.sercherTableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
+
+        QTimer.singleShot(0, enable_column_resize)
 
     def load_sercher_deteils(self, row, column):
         id = self.parent.ui.sercherTableWidget.item(row, 0).text()
@@ -407,6 +428,7 @@ class pc_browser:
             print(rows)
             if rows[0][1] is not None:
                 self.parent.ui.sercherUrlLabel.setText(str(rows[0][1]))
+                self.parent.ui.sercherWebEngineView.load(str(rows[0][1]))
             else:
                 self.parent.ui.sercherUrlLabel.setText("Brak adresu URL")
             if rows[0][2] is not None:
@@ -433,6 +455,17 @@ class pc_browser:
                         item = QTableWidgetItem(str(value))
                         self.parent.ui.autofillTableWidget.setItem(row_position, i, item)
         self.parent.ui.autofillTableWidget.cellClicked.connect(self.load_autofill_deteils)
+        self.parent.ui.autofillTableWidget.verticalHeader().setVisible(False)
+
+        for i in range(self.parent.ui.autofillTableWidget.columnCount()):
+            if i != 1 and i != 2:
+                self.parent.ui.autofillTableWidget.resizeColumnToContents(i)
+        self.parent.ui.autofillTableWidget.horizontalHeader().setSectionResizeMode(1,QHeaderView.Stretch)
+        self.parent.ui.autofillTableWidget.horizontalHeader().setSectionResizeMode(2,QHeaderView.Stretch)
+        def enable_column_resize():
+            self.parent.ui.autofillTableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
+
+        QTimer.singleShot(0, enable_column_resize)
 
 
     def load_autofill_deteils(self, row, column):

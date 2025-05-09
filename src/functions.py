@@ -130,7 +130,14 @@ class GUIFunctions:
         # self.ui.export_pdf.clicked.connect(self.export_to_pdf)
         # self.ui.export_excel.clicked.connect(self.export_to_excel)
         # self.ui.pst_files_btn.clicked.connect(self.upload_pst_file)
-        
+
+        self.ui.closeCenterMenuBtn.clicked.connect(lambda : self.ui.splitter.setSizes([0, 1]))
+        self.ui.fileBtn.clicked.connect(lambda : self.ui.splitter.setSizes([1, 2]))
+        self.ui.settingsBtn.clicked.connect(lambda : self.ui.splitter.setSizes([1, 2]))
+        self.ui.infoBtn.clicked.connect(lambda : self.ui.splitter.setSizes([1, 2]))
+        self.ui.pcTreeBtn.clicked.connect(lambda : self.ui.splitter.setSizes([1, 2]))
+        self.ui.meilBoxBtn.clicked.connect(lambda : self.ui.splitter.setSizes([1, 2]))
+        self.ui.helpBtn.clicked.connect(lambda : self.ui.splitter.setSizes([1, 2]))
         #główne przyciski
         self.ui.up_btn.clicked.connect(lambda :display_file_content(self,prev_item(self,self.ui.pathLabel.text())))
         
