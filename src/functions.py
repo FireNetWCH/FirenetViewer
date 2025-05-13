@@ -162,91 +162,24 @@ class GUIFunctions:
     
     def inicialize_pc_file_export_browser(self):
         first_path = "C:\\Users\\firenet\\FirenetViewer\\pc_storage\\sqlite\\os_extraction.db"
-        # first_path_file_export_db = "C:\\Users\\firenet\\FirenetViewer\\pc_storage\\sqlite\\file_exports_by_type.db"
+        first_path_file_export_db = "D:\\DaneDoTestow\\Wyeksportowane pliki\\Pliki użytkowników\\file_exports_by_type.db"
         self.os_db_menager = database_pc_manager(first_path)
-        # self.file_export_db_menager = database_file_export_menager(first_path_file_export_db)
+        self.file_export_db_menager = database_file_export_menager(first_path_file_export_db)
 
         self.ui.customQStackedWidget.setCurrentIndex(5)
         self.pc_browser = pc_browser(first_path,self,self.os_db_menager)
-        # self.file_export_browser = export_file_browser(self,self.file_export_db_menager)
+        self.file_export_browser = export_file_browser(self,self.file_export_db_menager)
         self.pc_browser.load_device_info()
         self.pc_browser.load_software_info()
         self.pc_browser.load_network_config()
         self.pc_browser.load_installed_software()
         self.pc_browser.load_borowser_download_history()
         self.pc_browser.load_history_browser()
-#        self.pc_browser.generate_pc_tree(self.file_export_browser.get_branch_tree_list())
-        self.pc_browser.generate_pc_tree(["1","2"])
+        self.pc_browser.generate_pc_tree(self.file_export_browser.get_branch_tree_list())
+        # self.pc_browser.generate_pc_tree(["1","2"])
         self.pc_browser.generate_sercher_history_browser_combo_box(self.ui.profileComboBox,self.ui.browserComboBox,self.ui.userComboBox)
         self.pc_browser.connerc_signal_to_table()
 
-        print("1")
-        # self.ui.domenaLineEdit.editingFinished.connect(lambda : self.update_filter(self.history_browser_filters,"url",self.pc_browser.load_history_browser,self.ui.domenaLineEdit))
-        # self.ui.titleLineEdit.editingFinished.connect(lambda : self.update_filter(self.history_browser_filters,"title",self.pc_browser.load_history_browser,self.ui.titleLineEdit))
-        # self.ui.visitCountLineEdit.editingFinished.connect(self.update_visit_count_filter)
-        # self.ui.browserComboBox.currentTextChanged.connect(lambda : self.update_browser_name_filter(self.ui.browserComboBox,self.pc_browser.load_history_browser))
-        # self.ui.profileComboBox.currentTextChanged.connect(lambda : self.update_profile_name_filter(self.ui.profileComboBox,self.pc_browser.load_history_browser))
-        # self.ui.userComboBox.currentTextChanged.connect(lambda : self.update_user_name_id_filter(self.ui.userComboBox,self.pc_browser.load_history_browser))
-        # self.ui.calendarBtn.clicked.connect(lambda : self.serch_by_date_start(self.ui.startDateLineEdit,self.ui.endDatelineEdit,self.history_browser_filters,"start_date","end_date"))
-        # self.ui.startDateLineEdit.textChanged.connect(lambda : self.update_data_filter(self.history_browser_filters,"start_date","end_date",self.pc_browser.load_history_browser,self.ui.startDateLineEdit,self.ui.endDatelineEdit))
-        # self.ui.endDatelineEdit.textChanged.connect(lambda : self.update_data_filter(self.history_browser_filters,"start_date","end_date",self.pc_browser.load_history_browser,self.ui.startDateLineEdit,self.ui.endDatelineEdit))
-        
-        # self.key_filter_browser_history = KeyPressFilterTableBrowsers(self.ui.historyBrowserTablet, self.pc_browser.load_history_deteils,self.pc_browser.load_history_deteils)
-        # self.ui.historyBrowserTablet.installEventFilter(self.key_filter_browser_history)
-        print("2")
-        #download history connect
-        # self.ui.downloadDomenLineEdit.editingFinished.connect(lambda : self.update_filter(self.history_download_browser_filters,"url",self.pc_browser.load_borowser_download_history,self.ui.downloadDomenLineEdit))
-        # self.ui.fileNameLineEdit.editingFinished.connect(lambda : self.update_filter(self.history_download_browser_filters,"download_path",self.pc_browser.load_borowser_download_history,self.ui.fileNameLineEdit))
-        # self.ui.downloadHistoryCalendarBtn.clicked.connect(lambda : self.serch_by_date_start(self.ui.startDateDownloadLineEdit,self.ui.endDateDownloadLineEdit,self.history_download_browser_filters,"start_time","end_time"))
-        # self.ui.startDateDownloadLineEdit.textChanged.connect(lambda :self.update_data_filter(self.history_download_browser_filters,"start_time","end_time",self.pc_browser.load_borowser_download_history,self.ui.startDateDownloadLineEdit,self.ui.endDateDownloadLineEdit))
-        # self.ui.endDateDownloadLineEdit.textChanged.connect(lambda:self.update_data_filter(self.history_download_browser_filters,"start_time","end_time",self.pc_browser.load_borowser_download_history,self.ui.startDateDownloadLineEdit,self.ui.endDateDownloadLineEdit))
-        # self.pc_browser.generate_sercher_history_browser_combo_box(self.ui.downloadProfileComboBox,self.ui.downloadBrowserComboBox,self.ui.downladaUserComboBox)
-        # self.ui.downloadBrowserComboBox.currentTextChanged.connect(lambda : self.update_browser_name_filter(self.ui.downloadBrowserComboBox,self.pc_browser.load_borowser_download_history))
-        # self.ui.downloadProfileComboBox.currentTextChanged.connect(lambda : self.update_profile_name_filter(self.ui.downloadProfileComboBox,self.pc_browser.load_borowser_download_history))
-        # self.ui.downladaUserComboBox.currentTextChanged.connect(lambda : self.update_user_name_id_filter(self.ui.downladaUserComboBox,self.pc_browser.load_borowser_download_history))
-        
-        # self.key_filter_browser_download_history = KeyPressFilterTableBrowsers(self.ui.networkBrowserTable, self.pc_browser.load_download_deteils,self.pc_browser.load_download_deteils)
-        # self.ui.networkBrowserTable.installEventFilter(self.key_filter_browser_download_history)
-        print("3")
-        #save login connect
-        # self.ui.saveLoginDomenLineEdit.editingFinished.connect(lambda : self.update_filter(self.save_login_filters,"url",self.pc_browser.load_save_login,self.ui.saveLoginDomenLineEdit))
-        # self.ui.loginLineEdit.editingFinished.connect(lambda : self.update_filter(self.save_login_filters,"username",self.pc_browser.load_save_login,self.ui.loginLineEdit))
-        # self.ui.saveLoginCalendarBtn.clicked.connect(lambda : self.serch_by_date_start(self.ui.startDataSaveLoginLineEdit,self.ui.endDataSaveLoginLineEdit,self.save_login_filters,"start_date","end_date"))
-        # self.ui.startDataSaveLoginLineEdit.textChanged.connect(lambda : self.update_data_filter(self.save_login_filters,"start_date","end_date",self.pc_browser.load_save_login,self.ui.startDataSaveLoginLineEdit,self.ui.endDataSaveLoginLineEdit))
-        # self.ui.endDataSaveLoginLineEdit.textChanged.connect(lambda : self.update_data_filter(self.save_login_filters,"start_date","end_date",self.pc_browser.load_save_login,self.ui.startDataSaveLoginLineEdit,self.ui.endDataSaveLoginLineEdit))
-        # self.pc_browser.generate_sercher_history_browser_combo_box(self.ui.saveLoginProfilComboBox,self.ui.saveLoginBrowserComboBox,self.ui.saveLoginUserComboBox)
-        # self.ui.saveLoginBrowserComboBox.currentTextChanged.connect(lambda : self.update_browser_name_filter(self.ui.saveLoginBrowserComboBox,self.pc_browser.load_save_login))
-        # self.ui.saveLoginProfilComboBox.currentTextChanged.connect(lambda : self.update_profile_name_filter(self.ui.saveLoginProfilComboBox,self.pc_browser.load_save_login))
-        # self.ui.saveLoginUserComboBox.currentTextChanged.connect(lambda : self.update_user_name_id_filter(self.ui.saveLoginUserComboBox,self.pc_browser.load_save_login))
-
-        # self.key_filter_browser_save_login = KeyPressFilterTableBrowsers(self.ui.saveLoginTableWidget, self.pc_browser.load_logins_deteils,self.pc_browser.load_logins_deteils)
-        # self.ui.saveLoginTableWidget.installEventFilter(self.key_filter_browser_save_login)
-
-        print("4")
-        #sercher history connect
-        self.ui.termLineEdit.editingFinished.connect(lambda : self.update_filter(self.sercher_list_filters,"term",self.pc_browser.load_sercher,self.ui.termLineEdit))
-        self.ui.sercherUrlLineEdit.editingFinished.connect(lambda : self.update_filter(self.sercher_list_filters,"url",self.pc_browser.load_sercher,self.ui.sercherUrlLineEdit))
-        self.pc_browser.generate_sercher_history_browser_combo_box(self.ui.sercherProfilComboBox,self.ui.sercherBrowserComboBox,self.ui.sercherUserComboBox)
-        self.ui.sercherBrowserComboBox.currentTextChanged.connect(lambda : self.update_browser_name_filter(self.ui.sercherBrowserComboBox,self.pc_browser.load_sercher))
-        self.ui.sercherProfilComboBox.currentTextChanged.connect(lambda : self.update_profile_name_filter(self.ui.sercherProfilComboBox,self.pc_browser.load_sercher))
-        self.ui.sercherUserComboBox.currentTextChanged.connect(lambda : self.update_user_name_id_filter(self.ui.sercherUserComboBox,self.pc_browser.load_sercher))
-
-        self.key_filter_browser_sercher = KeyPressFilterTableBrowsers(self.ui.sercherTableWidget, self.pc_browser.load_sercher_deteils,self.pc_browser.load_sercher_deteils)
-        self.ui.sercherTableWidget.installEventFilter(self.key_filter_browser_sercher)
-        print("5")
-        #serch autofile connecr
-        # self.ui.autofillFieldnameLineEdit.editingFinished.connect(lambda : self.update_filter(self.autofill_filters,"fieldname",self.pc_browser.load_autofill,self.ui.autofillFieldnameLineEdit))    
-        # self.ui.autofillValueLineEdit.editingFinished.connect(lambda : self.update_filter(self.autofill_filters,"value",self.pc_browser.load_autofill,self.ui.autofillValueLineEdit))
-        # self.ui.autofillCalendarBtn.clicked.connect(lambda : self.serch_by_date_start(self.ui.autofillStartDateLineEdit,self.ui.autofillEndDateLineEdit,self.autofill_filters,"start_date","end_date"))
-        # self.ui.autofillStartDateLineEdit.textChanged.connect(lambda : self.update_data_filter(self.autofill_filters,"start_date","end_date",self.pc_browser.load_autofill,self.ui.autofillStartDateLineEdit,self.ui.autofillEndDateLineEdit))
-        # self.ui.autofillEndDateLineEdit.textChanged.connect(lambda : self.update_data_filter(self.autofill_filters,"start_date","end_date",self.pc_browser.load_autofill,self.ui.autofillStartDateLineEdit,self.ui.autofillEndDateLineEdit))
-        # self.pc_browser.generate_sercher_history_browser_combo_box(self.ui.autofillProfileComboBox,self.ui.autofillBrowserComboBox,self.ui.autofillUserComboBox)
-        # self.ui.autofillBrowserComboBox.currentTextChanged.connect(lambda : self.update_browser_name_filter(self.ui.autofillBrowserComboBox,self.pc_browser.load_autofill))
-        # self.ui.autofillProfileComboBox.currentTextChanged.connect(lambda : self.update_profile_name_filter(self.ui.autofillProfileComboBox,self.pc_browser.load_autofill))
-        # self.ui.autofillUserComboBox.currentTextChanged.connect(lambda : self.update_user_name_id_filter(self.ui.autofillUserComboBox,self.pc_browser.load_autofill))
-
-        # self.key_filter_browser_autofill = KeyPressFilterTableBrowsers(self.ui.autofillTableWidget, self.pc_browser.load_autofill_deteils,self.pc_browser.load_autofill_deteils)
-        # self.ui.autofillTableWidget.installEventFilter(self.key_filter_browser_autofill)
     
     def toggle_window_state(self):
         self.ui.restoreBtn.setIcon(QIcon(":feather/FFFFFF/feather/copy.png"))

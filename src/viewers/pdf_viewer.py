@@ -1,29 +1,32 @@
-from PySide6.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsPixmapItem, QVBoxLayout, QScrollArea, QWidget,QPushButton
-from PySide6.QtGui import QPixmap, QImage, QPainter, QWheelEvent
+from PySide6.QtWidgets import QGraphicsView, QGraphicsScene, QGraphicsPixmapItem, QVBoxLayout, QScrollArea, QWidget,QPushButton,QHBoxLayout,QLabel
+from PySide6.QtGui import QPixmap, QImage, QPainter, QWheelEvent,QIcon
 from PySide6.QtCore import Qt
 import fitz
-from src.viewers.explorer_function import view_cleaer,MetaDataTableWiget
+import logging
 
 class PDFViewer(QGraphicsView):
-    def __init__(self,scene,zoom = 1.25, parent=None, pdf_document=None, current_page=0):
-        super().__init__(scene, parent)
+    def __init__(self,pdf_document,page_label: QLabel,all_page_count_label: QLabel,parent=None):
+        super().__init__(parent)
         self.setRenderHint(QPainter.Antialiasing)
         self.setRenderHint(QPainter.SmoothPixmapTransform)
         self.setDragMode(QGraphicsView.ScrollHandDrag)
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        self.scale_factor = zoom
-        self.page_number = current_page
+        self.scene = QGraphicsScene(self)
+        self.setScene(self.scene)
+        self.curent_page_number_label = page_label
+        self.all_page_count_label = all_page_count_label
+        self.scale_factor = 1.25
+        self.page_number = 0
         self.pdf_document = pdf_document
         self.zoom_in_factor = 1.15
-        
+        self.render_page()
 
     def wheelEvent(self, event: QWheelEvent) -> None:
         if event.angleDelta().y() > 0:
             self.change_page(1)
         else:
             self.change_page(-1)
-
 
     def change_page(self, delta: int):
         """Update page number and render the new page."""
@@ -40,15 +43,17 @@ class PDFViewer(QGraphicsView):
         pixmap = QPixmap.fromImage(img)
         if pixmap.isNull():
             print(f"Page {self.page_number} failed to convert to QPixmap")
-               
-        scene = self.scene()
-        scene.clear()  
+        scene = self.scene
         pixmap_item = QGraphicsPixmapItem(pixmap)
         scene.addItem(pixmap_item)
 
         self.setSceneRect(scene.itemsBoundingRect())
         self.resetTransform()
         self.scale(self.scale_factor, self.scale_factor)
+        self.ui = lambda: None
+        self.curent_page_number_label.setText(str(self.page_number))
+        self.all_page_count_label.setText(f"/ {len(self.pdf_document)}")
+
         self.update()
     
     def plus_size_view_pdf_chenger(self):
@@ -63,52 +68,55 @@ class PDFViewer(QGraphicsView):
         self.scale_factor *= self.zoom_out_factor
         
 
-def display_pdf_content(context, num_page,zoom,file_path: str) -> None:
+def display_pdf_content(pdf_document):
     """Wyświetla zawartość pliku PDF i niezbędne przyciski w widoku aplikacji."""
-    try:
-        pdf_document = fitz.open(file_path)
-        scene = QGraphicsScene()
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.DEBUG)
+    try:    
         scroll_area = QScrollArea()
         scroll_area.setWidgetResizable(True)
-        container_widget = QWidget()
-        prev_btn = QPushButton("Poprzednia strona")
-        next_btn = QPushButton("Następna strona")
-        zoom_btn = QPushButton("ZOOM +")
-        rezoom_btn = QPushButton("ZOOM -")
-        meta_data_system_file = MetaDataTableWiget(file_path)
+        prev_btn = QPushButton()
+        prev_btn.setIcon((QIcon(":feather\\icons\\feather\\arrow_left.png")))
+        curent_page_number_label = QLabel()
+        all_page_count_label = QLabel()
+        next_btn = QPushButton()
+        next_btn.setIcon((QIcon(":feather\\icons\\feather\\arrow_right.png")))    
 
-        layout = QVBoxLayout(container_widget)
-
-        pdf_view = PDFViewer(scene,zoom, pdf_document=pdf_document, current_page=num_page)
-        pdf_view.setScene(scene)
-        pdf_view.setSceneRect(scene.itemsBoundingRect())
-        pdf_view.render_page()
-
+        zoom_btn = QPushButton()
+        zoom_btn.setIcon((QIcon(":feather\\icons\\feather\\zoom-in.png")))
+        rezoom_btn = QPushButton()
+        rezoom_btn.setIcon((QIcon(":feather\\icons\\feather\\zoom-out.png")))
+        pdf_view = PDFViewer(pdf_document,curent_page_number_label,all_page_count_label)
+       
         prev_btn.pressed.connect(lambda: pdf_view.change_page(-1))
         next_btn.pressed.connect(lambda: pdf_view.change_page(1))
         zoom_btn.pressed.connect(lambda: pdf_view.plus_size_view_pdf_chenger())
         rezoom_btn.pressed.connect(lambda: pdf_view.minus_size_view_pdf_chenger())
 
-
+        container_widget = QWidget()
+        layout = QVBoxLayout(container_widget)
+        layout_horizontal = QHBoxLayout()
+        
+        layout_horizontal.addWidget(prev_btn)
+        layout_horizontal.addWidget(curent_page_number_label)
+        layout_horizontal.addWidget(all_page_count_label)
+        layout_horizontal.addWidget(next_btn)
+        layout_horizontal.addWidget(zoom_btn)
+        layout_horizontal.addWidget(rezoom_btn)
+        scroll_area = QScrollArea()
+        scroll_area.setWidgetResizable(True)
         scroll_area.setWidget(pdf_view)
-        view_cleaer(layout,context)
-        q_tab = context.ui.reportsPage.findChild(QWidget,"function_bar").findChild(QWidget,"tabWidget")
-        tab_content = QWidget()
-        tab_layout = QVBoxLayout(tab_content)
+        
+        layout.addWidget(scroll_area)
+        layout.addLayout(layout_horizontal)
+        
 
-        layoutRP = context.ui.rightMenu.layout()
-        layoutRP.addWidget(meta_data_system_file)
+        
+        container_widget.setLayout(layout)
+        logger.info("zwrucona TabWiget dla PDF")
+        return container_widget
 
-        tab_layout.addWidget(scroll_area)
-        tab_layout.addWidget(prev_btn)
-        tab_layout.addWidget(next_btn)
-        tab_layout.addWidget(zoom_btn)
-        tab_layout.addWidget(rezoom_btn)
-
-        q_tab.addTab(tab_content,"Exel")
-        q_tab.setCurrentWidget(tab_content)
+        
     except Exception as e:
         print(f"Error displaying PDF: {e}")
-        context.ui.pathLabel.setText(f"Nie można wyświetlić PDF: {e}")
-
-
+        logger.error(f" Error displaying PDF: {e}")

@@ -51,12 +51,65 @@ class database_file_export_menager:
             print(f"Błąd podczas pobierania listy przeglądarek zawierających historie: {e}")
             return None
         
-    def get_contents_from_table(self,table_name):
+    def get_contents_from_table(self,table_name,filters):
         """Pobiera zawartość ze wskazanej tabeli wyeksportowanych plików"""
         try:
-            self.cursor.execute(f"SELECT id, file_name,file_size, date_created FROM {table_name} ORDER BY date_created LIMIT 100")
+            self.cursor.execute(f"SELECT id, file_name,file_size, date_created FROM {table_name} {self.generate_filters_query_part(filters)} ORDER BY date_created LIMIT 100")
+            print(f"SELECT id, file_name,file_size, date_created FROM {table_name} {self.generate_filters_query_part(filters)} ORDER BY date_created LIMIT 100")
             return self.cursor.fetchall()
         except sqlite3.Error as e:
             logger.error(f"Błąd podczas pobierania zawartości tabeli {table_name}: {e}")
             print(f"Błąd podczas pobierania zawartości tabeli {table_name}: {e}")
             return None
+        
+    def get_full_deteils_export_file(self,id,table_name):
+        """Pobiera szczegóły wskazango pliku z wybranej tabeli """
+        try:
+            self.cursor.execute(f"SELECT id, exported_file_path, file_name,path,file_size, date_created,date_modified,date_accessed,metadata FROM {table_name} where id = {id} ")
+            return self.cursor.fetchall()
+        except sqlite3.Error as e:
+            logger.error(f"Błąd podczas pobierania szczegolow exportowanego pliki o id:{id} z tabeli {table_name}: {e}")
+            print(f"Błąd podczas pobierania szczegolow exportowanego pliki o id:{id} z tabeli {table_name}: {e}")
+            return None
+    def get_deteils_export_file(self,id,table_name):
+        """Pobiera szczegóły wskazango pliku z wybranej tabeli """
+        try:
+            self.cursor.execute(f"SELECT id, exported_file_path, file_name,path,file_size, date_created,date_modified,date_accessed FROM {table_name} where id = {id} ")
+            return self.cursor.fetchall()
+        except sqlite3.Error as e:
+            logger.error(f"Błąd podczas pobierania szczegolow exportowanego pliki o id:{id} z tabeli {table_name}: {e}")
+            print(f"Błąd podczas pobierania szczegolow exportowanego pliki o id:{id} z tabeli {table_name}: {e}")
+            return None
+
+    def generate_filters_query_part(self,save_login_filters):
+        """Generuje część zapytania SQL dla wybranej tabeli exportu plików"""
+        part_query = f""
+        one_filter = True
+        if save_login_filters:
+            for key, value in save_login_filters.items():
+                
+                if (key == "start_date"):
+                    if value != "":
+                        if one_filter:
+                            part_query += f" WHERE date_created > '{value}' "
+                            one_filter = False
+                        else:
+                            part_query = part_query +f" AND date_created > '{value}' "
+                elif (key == "end_date"):
+                    if value != "":  
+                        if one_filter:
+                            part_query += f" WHERE date_created < '{value}' "
+                            one_filter = False
+                        else:
+                            part_query = part_query +f" AND date_created < '{value}'"
+                else: 
+                    if value != "":
+                        if one_filter:
+                            part_query += f" WHERE {key} LIKE '%{value}%'"
+                            one_filter = False
+                        else:
+                            part_query += f" AND {key} LIKE '%{value}%'"
+        else:
+            return part_query
+        
+        return part_query

@@ -114,3 +114,155 @@
 [2025-05-13 06:52:08] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
 [2025-05-13 06:53:29] WARNING: Cannot open "./fonts/..." for reading.
 [2025-05-13 06:53:29] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 06:57:27] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 06:57:27] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 06:59:13] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 06:59:13] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 07:00:00] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 07:00:01] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 07:00:33] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 07:00:33] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 07:11:48] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 07:11:48] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 07:19:44] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 07:19:45] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 07:41:28] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 07:41:29] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 07:43:33] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 07:43:33] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 07:44:20] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 07:44:36] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 07:44:37] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 07:45:15] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 07:45:15] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 07:46:54] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 07:46:54] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 07:48:00] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 07:48:00] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 07:49:13] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 07:49:13] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 07:50:56] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 07:50:56] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 08:01:44] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 08:01:44] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 08:03:42] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 08:03:43] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 08:05:03] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 08:05:03] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 08:06:17] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 08:06:17] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 08:10:13] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 08:10:42] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 08:21:06] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 08:21:06] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 08:22:07] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 08:22:07] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 08:23:14] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 08:23:14] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 08:24:13] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 08:24:13] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 08:32:03] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 08:32:04] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 08:34:03] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 08:34:04] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 08:35:22] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 08:35:22] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 08:39:13] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 08:39:13] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 08:40:37] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 08:40:38] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 08:54:04] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 08:54:04] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 09:02:02] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 09:02:02] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 09:24:09] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 09:24:09] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 09:24:58] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 09:24:58] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 09:25:26] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 09:25:26] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 09:32:07] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 09:32:07] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 09:33:18] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 09:33:18] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 09:35:41] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 09:35:41] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 09:45:25] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 09:45:26] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 09:53:32] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 09:53:32] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 09:54:19] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 09:54:19] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 09:56:09] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 09:56:09] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 10:01:36] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 10:01:36] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 10:04:57] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 10:04:57] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 10:22:42] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 10:22:42] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 10:23:37] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 10:23:38] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 10:32:02] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 10:32:02] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 10:32:54] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 10:32:55] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 10:34:06] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 10:34:06] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 10:34:11] INFO: Using Qt multimedia with FFmpeg version 7.1 LGPL version 2.1 or later
+[2025-05-13 10:34:11] INFO: Available HW decoding frameworks:
+[2025-05-13 10:34:11] INFO:      d3d11va
+[2025-05-13 10:34:11] INFO:      dxva2
+[2025-05-13 10:34:11] INFO:      d3d12va
+[2025-05-13 10:34:11] INFO: Available HW encoding frameworks:
+[2025-05-13 10:34:11] INFO:      d3d11va
+[2025-05-13 10:34:11] INFO:      dxva2
+[2025-05-13 10:34:11] INFO:      d3d12va
+[2025-05-13 10:37:35] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 10:37:35] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 10:37:43] INFO: Using Qt multimedia with FFmpeg version 7.1 LGPL version 2.1 or later
+[2025-05-13 10:37:43] INFO: Available HW decoding frameworks:
+[2025-05-13 10:37:43] INFO:      d3d11va
+[2025-05-13 10:37:43] INFO:      dxva2
+[2025-05-13 10:37:43] INFO:      d3d12va
+[2025-05-13 10:37:43] INFO: Available HW encoding frameworks:
+[2025-05-13 10:37:43] INFO:      d3d11va
+[2025-05-13 10:37:43] INFO:      dxva2
+[2025-05-13 10:37:43] INFO:      d3d12va
+[2025-05-13 10:47:49] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 10:47:50] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 10:58:21] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 10:58:21] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 10:58:50] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 10:58:50] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 11:13:01] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 11:13:02] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 11:16:32] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 11:16:32] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 11:17:40] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 11:17:40] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 11:23:33] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 11:23:33] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 11:24:01] INFO: Using Qt multimedia with FFmpeg version 7.1 LGPL version 2.1 or later
+[2025-05-13 11:24:01] INFO: Available HW decoding frameworks:
+[2025-05-13 11:24:01] INFO:      d3d11va
+[2025-05-13 11:24:01] INFO:      dxva2
+[2025-05-13 11:24:01] INFO:      d3d12va
+[2025-05-13 11:24:01] INFO: Available HW encoding frameworks:
+[2025-05-13 11:24:01] INFO:      d3d11va
+[2025-05-13 11:24:01] INFO:      dxva2
+[2025-05-13 11:24:01] INFO:      d3d12va
+[2025-05-13 11:27:29] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 11:27:29] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 11:28:56] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 11:28:56] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 11:30:12] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 11:30:12] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 11:30:47] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 11:30:47] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 11:31:27] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 11:31:27] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 11:33:34] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 11:33:34] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-13 11:35:20] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-13 11:35:20] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout

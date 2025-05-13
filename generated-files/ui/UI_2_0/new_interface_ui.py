@@ -621,7 +621,7 @@ class Ui_MainWindow(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 520, 410))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 520, 360))
         sizePolicy1.setHeightForWidth(self.scrollAreaWidgetContents_3.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents_3.setSizePolicy(sizePolicy1)
         self.verticalLayout_34 = QVBoxLayout(self.scrollAreaWidgetContents_3)
@@ -1495,7 +1495,7 @@ class Ui_MainWindow(object):
         self.scrollArea_6.setWidgetResizable(True)
         self.scrollAreaWidgetContents_6 = QWidget()
         self.scrollAreaWidgetContents_6.setObjectName(u"scrollAreaWidgetContents_6")
-        self.scrollAreaWidgetContents_6.setGeometry(QRect(0, 0, 356, 69))
+        self.scrollAreaWidgetContents_6.setGeometry(QRect(0, 0, 18, 18))
         self.horizontalLayout_56 = QHBoxLayout(self.scrollAreaWidgetContents_6)
         self.horizontalLayout_56.setObjectName(u"horizontalLayout_56")
         self.widget_48 = QWidget(self.scrollAreaWidgetContents_6)
@@ -1519,7 +1519,7 @@ class Ui_MainWindow(object):
         self.scrollArea_5.setWidgetResizable(True)
         self.scrollAreaWidgetContents_5 = QWidget()
         self.scrollAreaWidgetContents_5.setObjectName(u"scrollAreaWidgetContents_5")
-        self.scrollAreaWidgetContents_5.setGeometry(QRect(0, 0, 356, 69))
+        self.scrollAreaWidgetContents_5.setGeometry(QRect(0, 0, 18, 18))
         self.horizontalLayout_55 = QHBoxLayout(self.scrollAreaWidgetContents_5)
         self.horizontalLayout_55.setObjectName(u"horizontalLayout_55")
         self.widget_45 = QWidget(self.scrollAreaWidgetContents_5)
@@ -2006,7 +2006,7 @@ class Ui_MainWindow(object):
         self.scrollArea_7.setWidgetResizable(True)
         self.scrollAreaWidgetContents_7 = QWidget()
         self.scrollAreaWidgetContents_7.setObjectName(u"scrollAreaWidgetContents_7")
-        self.scrollAreaWidgetContents_7.setGeometry(QRect(0, 0, 369, 253))
+        self.scrollAreaWidgetContents_7.setGeometry(QRect(0, 0, 228, 179))
         self.verticalLayout_53 = QVBoxLayout(self.scrollAreaWidgetContents_7)
         self.verticalLayout_53.setObjectName(u"verticalLayout_53")
         self.label_15 = QLabel(self.scrollAreaWidgetContents_7)
@@ -2443,7 +2443,7 @@ class Ui_MainWindow(object):
         self.scrollArea_4.setWidgetResizable(True)
         self.scrollAreaWidgetContents_4 = QWidget()
         self.scrollAreaWidgetContents_4.setObjectName(u"scrollAreaWidgetContents_4")
-        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 744, 233))
+        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 63, 28))
         self.verticalLayout_43 = QVBoxLayout(self.scrollAreaWidgetContents_4)
         self.verticalLayout_43.setObjectName(u"verticalLayout_43")
         self.timeLineWiget = QWidget(self.scrollAreaWidgetContents_4)
@@ -3387,14 +3387,73 @@ class Ui_MainWindow(object):
         self.page_3.setObjectName(u"page_3")
         self.verticalLayout_70 = QVBoxLayout(self.page_3)
         self.verticalLayout_70.setObjectName(u"verticalLayout_70")
+        self.widget_102 = QWidget(self.page_3)
+        self.widget_102.setObjectName(u"widget_102")
+        self.horizontalLayout_104 = QHBoxLayout(self.widget_102)
+        self.horizontalLayout_104.setSpacing(3)
+        self.horizontalLayout_104.setObjectName(u"horizontalLayout_104")
+        self.horizontalLayout_104.setContentsMargins(0, 0, 0, 0)
+        self.exportFileNameLineEdit = QLineEdit(self.widget_102)
+        self.exportFileNameLineEdit.setObjectName(u"exportFileNameLineEdit")
+
+        self.horizontalLayout_104.addWidget(self.exportFileNameLineEdit)
+
+        self.exportFileSizeLineEdit = QLineEdit(self.widget_102)
+        self.exportFileSizeLineEdit.setObjectName(u"exportFileSizeLineEdit")
+
+        self.horizontalLayout_104.addWidget(self.exportFileSizeLineEdit)
+
+        self.exportFileCalendarBtn = QPushButton(self.widget_102)
+        self.exportFileCalendarBtn.setObjectName(u"exportFileCalendarBtn")
+
+        self.horizontalLayout_104.addWidget(self.exportFileCalendarBtn)
+
+        self.exportFileStartDateLineEdit = QLineEdit(self.widget_102)
+        self.exportFileStartDateLineEdit.setObjectName(u"exportFileStartDateLineEdit")
+
+        self.horizontalLayout_104.addWidget(self.exportFileStartDateLineEdit)
+
+        self.exportFileEndDateLineEdit = QLineEdit(self.widget_102)
+        self.exportFileEndDateLineEdit.setObjectName(u"exportFileEndDateLineEdit")
+
+        self.horizontalLayout_104.addWidget(self.exportFileEndDateLineEdit)
+
+
+        self.verticalLayout_70.addWidget(self.widget_102)
+
+        self.widget_101 = QWidget(self.page_3)
+        self.widget_101.setObjectName(u"widget_101")
+        sizePolicy6.setHeightForWidth(self.widget_101.sizePolicy().hasHeightForWidth())
+        self.widget_101.setSizePolicy(sizePolicy6)
+        self.horizontalLayout_103 = QHBoxLayout(self.widget_101)
+        self.horizontalLayout_103.setSpacing(0)
+        self.horizontalLayout_103.setObjectName(u"horizontalLayout_103")
+        self.horizontalLayout_103.setContentsMargins(0, 0, 0, 0)
+        self.label_60 = QLabel(self.widget_101)
+        self.label_60.setObjectName(u"label_60")
+        sizePolicy6.setHeightForWidth(self.label_60.sizePolicy().hasHeightForWidth())
+        self.label_60.setSizePolicy(sizePolicy6)
+
+        self.horizontalLayout_103.addWidget(self.label_60)
+
+        self.exportFileTypeLabel = QLabel(self.widget_101)
+        self.exportFileTypeLabel.setObjectName(u"exportFileTypeLabel")
+        sizePolicy6.setHeightForWidth(self.exportFileTypeLabel.sizePolicy().hasHeightForWidth())
+        self.exportFileTypeLabel.setSizePolicy(sizePolicy6)
+
+        self.horizontalLayout_103.addWidget(self.exportFileTypeLabel)
+
+
+        self.verticalLayout_70.addWidget(self.widget_101)
+
         self.widget_93 = QWidget(self.page_3)
         self.widget_93.setObjectName(u"widget_93")
         self.horizontalLayout_95 = QHBoxLayout(self.widget_93)
         self.horizontalLayout_95.setObjectName(u"horizontalLayout_95")
-        self.ExportFileTableWidget = QTableWidget(self.widget_93)
-        self.ExportFileTableWidget.setObjectName(u"ExportFileTableWidget")
+        self.exportFileTableWidget = QTableWidget(self.widget_93)
+        self.exportFileTableWidget.setObjectName(u"exportFileTableWidget")
 
-        self.horizontalLayout_95.addWidget(self.ExportFileTableWidget)
+        self.horizontalLayout_95.addWidget(self.exportFileTableWidget)
 
         self.widget_92 = QWidget(self.widget_93)
         self.widget_92.setObjectName(u"widget_92")
@@ -3409,7 +3468,7 @@ class Ui_MainWindow(object):
         self.scrollArea_14.setWidgetResizable(True)
         self.scrollAreaWidgetContents_15 = QWidget()
         self.scrollAreaWidgetContents_15.setObjectName(u"scrollAreaWidgetContents_15")
-        self.scrollAreaWidgetContents_15.setGeometry(QRect(0, 0, 341, 256))
+        self.scrollAreaWidgetContents_15.setGeometry(QRect(0, 0, 341, 229))
         self.verticalLayout_72 = QVBoxLayout(self.scrollAreaWidgetContents_15)
         self.verticalLayout_72.setObjectName(u"verticalLayout_72")
         self.label_58 = QLabel(self.scrollAreaWidgetContents_15)
@@ -3435,10 +3494,10 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_96.addWidget(self.label_59)
 
-        self.FieleExportNameLabel = QLabel(self.widget_94)
-        self.FieleExportNameLabel.setObjectName(u"FieleExportNameLabel")
+        self.fieleExportNameLabel = QLabel(self.widget_94)
+        self.fieleExportNameLabel.setObjectName(u"fieleExportNameLabel")
 
-        self.horizontalLayout_96.addWidget(self.FieleExportNameLabel)
+        self.horizontalLayout_96.addWidget(self.fieleExportNameLabel)
 
 
         self.verticalLayout_72.addWidget(self.widget_94)
@@ -3457,10 +3516,10 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_97.addWidget(self.label_64)
 
-        self.FileExportPathLabel = QLabel(self.widget_98)
-        self.FileExportPathLabel.setObjectName(u"FileExportPathLabel")
+        self.fileExportPathLabel = QLabel(self.widget_98)
+        self.fileExportPathLabel.setObjectName(u"fileExportPathLabel")
 
-        self.horizontalLayout_97.addWidget(self.FileExportPathLabel)
+        self.horizontalLayout_97.addWidget(self.fileExportPathLabel)
 
 
         self.verticalLayout_72.addWidget(self.widget_98)
@@ -3479,10 +3538,10 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_98.addWidget(self.label_69)
 
-        self.FileExportSizeLabel = QLabel(self.widget_97)
-        self.FileExportSizeLabel.setObjectName(u"FileExportSizeLabel")
+        self.fileExportSizeLabel = QLabel(self.widget_97)
+        self.fileExportSizeLabel.setObjectName(u"fileExportSizeLabel")
 
-        self.horizontalLayout_98.addWidget(self.FileExportSizeLabel)
+        self.horizontalLayout_98.addWidget(self.fileExportSizeLabel)
 
 
         self.verticalLayout_72.addWidget(self.widget_97)
@@ -3501,10 +3560,10 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_99.addWidget(self.label_71)
 
-        self.FileExportCreateDateLabel = QLabel(self.widget_95)
-        self.FileExportCreateDateLabel.setObjectName(u"FileExportCreateDateLabel")
+        self.fileExportCreateDateLabel = QLabel(self.widget_95)
+        self.fileExportCreateDateLabel.setObjectName(u"fileExportCreateDateLabel")
 
-        self.horizontalLayout_99.addWidget(self.FileExportCreateDateLabel)
+        self.horizontalLayout_99.addWidget(self.fileExportCreateDateLabel)
 
 
         self.verticalLayout_72.addWidget(self.widget_95)
@@ -3523,10 +3582,10 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_100.addWidget(self.label_73)
 
-        self.FileExportDateModyficatinLabel = QLabel(self.widget_96)
-        self.FileExportDateModyficatinLabel.setObjectName(u"FileExportDateModyficatinLabel")
+        self.fileExportDateModyficatinLabel = QLabel(self.widget_96)
+        self.fileExportDateModyficatinLabel.setObjectName(u"fileExportDateModyficatinLabel")
 
-        self.horizontalLayout_100.addWidget(self.FileExportDateModyficatinLabel)
+        self.horizontalLayout_100.addWidget(self.fileExportDateModyficatinLabel)
 
 
         self.verticalLayout_72.addWidget(self.widget_96)
@@ -3545,10 +3604,10 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_101.addWidget(self.label_75)
 
-        self.FileExportDateAccessLabel = QLabel(self.widget_99)
-        self.FileExportDateAccessLabel.setObjectName(u"FileExportDateAccessLabel")
+        self.fileExportDateAccessLabel = QLabel(self.widget_99)
+        self.fileExportDateAccessLabel.setObjectName(u"fileExportDateAccessLabel")
 
-        self.horizontalLayout_101.addWidget(self.FileExportDateAccessLabel)
+        self.horizontalLayout_101.addWidget(self.fileExportDateAccessLabel)
 
 
         self.verticalLayout_72.addWidget(self.widget_99)
@@ -3567,10 +3626,10 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_102.addWidget(self.label_77)
 
-        self.FileExportMetadataLabel = QLabel(self.widget_100)
-        self.FileExportMetadataLabel.setObjectName(u"FileExportMetadataLabel")
+        self.fileExportMetadataLabel = QLabel(self.widget_100)
+        self.fileExportMetadataLabel.setObjectName(u"fileExportMetadataLabel")
 
-        self.horizontalLayout_102.addWidget(self.FileExportMetadataLabel)
+        self.horizontalLayout_102.addWidget(self.fileExportMetadataLabel)
 
 
         self.verticalLayout_72.addWidget(self.widget_100)
@@ -3579,12 +3638,12 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_71.addWidget(self.scrollArea_14)
 
-        self.FileExportWidget = QWidget(self.widget_92)
-        self.FileExportWidget.setObjectName(u"FileExportWidget")
-        sizePolicy4.setHeightForWidth(self.FileExportWidget.sizePolicy().hasHeightForWidth())
-        self.FileExportWidget.setSizePolicy(sizePolicy4)
+        self.fileExportWidget = QWidget(self.widget_92)
+        self.fileExportWidget.setObjectName(u"fileExportWidget")
+        sizePolicy4.setHeightForWidth(self.fileExportWidget.sizePolicy().hasHeightForWidth())
+        self.fileExportWidget.setSizePolicy(sizePolicy4)
 
-        self.verticalLayout_71.addWidget(self.FileExportWidget)
+        self.verticalLayout_71.addWidget(self.fileExportWidget)
 
         self.verticalLayout_71.setStretch(0, 1)
         self.verticalLayout_71.setStretch(1, 1)
@@ -3822,7 +3881,7 @@ class Ui_MainWindow(object):
 
         self.menuBtn.setDefault(False)
         self.centerMenuPages.setCurrentIndex(4)
-        self.customQStackedWidget.setCurrentIndex(8)
+        self.customQStackedWidget.setCurrentIndex(12)
         self.startDataBtn.setDefault(False)
         self.left_btn.setDefault(True)
         self.rigth_btn.setDefault(True)
@@ -4103,21 +4162,28 @@ class Ui_MainWindow(object):
         self.autofillLastUseDateLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.label_67.setText(QCoreApplication.translate("MainWindow", u"IIlo\u015b\u0107 urzycia:", None))
         self.autofillCountUseLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.exportFileNameLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Nazwa:", None))
+        self.exportFileSizeLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Plik wiekszy od:", None))
+        self.exportFileCalendarBtn.setText("")
+        self.exportFileStartDateLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Data od ", None))
+        self.exportFileEndDateLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Data do", None))
+        self.label_60.setText(QCoreApplication.translate("MainWindow", u"Pliki ", None))
+        self.exportFileTypeLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.label_58.setText(QCoreApplication.translate("MainWindow", u"SZCZEG\u00d3\u0141Y", None))
         self.label_59.setText(QCoreApplication.translate("MainWindow", u"Nazwa:", None))
-        self.FieleExportNameLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.fieleExportNameLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.label_64.setText(QCoreApplication.translate("MainWindow", u"\u015acie\u017cka:", None))
-        self.FileExportPathLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.fileExportPathLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.label_69.setText(QCoreApplication.translate("MainWindow", u"Rozmiar:", None))
-        self.FileExportSizeLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.fileExportSizeLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.label_71.setText(QCoreApplication.translate("MainWindow", u"Data utworzenia", None))
-        self.FileExportCreateDateLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.fileExportCreateDateLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.label_73.setText(QCoreApplication.translate("MainWindow", u"Data modyfikacji:", None))
-        self.FileExportDateModyficatinLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.fileExportDateModyficatinLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.label_75.setText(QCoreApplication.translate("MainWindow", u"Data dost\u0119pu:", None))
-        self.FileExportDateAccessLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.fileExportDateAccessLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.label_77.setText(QCoreApplication.translate("MainWindow", u"Metadane:", None))
-        self.FileExportMetadataLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.fileExportMetadataLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.label_13.setText(QCoreApplication.translate("MainWindow", u"Right Menu", None))
         self.closeRightMenuBtn.setText("")
         self.label_34.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))

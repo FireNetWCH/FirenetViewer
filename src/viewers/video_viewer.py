@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QPushButton,QWidget,QVBoxLayout
 from PySide6.QtMultimedia import QMediaPlayer,QAudioOutput
-from PySide6.QtCore import QUrl
+from PySide6.QtCore import QUrl,QFileInfo
 from PySide6.QtMultimediaWidgets import QVideoWidget
 from src.viewers.explorer_function import view_cleaer, MetaDataTableWiget
 
@@ -29,9 +29,10 @@ class VideoViewer(QVideoWidget):
         self.audio_output.setMuted(not self.audio_output.isMuted())
             
 
-def display_vidoe_content(context,vieo_path):
+def display_vidoe_content(vieo_path):
     video_viewer = VideoViewer()
-    video_viewer.player.setSource(QUrl(vieo_path))
+    url = QUrl.fromLocalFile(QFileInfo(vieo_path).absoluteFilePath())
+    video_viewer.player.setSource(url)
     video_viewer.show()
     #video_viewer.player.play()
 
@@ -42,13 +43,6 @@ def display_vidoe_content(context,vieo_path):
     restart_btn.clicked.connect(video_viewer.restart_video)
     mute_btn.clicked.connect(video_viewer.mute_vide)
 
-    meta_data_system_file = MetaDataTableWiget(vieo_path)
-
-    layout = context.ui.reportsPage.layout()
-    view_cleaer(layout,context)
-    layoutRP = context.ui.rightMenu.layout()
-    layoutRP.addWidget(meta_data_system_file)
-    q_tab = context.ui.reportsPage.findChild(QWidget,"function_bar").findChild(QWidget,"tabWidget")
     tab_content = QWidget()
     tab_layout = QVBoxLayout(tab_content)
 
@@ -57,7 +51,5 @@ def display_vidoe_content(context,vieo_path):
     tab_layout.addWidget(restart_btn)
     tab_layout.addWidget(mute_btn)
     tab_layout.addWidget(video_viewer)
-
-    q_tab.addTab(tab_content,"Multimedia")
-    q_tab.setCurrentWidget(tab_content)
     video_viewer.show()
+    return tab_content

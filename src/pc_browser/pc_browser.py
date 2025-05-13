@@ -336,11 +336,11 @@ class pc_browser:
             elif item_name == "Zapisane dane autouzupełniania":
                 self.parent.ui.customQStackedWidget.setCurrentIndex(11)
                 self.load_autofill()
-            # elif item_name in self.parent.file_export_browser.table_dict:
-            #     self.parent.file_export_browser.focus_file_type = item_name
-            #     if self.parent.ui.customQStackedWidget.currentIndex() != 12:
-            #         self.parent.ui.customQStackedWidget.setCurrentIndex(12)
-            #     self.parent.file_export_browser.load_exported_file()
+            elif item_name in self.parent.file_export_browser.table_dict:
+                self.parent.file_export_browser.focus_file_type = item_name
+                if self.parent.ui.customQStackedWidget.currentIndex() != 12:
+                    self.parent.ui.customQStackedWidget.setCurrentIndex(12)
+                self.parent.file_export_browser.load_exported_file()
     def set_item_combo_box(self, list_values,combo_box):
         combo_box.clear()
         combo_box.addItem("Wszystkie",0)
