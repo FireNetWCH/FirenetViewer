@@ -1,17 +1,42 @@
 import src.db_function.pc_db as pc_db
 from PySide6.QtWidgets import QTableWidgetItem,QTableWidget, QHeaderView
-from PySide6.QtCore import Qt,QTimer
-import tldextract
+from PySide6.QtCore import Qt,QTimer,QUrl
+
 from urllib.parse import urlparse
 from datetime import datetime
 from PySide6.QtGui import QStandardItemModel, QStandardItem
 from src.db_function.pc_db import database_pc_manager
+from src.pc_browser.key_press_filter import KeyPressFilterTableBrowsers
+import os
+import pandas as pd
+import logging
+from typing import  Dict
+from PySide6.QtCore import QDate
+from src.firenet_viewer_widget.calendar_dialog_widget import DateRangeDialog
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 class pc_browser:
-    def __init__(self,name,prent ,db_menager : database_pc_manager):
+    def __init__(self,name,parent ,db_menager : database_pc_manager):
         self.db_menager = db_menager
         self.pc_name = name
-        self.parent = prent
-        
+        self.parent = parent
+        self.history_download_gui_init_done = False
+        self.login_gui_init_done = False
+        self.autofill_gui_init_done = False
+        self.history_gui_init_done = False
+        self.sercher_history_gui_done = False 
+
+        self.history_browser_filters: Dict[str, str] = {"url": "","title": "", "visit_count": "0","start_date": "", "end_date": ""}
+        self.history_browser_marge_filters: Dict[str, str] = {"name": "", "profile_name": "","u.id": ""}
+
+        self.history_download_browser_filters: Dict[str, str] = {"url": "","download_path": "", "file_size": "0","start_time": "", "end_time": ""}
+
+        self.save_login_filters: Dict[str, str] = {"url": "","username": "","start_date":"", "end_date": ""}
+
+        self.sercher_list_filters: Dict[str, str] = {"term": "","url": "","start_date":"", "end_date": ""}
+
+        self.autofill_filters: Dict[str, str] = {"fieldname" : "" , "value": "", "start_date":"", "end_date": ""}
+
     def load_device_info(self):
         self.parent.ui.deviceInfoTableWidget.setRowCount(0)
         self.parent.ui.deviceInfoTableWidget.setColumnCount(0)
@@ -92,8 +117,12 @@ class pc_browser:
                     self.parent.ui.installedSoftwareTableWidget.setItem(row_position, i, item)
     
     def load_borowser_download_history(self):
-        rows = self.db_menager.get_download_history_browser_from_all_browser(self.db_menager.get_browser_table_type_list("_downloads"),self.parent.history_download_browser_filters,self.parent.history_browser_marge_filters,100000000,0)
+        if not self.history_download_gui_init_done:
+            self.history_download_gui_init()
+            self.history_download_gui_init_done = True
 
+        rows = self.db_menager.get_download_history_browser_from_all_browser(self.db_menager.get_browser_table_type_list("_downloads"),self.history_download_browser_filters,self.history_browser_marge_filters,100,0)
+        self.parent.ui.networkBrowserTable.clearContents()
         self.parent.ui.networkBrowserTable.setRowCount(0)
         self.parent.ui.networkBrowserTable.setColumnCount(0)
         self.parent.ui.networkBrowserTable.setColumnCount(7)
@@ -106,10 +135,8 @@ class pc_browser:
                     
                     if i == 1:
                         if value is not None:
-                            sufix = tldextract.extract(value).suffix
-                            #subdomain = tldextract.extract(value).subdomain
-                            domein = tldextract.extract(value).domain
-                            item = QTableWidgetItem(str(f"{domein}.{sufix}"))
+                            item = QTableWidgetItem(str(value[:30]))
+                           
                             self.parent.ui.networkBrowserTable.setItem(row_position, i, item)
                     elif i ==2 :
                         if value is not None:
@@ -119,10 +146,8 @@ class pc_browser:
                     else:
                         item = QTableWidgetItem(str(value))
                         self.parent.ui.networkBrowserTable.setItem(row_position, i, item)
-        self.parent.ui.networkBrowserTable.horizontalHeader().setSectionResizeMode(0,QHeaderView.Interactive)                   
-        self.parent.ui.networkBrowserTable.horizontalHeader().setSectionResizeMode(1,QHeaderView.Interactive)
-        self.parent.ui.networkBrowserTable.horizontalHeader().setSectionResizeMode(2,QHeaderView.Stretch)
-        self.parent.ui.networkBrowserTable.cellClicked.connect(self.load_download_deteils)
+               
+        self.parent.ui.networkBrowserTable.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.parent.ui.networkBrowserTable.verticalHeader().setVisible(False)
 
     def load_download_deteils(self, row, column):
@@ -164,31 +189,35 @@ class pc_browser:
             #self.parent.ui.downloadDetailsTableWidget.setItem(row_position, i, item)
 
     def load_history_browser(self):
+        if not self.history_gui_init_done:
+            self.history_gui_init()
+            self.history_gui_init_done = True
 
         self.parent.ui.historyBrowserTablet.setRowCount(0)
         self.parent.ui.historyBrowserTablet.setColumnCount(0)
         self.parent.ui.historyBrowserTablet.setColumnCount(9)
         self.parent.ui.historyBrowserTablet.setHorizontalHeaderLabels(["Id","Domena","Tytuł","Liczba Wizyt","Data Wizyty","Profil","Urzytkownik","Przeglądarka"])
         #print(self.db_menager.get_history_browser_list())
-        rows = self.db_menager.get_history_browser_from_all_browser(self.db_menager.get_browser_table_type_list("_history"),self.parent.history_browser_filters,self.parent.history_browser_marge_filters,100000000,0)
+        df = self.db_menager.get_history_browser_from_all_browser(self.db_menager.get_browser_table_type_list("_history"),self.history_browser_filters,self.history_browser_marge_filters,100,0)
 
-        for row in rows:
-            #print(row)
+        for _, row in df.iterrows():
             row_position = self.parent.ui.historyBrowserTablet.rowCount()
             self.parent.ui.historyBrowserTablet.insertRow(row_position)
+
             for i, value in enumerate(row):
                 item = QTableWidgetItem(str(value))
                 self.parent.ui.historyBrowserTablet.setItem(row_position, i, item)
+
+                # Przetwarzanie kolumny URL (jeśli to kolumna indeksu 1)
                 if i == 1:
                     parsed = urlparse(value)
                     if parsed.scheme in ('http', 'https', 'ftp'):
                         stripped_value = value.removeprefix(f"{parsed.scheme}://")
                         item = QTableWidgetItem(str(stripped_value))
-                        self.parent.ui.historyBrowserTablet.setItem(row_position, i, item)
                     else:
                         item = QTableWidgetItem(str(value))
-                        self.parent.ui.historyBrowserTablet.setItem(row_position, i, item)
-        self.parent.ui.historyBrowserTablet.cellClicked.connect(self.load_history_deteils)
+                    self.parent.ui.historyBrowserTablet.setItem(row_position, i, item)
+        
         self.parent.ui.historyBrowserTablet.verticalHeader().setVisible(False)                
         for i in range(self.parent.ui.historyBrowserTablet.columnCount()):
             if i != 1:
@@ -199,7 +228,13 @@ class pc_browser:
             self.parent.ui.historyBrowserTablet.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
         QTimer.singleShot(0, enable_column_resize)
 
-        
+    def connerc_signal_to_table(self):
+        self.parent.ui.historyBrowserTablet.cellClicked.connect(self.load_history_deteils)
+        self.parent.ui.saveLoginTableWidget.cellClicked.connect(self.load_logins_deteils)
+        self.parent.ui.sercherTableWidget.cellClicked.connect(self.load_sercher_deteils)
+        self.parent.ui.networkBrowserTable.cellClicked.connect(self.load_download_deteils)
+        self.parent.ui.autofillTableWidget.cellClicked.connect(self.load_autofill_deteils)
+
 
     def load_history_deteils(self, row, column):
         id = self.parent.ui.historyBrowserTablet.item(row, 0).text()
@@ -214,7 +249,7 @@ class pc_browser:
                 self.parent.ui.profileNameLabel.setText("Brak nazwy profilu")
             if rows[0][1] is not None:
                 self.parent.ui.historyUrlLabel.setText(str(rows[0][1]))
-                self.parent.ui.historyWebEngineView.load(str(rows[0][1]))
+                #self.parent.ui.historyWebEngineView.load(QUrl(str(rows[0][1])))
             else:
                 self.parent.ui.historyUrlLabel.setText("Brak URL")
             if rows[0][2] is not None:
@@ -234,7 +269,8 @@ class pc_browser:
             else:
                 self.parent.ui.countVisit.setText("Brak liczby wizyt")
 
-    def generate_pc_tree(self):
+    def generate_pc_tree(self,file_branch):
+        print("generate")
         model = QStandardItemModel()
         model.setHorizontalHeaderLabels(["Zawartość systemu"])
 
@@ -244,6 +280,7 @@ class pc_browser:
         sercher_list = self.db_menager.get_browser_table_type_list("_searchhistory")
         autofill_list = self.db_menager.get_browser_table_type_list("_autofill")
         browser_branch = []
+        print(file_branch)
 
         if hisotry_browser_liset:
             browser_branch.append("Historia przegladarek")
@@ -258,7 +295,7 @@ class pc_browser:
         data = {
             "Informacje o urządzeniu": ["Wiinformacje o Systemie", "Połączenia Sieciowe", "GPU"],
             "Przeglądarki": browser_branch,
-            "Pliki wyeksportowane": ["Pliki graficzne", "Pliki Wide", "json"]
+            "Pliki wyodrębnione względem kategori:": file_branch
         }
 
         for global_name, sub_items in data.items():
@@ -276,18 +313,20 @@ class pc_browser:
     def on_tree_item_clicked(self, index):
         print("Clicked item index:", index)
         item = self.parent.ui.pcTree.model().itemFromIndex(index)
+        # self.parent.ui.sercherWebEngineView.setHtml("")
+        # self.parent.ui.historyWebEngineView.setHtml("")
         if item is not None:
             item_name = item.text()
-            print("Clicked item name:", item_name)
+            #print("Clicked item name:", item_name)
             if item_name == "Historia przegladarek":
                 self.parent.ui.customQStackedWidget.setCurrentIndex(8)
-                self.db_menager.get_history_browser_from_all_browser(self.db_menager.get_browser_table_type_list("_history"),self.parent.history_browser_filters,self.parent.history_browser_marge_filters,100000000,0)
-            elif item_name == "Wiinformacje o Systemie":
+                self.db_menager.get_history_browser_from_all_browser(self.db_menager.get_browser_table_type_list("_history"),self.history_browser_filters,self.history_browser_marge_filters,100,0)
+            elif item_name == "Winformacje o Systemie":
                 self.parent.ui.customQStackedWidget.setCurrentIndex(4)
                 self.load_device_info()
             elif item_name == "Historia pobierania":
                 self.parent.ui.customQStackedWidget.setCurrentIndex(5)
-                self.db_menager.get_download_history_browser_from_all_browser(self.db_menager.get_browser_table_type_list("_downloads"),self.parent.history_download_browser_filters,self.parent.history_browser_marge_filters,100000000,0)
+                self.db_menager.get_download_history_browser_from_all_browser(self.db_menager.get_browser_table_type_list("_downloads"),self.history_download_browser_filters,self.history_browser_marge_filters,100,0)
             elif item_name == "Zapisane loginy w przeglądarkach":
                 self.parent.ui.customQStackedWidget.setCurrentIndex(9)
                 self.load_save_login()
@@ -297,7 +336,11 @@ class pc_browser:
             elif item_name == "Zapisane dane autouzupełniania":
                 self.parent.ui.customQStackedWidget.setCurrentIndex(11)
                 self.load_autofill()
-    
+            # elif item_name in self.parent.file_export_browser.table_dict:
+            #     self.parent.file_export_browser.focus_file_type = item_name
+            #     if self.parent.ui.customQStackedWidget.currentIndex() != 12:
+            #         self.parent.ui.customQStackedWidget.setCurrentIndex(12)
+            #     self.parent.file_export_browser.load_exported_file()
     def set_item_combo_box(self, list_values,combo_box):
         combo_box.clear()
         combo_box.addItem("Wszystkie",0)
@@ -332,7 +375,11 @@ class pc_browser:
         self.set_item_combo_box(user_combo_box_list,user_box)
 
     def load_save_login(self):
-        rows = self.db_menager.get_all_save_logins(self.db_menager.get_browser_table_type_list("_logins"),self.parent.save_login_filters,self.parent.history_browser_marge_filters,100000000,0)
+        if not self.login_gui_init_done:
+            self.login_gui_init()
+            self.login_gui_init_done = True
+
+        rows = self.db_menager.get_all_save_logins(self.db_menager.get_browser_table_type_list("_logins"),self.save_login_filters,self.history_browser_marge_filters,100,0)
 
         self.parent.ui.saveLoginTableWidget.setRowCount(0)
         self.parent.ui.saveLoginTableWidget.setColumnCount(0)
@@ -346,15 +393,12 @@ class pc_browser:
                     
                     if i == 1:
                         if value is not None:
-                            sufix = tldextract.extract(value).suffix
-                            #subdomain = tldextract.extract(value).subdomain
-                            domein = tldextract.extract(value).domain
-                            item = QTableWidgetItem(str(f"{domein}.{sufix}"))
+                            item = QTableWidgetItem(str(value[:50]))
+                            #item = QTableWidgetItem(str("Test"))
                             self.parent.ui.saveLoginTableWidget.setItem(row_position, i, item)
                     else:
                         item = QTableWidgetItem(str(value))
                         self.parent.ui.saveLoginTableWidget.setItem(row_position, i, item)
-        self.parent.ui.saveLoginTableWidget.cellClicked.connect(self.load_logins_deteils)
         self.parent.ui.saveLoginTableWidget.verticalHeader().setVisible(False)
         self.parent.ui.saveLoginTableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
         for i in range(self.parent.ui.saveLoginTableWidget.columnCount()):
@@ -362,6 +406,7 @@ class pc_browser:
                 self.parent.ui.saveLoginTableWidget.resizeColumnToContents(i)
         self.parent.ui.saveLoginTableWidget.horizontalHeader().setSectionResizeMode(1,QHeaderView.Stretch)
         self.parent.ui.saveLoginTableWidget.horizontalHeader().setSectionResizeMode(2,QHeaderView.Stretch)
+
     def load_logins_deteils(self, row, column):
         id = self.parent.ui.saveLoginTableWidget.item(row, 0).text()
         browser_name = self.parent.ui.saveLoginTableWidget.item(row,6).text()
@@ -384,7 +429,10 @@ class pc_browser:
                 self.parent.ui.lastDateUseLabel.setText("Brak ostatniej dayty wizyty")
 
     def load_sercher(self):
-        rows = self.db_menager.get_all_seracher(self.db_menager.get_browser_table_type_list("_searchhistory"),self.parent.sercher_list_filters,self.parent.history_browser_marge_filters,100000000,0)
+        if not self.sercher_history_gui_done:
+            self.sercher_history_gui_init()
+            self.sercher_history_gui_done = True
+        rows = self.db_menager.get_all_seracher(self.db_menager.get_browser_table_type_list("_searchhistory"),self.sercher_list_filters,self.history_browser_marge_filters,100,0)
 
         self.parent.ui.sercherTableWidget.setRowCount(0)
         self.parent.ui.sercherTableWidget.setColumnCount(0)
@@ -398,15 +446,13 @@ class pc_browser:
                     
                     if i == 2:
                         if value is not None:
-                            sufix = tldextract.extract(value).suffix
-                            #subdomain = tldextract.extract(value).subdomain
-                            domein = tldextract.extract(value).domain
-                            item = QTableWidgetItem(str(f"{domein}.{sufix}"))
+                            
+                            item = QTableWidgetItem(str(value[:50]))
+                            # item = QTableWidgetItem(str("Test"))
                             self.parent.ui.sercherTableWidget.setItem(row_position, i, item)
                     else:
                         item = QTableWidgetItem(str(value))
                         self.parent.ui.sercherTableWidget.setItem(row_position, i, item)
-        self.parent.ui.sercherTableWidget.cellClicked.connect(self.load_sercher_deteils)
         self.parent.ui.sercherTableWidget.verticalHeader().setVisible(False)
         for i in range(self.parent.ui.sercherTableWidget.columnCount()):
             if i != 1 and i != 2:
@@ -428,7 +474,7 @@ class pc_browser:
             print(rows)
             if rows[0][1] is not None:
                 self.parent.ui.sercherUrlLabel.setText(str(rows[0][1]))
-                self.parent.ui.sercherWebEngineView.load(str(rows[0][1]))
+               # self.parent.ui.sercherWebEngineView.load(QUrl(str(rows[0][1])))
             else:
                 self.parent.ui.sercherUrlLabel.setText("Brak adresu URL")
             if rows[0][2] is not None:
@@ -441,7 +487,10 @@ class pc_browser:
                 self.parent.ui.sercherDateLabel.setText("Brak ostatniej dayty wizyty")
 
     def load_autofill(self):
-        rows = self.db_menager.get_all_autofill(self.db_menager.get_browser_table_type_list("_autofill"),self.parent.autofill_filters,self.parent.history_browser_marge_filters,100000000,0)
+        if not self.autofill_gui_init_done:
+            self.autofill_gui_init()
+            self.autofill_gui_init_done = True
+        rows = self.db_menager.get_all_autofill(self.db_menager.get_browser_table_type_list("_autofill"),self.autofill_filters,self.history_browser_marge_filters,100,0)
 
         self.parent.ui.autofillTableWidget.setRowCount(0)
         self.parent.ui.autofillTableWidget.setColumnCount(0)
@@ -454,7 +503,6 @@ class pc_browser:
                 for i, value in enumerate(row):
                         item = QTableWidgetItem(str(value))
                         self.parent.ui.autofillTableWidget.setItem(row_position, i, item)
-        self.parent.ui.autofillTableWidget.cellClicked.connect(self.load_autofill_deteils)
         self.parent.ui.autofillTableWidget.verticalHeader().setVisible(False)
 
         for i in range(self.parent.ui.autofillTableWidget.columnCount()):
@@ -496,3 +544,152 @@ class pc_browser:
                 self.parent.ui.autofillLastUseDateLabel.setText(str(rows[0][5]))
             else:
                 self.parent.ui.autofillLastUseDateLabel.setText("Brak daty ostaniego urzycia")
+
+    def history_gui_init(self):
+        self.parent.ui.domenaLineEdit.editingFinished.connect(lambda : self.update_filter(self.history_browser_filters,"url",self.load_history_browser,self.parent.ui.domenaLineEdit))
+        self.parent.ui.titleLineEdit.editingFinished.connect(lambda : self.update_filter(self.history_browser_filters,"title",self.load_history_browser,self.parent.ui.titleLineEdit))
+        self.parent.ui.visitCountLineEdit.editingFinished.connect(self.update_visit_count_filter)
+        self.parent.ui.browserComboBox.currentTextChanged.connect(lambda : self.update_browser_name_filter(self.parent.ui.browserComboBox,self.load_history_browser))
+        self.parent.ui.profileComboBox.currentTextChanged.connect(lambda : self.update_profile_name_filter(self.parent.ui.profileComboBox,self.load_history_browser))
+        self.parent.ui.userComboBox.currentTextChanged.connect(lambda : self.update_user_name_id_filter(self.parent.ui.userComboBox,self.load_history_browser))
+        self.parent.ui.calendarBtn.clicked.connect(lambda : self.serch_by_date_start(self.parent.ui.startDateLineEdit,self.parent.ui.endDatelineEdit,self.history_browser_filters,"start_date","end_date"))
+        self.parent.ui.startDateLineEdit.textChanged.connect(lambda : self.update_data_filter(self.history_browser_filters,"start_date","end_date",self.load_history_browser,self.parent.ui.startDateLineEdit,self.parent.ui.endDatelineEdit))
+        self.parent.ui.endDatelineEdit.textChanged.connect(lambda : self.update_data_filter(self.history_browser_filters,"start_date","end_date",self.load_history_browser,self.parent.ui.startDateLineEdit,self.parent.ui.endDatelineEdit))
+        
+        self.key_filter_browser_history = KeyPressFilterTableBrowsers(self.parent.ui.historyBrowserTablet, self.load_history_deteils,self.load_history_deteils)
+        self.parent.ui.historyBrowserTablet.installEventFilter(self.key_filter_browser_history)
+
+    def login_gui_init(self):
+        self.parent.ui.saveLoginDomenLineEdit.editingFinished.connect(lambda : self.update_filter(self.save_login_filters,"url",self.load_save_login,self.parent.ui.saveLoginDomenLineEdit))
+        self.parent.ui.loginLineEdit.editingFinished.connect(lambda : self.update_filter(self.save_login_filters,"username",self.load_save_login,self.parent.ui.loginLineEdit))
+        self.parent.ui.saveLoginCalendarBtn.clicked.connect(lambda : self.serch_by_date_start(self.parent.ui.startDataSaveLoginLineEdit,self.parent.ui.endDataSaveLoginLineEdit,self.save_login_filters,"start_date","end_date"))
+        self.parent.ui.startDataSaveLoginLineEdit.textChanged.connect(lambda : self.update_data_filter(self.save_login_filters,"start_date","end_date",self.load_save_login,self.parent.ui.startDataSaveLoginLineEdit,self.parent.ui.endDataSaveLoginLineEdit))
+        self.parent.ui.endDataSaveLoginLineEdit.textChanged.connect(lambda : self.update_data_filter(self.save_login_filters,"start_date","end_date",self.load_save_login,self.parent.ui.startDataSaveLoginLineEdit,self.parent.ui.endDataSaveLoginLineEdit))
+        self.generate_sercher_history_browser_combo_box(self.parent.ui.saveLoginProfilComboBox,self.parent.ui.saveLoginBrowserComboBox,self.parent.ui.saveLoginUserComboBox)
+        self.parent.ui.saveLoginBrowserComboBox.currentTextChanged.connect(lambda : self.update_browser_name_filter(self.parent.ui.saveLoginBrowserComboBox,self.load_save_login))
+        self.parent.ui.saveLoginProfilComboBox.currentTextChanged.connect(lambda : self.update_profile_name_filter(self.parent.ui.saveLoginProfilComboBox,self.load_save_login))
+        self.parent.ui.saveLoginUserComboBox.currentTextChanged.connect(lambda : self.update_user_name_id_filter(self.parent.ui.saveLoginUserComboBox,self.load_save_login))
+
+        self.key_filter_browser_save_login = KeyPressFilterTableBrowsers(self.parent.ui.saveLoginTableWidget, self.load_logins_deteils,self.load_logins_deteils)
+        self.parent.ui.saveLoginTableWidget.installEventFilter(self.key_filter_browser_save_login)
+
+
+    def autofill_gui_init(self):
+        self.parent.ui.autofillFieldnameLineEdit.editingFinished.connect(lambda : self.update_filter(self.autofill_filters,"fieldname",self.load_autofill,self.parent.ui.autofillFieldnameLineEdit))    
+        self.parent.ui.autofillValueLineEdit.editingFinished.connect(lambda : self.update_filter(self.autofill_filters,"value",self.load_autofill,self.parent.ui.autofillValueLineEdit))
+        self.parent.ui.autofillCalendarBtn.clicked.connect(lambda : self.serch_by_date_start(self.parent.ui.autofillStartDateLineEdit,self.parent.ui.autofillEndDateLineEdit,self.autofill_filters,"start_date","end_date"))
+        self.parent.ui.autofillStartDateLineEdit.textChanged.connect(lambda : self.update_data_filter(self.parent.autofill_filters,"start_date","end_date",self.load_autofill,self.parent.ui.autofillStartDateLineEdit,self.parent.ui.autofillEndDateLineEdit))
+        self.parent.ui.autofillEndDateLineEdit.textChanged.connect(lambda : self.update_data_filter(self.parent.autofill_filters,"start_date","end_date",self.load_autofill,self.parent.ui.autofillStartDateLineEdit,self.parent.ui.autofillEndDateLineEdit))
+        self.generate_sercher_history_browser_combo_box(self.parent.ui.autofillProfileComboBox,self.parent.ui.autofillBrowserComboBox,self.parent.ui.autofillUserComboBox)
+        self.parent.ui.autofillBrowserComboBox.currentTextChanged.connect(lambda : self.update_browser_name_filter(self.parent.ui.autofillBrowserComboBox,self.load_autofill))
+        self.parent.ui.autofillProfileComboBox.currentTextChanged.connect(lambda : self.update_profile_name_filter(self.parent.ui.autofillProfileComboBox,self.load_autofill))
+        self.parent.ui.autofillUserComboBox.currentTextChanged.connect(lambda : self.update_user_name_id_filter(self.parent.ui.autofillUserComboBox,self.load_autofill))
+
+        self.key_filter_browser_autofill = KeyPressFilterTableBrowsers(self.parent.ui.autofillTableWidget, self.load_autofill_deteils, self.load_autofill_deteils)
+        self.parent.ui.autofillTableWidget.installEventFilter(self.key_filter_browser_autofill)
+
+    def sercher_history_gui_init(self):
+        self.parent.ui.termLineEdit.editingFinished.connect(lambda : self.update_filter(self.sercher_list_filters,"term",self.load_sercher,self.parent.ui.termLineEdit))
+        self.parent.ui.sercherUrlLineEdit.editingFinished.connect(lambda : self.update_filter(self.sercher_list_filters,"url",self.load_sercher,self.parent.ui.sercherUrlLineEdit))
+        self.generate_sercher_history_browser_combo_box(self.parent.ui.sercherProfilComboBox,self.parent.ui.sercherBrowserComboBox,self.parent.ui.sercherUserComboBox)
+        self.parent.ui.sercherBrowserComboBox.currentTextChanged.connect(lambda : self.update_browser_name_filter(self.parent.ui.sercherBrowserComboBox,self.load_sercher))
+        self.parent.ui.sercherProfilComboBox.currentTextChanged.connect(lambda : self.update_profile_name_filter(self.parent.ui.sercherProfilComboBox,self.load_sercher))
+        self.parent.ui.sercherUserComboBox.currentTextChanged.connect(lambda : self.update_user_name_id_filter(self.parent.ui.sercherUserComboBox,self.load_sercher))
+
+        self.key_filter_browser_sercher = KeyPressFilterTableBrowsers(self.parent.ui.sercherTableWidget, self.load_sercher_deteils,self.load_sercher_deteils)
+        self.parent.ui.sercherTableWidget.installEventFilter(self.key_filter_browser_sercher)
+
+    def history_download_gui_init(self):
+        self.parent.ui.downloadDomenLineEdit.editingFinished.connect(lambda : self.update_filter(self.history_download_browser_filters,"url",self.load_borowser_download_history,self.parent.ui.downloadDomenLineEdit))
+        self.parent.ui.fileNameLineEdit.editingFinished.connect(lambda : self.update_filter(self.history_download_browser_filters,"download_path",self.load_borowser_download_history,self.parent.ui.fileNameLineEdit))
+        self.parent.ui.downloadHistoryCalendarBtn.clicked.connect(lambda : self.serch_by_date_start(self.ui.startDateDownloadLineEdit,self.ui.endDateDownloadLineEdit,self.history_download_browser_filters,"start_time","end_time"))
+        self.parent.ui.startDateDownloadLineEdit.textChanged.connect(lambda :self.update_data_filter(self.history_download_browser_filters,"start_time","end_time",self.load_borowser_download_history,self.parent.ui.startDateDownloadLineEdit,self.parent.ui.endDateDownloadLineEdit))
+        self.parent.ui.endDateDownloadLineEdit.textChanged.connect(lambda:self.update_data_filter(self.history_download_browser_filters,"start_time","end_time",self.load_borowser_download_history,self.parent.ui.startDateDownloadLineEdit,self.parent.ui.endDateDownloadLineEdit))
+        self.generate_sercher_history_browser_combo_box(self.parent.ui.downloadProfileComboBox,self.parent.ui.downloadBrowserComboBox,self.parent.ui.downladaUserComboBox)
+        self.parent.ui.downloadBrowserComboBox.currentTextChanged.connect(lambda : self.update_browser_name_filter(self.parent.ui.downloadBrowserComboBox,self.load_borowser_download_history))
+        self.parent.ui.downloadProfileComboBox.currentTextChanged.connect(lambda : self.update_profile_name_filter(self.parent.ui.downloadProfileComboBox,self.load_borowser_download_history))
+        self.parent.ui.downladaUserComboBox.currentTextChanged.connect(lambda : self.update_user_name_id_filter(self.parent.ui.downladaUserComboBox,self.load_borowser_download_history))
+    
+        self.key_filter_browser_download_history = KeyPressFilterTableBrowsers(self.parent.ui.networkBrowserTable, self.load_download_deteils,self.load_download_deteils)
+        self.parent.ui.networkBrowserTable.installEventFilter(self.key_filter_browser_download_history)
+
+    def update_profile_name_filter(self,profil_como_box,ladder_function):
+        if profil_como_box.currentText() == "Wszystkie":
+            self.history_browser_marge_filters["profile_name"] = ""
+        else:
+            self.history_browser_marge_filters["profile_name"] = profil_como_box.currentText()
+        ladder_function()
+            
+    def update_browser_name_filter(self,browser_combo_box,ladder_function):
+        if browser_combo_box.currentText() == "Wszystkie":
+            self.history_browser_marge_filters["name"] = ""
+        else:
+            self.history_browser_marge_filters["name"] = browser_combo_box.currentText()
+        ladder_function()
+            
+    def update_user_name_id_filter(self,user_combo_box,ladder_function):
+        if user_combo_box.currentText() == "Wszystkie":
+            self.history_browser_marge_filters["u.id"] = ""
+        else:
+            self.history_browser_marge_filters["u.id"] = user_combo_box.currentData()
+        ladder_function()
+
+    def update_filter(self,filter_list,filter_key,load_function,line_edit):
+        filter_list[filter_key] = line_edit.text()
+        load_function()
+
+    def update_data_filter(self,list_filter,stert_key,end_key,load_function,start_line_edit,end_line_edit):
+        list_filter[stert_key] = start_line_edit.text()
+        list_filter[end_key] = end_line_edit.text()
+        load_function()
+
+    def update_visit_count_filter(self):
+        count = self.ui.visitCountLineEdit.text()
+        if count == "":
+            self.history_browser_filters["visit_count"] = "0"
+            self.pc_browser.load_history_browser()
+        else:
+            try:
+                count = int(count)
+                self.history_browser_filters["visit_count"] = count
+                self.pc_browser.load_history_browser()
+            except ValueError:
+                logger.error("Invalid visit count value")
+                self.ui.visitCountLineEdit.setText("0")
+
+    def serch_by_date_start(self,start_data_lineEdit,end_data_lineEdit,list_filter,start_key,end_key):
+        """Otwiera okno dialogowe do wyboru zakresu dat."""
+        dialog_calendar = DateRangeDialog()
+        
+        date = dialog_calendar.get_selected_dates()
+        # print(date)
+        # print(date[0])
+        if date[0] != "":
+            # print(date[0])
+            start_date = QDate.fromString(date[0], "yyyy-MM-dd")
+            if list_filter[start_key] !="":
+                filter_end_date = QDate.fromString(list_filter[start_key], "yyyy-MM-dd")
+                if start_date > filter_end_date:
+                    start_data_lineEdit.setText("")
+                    end_data_lineEdit.setText("")
+                else:
+                    start_data_lineEdit.setText(date[0])
+            else:
+                start_data_lineEdit.setText(date[0])
+        else:
+            start_data_lineEdit.setText("")
+
+        if date[1] != "":
+            # print(date[1])
+            end_date = QDate.fromString(date[1], "yyyy-MM-dd")
+            if list_filter[end_key] !="":
+                filter_start_date = QDate.fromString(list_filter[end_key], "yyyy-MM-dd")
+                if end_date < filter_start_date:
+                    end_data_lineEdit.setText("")
+                    start_data_lineEdit.setText("")
+                else:
+                    end_data_lineEdit.setText(date[1])
+            else:
+                end_data_lineEdit.setText(date[1])
+        else:
+            end_data_lineEdit.setText("")

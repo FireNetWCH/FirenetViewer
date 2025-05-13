@@ -1,19 +1,22 @@
 import sqlite3
 import logging
+import pandas as pd
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 class database_pc_manager:
-    def __init__(self, db_file):
-        self.connection = self.connect_to_db(db_file)
-        self.db_name = db_file.removesuffix('.db')
-
-        if self.connection:
-            self.cursor = self.connection.cursor()
-            logger.info(f"Połączono z bazą danych SQLite: {db_file}")
+    def __init__(self, os_db_file):
+        self.connection_os_db = self.connect_to_db(os_db_file)
+        self.db_os_name = os_db_file.removesuffix('.db')
+    
+        if self.connection_os_db:
+            self.os_cursor = self.connection_os_db.cursor()
+            logger.info(f"Połączono z bazą danych SQLite Os: {os_db_file}")
         else:
-            logger.error(f"Nie można połączyć z bazą danych SQLite: {db_file}")
-            print(f"Nie można połączyć z bazą danych SQLite: {db_file}")
+            logger.error(f"Nie można połączyć z bazą danych SQLite: {os_db_file}")
+            print(f"Nie można połączyć z bazą danych SQLite: {os_db_file}")
+
+        print(self.connection_os_db)
 
     def connect_to_db(self,db_file):
         """Łaczy z wskazaną bazą danych SQLite"""
@@ -24,7 +27,7 @@ class database_pc_manager:
             cursor.execute("SELECT sqlite_version();")
             sqlite_version = cursor.fetchone()
             print(f"Wersja SQLite: {sqlite_version[0]}")
-            self.connection = connection
+            #self.connection_os_db = connection
             return connection
         except sqlite3.Error as e:
             print(f"Błąd podczas połączenia z bazą danych: {e}")
@@ -34,8 +37,8 @@ class database_pc_manager:
     
     def close_connection(self):
         """Zamyka połączenie z bazą danych SQLite"""
-        if self.connection:
-            self.connection.close()
+        if self.connection_os_db:
+            self.connection_os_db.close()
             logger.info("Zamknięto połączenie z bazą danych SQLite")
         else:
             logger.error("Nie można zamknąć połączenia, ponieważ nie jest otwarte")
@@ -44,8 +47,8 @@ class database_pc_manager:
     def get_all_os_users(self):
         """Pobiera wszystkich użytkowników systemu operacyjnego z bazy danych"""
         try:
-            self.cursor.execute("SELECT * FROM os_users")
-            rows = self.cursor.fetchall()
+            self.os_cursor.execute("SELECT * FROM os_users")
+            rows = self.os_cursor.fetchall()
             return rows
         except sqlite3.Error as e:
             logger.error(f"Błąd podczas pobierania użytkowników systemu operacyjnego: {e}")
@@ -55,8 +58,8 @@ class database_pc_manager:
     def get_software_info(self):
         """Pobiera informacje o oprogramowaniu z bazy danych"""
         try:
-            self.cursor.execute("SELECT * FROM system_software_info")
-            rows = self.cursor.fetchall()
+            self.os_cursor.execute("SELECT * FROM system_software_info")
+            rows = self.os_cursor.fetchall()
             return rows
         except sqlite3.Error as e:
             logger.error(f"Błąd podczas pobierania informacji o oprogramowaniu: {e}")
@@ -66,8 +69,8 @@ class database_pc_manager:
     def get_device_info(self):
         """Pobiera informacje o urządzeniu z bazy danych"""
         try:
-            self.cursor.execute("SELECT * FROM device_info")
-            rows = self.cursor.fetchall()
+            self.os_cursor.execute("SELECT * FROM device_info")
+            rows = self.os_cursor.fetchall()
             return rows
         except sqlite3.Error as e:
             logger.error(f"Błąd podczas pobierania informacji o urządzeniu: {e}")
@@ -78,8 +81,8 @@ class database_pc_manager:
         """Pobiera wykryte przeglądarki z bazy danych"""
 
         try:
-            self.cursor.execute("SELECT * FROM detected_browsers")
-            rows = self.cursor.fetchall()
+            self.os_cursor.execute("SELECT * FROM detected_browsers")
+            rows = self.os_cursor.fetchall()
             return rows
         except sqlite3.Error as e:
             logger.error(f"Błąd podczas pobierania wykrytych przeglądarek: {e}")
@@ -89,8 +92,8 @@ class database_pc_manager:
     def get_instaled_software(self):
         """Pobiera zainstalowane oprogramowanie z bazy danych"""
         try:
-            self.cursor.execute("SELECT * FROM installed_software")
-            rows = self.cursor.fetchall()
+            self.os_cursor.execute("SELECT * FROM installed_software")
+            rows = self.os_cursor.fetchall()
             return rows
         except sqlite3.Error as e:
             logger.error(f"Błąd podczas pobierania zainstalowanego oprogramowania: {e}")
@@ -100,8 +103,8 @@ class database_pc_manager:
     def get_network_config(self):
         """Pobiera konfigurację sieci z bazy danych"""
         try:
-            self.cursor.execute("SELECT * FROM network_config")
-            rows = self.cursor.fetchall()
+            self.os_cursor.execute("SELECT * FROM network_config")
+            rows = self.os_cursor.fetchall()
             return rows
         except sqlite3.Error as e:
             logger.error(f"Błąd podczas pobierania konfiguracji sieci: {e}")
@@ -113,8 +116,8 @@ class database_pc_manager:
             Przerobić na łączone pobieranie a nie na pojedyncze przeglądarki
         """
         try:
-            self.cursor.execute(f"SELECT id,url, download_path FROM {browser_name}")
-            rows = self.cursor.fetchall()
+            self.os_cursor.execute(f"SELECT id,url, download_path FROM {browser_name}")
+            rows = self.os_cursor.fetchall()
             return rows
         except sqlite3.Error as e:
             logger.error(f"Błąd podczas pobierania ścieżek URL z przeglądarek: {e}")
@@ -125,11 +128,11 @@ class database_pc_manager:
     def get_history_deteils(self,browser_name,id_page):
         """Pobiera szczegóły wybranego rekordu historii przeglądania z bazy danych"""
         try:
-            self.cursor.execute(f"""
+            self.os_cursor.execute(f"""
             SELECT h.id ,h.url, h.title, h.visit_count, h.first_visit_date,h.last_visit_date, d.profile_name FROM {browser_name} 
             as h LEFT JOIN detected_browsers as d ON h.browser_id = d.id
             WHERE h.id = {id_page}""")
-            rows = self.cursor.fetchall()
+            rows = self.os_cursor.fetchall()
             return rows
         except sqlite3.Error as e:
             logger.error(f"Błąd podczas pobierania szczegółów historii: {e}")
@@ -139,9 +142,9 @@ class database_pc_manager:
     def get_all_history(self,browser_name):
         """Pobiera wszystkie rekordy historii przeglądania z bazy danych"""
         try:
-            self.cursor.execute(f"""SELECT h.id ,h.url, h.title, h.visit_count, h.first_visit_date,h.last_visit_date, d.profile_name FROM {browser_name} 
+            self.os_cursor.execute(f"""SELECT h.id ,h.url, h.title, h.visit_count, h.first_visit_date,h.last_visit_date, d.profile_name FROM {browser_name} 
                                 as h LEFT JOIN detected_browsers as d ON h.browser_id = d.id""")
-            rows = self.cursor.fetchall()
+            rows = self.os_cursor.fetchall()
             return rows
         except sqlite3.Error as e:
             logger.error(f"Błąd podczas pobierania historii: {e}")
@@ -151,8 +154,8 @@ class database_pc_manager:
     def get_browser_table_type_list(self,table_type_name):
         """Pobiera listę przeglądarek, które zawierają historie przeglądania"""
         try:
-            self.cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
-            table_db_list = self.cursor.fetchall()
+            self.os_cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
+            table_db_list = self.os_cursor.fetchall()
             history_tables = []
             for table in table_db_list:
                 if table[0].endswith(table_type_name) and not table[0].startswith("usb_"):
@@ -178,17 +181,17 @@ class database_pc_manager:
                 LIMIT {LIMIT} OFFSET {OFFSET}"""
             else:
                 full_query += " UNION ALL "
-        self.cursor.execute(full_query)
-        return self.cursor.fetchall()
-    
+        rows = self.os_cursor.execute(full_query)
+        columns = [desc[0] for desc in self.os_cursor.description]
+        return pd.DataFrame(rows, columns=columns)
     def get_sercher_deteils(self,browser_name,id_page):
         """Pobiera szczegóły wybranego rekordu loginów z bazy danych"""
         try:
-            self.cursor.execute(f"""
+            self.os_cursor.execute(f"""
             SELECT h.id  , h.url,h.term, h.last_visit_time FROM {browser_name} 
             as h LEFT JOIN detected_browsers as d ON h.browser_id = d.id
             WHERE h.id = {id_page}""")
-            rows = self.cursor.fetchall()
+            rows = self.os_cursor.fetchall()
             return rows
         except sqlite3.Error as e:
             logger.error(f"Błąd podczas pobierania szczegółów zapisanych loginów: {e}")
@@ -212,7 +215,7 @@ class database_pc_manager:
             return part_query
         
         return part_query
-        
+
 
     def generate_part_history_browser_query(self,table_name,history_browser_filters):
         """Generuje część zapytania SQL dla historii przeglądania zawierająca filtry"""
@@ -260,8 +263,8 @@ class database_pc_manager:
     def get_download_deteils(self,browser_name,id_download):
         """Pobiera szczegóły wybranego rekordu pobierania z bazy danych"""
         try:
-            self.cursor.execute(f"SELECT * FROM {browser_name} WHERE id = ?", (id_download,))
-            rows = self.cursor.fetchall()
+            self.os_cursor.execute(f"SELECT * FROM {browser_name} WHERE id = ?", (id_download,))
+            rows = self.os_cursor.fetchall()
             return rows
         except sqlite3.Error as e:
             logger.error(f"Błąd podczas pobierania szczegółów pobierania: {e}")
@@ -327,8 +330,8 @@ class database_pc_manager:
                 full_query += " UNION ALL "
                 
         print(full_query)
-        self.cursor.execute(full_query)
-        return self.cursor.fetchall()
+        self.os_cursor.execute(full_query)
+        return self.os_cursor.fetchall()
     
 ### LOGINY 
 
@@ -348,8 +351,8 @@ class database_pc_manager:
             else:
                 full_query += " UNION ALL "
         print(full_query)
-        self.cursor.execute(full_query)
-        return self.cursor.fetchall()
+        self.os_cursor.execute(full_query)
+        return self.os_cursor.fetchall()
 
     def generate_save_login_part_query(self,table_name,save_login_filters):
         """Generuje część zapytania SQL dla historii pobierania zawierająca filtry"""
@@ -391,11 +394,11 @@ class database_pc_manager:
     def get_logins_deteils(self,browser_name,id_page):
         """Pobiera szczegóły wybranego rekordu loginów z bazy danych"""
         try:
-            self.cursor.execute(f"""
+            self.os_cursor.execute(f"""
             SELECT h.id ,h.url, h.last_used, d.profile_name FROM {browser_name} 
             as h LEFT JOIN detected_browsers as d ON h.browser_id = d.id
             WHERE h.id = {id_page}""")
-            rows = self.cursor.fetchall()
+            rows = self.os_cursor.fetchall()
             return rows
         except sqlite3.Error as e:
             logger.error(f"Błąd podczas pobierania szczegółów zapisanych loginów: {e}")
@@ -420,8 +423,8 @@ class database_pc_manager:
                 else:
                     full_query += " UNION ALL "
             print(full_query)
-            self.cursor.execute(full_query)
-            return self.cursor.fetchall()
+            self.os_cursor.execute(full_query)
+            return self.os_cursor.fetchall()
     
     def generate_sarcher_part_query(self,table_name,sercher_filters):
         """Generuje część zapytania SQL dla historii pobierania zawierająca filtry"""
@@ -477,8 +480,8 @@ class database_pc_manager:
                 else:
                     full_query += " UNION ALL "
             print(full_query)
-            self.cursor.execute(full_query)
-            return self.cursor.fetchall()
+            self.os_cursor.execute(full_query)
+            return self.os_cursor.fetchall()
     
 
     def generate_autofill_part_query(self,table_name,sercher_filters):
@@ -520,13 +523,17 @@ class database_pc_manager:
     def get_autofill_deteils(self,browser_name,id_row):
         """Pobiera szczegóły wybranego rekordu autouzupelniania z bazy danych"""
         try:
-            self.cursor.execute(f"""
+            self.os_cursor.execute(f"""
             SELECT h.id , fieldname, h.value,h.times_used, h.creation_date, h.last_used, d.profile_name FROM {browser_name} 
             as h LEFT JOIN detected_browsers as d ON h.browser_id = d.id
             WHERE h.id = {id_row}""")
-            rows = self.cursor.fetchall()
+            rows = self.os_cursor.fetchall()
             return rows
         except sqlite3.Error as e:
             logger.error(f"Błąd podczas pobiera szczegóły wybranego rekordu autouzupelniania z bazy danych: {e}")
             print(f"Błąd podczas pobiera szczegóły wybranego rekordu autouzupelniania z bazy danych: {e}")
             return None
+
+
+
+                                

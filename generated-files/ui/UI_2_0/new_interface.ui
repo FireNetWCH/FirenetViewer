@@ -436,7 +436,7 @@
                  <enum>Qt::ContextMenuPolicy::DefaultContextMenu</enum>
                 </property>
                 <property name="currentIndex">
-                 <number>0</number>
+                 <number>4</number>
                 </property>
                 <widget class="QWidget" name="settingsPage">
                  <property name="sizePolicy">
@@ -624,6 +624,12 @@
                       <horstretch>1</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
+                    </property>
+                    <property name="editTriggers">
+                     <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+                    </property>
+                    <property name="expandsOnDoubleClick">
+                     <bool>false</bool>
                     </property>
                    </widget>
                   </item>
@@ -1138,7 +1144,7 @@
                                        <x>0</x>
                                        <y>0</y>
                                        <width>520</width>
-                                       <height>360</height>
+                                       <height>410</height>
                                       </rect>
                                      </property>
                                      <property name="sizePolicy">
@@ -3002,8 +3008,8 @@
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>98</width>
-                             <height>28</height>
+                             <width>356</width>
+                             <height>69</height>
                             </rect>
                            </property>
                            <layout class="QHBoxLayout" name="horizontalLayout_56">
@@ -3051,8 +3057,8 @@
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>98</width>
-                             <height>28</height>
+                             <width>356</width>
+                             <height>69</height>
                             </rect>
                            </property>
                            <layout class="QHBoxLayout" name="horizontalLayout_55">
@@ -4003,8 +4009,8 @@
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>228</width>
-                                   <height>179</height>
+                                   <width>369</width>
+                                   <height>253</height>
                                   </rect>
                                  </property>
                                  <layout class="QVBoxLayout" name="verticalLayout_53">
@@ -4904,8 +4910,8 @@
                          <rect>
                           <x>0</x>
                           <y>0</y>
-                          <width>98</width>
-                          <height>28</height>
+                          <width>744</width>
+                          <height>233</height>
                          </rect>
                         </property>
                         <layout class="QVBoxLayout" name="verticalLayout_43">
@@ -5085,7 +5091,11 @@
                          <number>0</number>
                         </property>
                         <item>
-                         <widget class="QTableWidget" name="historyBrowserTablet"/>
+                         <widget class="QTableWidget" name="historyBrowserTablet">
+                          <property name="enabled">
+                           <bool>true</bool>
+                          </property>
+                         </widget>
                         </item>
                         <item>
                          <widget class="QWidget" name="widget_69" native="true">
@@ -5628,8 +5638,8 @@
                                <rect>
                                 <x>0</x>
                                 <y>0</y>
-                                <width>175</width>
-                                <height>110</height>
+                                <width>369</width>
+                                <height>250</height>
                                </rect>
                               </property>
                               <layout class="QVBoxLayout" name="verticalLayout_60">
@@ -5993,8 +6003,8 @@
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>175</width>
-                                   <height>77</height>
+                                   <width>369</width>
+                                   <height>117</height>
                                   </rect>
                                  </property>
                                  <layout class="QVBoxLayout" name="verticalLayout_65">
@@ -6269,8 +6279,8 @@
                                <rect>
                                 <x>0</x>
                                 <y>0</y>
-                                <width>98</width>
-                                <height>28</height>
+                                <width>369</width>
+                                <height>382</height>
                                </rect>
                               </property>
                               <layout class="QVBoxLayout" name="verticalLayout_51">
@@ -6435,8 +6445,8 @@
                                <rect>
                                 <x>0</x>
                                 <y>0</y>
-                                <width>177</width>
-                                <height>156</height>
+                                <width>369</width>
+                                <height>248</height>
                                </rect>
                               </property>
                               <layout class="QVBoxLayout" name="verticalLayout_68">
@@ -6720,6 +6730,417 @@
                               </size>
                              </property>
                             </spacer>
+                           </item>
+                          </layout>
+                         </widget>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                   <widget class="QWidget" name="page_3">
+                    <layout class="QVBoxLayout" name="verticalLayout_70">
+                     <item>
+                      <widget class="QWidget" name="widget_93" native="true">
+                       <layout class="QHBoxLayout" name="horizontalLayout_95">
+                        <item>
+                         <widget class="QTableWidget" name="ExportFileTableWidget"/>
+                        </item>
+                        <item>
+                         <widget class="QWidget" name="widget_92" native="true">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <layout class="QVBoxLayout" name="verticalLayout_71" stretch="1,1">
+                           <item>
+                            <widget class="QScrollArea" name="scrollArea_14">
+                             <property name="sizePolicy">
+                              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                               <horstretch>0</horstretch>
+                               <verstretch>0</verstretch>
+                              </sizepolicy>
+                             </property>
+                             <property name="widgetResizable">
+                              <bool>true</bool>
+                             </property>
+                             <widget class="QWidget" name="scrollAreaWidgetContents_15">
+                              <property name="geometry">
+                               <rect>
+                                <x>0</x>
+                                <y>0</y>
+                                <width>341</width>
+                                <height>256</height>
+                               </rect>
+                              </property>
+                              <layout class="QVBoxLayout" name="verticalLayout_72">
+                               <item>
+                                <widget class="QLabel" name="label_58">
+                                 <property name="sizePolicy">
+                                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                                   <horstretch>0</horstretch>
+                                   <verstretch>0</verstretch>
+                                  </sizepolicy>
+                                 </property>
+                                 <property name="font">
+                                  <font>
+                                   <pointsize>10</pointsize>
+                                   <bold>true</bold>
+                                  </font>
+                                 </property>
+                                 <property name="text">
+                                  <string>SZCZEGÓŁY</string>
+                                 </property>
+                                 <property name="alignment">
+                                  <set>Qt::AlignmentFlag::AlignCenter</set>
+                                 </property>
+                                </widget>
+                               </item>
+                               <item>
+                                <widget class="QWidget" name="widget_94" native="true">
+                                 <property name="sizePolicy">
+                                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                   <horstretch>0</horstretch>
+                                   <verstretch>0</verstretch>
+                                  </sizepolicy>
+                                 </property>
+                                 <layout class="QHBoxLayout" name="horizontalLayout_96">
+                                  <property name="spacing">
+                                   <number>3</number>
+                                  </property>
+                                  <property name="leftMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <property name="topMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <property name="rightMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <property name="bottomMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <item>
+                                   <widget class="QLabel" name="label_59">
+                                    <property name="font">
+                                     <font>
+                                      <pointsize>10</pointsize>
+                                      <bold>true</bold>
+                                     </font>
+                                    </property>
+                                    <property name="text">
+                                     <string>Nazwa:</string>
+                                    </property>
+                                   </widget>
+                                  </item>
+                                  <item>
+                                   <widget class="QLabel" name="FieleExportNameLabel">
+                                    <property name="text">
+                                     <string>TextLabel</string>
+                                    </property>
+                                   </widget>
+                                  </item>
+                                 </layout>
+                                </widget>
+                               </item>
+                               <item>
+                                <widget class="QWidget" name="widget_98" native="true">
+                                 <property name="sizePolicy">
+                                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                   <horstretch>0</horstretch>
+                                   <verstretch>0</verstretch>
+                                  </sizepolicy>
+                                 </property>
+                                 <layout class="QHBoxLayout" name="horizontalLayout_97">
+                                  <property name="spacing">
+                                   <number>3</number>
+                                  </property>
+                                  <property name="leftMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <property name="topMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <property name="rightMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <property name="bottomMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <item>
+                                   <widget class="QLabel" name="label_64">
+                                    <property name="font">
+                                     <font>
+                                      <pointsize>10</pointsize>
+                                      <bold>true</bold>
+                                     </font>
+                                    </property>
+                                    <property name="text">
+                                     <string>Ścieżka:</string>
+                                    </property>
+                                   </widget>
+                                  </item>
+                                  <item>
+                                   <widget class="QLabel" name="FileExportPathLabel">
+                                    <property name="text">
+                                     <string>TextLabel</string>
+                                    </property>
+                                   </widget>
+                                  </item>
+                                 </layout>
+                                </widget>
+                               </item>
+                               <item>
+                                <widget class="QWidget" name="widget_97" native="true">
+                                 <property name="sizePolicy">
+                                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                   <horstretch>0</horstretch>
+                                   <verstretch>0</verstretch>
+                                  </sizepolicy>
+                                 </property>
+                                 <layout class="QHBoxLayout" name="horizontalLayout_98">
+                                  <property name="spacing">
+                                   <number>3</number>
+                                  </property>
+                                  <property name="leftMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <property name="topMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <property name="rightMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <property name="bottomMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <item>
+                                   <widget class="QLabel" name="label_69">
+                                    <property name="font">
+                                     <font>
+                                      <pointsize>10</pointsize>
+                                      <bold>true</bold>
+                                     </font>
+                                    </property>
+                                    <property name="text">
+                                     <string>Rozmiar:</string>
+                                    </property>
+                                   </widget>
+                                  </item>
+                                  <item>
+                                   <widget class="QLabel" name="FileExportSizeLabel">
+                                    <property name="text">
+                                     <string>TextLabel</string>
+                                    </property>
+                                   </widget>
+                                  </item>
+                                 </layout>
+                                </widget>
+                               </item>
+                               <item>
+                                <widget class="QWidget" name="widget_95" native="true">
+                                 <property name="sizePolicy">
+                                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                   <horstretch>0</horstretch>
+                                   <verstretch>0</verstretch>
+                                  </sizepolicy>
+                                 </property>
+                                 <layout class="QHBoxLayout" name="horizontalLayout_99">
+                                  <property name="spacing">
+                                   <number>3</number>
+                                  </property>
+                                  <property name="leftMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <property name="topMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <property name="rightMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <property name="bottomMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <item>
+                                   <widget class="QLabel" name="label_71">
+                                    <property name="font">
+                                     <font>
+                                      <pointsize>10</pointsize>
+                                      <bold>true</bold>
+                                     </font>
+                                    </property>
+                                    <property name="text">
+                                     <string>Data utworzenia</string>
+                                    </property>
+                                   </widget>
+                                  </item>
+                                  <item>
+                                   <widget class="QLabel" name="FileExportCreateDateLabel">
+                                    <property name="text">
+                                     <string>TextLabel</string>
+                                    </property>
+                                   </widget>
+                                  </item>
+                                 </layout>
+                                </widget>
+                               </item>
+                               <item>
+                                <widget class="QWidget" name="widget_96" native="true">
+                                 <property name="sizePolicy">
+                                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                   <horstretch>0</horstretch>
+                                   <verstretch>0</verstretch>
+                                  </sizepolicy>
+                                 </property>
+                                 <layout class="QHBoxLayout" name="horizontalLayout_100">
+                                  <property name="spacing">
+                                   <number>3</number>
+                                  </property>
+                                  <property name="leftMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <property name="topMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <property name="rightMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <property name="bottomMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <item>
+                                   <widget class="QLabel" name="label_73">
+                                    <property name="font">
+                                     <font>
+                                      <pointsize>10</pointsize>
+                                      <bold>true</bold>
+                                     </font>
+                                    </property>
+                                    <property name="text">
+                                     <string>Data modyfikacji:</string>
+                                    </property>
+                                   </widget>
+                                  </item>
+                                  <item>
+                                   <widget class="QLabel" name="FileExportDateModyficatinLabel">
+                                    <property name="text">
+                                     <string>TextLabel</string>
+                                    </property>
+                                   </widget>
+                                  </item>
+                                 </layout>
+                                </widget>
+                               </item>
+                               <item>
+                                <widget class="QWidget" name="widget_99" native="true">
+                                 <property name="sizePolicy">
+                                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                   <horstretch>0</horstretch>
+                                   <verstretch>0</verstretch>
+                                  </sizepolicy>
+                                 </property>
+                                 <layout class="QHBoxLayout" name="horizontalLayout_101">
+                                  <property name="spacing">
+                                   <number>3</number>
+                                  </property>
+                                  <property name="leftMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <property name="topMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <property name="rightMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <property name="bottomMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <item>
+                                   <widget class="QLabel" name="label_75">
+                                    <property name="font">
+                                     <font>
+                                      <pointsize>10</pointsize>
+                                      <bold>true</bold>
+                                     </font>
+                                    </property>
+                                    <property name="text">
+                                     <string>Data dostępu:</string>
+                                    </property>
+                                   </widget>
+                                  </item>
+                                  <item>
+                                   <widget class="QLabel" name="FileExportDateAccessLabel">
+                                    <property name="text">
+                                     <string>TextLabel</string>
+                                    </property>
+                                   </widget>
+                                  </item>
+                                 </layout>
+                                </widget>
+                               </item>
+                               <item>
+                                <widget class="QWidget" name="widget_100" native="true">
+                                 <property name="sizePolicy">
+                                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                   <horstretch>0</horstretch>
+                                   <verstretch>0</verstretch>
+                                  </sizepolicy>
+                                 </property>
+                                 <layout class="QHBoxLayout" name="horizontalLayout_102">
+                                  <property name="spacing">
+                                   <number>3</number>
+                                  </property>
+                                  <property name="leftMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <property name="topMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <property name="rightMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <property name="bottomMargin">
+                                   <number>0</number>
+                                  </property>
+                                  <item>
+                                   <widget class="QLabel" name="label_77">
+                                    <property name="font">
+                                     <font>
+                                      <pointsize>10</pointsize>
+                                      <bold>true</bold>
+                                     </font>
+                                    </property>
+                                    <property name="text">
+                                     <string>Metadane:</string>
+                                    </property>
+                                   </widget>
+                                  </item>
+                                  <item>
+                                   <widget class="QLabel" name="FileExportMetadataLabel">
+                                    <property name="text">
+                                     <string>TextLabel</string>
+                                    </property>
+                                   </widget>
+                                  </item>
+                                 </layout>
+                                </widget>
+                               </item>
+                              </layout>
+                             </widget>
+                            </widget>
+                           </item>
+                           <item>
+                            <widget class="QWidget" name="FileExportWidget" native="true">
+                             <property name="sizePolicy">
+                              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                               <horstretch>0</horstretch>
+                               <verstretch>0</verstretch>
+                              </sizepolicy>
+                             </property>
+                            </widget>
                            </item>
                           </layout>
                          </widget>

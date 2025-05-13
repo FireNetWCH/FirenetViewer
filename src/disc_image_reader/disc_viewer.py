@@ -37,7 +37,7 @@ class DiscViewers(QWidget):
         self.list_view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.list_view.doubleClicked.connect(lambda index: self.itemDoubleClicked(index, parent))
-        # self.list_view.clicked.connect(lambda index: self.itemOneClicked(index,parent))
+        ##### self.list_view.clicked.connect(lambda index: self.itemOneClicked(index,parent))
         layout = QVBoxLayout(self)
         layout.addWidget(self.list_view)
         self.setLayout(layout)
