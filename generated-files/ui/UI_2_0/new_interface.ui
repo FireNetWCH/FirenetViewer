@@ -1144,7 +1144,7 @@
                                        <x>0</x>
                                        <y>0</y>
                                        <width>520</width>
-                                       <height>360</height>
+                                       <height>410</height>
                                       </rect>
                                      </property>
                                      <property name="sizePolicy">
@@ -3008,8 +3008,8 @@
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>18</width>
-                             <height>18</height>
+                             <width>356</width>
+                             <height>69</height>
                             </rect>
                            </property>
                            <layout class="QHBoxLayout" name="horizontalLayout_56">
@@ -3057,8 +3057,8 @@
                             <rect>
                              <x>0</x>
                              <y>0</y>
-                             <width>18</width>
-                             <height>18</height>
+                             <width>356</width>
+                             <height>69</height>
                             </rect>
                            </property>
                            <layout class="QHBoxLayout" name="horizontalLayout_55">
@@ -3940,6 +3940,82 @@
                          </widget>
                         </item>
                         <item>
+                         <widget class="QWidget" name="widget_104" native="true">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <layout class="QHBoxLayout" name="horizontalLayout_106">
+                           <property name="spacing">
+                            <number>3</number>
+                           </property>
+                           <property name="leftMargin">
+                            <number>0</number>
+                           </property>
+                           <property name="topMargin">
+                            <number>0</number>
+                           </property>
+                           <property name="rightMargin">
+                            <number>0</number>
+                           </property>
+                           <property name="bottomMargin">
+                            <number>0</number>
+                           </property>
+                           <item>
+                            <widget class="QPushButton" name="downladaPrevPageBtn">
+                             <property name="sizePolicy">
+                              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                               <horstretch>0</horstretch>
+                               <verstretch>0</verstretch>
+                              </sizepolicy>
+                             </property>
+                             <property name="text">
+                              <string>&lt;-</string>
+                             </property>
+                            </widget>
+                           </item>
+                           <item>
+                            <widget class="QLineEdit" name="downladaNumerPageLineEdit">
+                             <property name="sizePolicy">
+                              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                               <horstretch>0</horstretch>
+                               <verstretch>0</verstretch>
+                              </sizepolicy>
+                             </property>
+                            </widget>
+                           </item>
+                           <item>
+                            <widget class="QLabel" name="downloadMaxPageLabel">
+                             <property name="sizePolicy">
+                              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                               <horstretch>0</horstretch>
+                               <verstretch>0</verstretch>
+                              </sizepolicy>
+                             </property>
+                             <property name="text">
+                              <string>stron</string>
+                             </property>
+                            </widget>
+                           </item>
+                           <item>
+                            <widget class="QPushButton" name="downladaNextPageBtn">
+                             <property name="sizePolicy">
+                              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                               <horstretch>0</horstretch>
+                               <verstretch>0</verstretch>
+                              </sizepolicy>
+                             </property>
+                             <property name="text">
+                              <string>-&gt;</string>
+                             </property>
+                            </widget>
+                           </item>
+                          </layout>
+                         </widget>
+                        </item>
+                        <item>
                          <widget class="QWidget" name="widget_64" native="true">
                           <layout class="QHBoxLayout" name="horizontalLayout_75">
                            <property name="spacing">
@@ -4009,8 +4085,8 @@
                                   <rect>
                                    <x>0</x>
                                    <y>0</y>
-                                   <width>228</width>
-                                   <height>179</height>
+                                   <width>369</width>
+                                   <height>239</height>
                                   </rect>
                                  </property>
                                  <layout class="QVBoxLayout" name="verticalLayout_53">
@@ -4910,8 +4986,8 @@
                          <rect>
                           <x>0</x>
                           <y>0</y>
-                          <width>63</width>
-                          <height>28</height>
+                          <width>744</width>
+                          <height>233</height>
                          </rect>
                         </property>
                         <layout class="QVBoxLayout" name="verticalLayout_43">
@@ -4933,6 +5009,21 @@
                    </widget>
                    <widget class="QWidget" name="historyBrowserPage">
                     <layout class="QVBoxLayout" name="verticalLayout_59">
+                     <property name="spacing">
+                      <number>6</number>
+                     </property>
+                     <property name="leftMargin">
+                      <number>9</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>9</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>9</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>9</number>
+                     </property>
                      <item>
                       <widget class="QWidget" name="widget_76" native="true">
                        <property name="sizePolicy">
@@ -5070,6 +5161,82 @@
                        <property name="text">
                         <string>Historia przeglądanych stron internetowych</string>
                        </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QWidget" name="widget_107" native="true">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <layout class="QHBoxLayout" name="horizontalLayout_109">
+                        <property name="spacing">
+                         <number>3</number>
+                        </property>
+                        <property name="leftMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="bottomMargin">
+                         <number>0</number>
+                        </property>
+                        <item>
+                         <widget class="QPushButton" name="historyBrowserPrevPageBtn">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="text">
+                           <string>&lt;-</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QLineEdit" name="historyBrowserNumerPageLineEdit">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QLabel" name="historyBrowserMaxPageLabel">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="text">
+                           <string>strona</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QPushButton" name="historyBrowserNextPageBtn">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="text">
+                           <string>-&gt;</string>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
                       </widget>
                      </item>
                      <item>
@@ -5468,7 +5635,7 @@
                                 <x>0</x>
                                 <y>0</y>
                                 <width>369</width>
-                                <height>308</height>
+                                <height>277</height>
                                </rect>
                               </property>
                               <layout class="QVBoxLayout" name="verticalLayout_61">
@@ -5584,6 +5751,82 @@
                       </widget>
                      </item>
                      <item>
+                      <widget class="QWidget" name="widget_106" native="true">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <layout class="QHBoxLayout" name="horizontalLayout_108">
+                        <property name="spacing">
+                         <number>3</number>
+                        </property>
+                        <property name="leftMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="bottomMargin">
+                         <number>0</number>
+                        </property>
+                        <item>
+                         <widget class="QPushButton" name="loginPrevPageBtn">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="text">
+                           <string>&lt;-</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QLineEdit" name="loginNumerPageLineEdit">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QLabel" name="loginMaxPageLabel">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="text">
+                           <string>strona</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QPushButton" name="loginNextPageBtn">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="text">
+                           <string>-&gt;</string>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                     <item>
                       <widget class="QWidget" name="widget_57" native="true">
                        <layout class="QHBoxLayout" name="horizontalLayout_67">
                         <property name="spacing">
@@ -5639,7 +5882,7 @@
                                 <x>0</x>
                                 <y>0</y>
                                 <width>369</width>
-                                <height>250</height>
+                                <height>234</height>
                                </rect>
                               </property>
                               <layout class="QVBoxLayout" name="verticalLayout_60">
@@ -5919,6 +6162,70 @@
                        <property name="text">
                         <string>Historasz wyszukiwanych słów</string>
                        </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QWidget" name="widget_103" native="true">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <layout class="QHBoxLayout" name="horizontalLayout_105">
+                        <property name="spacing">
+                         <number>3</number>
+                        </property>
+                        <property name="leftMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="bottomMargin">
+                         <number>0</number>
+                        </property>
+                        <item>
+                         <widget class="QPushButton" name="sercharPrevPageBtn">
+                          <property name="text">
+                           <string>&lt;-</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QLineEdit" name="sercharNumerPageLineEdit">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QLabel" name="sercharMaxPageLabel">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="text">
+                           <string> \ Strona</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QPushButton" name="sercharNextPageBtn">
+                          <property name="text">
+                           <string>-&gt;</string>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
                       </widget>
                      </item>
                      <item>
@@ -6280,7 +6587,7 @@
                                 <x>0</x>
                                 <y>0</y>
                                 <width>369</width>
-                                <height>382</height>
+                                <height>351</height>
                                </rect>
                               </property>
                               <layout class="QVBoxLayout" name="verticalLayout_51">
@@ -6391,6 +6698,82 @@
                       </widget>
                      </item>
                      <item>
+                      <widget class="QWidget" name="widget_105" native="true">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
+                       </property>
+                       <layout class="QHBoxLayout" name="horizontalLayout_107">
+                        <property name="spacing">
+                         <number>3</number>
+                        </property>
+                        <property name="leftMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>0</number>
+                        </property>
+                        <property name="bottomMargin">
+                         <number>0</number>
+                        </property>
+                        <item>
+                         <widget class="QPushButton" name="autofilePrevPageBtn">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="text">
+                           <string>&lt;-</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QLineEdit" name="autofileNumerPageLineEdit">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QLabel" name="autofileMaxPageLabel">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="text">
+                           <string>strony</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QPushButton" name="autofileNextPageBtn">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="text">
+                           <string>-&gt;</string>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                     <item>
                       <widget class="QWidget" name="widget_77" native="true">
                        <layout class="QHBoxLayout" name="horizontalLayout_79">
                         <property name="spacing">
@@ -6446,7 +6829,7 @@
                                 <x>0</x>
                                 <y>0</y>
                                 <width>369</width>
-                                <height>248</height>
+                                <height>233</height>
                                </rect>
                               </property>
                               <layout class="QVBoxLayout" name="verticalLayout_68">
@@ -6864,7 +7247,22 @@
                             <verstretch>0</verstretch>
                            </sizepolicy>
                           </property>
-                          <layout class="QVBoxLayout" name="verticalLayout_71" stretch="1,1">
+                          <layout class="QVBoxLayout" name="verticalLayout_71" stretch="1,2">
+                           <property name="spacing">
+                            <number>3</number>
+                           </property>
+                           <property name="leftMargin">
+                            <number>0</number>
+                           </property>
+                           <property name="topMargin">
+                            <number>0</number>
+                           </property>
+                           <property name="rightMargin">
+                            <number>0</number>
+                           </property>
+                           <property name="bottomMargin">
+                            <number>0</number>
+                           </property>
                            <item>
                             <widget class="QScrollArea" name="scrollArea_14">
                              <property name="sizePolicy">
@@ -6881,8 +7279,8 @@
                                <rect>
                                 <x>0</x>
                                 <y>0</y>
-                                <width>341</width>
-                                <height>229</height>
+                                <width>342</width>
+                                <height>196</height>
                                </rect>
                               </property>
                               <layout class="QVBoxLayout" name="verticalLayout_72">

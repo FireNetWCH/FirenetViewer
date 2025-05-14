@@ -105,10 +105,10 @@ class export_file_browser:
         path = os.path.join(self.file_storage, row[0][1])
         if ext == "pdf":
             pdf_document = fitz.open(path)
-            widget = generator_wiget(pdf_document,ext)
+            widget = generator_wiget(pdf_document,ext,widget = self.parent.ui.fileExportWidget)
         elif ext in ['jpg','jpeg','png','gif','bmp','ppm']:
             pix_map = QPixmap(path)
-            widget = generator_wiget(pix_map,ext)
+            widget = generator_wiget(pix_map,ext,widget = self.parent.ui.fileExportWidget)
         elif ext in['csv','xlsx','xls','odf','ods','xlsm','xlsb']:
             if ext == "csv":
                 file = pd.read_csv(path)

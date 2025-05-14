@@ -50,6 +50,9 @@ class GUIFunctions:
         self.pc_browser = None
         self.file_export_db_menager = None
         self.file_export_browser = None
+        self.page_limit = 100
+        self.page_number = 0
+        self.page_ofset = 0
         
         self.columns_hidden: List[bool] = [False] * 6
         self.filtering_active: bool = False
@@ -385,33 +388,6 @@ class GUIFunctions:
         header.setSectionsMovable(True)
         header.setDragEnabled(True)
 
-    def load_data_and_plot(self) -> None:
-        """Wczytuje dane (wiek użytkowników) i tworzy wykres."""
-        if not self.db_connection:
-            return
-        try:
-            cursor = self.db_connection.cursor()
-            cursor.execute("SELECT age FROM users")
-            ages = [row[0] for row in cursor.fetchall()]
-            self.plot_data(ages)
-        except sqlite3.Error as e:
-            logger.error(f"Error fetching data: {e}")
-
-    def plot_data(self, ages: List[int]) -> None:
-        """Tworzy histogram wieku użytkowników i wyświetla go na widżecie."""
-        scene = QGraphicsScene()
-        fig, ax = plt.subplots(figsize=(5, 4))
-        if ages:
-            bins = range(min(ages), max(ages) + 2)
-            ax.hist(ages, bins=bins, alpha=0.7, color='blue')
-        ax.set_title("Wiek ludzi z danych z tabeli")
-        ax.set_xlabel("Wiek")
-        ax.set_ylabel("Częstotliwość")
-        canvas = FigureCanvas(fig)
-        canvas.draw()
-        scene.addWidget(canvas)
-        self.ui.graphicsView.setScene(scene)
-
     def open_add_tag_dialog(self) -> None:
         """Otwiera okno dialogowe umożliwiające dodanie nowego tagu."""
         dialog = MultiTagInputDialog(self.db_connection, self.main)
@@ -440,64 +416,6 @@ class GUIFunctions:
         """Przywraca widoczność wszystkich wierszy tabeli."""
         for row in range(self.ui.tableWidget.rowCount()):
             self.ui.tableWidget.showRow(row)
-
-    def export_to_pdf(self) -> None:
-        """Eksportuje widoczne dane tabeli do pliku PDF."""
-        file_path, _ = QFileDialog.getSaveFileName(
-            self.main, "Zapisz plik PDF", "", "PDF Files (*.pdf);;All Files (*)"
-        )
-        if not file_path:
-            return
-        if not file_path.endswith(".pdf"):
-            file_path += ".pdf"
-        c = canvas.Canvas(file_path, pagesize=letter)
-        width, height = letter
-        c.setFont("Helvetica-Bold", 16)
-        c.drawString(30, height - 30, "Przefiltrowane dane z tabeli")
-        c.setFont("Helvetica", 12)
-        row_height = 20
-        start_y = height - 60
-
-        for row in range(self.ui.tableWidget.rowCount()):
-            if self.ui.tableWidget.isRowHidden(row):
-                continue
-            row_data = []
-            for column in range(self.ui.tableWidget.columnCount()):
-                if column == 4:
-                    widget = self.ui.tableWidget.cellWidget(row, column)
-                    row_data.append("Tak" if isinstance(widget, QCheckBox) and widget.isChecked() else "Nie")
-                else:
-                    item = self.ui.tableWidget.item(row, column)
-                    row_data.append(item.text() if item else "")
-            c.drawString(30, start_y - row * row_height, ", ".join(row_data))
-        c.save()
-        logger.info(f"Plik PDF zapisany jako: {file_path}")
-
-    def export_to_excel(self) -> None:
-        """Eksportuje widoczne dane tabeli do pliku Excel."""
-        file_path, _ = QFileDialog.getSaveFileName(
-            self.main, "Zapisz plik Excel", "", "Excel Files (*.xlsx);;All Files (*)"
-        )
-        if not file_path:
-            return
-        if not file_path.endswith(".xlsx"):
-            file_path += ".xlsx"
-        data = []
-        for row in range(self.ui.tableWidget.rowCount()):
-            if self.ui.tableWidget.isRowHidden(row):
-                continue
-            row_data = []
-            for column in range(self.ui.tableWidget.columnCount()):
-                if column == 4:
-                    widget = self.ui.tableWidget.cellWidget(row, column)
-                    row_data.append("Tak" if isinstance(widget, QCheckBox) and widget.isChecked() else "Nie")
-                else:
-                    item = self.ui.tableWidget.item(row, column)
-                    row_data.append(item.text() if item else "")
-            data.append(row_data)
-        df = pd.DataFrame(data, columns=["Imię", "Nazwisko", "Data urodzenia", "Wiek", "Flagi", "Tagi"])
-        df.to_excel(file_path, index=False)
-        logger.info(f"Plik Excel zapisany jako: {file_path}")
 
     def select_directory(self) -> None:
         """Pozwala wybrać katalog, a następnie wyświetla jego zawartość."""

@@ -13,6 +13,7 @@ import logging
 from typing import  Dict
 from PySide6.QtCore import QDate
 from src.firenet_viewer_widget.calendar_dialog_widget import DateRangeDialog
+import math
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 class pc_browser:
@@ -121,12 +122,16 @@ class pc_browser:
             self.history_download_gui_init()
             self.history_download_gui_init_done = True
 
-        rows = self.db_menager.get_download_history_browser_from_all_browser(self.db_menager.get_browser_table_type_list("_downloads"),self.history_download_browser_filters,self.history_browser_marge_filters,100,0)
+        self.pagination("_downloads",self.history_download_browser_filters,self.parent.ui.downladaNumerPageLineEdit,self.parent.ui.downloadMaxPageLabel,self.db_menager.generate_part_download_history_browser_query)
+        
+        rows = self.db_menager.get_download_history_browser_from_all_browser(self.db_menager.get_browser_table_type_list("_downloads"),self.history_download_browser_filters,self.history_browser_marge_filters,self.parent.page_limit,self.parent.page_ofset)
         self.parent.ui.networkBrowserTable.clearContents()
         self.parent.ui.networkBrowserTable.setRowCount(0)
         self.parent.ui.networkBrowserTable.setColumnCount(0)
         self.parent.ui.networkBrowserTable.setColumnCount(7)
         self.parent.ui.networkBrowserTable.setHorizontalHeaderLabels(["id","Domena", "Nazwa pliku","Data","Profil","Urzytkownik","Przeglądarka"])
+        
+        
         if rows:
             for row in rows:
                 row_position = self.parent.ui.networkBrowserTable.rowCount()
@@ -198,7 +203,8 @@ class pc_browser:
         self.parent.ui.historyBrowserTablet.setColumnCount(9)
         self.parent.ui.historyBrowserTablet.setHorizontalHeaderLabels(["Id","Domena","Tytuł","Liczba Wizyt","Data Wizyty","Profil","Urzytkownik","Przeglądarka"])
         #print(self.db_menager.get_history_browser_list())
-        df = self.db_menager.get_history_browser_from_all_browser(self.db_menager.get_browser_table_type_list("_history"),self.history_browser_filters,self.history_browser_marge_filters,100,0)
+        self.pagination("_history",self.history_browser_filters,self.parent.ui.historyBrowserNumerPageLineEdit,self.parent.ui.historyBrowserMaxPageLabel,self.db_menager.generate_part_history_browser_query)
+        df = self.db_menager.get_history_browser_from_all_browser(self.db_menager.get_browser_table_type_list("_history"),self.history_browser_filters,self.history_browser_marge_filters,self.parent.page_limit,self.parent.page_ofset)
 
         for _, row in df.iterrows():
             row_position = self.parent.ui.historyBrowserTablet.rowCount()
@@ -249,7 +255,7 @@ class pc_browser:
                 self.parent.ui.profileNameLabel.setText("Brak nazwy profilu")
             if rows[0][1] is not None:
                 self.parent.ui.historyUrlLabel.setText(str(rows[0][1]))
-                #self.parent.ui.historyWebEngineView.load(QUrl(str(rows[0][1])))
+                self.parent.ui.historyWebEngineView.load(QUrl(str(rows[0][1])))
             else:
                 self.parent.ui.historyUrlLabel.setText("Brak URL")
             if rows[0][2] is not None:
@@ -280,7 +286,6 @@ class pc_browser:
         sercher_list = self.db_menager.get_browser_table_type_list("_searchhistory")
         autofill_list = self.db_menager.get_browser_table_type_list("_autofill")
         browser_branch = []
-        print(file_branch)
 
         if hisotry_browser_liset:
             browser_branch.append("Historia przegladarek")
@@ -320,21 +325,34 @@ class pc_browser:
             #print("Clicked item name:", item_name)
             if item_name == "Historia przegladarek":
                 self.parent.ui.customQStackedWidget.setCurrentIndex(8)
+                self.page_number = 0
+                self.page_ofset = 0
                 self.db_menager.get_history_browser_from_all_browser(self.db_menager.get_browser_table_type_list("_history"),self.history_browser_filters,self.history_browser_marge_filters,100,0)
+                
             elif item_name == "Winformacje o Systemie":
                 self.parent.ui.customQStackedWidget.setCurrentIndex(4)
+                self.page_number = 0
+                self.page_ofset = 0
                 self.load_device_info()
             elif item_name == "Historia pobierania":
                 self.parent.ui.customQStackedWidget.setCurrentIndex(5)
+                self.page_number = 0
+                self.page_ofset = 0
                 self.db_menager.get_download_history_browser_from_all_browser(self.db_menager.get_browser_table_type_list("_downloads"),self.history_download_browser_filters,self.history_browser_marge_filters,100,0)
             elif item_name == "Zapisane loginy w przeglądarkach":
                 self.parent.ui.customQStackedWidget.setCurrentIndex(9)
+                self.page_number = 0
+                self.page_ofset = 0
                 self.load_save_login()
             elif item_name == "Historia wyszukiwania":
                 self.parent.ui.customQStackedWidget.setCurrentIndex(10)
+                self.page_number = 0
+                self.page_ofset = 0
                 self.load_sercher()
             elif item_name == "Zapisane dane autouzupełniania":
                 self.parent.ui.customQStackedWidget.setCurrentIndex(11)
+                self.page_number = 0
+                self.page_ofset = 0
                 self.load_autofill()
             elif item_name in self.parent.file_export_browser.table_dict:
                 self.parent.file_export_browser.focus_file_type = item_name
@@ -378,8 +396,8 @@ class pc_browser:
         if not self.login_gui_init_done:
             self.login_gui_init()
             self.login_gui_init_done = True
-
-        rows = self.db_menager.get_all_save_logins(self.db_menager.get_browser_table_type_list("_logins"),self.save_login_filters,self.history_browser_marge_filters,100,0)
+        self.pagination("_logins",self.save_login_filters,self.parent.ui.loginNumerPageLineEdit,self.parent.ui.loginMaxPageLabel,self.db_menager.generate_save_login_part_query)
+        rows = self.db_menager.get_all_save_logins(self.db_menager.get_browser_table_type_list("_logins"),self.save_login_filters,self.history_browser_marge_filters,self.parent.page_limit,self.parent.page_ofset)
 
         self.parent.ui.saveLoginTableWidget.setRowCount(0)
         self.parent.ui.saveLoginTableWidget.setColumnCount(0)
@@ -432,7 +450,9 @@ class pc_browser:
         if not self.sercher_history_gui_done:
             self.sercher_history_gui_init()
             self.sercher_history_gui_done = True
-        rows = self.db_menager.get_all_seracher(self.db_menager.get_browser_table_type_list("_searchhistory"),self.sercher_list_filters,self.history_browser_marge_filters,100,0)
+
+        self.pagination("_searchhistory",self.sercher_list_filters,self.parent.ui.sercharNumerPageLineEdit,self.parent.ui.sercharMaxPageLabel,self.db_menager.generate_sarcher_part_query)
+        rows = self.db_menager.get_all_seracher(self.db_menager.get_browser_table_type_list("_searchhistory"),self.sercher_list_filters,self.history_browser_marge_filters,self.parent.page_limit,self.parent.page_ofset)
 
         self.parent.ui.sercherTableWidget.setRowCount(0)
         self.parent.ui.sercherTableWidget.setColumnCount(0)
@@ -474,7 +494,7 @@ class pc_browser:
             print(rows)
             if rows[0][1] is not None:
                 self.parent.ui.sercherUrlLabel.setText(str(rows[0][1]))
-               # self.parent.ui.sercherWebEngineView.load(QUrl(str(rows[0][1])))
+                self.parent.ui.sercherWebEngineView.load(QUrl(str(rows[0][1])))
             else:
                 self.parent.ui.sercherUrlLabel.setText("Brak adresu URL")
             if rows[0][2] is not None:
@@ -490,7 +510,9 @@ class pc_browser:
         if not self.autofill_gui_init_done:
             self.autofill_gui_init()
             self.autofill_gui_init_done = True
-        rows = self.db_menager.get_all_autofill(self.db_menager.get_browser_table_type_list("_autofill"),self.autofill_filters,self.history_browser_marge_filters,100,0)
+        self.pagination("_autofill",self.autofill_filters,self.parent.ui.autofileNumerPageLineEdit,self.parent.ui.autofileMaxPageLabel,self.db_menager.generate_autofill_part_query)
+
+        rows = self.db_menager.get_all_autofill(self.db_menager.get_browser_table_type_list("_autofill"),self.autofill_filters,self.history_browser_marge_filters,self.parent.page_limit,self.parent.page_ofset)
 
         self.parent.ui.autofillTableWidget.setRowCount(0)
         self.parent.ui.autofillTableWidget.setColumnCount(0)
@@ -558,6 +580,9 @@ class pc_browser:
         
         self.key_filter_browser_history = KeyPressFilterTableBrowsers(self.parent.ui.historyBrowserTablet, self.load_history_deteils,self.load_history_deteils)
         self.parent.ui.historyBrowserTablet.installEventFilter(self.key_filter_browser_history)
+        self.parent.ui.historyBrowserPrevPageBtn.clicked.connect(lambda : self.prev_page(self.load_history_browser))
+        self.parent.ui.historyBrowserNextPageBtn.clicked.connect(lambda : self.next_page(self.load_history_browser))
+        
 
     def login_gui_init(self):
         self.parent.ui.saveLoginDomenLineEdit.editingFinished.connect(lambda : self.update_filter(self.save_login_filters,"url",self.load_save_login,self.parent.ui.saveLoginDomenLineEdit))
@@ -569,7 +594,8 @@ class pc_browser:
         self.parent.ui.saveLoginBrowserComboBox.currentTextChanged.connect(lambda : self.update_browser_name_filter(self.parent.ui.saveLoginBrowserComboBox,self.load_save_login))
         self.parent.ui.saveLoginProfilComboBox.currentTextChanged.connect(lambda : self.update_profile_name_filter(self.parent.ui.saveLoginProfilComboBox,self.load_save_login))
         self.parent.ui.saveLoginUserComboBox.currentTextChanged.connect(lambda : self.update_user_name_id_filter(self.parent.ui.saveLoginUserComboBox,self.load_save_login))
-
+        self.parent.ui.loginPrevPageBtn.clicked.connect(lambda : self.prev_page(self.load_save_login))
+        self.parent.ui.loginNextPageBtn.clicked.connect(lambda : self.next_page(self.load_save_login))
         self.key_filter_browser_save_login = KeyPressFilterTableBrowsers(self.parent.ui.saveLoginTableWidget, self.load_logins_deteils,self.load_logins_deteils)
         self.parent.ui.saveLoginTableWidget.installEventFilter(self.key_filter_browser_save_login)
 
@@ -584,7 +610,8 @@ class pc_browser:
         self.parent.ui.autofillBrowserComboBox.currentTextChanged.connect(lambda : self.update_browser_name_filter(self.parent.ui.autofillBrowserComboBox,self.load_autofill))
         self.parent.ui.autofillProfileComboBox.currentTextChanged.connect(lambda : self.update_profile_name_filter(self.parent.ui.autofillProfileComboBox,self.load_autofill))
         self.parent.ui.autofillUserComboBox.currentTextChanged.connect(lambda : self.update_user_name_id_filter(self.parent.ui.autofillUserComboBox,self.load_autofill))
-
+        self.parent.ui.autofilePrevPageBtn.clicked.connect(lambda : self.prev_page(self.load_autofill))
+        self.parent.ui.autofileNextPageBtn.clicked.connect(lambda : self.next_page(self.load_autofill))
         self.key_filter_browser_autofill = KeyPressFilterTableBrowsers(self.parent.ui.autofillTableWidget, self.load_autofill_deteils, self.load_autofill_deteils)
         self.parent.ui.autofillTableWidget.installEventFilter(self.key_filter_browser_autofill)
 
@@ -598,7 +625,8 @@ class pc_browser:
 
         self.key_filter_browser_sercher = KeyPressFilterTableBrowsers(self.parent.ui.sercherTableWidget, self.load_sercher_deteils,self.load_sercher_deteils)
         self.parent.ui.sercherTableWidget.installEventFilter(self.key_filter_browser_sercher)
-
+        self.parent.ui.sercharPrevPageBtn.clicked.connect(lambda : self.prev_page(self.load_sercher))
+        self.parent.ui.sercharNextPageBtn.clicked.connect(lambda : self.next_page(self.load_sercher))
     def history_download_gui_init(self):
         self.parent.ui.downloadDomenLineEdit.editingFinished.connect(lambda : self.update_filter(self.history_download_browser_filters,"url",self.load_borowser_download_history,self.parent.ui.downloadDomenLineEdit))
         self.parent.ui.fileNameLineEdit.editingFinished.connect(lambda : self.update_filter(self.history_download_browser_filters,"download_path",self.load_borowser_download_history,self.parent.ui.fileNameLineEdit))
@@ -609,10 +637,11 @@ class pc_browser:
         self.parent.ui.downloadBrowserComboBox.currentTextChanged.connect(lambda : self.update_browser_name_filter(self.parent.ui.downloadBrowserComboBox,self.load_borowser_download_history))
         self.parent.ui.downloadProfileComboBox.currentTextChanged.connect(lambda : self.update_profile_name_filter(self.parent.ui.downloadProfileComboBox,self.load_borowser_download_history))
         self.parent.ui.downladaUserComboBox.currentTextChanged.connect(lambda : self.update_user_name_id_filter(self.parent.ui.downladaUserComboBox,self.load_borowser_download_history))
-    
+        self.parent.ui.downladaPrevPageBtn.clicked.connect(lambda : self.prev_page(self.load_borowser_download_history))
+        self.parent.ui.downladaNextPageBtn.clicked.connect(lambda :  self.next_page(self.load_borowser_download_history))
         self.key_filter_browser_download_history = KeyPressFilterTableBrowsers(self.parent.ui.networkBrowserTable, self.load_download_deteils,self.load_download_deteils)
         self.parent.ui.networkBrowserTable.installEventFilter(self.key_filter_browser_download_history)
-
+        
     def update_profile_name_filter(self,profil_como_box,ladder_function):
         if profil_como_box.currentText() == "Wszystkie":
             self.history_browser_marge_filters["profile_name"] = ""
@@ -693,3 +722,22 @@ class pc_browser:
                 end_data_lineEdit.setText(date[1])
         else:
             end_data_lineEdit.setText("")
+
+    def next_page(self,loading_function):
+        self.parent.page_ofset = self.parent.page_ofset + self.parent.page_limit
+        if (self.parent.page_ofset/ self.parent.page_limit)  < self.parent.page_number:
+            loading_function()
+        else:
+            self.parent.page_ofset = self.parent.page_ofset-self.parent.page_limit
+
+    def prev_page(self,loading_function):
+        if self.parent.page_ofset > 0:
+            self.parent.page_ofset = self.parent.page_ofset-self.parent.page_limit
+            loading_function()
+
+    def pagination(self,teble_type,filers,line_edit,max_page,part_query_generator):
+        count_row = self.db_menager.get_download_count_row(self.db_menager.get_browser_table_type_list(teble_type),filers,self.history_browser_marge_filters,part_query_generator)
+        max_page.setText(f"/ {math.ceil(count_row[0][0]/self.parent.page_limit)}")
+        self.parent.page_number = math.ceil(count_row[0][0]/self.parent.page_limit)
+        print(f"TEST:{math.ceil(self.parent.page_ofset/self.parent.page_limit)+1}")
+        line_edit.setText(f"{math.ceil(self.parent.page_ofset/self.parent.page_limit)+1}")

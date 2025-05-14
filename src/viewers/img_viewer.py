@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import QGraphicsView,QGraphicsScene,QHBoxLayout,QScrollArea,QPushButton,QGraphicsPixmapItem,QTableWidget,QWidget,QVBoxLayout
 from PySide6.QtGui import QPainter,QIcon
+from PySide6.QtCore import Qt
 import logging
 #from src.viewers.explorer_function import view_cleaer,get_image_metadata,MetaDataTableWiget
 
@@ -14,31 +15,61 @@ class IMGViewer(QGraphicsView):
         self.metaDataWiget = QTableWidget()
         self.metaDataWiget.setColumnCount(2)
         self.metaDataWiget.setHorizontalHeaderLabels(['Nazwa','Wartość'])
-        
+        self.original_pixmap = None
 
-    def add_image_to_scene(self, pixmap):
+    def add_image_to_scene(self, pixmap, scaled=False, width=None, height=None):
         """Dodaje obraz do sceny"""
-        self.scene().clear()  
-        pixmap_item = QGraphicsPixmapItem(pixmap)
-        self.scene().addItem(pixmap_item) 
-        self.setSceneRect(pixmap_item.pixmap().rect())  
+        self.scene().clear()
+        if self.original_pixmap is None:
+            self.original_pixmap = pixmap  # zapisujemy tylko raz oryginał
+
+        if scaled and width and height:
+            pixmap = self.original_pixmap.scaled(width, height, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+            self.current_scale_factor = width / self.original_pixmap.width()
+        else:
+            self.current_scale_factor = 1.0
+
+        self.pixmap_item = QGraphicsPixmapItem(pixmap)
+        self.scene().addItem(self.pixmap_item)
+        self.setSceneRect(self.pixmap_item.boundingRect())
+ 
 
     def zoom_image(self):
-        self.scale(1.25,1.25)
+        self.current_scale_factor *= 1.25
+        self.rescale_from_original()
     
     def rezoom_image(self):
-        self.scale(0.75,0.75)
+        self.current_scale_factor *= 0.75
+        self.rescale_from_original()
+    
+    def rescale_from_original(self):
+        if self.original_pixmap:
+            width = self.original_pixmap.width() * self.current_scale_factor
+            height = self.original_pixmap.height() * self.current_scale_factor
+            scaled_pixmap = self.original_pixmap.scaled(
+                int(width), int(height), Qt.KeepAspectRatio, Qt.SmoothTransformation
+            )
+
+            # Zamiast dodawać do sceny od nowa – zmieniamy pixmapę istniejącego itemu
+            self.pixmap_item.setPixmap(scaled_pixmap)
+            self.setSceneRect(self.pixmap_item.boundingRect())
         
-def display_img_content(pixmap):
+def display_img_content(pixmap,parent_widget = None):
     """Zwraca tab Wiget"""
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.DEBUG)
     try:
         scene = QGraphicsScene()
         img_viewer = IMGViewer(scene)
-
         
-        img_viewer.add_image_to_scene(pixmap)
+        if parent_widget is not None:
+            available_width = parent_widget.width()
+            available_height = parent_widget.height()
+            img_viewer.add_image_to_scene(pixmap, scaled=True, width=available_width, height=available_height)
+
+        else:
+            img_viewer.add_image_to_scene(pixmap)
+            
 
         scroll_area = QScrollArea()
         scroll_area.setWidgetResizable(True)

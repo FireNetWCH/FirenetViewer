@@ -315,7 +315,6 @@ class database_pc_manager:
 
     def get_download_history_browser_from_all_browser(self,download_history_browser_list, download_history_browser_filters,download_history_browser_marge_filters,LIMIT=100, OFFSET=0):
         full_query = "SELECT h.id , url, download_path ,h.start_time ,d.profile_name, full_name,d.name FROM("
-        print(download_history_browser_list)
         for index, table in enumerate(download_history_browser_list):
             full_query += self.generate_part_download_history_browser_query(table,download_history_browser_filters)
             is_last = index == len(download_history_browser_list) - 1
@@ -329,6 +328,23 @@ class database_pc_manager:
             else:
                 full_query += " UNION ALL "
                 
+        print(full_query)
+        self.os_cursor.execute(full_query)
+        return self.os_cursor.fetchall()
+
+    def get_download_count_row(self,download_history_browser_list, download_history_browser_filters,download_history_browser_marge_filters,part_generator):
+        full_query = "SELECT count() FROM("
+        for index, table in enumerate(download_history_browser_list):
+            full_query += part_generator(table,download_history_browser_filters)
+            is_last = index == len(download_history_browser_list) - 1
+            if is_last:
+                marge_filters = self.generate_part_history_browser_filers_marge_query(download_history_browser_marge_filters)
+                full_query += f""") AS h
+                LEFT JOIN detected_browsers AS d ON h.browser_id = d.id
+                LEFT JOIN os_users AS u ON d.user_id = u.id
+                {marge_filters}"""
+            else:
+                full_query += " UNION ALL "
         print(full_query)
         self.os_cursor.execute(full_query)
         return self.os_cursor.fetchall()
@@ -534,6 +550,6 @@ class database_pc_manager:
             print(f"Błąd podczas pobiera szczegóły wybranego rekordu autouzupelniania z bazy danych: {e}")
             return None
 
-
-
+   
+    
                                 

@@ -5,7 +5,7 @@ import fitz
 import logging
 
 class PDFViewer(QGraphicsView):
-    def __init__(self,pdf_document,page_label: QLabel,all_page_count_label: QLabel,parent=None):
+    def __init__(self,pdf_document,page_label: QLabel,all_page_count_label: QLabel,parent=None,parent_wiget = None):
         super().__init__(parent)
         self.setRenderHint(QPainter.Antialiasing)
         self.setRenderHint(QPainter.SmoothPixmapTransform)
@@ -20,6 +20,8 @@ class PDFViewer(QGraphicsView):
         self.page_number = 0
         self.pdf_document = pdf_document
         self.zoom_in_factor = 1.15
+        self.parent_wiget = parent_wiget
+        self.zoom_factor = 1.0
         self.render_page()
 
     def wheelEvent(self, event: QWheelEvent) -> None:
@@ -37,38 +39,52 @@ class PDFViewer(QGraphicsView):
 
     def render_page(self):
         """Renders the current page onto the scene."""
+        self.scene.clear()
         page = self.pdf_document[self.page_number]
-        pix = page.get_pixmap(dpi=150)
+
+        base_dpi = 150  # bazowa jakość
+        default_pix = page.get_pixmap(dpi=base_dpi)
+        
+        # Jeśli pierwszy raz i mamy parent_wiget, dopasuj zoom_factor
+        if self.zoom_factor == 1.0 and self.parent_wiget is not None:
+            available_width = self.parent_wiget.width()
+            available_height = self.parent_wiget.height()
+
+            # Oszacuj zoom na podstawie rozmiaru okna i strony PDF
+            zoom_x = available_width / default_pix.width
+            zoom_y = available_height / default_pix.height
+            self.zoom_factor = min(zoom_x, zoom_y)  # zachowujemy proporcje
+
+        dpi = int(base_dpi * self.zoom_factor)
+        pix = page.get_pixmap(dpi=dpi)
+
         img = QImage(pix.samples, pix.width, pix.height, pix.stride, QImage.Format_RGB888)
         pixmap = QPixmap.fromImage(img)
+
         if pixmap.isNull():
             print(f"Page {self.page_number} failed to convert to QPixmap")
-        scene = self.scene
+
         pixmap_item = QGraphicsPixmapItem(pixmap)
-        scene.addItem(pixmap_item)
+        self.scene.addItem(pixmap_item)
 
-        self.setSceneRect(scene.itemsBoundingRect())
+        self.setSceneRect(pixmap_item.boundingRect())
         self.resetTransform()
-        self.scale(self.scale_factor, self.scale_factor)
-        self.ui = lambda: None
-        self.curent_page_number_label.setText(str(self.page_number))
+        self.curent_page_number_label.setText(str(self.page_number + 1))
         self.all_page_count_label.setText(f"/ {len(self.pdf_document)}")
-
         self.update()
     
     def plus_size_view_pdf_chenger(self):
         """Zwiększa rozmiar wyświetlanego PDF-a"""
-        self.scale(self.zoom_in_factor, self.zoom_in_factor)
-        self.scale_factor *= self.zoom_in_factor
-        
+        self.zoom_factor *= self.zoom_in_factor
+        self.render_page()
+
     def minus_size_view_pdf_chenger(self):
         """Zmniejsza rozmiar wyświetlanego PDF-a"""
-        self.zoom_out_factor = 1 / self.zoom_in_factor
-        self.scale(self.zoom_out_factor, self.zoom_out_factor)
-        self.scale_factor *= self.zoom_out_factor
+        self.zoom_factor /= self.zoom_in_factor
+        self.render_page()
         
 
-def display_pdf_content(pdf_document):
+def display_pdf_content(pdf_document,parent_wiget = None):
     """Wyświetla zawartość pliku PDF i niezbędne przyciski w widoku aplikacji."""
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.DEBUG)
@@ -86,7 +102,7 @@ def display_pdf_content(pdf_document):
         zoom_btn.setIcon((QIcon(":feather\\icons\\feather\\zoom-in.png")))
         rezoom_btn = QPushButton()
         rezoom_btn.setIcon((QIcon(":feather\\icons\\feather\\zoom-out.png")))
-        pdf_view = PDFViewer(pdf_document,curent_page_number_label,all_page_count_label)
+        pdf_view = PDFViewer(pdf_document,curent_page_number_label,all_page_count_label,parent_wiget=parent_wiget)
        
         prev_btn.pressed.connect(lambda: pdf_view.change_page(-1))
         next_btn.pressed.connect(lambda: pdf_view.change_page(1))

@@ -621,7 +621,7 @@ class Ui_MainWindow(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.scrollAreaWidgetContents_3 = QWidget()
         self.scrollAreaWidgetContents_3.setObjectName(u"scrollAreaWidgetContents_3")
-        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 520, 360))
+        self.scrollAreaWidgetContents_3.setGeometry(QRect(0, 0, 520, 410))
         sizePolicy1.setHeightForWidth(self.scrollAreaWidgetContents_3.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents_3.setSizePolicy(sizePolicy1)
         self.verticalLayout_34 = QVBoxLayout(self.scrollAreaWidgetContents_3)
@@ -1495,7 +1495,7 @@ class Ui_MainWindow(object):
         self.scrollArea_6.setWidgetResizable(True)
         self.scrollAreaWidgetContents_6 = QWidget()
         self.scrollAreaWidgetContents_6.setObjectName(u"scrollAreaWidgetContents_6")
-        self.scrollAreaWidgetContents_6.setGeometry(QRect(0, 0, 18, 18))
+        self.scrollAreaWidgetContents_6.setGeometry(QRect(0, 0, 356, 69))
         self.horizontalLayout_56 = QHBoxLayout(self.scrollAreaWidgetContents_6)
         self.horizontalLayout_56.setObjectName(u"horizontalLayout_56")
         self.widget_48 = QWidget(self.scrollAreaWidgetContents_6)
@@ -1519,7 +1519,7 @@ class Ui_MainWindow(object):
         self.scrollArea_5.setWidgetResizable(True)
         self.scrollAreaWidgetContents_5 = QWidget()
         self.scrollAreaWidgetContents_5.setObjectName(u"scrollAreaWidgetContents_5")
-        self.scrollAreaWidgetContents_5.setGeometry(QRect(0, 0, 18, 18))
+        self.scrollAreaWidgetContents_5.setGeometry(QRect(0, 0, 356, 69))
         self.horizontalLayout_55 = QHBoxLayout(self.scrollAreaWidgetContents_5)
         self.horizontalLayout_55.setObjectName(u"horizontalLayout_55")
         self.widget_45 = QWidget(self.scrollAreaWidgetContents_5)
@@ -1977,6 +1977,45 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_56.addWidget(self.label_11)
 
+        self.widget_104 = QWidget(self.widget_65)
+        self.widget_104.setObjectName(u"widget_104")
+        sizePolicy6.setHeightForWidth(self.widget_104.sizePolicy().hasHeightForWidth())
+        self.widget_104.setSizePolicy(sizePolicy6)
+        self.horizontalLayout_106 = QHBoxLayout(self.widget_104)
+        self.horizontalLayout_106.setSpacing(3)
+        self.horizontalLayout_106.setObjectName(u"horizontalLayout_106")
+        self.horizontalLayout_106.setContentsMargins(0, 0, 0, 0)
+        self.downladaPrevPageBtn = QPushButton(self.widget_104)
+        self.downladaPrevPageBtn.setObjectName(u"downladaPrevPageBtn")
+        sizePolicy6.setHeightForWidth(self.downladaPrevPageBtn.sizePolicy().hasHeightForWidth())
+        self.downladaPrevPageBtn.setSizePolicy(sizePolicy6)
+
+        self.horizontalLayout_106.addWidget(self.downladaPrevPageBtn)
+
+        self.downladaNumerPageLineEdit = QLineEdit(self.widget_104)
+        self.downladaNumerPageLineEdit.setObjectName(u"downladaNumerPageLineEdit")
+        sizePolicy6.setHeightForWidth(self.downladaNumerPageLineEdit.sizePolicy().hasHeightForWidth())
+        self.downladaNumerPageLineEdit.setSizePolicy(sizePolicy6)
+
+        self.horizontalLayout_106.addWidget(self.downladaNumerPageLineEdit)
+
+        self.downloadMaxPageLabel = QLabel(self.widget_104)
+        self.downloadMaxPageLabel.setObjectName(u"downloadMaxPageLabel")
+        sizePolicy6.setHeightForWidth(self.downloadMaxPageLabel.sizePolicy().hasHeightForWidth())
+        self.downloadMaxPageLabel.setSizePolicy(sizePolicy6)
+
+        self.horizontalLayout_106.addWidget(self.downloadMaxPageLabel)
+
+        self.downladaNextPageBtn = QPushButton(self.widget_104)
+        self.downladaNextPageBtn.setObjectName(u"downladaNextPageBtn")
+        sizePolicy6.setHeightForWidth(self.downladaNextPageBtn.sizePolicy().hasHeightForWidth())
+        self.downladaNextPageBtn.setSizePolicy(sizePolicy6)
+
+        self.horizontalLayout_106.addWidget(self.downladaNextPageBtn)
+
+
+        self.verticalLayout_56.addWidget(self.widget_104)
+
         self.widget_64 = QWidget(self.widget_65)
         self.widget_64.setObjectName(u"widget_64")
         self.horizontalLayout_75 = QHBoxLayout(self.widget_64)
@@ -2006,7 +2045,7 @@ class Ui_MainWindow(object):
         self.scrollArea_7.setWidgetResizable(True)
         self.scrollAreaWidgetContents_7 = QWidget()
         self.scrollAreaWidgetContents_7.setObjectName(u"scrollAreaWidgetContents_7")
-        self.scrollAreaWidgetContents_7.setGeometry(QRect(0, 0, 228, 179))
+        self.scrollAreaWidgetContents_7.setGeometry(QRect(0, 0, 369, 239))
         self.verticalLayout_53 = QVBoxLayout(self.scrollAreaWidgetContents_7)
         self.verticalLayout_53.setObjectName(u"verticalLayout_53")
         self.label_15 = QLabel(self.scrollAreaWidgetContents_7)
@@ -2443,7 +2482,7 @@ class Ui_MainWindow(object):
         self.scrollArea_4.setWidgetResizable(True)
         self.scrollAreaWidgetContents_4 = QWidget()
         self.scrollAreaWidgetContents_4.setObjectName(u"scrollAreaWidgetContents_4")
-        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 63, 28))
+        self.scrollAreaWidgetContents_4.setGeometry(QRect(0, 0, 744, 233))
         self.verticalLayout_43 = QVBoxLayout(self.scrollAreaWidgetContents_4)
         self.verticalLayout_43.setObjectName(u"verticalLayout_43")
         self.timeLineWiget = QWidget(self.scrollAreaWidgetContents_4)
@@ -2461,7 +2500,9 @@ class Ui_MainWindow(object):
         self.historyBrowserPage = QWidget()
         self.historyBrowserPage.setObjectName(u"historyBrowserPage")
         self.verticalLayout_59 = QVBoxLayout(self.historyBrowserPage)
+        self.verticalLayout_59.setSpacing(6)
         self.verticalLayout_59.setObjectName(u"verticalLayout_59")
+        self.verticalLayout_59.setContentsMargins(9, 9, 9, 9)
         self.widget_76 = QWidget(self.historyBrowserPage)
         self.widget_76.setObjectName(u"widget_76")
         sizePolicy6.setHeightForWidth(self.widget_76.sizePolicy().hasHeightForWidth())
@@ -2541,6 +2582,45 @@ class Ui_MainWindow(object):
         self.label_55.setObjectName(u"label_55")
 
         self.verticalLayout_59.addWidget(self.label_55)
+
+        self.widget_107 = QWidget(self.historyBrowserPage)
+        self.widget_107.setObjectName(u"widget_107")
+        sizePolicy6.setHeightForWidth(self.widget_107.sizePolicy().hasHeightForWidth())
+        self.widget_107.setSizePolicy(sizePolicy6)
+        self.horizontalLayout_109 = QHBoxLayout(self.widget_107)
+        self.horizontalLayout_109.setSpacing(3)
+        self.horizontalLayout_109.setObjectName(u"horizontalLayout_109")
+        self.horizontalLayout_109.setContentsMargins(0, 0, 0, 0)
+        self.historyBrowserPrevPageBtn = QPushButton(self.widget_107)
+        self.historyBrowserPrevPageBtn.setObjectName(u"historyBrowserPrevPageBtn")
+        sizePolicy6.setHeightForWidth(self.historyBrowserPrevPageBtn.sizePolicy().hasHeightForWidth())
+        self.historyBrowserPrevPageBtn.setSizePolicy(sizePolicy6)
+
+        self.horizontalLayout_109.addWidget(self.historyBrowserPrevPageBtn)
+
+        self.historyBrowserNumerPageLineEdit = QLineEdit(self.widget_107)
+        self.historyBrowserNumerPageLineEdit.setObjectName(u"historyBrowserNumerPageLineEdit")
+        sizePolicy6.setHeightForWidth(self.historyBrowserNumerPageLineEdit.sizePolicy().hasHeightForWidth())
+        self.historyBrowserNumerPageLineEdit.setSizePolicy(sizePolicy6)
+
+        self.horizontalLayout_109.addWidget(self.historyBrowserNumerPageLineEdit)
+
+        self.historyBrowserMaxPageLabel = QLabel(self.widget_107)
+        self.historyBrowserMaxPageLabel.setObjectName(u"historyBrowserMaxPageLabel")
+        sizePolicy10.setHeightForWidth(self.historyBrowserMaxPageLabel.sizePolicy().hasHeightForWidth())
+        self.historyBrowserMaxPageLabel.setSizePolicy(sizePolicy10)
+
+        self.horizontalLayout_109.addWidget(self.historyBrowserMaxPageLabel)
+
+        self.historyBrowserNextPageBtn = QPushButton(self.widget_107)
+        self.historyBrowserNextPageBtn.setObjectName(u"historyBrowserNextPageBtn")
+        sizePolicy6.setHeightForWidth(self.historyBrowserNextPageBtn.sizePolicy().hasHeightForWidth())
+        self.historyBrowserNextPageBtn.setSizePolicy(sizePolicy6)
+
+        self.horizontalLayout_109.addWidget(self.historyBrowserNextPageBtn)
+
+
+        self.verticalLayout_59.addWidget(self.widget_107)
 
         self.widget_68 = QWidget(self.historyBrowserPage)
         self.widget_68.setObjectName(u"widget_68")
@@ -2721,7 +2801,7 @@ class Ui_MainWindow(object):
         self.scrollArea_13.setWidgetResizable(True)
         self.scrollAreaWidgetContents_13 = QWidget()
         self.scrollAreaWidgetContents_13.setObjectName(u"scrollAreaWidgetContents_13")
-        self.scrollAreaWidgetContents_13.setGeometry(QRect(0, 0, 369, 308))
+        self.scrollAreaWidgetContents_13.setGeometry(QRect(0, 0, 369, 277))
         self.verticalLayout_61 = QVBoxLayout(self.scrollAreaWidgetContents_13)
         self.verticalLayout_61.setObjectName(u"verticalLayout_61")
         self.historyWebEngineView = QWebEngineView(self.scrollAreaWidgetContents_13)
@@ -2803,6 +2883,45 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_54.addWidget(self.label_40)
 
+        self.widget_106 = QWidget(self.saveLoginPage)
+        self.widget_106.setObjectName(u"widget_106")
+        sizePolicy10.setHeightForWidth(self.widget_106.sizePolicy().hasHeightForWidth())
+        self.widget_106.setSizePolicy(sizePolicy10)
+        self.horizontalLayout_108 = QHBoxLayout(self.widget_106)
+        self.horizontalLayout_108.setSpacing(3)
+        self.horizontalLayout_108.setObjectName(u"horizontalLayout_108")
+        self.horizontalLayout_108.setContentsMargins(0, 0, 0, 0)
+        self.loginPrevPageBtn = QPushButton(self.widget_106)
+        self.loginPrevPageBtn.setObjectName(u"loginPrevPageBtn")
+        sizePolicy6.setHeightForWidth(self.loginPrevPageBtn.sizePolicy().hasHeightForWidth())
+        self.loginPrevPageBtn.setSizePolicy(sizePolicy6)
+
+        self.horizontalLayout_108.addWidget(self.loginPrevPageBtn)
+
+        self.loginNumerPageLineEdit = QLineEdit(self.widget_106)
+        self.loginNumerPageLineEdit.setObjectName(u"loginNumerPageLineEdit")
+        sizePolicy6.setHeightForWidth(self.loginNumerPageLineEdit.sizePolicy().hasHeightForWidth())
+        self.loginNumerPageLineEdit.setSizePolicy(sizePolicy6)
+
+        self.horizontalLayout_108.addWidget(self.loginNumerPageLineEdit)
+
+        self.loginMaxPageLabel = QLabel(self.widget_106)
+        self.loginMaxPageLabel.setObjectName(u"loginMaxPageLabel")
+        sizePolicy10.setHeightForWidth(self.loginMaxPageLabel.sizePolicy().hasHeightForWidth())
+        self.loginMaxPageLabel.setSizePolicy(sizePolicy10)
+
+        self.horizontalLayout_108.addWidget(self.loginMaxPageLabel)
+
+        self.loginNextPageBtn = QPushButton(self.widget_106)
+        self.loginNextPageBtn.setObjectName(u"loginNextPageBtn")
+        sizePolicy6.setHeightForWidth(self.loginNextPageBtn.sizePolicy().hasHeightForWidth())
+        self.loginNextPageBtn.setSizePolicy(sizePolicy6)
+
+        self.horizontalLayout_108.addWidget(self.loginNextPageBtn)
+
+
+        self.verticalLayout_54.addWidget(self.widget_106)
+
         self.widget_57 = QWidget(self.saveLoginPage)
         self.widget_57.setObjectName(u"widget_57")
         self.horizontalLayout_67 = QHBoxLayout(self.widget_57)
@@ -2827,7 +2946,7 @@ class Ui_MainWindow(object):
         self.scrollArea_8.setWidgetResizable(True)
         self.scrollAreaWidgetContents_8 = QWidget()
         self.scrollAreaWidgetContents_8.setObjectName(u"scrollAreaWidgetContents_8")
-        self.scrollAreaWidgetContents_8.setGeometry(QRect(0, 0, 369, 250))
+        self.scrollAreaWidgetContents_8.setGeometry(QRect(0, 0, 369, 234))
         self.verticalLayout_60 = QVBoxLayout(self.scrollAreaWidgetContents_8)
         self.verticalLayout_60.setObjectName(u"verticalLayout_60")
         self.label_47 = QLabel(self.scrollAreaWidgetContents_8)
@@ -2983,6 +3102,41 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_62.addWidget(self.label_38)
 
+        self.widget_103 = QWidget(self.searcherPage)
+        self.widget_103.setObjectName(u"widget_103")
+        sizePolicy6.setHeightForWidth(self.widget_103.sizePolicy().hasHeightForWidth())
+        self.widget_103.setSizePolicy(sizePolicy6)
+        self.horizontalLayout_105 = QHBoxLayout(self.widget_103)
+        self.horizontalLayout_105.setSpacing(3)
+        self.horizontalLayout_105.setObjectName(u"horizontalLayout_105")
+        self.horizontalLayout_105.setContentsMargins(0, 0, 0, 0)
+        self.sercharPrevPageBtn = QPushButton(self.widget_103)
+        self.sercharPrevPageBtn.setObjectName(u"sercharPrevPageBtn")
+
+        self.horizontalLayout_105.addWidget(self.sercharPrevPageBtn)
+
+        self.sercharNumerPageLineEdit = QLineEdit(self.widget_103)
+        self.sercharNumerPageLineEdit.setObjectName(u"sercharNumerPageLineEdit")
+        sizePolicy6.setHeightForWidth(self.sercharNumerPageLineEdit.sizePolicy().hasHeightForWidth())
+        self.sercharNumerPageLineEdit.setSizePolicy(sizePolicy6)
+
+        self.horizontalLayout_105.addWidget(self.sercharNumerPageLineEdit)
+
+        self.sercharMaxPageLabel = QLabel(self.widget_103)
+        self.sercharMaxPageLabel.setObjectName(u"sercharMaxPageLabel")
+        sizePolicy6.setHeightForWidth(self.sercharMaxPageLabel.sizePolicy().hasHeightForWidth())
+        self.sercharMaxPageLabel.setSizePolicy(sizePolicy6)
+
+        self.horizontalLayout_105.addWidget(self.sercharMaxPageLabel)
+
+        self.sercharNextPageBtn = QPushButton(self.widget_103)
+        self.sercharNextPageBtn.setObjectName(u"sercharNextPageBtn")
+
+        self.horizontalLayout_105.addWidget(self.sercharNextPageBtn)
+
+
+        self.verticalLayout_62.addWidget(self.widget_103)
+
         self.widget_79 = QWidget(self.searcherPage)
         self.widget_79.setObjectName(u"widget_79")
         self.horizontalLayout_71 = QHBoxLayout(self.widget_79)
@@ -3135,7 +3289,7 @@ class Ui_MainWindow(object):
         self.scrollArea_12.setWidgetResizable(True)
         self.scrollAreaWidgetContents_12 = QWidget()
         self.scrollAreaWidgetContents_12.setObjectName(u"scrollAreaWidgetContents_12")
-        self.scrollAreaWidgetContents_12.setGeometry(QRect(0, 0, 369, 382))
+        self.scrollAreaWidgetContents_12.setGeometry(QRect(0, 0, 369, 351))
         self.verticalLayout_51 = QVBoxLayout(self.scrollAreaWidgetContents_12)
         self.verticalLayout_51.setSpacing(0)
         self.verticalLayout_51.setObjectName(u"verticalLayout_51")
@@ -3220,6 +3374,45 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_66.addWidget(self.label_56)
 
+        self.widget_105 = QWidget(self.page_2)
+        self.widget_105.setObjectName(u"widget_105")
+        sizePolicy10.setHeightForWidth(self.widget_105.sizePolicy().hasHeightForWidth())
+        self.widget_105.setSizePolicy(sizePolicy10)
+        self.horizontalLayout_107 = QHBoxLayout(self.widget_105)
+        self.horizontalLayout_107.setSpacing(3)
+        self.horizontalLayout_107.setObjectName(u"horizontalLayout_107")
+        self.horizontalLayout_107.setContentsMargins(0, 0, 0, 0)
+        self.autofilePrevPageBtn = QPushButton(self.widget_105)
+        self.autofilePrevPageBtn.setObjectName(u"autofilePrevPageBtn")
+        sizePolicy6.setHeightForWidth(self.autofilePrevPageBtn.sizePolicy().hasHeightForWidth())
+        self.autofilePrevPageBtn.setSizePolicy(sizePolicy6)
+
+        self.horizontalLayout_107.addWidget(self.autofilePrevPageBtn)
+
+        self.autofileNumerPageLineEdit = QLineEdit(self.widget_105)
+        self.autofileNumerPageLineEdit.setObjectName(u"autofileNumerPageLineEdit")
+        sizePolicy6.setHeightForWidth(self.autofileNumerPageLineEdit.sizePolicy().hasHeightForWidth())
+        self.autofileNumerPageLineEdit.setSizePolicy(sizePolicy6)
+
+        self.horizontalLayout_107.addWidget(self.autofileNumerPageLineEdit)
+
+        self.autofileMaxPageLabel = QLabel(self.widget_105)
+        self.autofileMaxPageLabel.setObjectName(u"autofileMaxPageLabel")
+        sizePolicy10.setHeightForWidth(self.autofileMaxPageLabel.sizePolicy().hasHeightForWidth())
+        self.autofileMaxPageLabel.setSizePolicy(sizePolicy10)
+
+        self.horizontalLayout_107.addWidget(self.autofileMaxPageLabel)
+
+        self.autofileNextPageBtn = QPushButton(self.widget_105)
+        self.autofileNextPageBtn.setObjectName(u"autofileNextPageBtn")
+        sizePolicy6.setHeightForWidth(self.autofileNextPageBtn.sizePolicy().hasHeightForWidth())
+        self.autofileNextPageBtn.setSizePolicy(sizePolicy6)
+
+        self.horizontalLayout_107.addWidget(self.autofileNextPageBtn)
+
+
+        self.verticalLayout_66.addWidget(self.widget_105)
+
         self.widget_77 = QWidget(self.page_2)
         self.widget_77.setObjectName(u"widget_77")
         self.horizontalLayout_79 = QHBoxLayout(self.widget_77)
@@ -3244,7 +3437,7 @@ class Ui_MainWindow(object):
         self.scrollArea_11.setWidgetResizable(True)
         self.scrollAreaWidgetContents_11 = QWidget()
         self.scrollAreaWidgetContents_11.setObjectName(u"scrollAreaWidgetContents_11")
-        self.scrollAreaWidgetContents_11.setGeometry(QRect(0, 0, 369, 248))
+        self.scrollAreaWidgetContents_11.setGeometry(QRect(0, 0, 369, 233))
         self.verticalLayout_68 = QVBoxLayout(self.scrollAreaWidgetContents_11)
         self.verticalLayout_68.setObjectName(u"verticalLayout_68")
         self.label_42 = QLabel(self.scrollAreaWidgetContents_11)
@@ -3460,7 +3653,9 @@ class Ui_MainWindow(object):
         sizePolicy1.setHeightForWidth(self.widget_92.sizePolicy().hasHeightForWidth())
         self.widget_92.setSizePolicy(sizePolicy1)
         self.verticalLayout_71 = QVBoxLayout(self.widget_92)
+        self.verticalLayout_71.setSpacing(3)
         self.verticalLayout_71.setObjectName(u"verticalLayout_71")
+        self.verticalLayout_71.setContentsMargins(0, 0, 0, 0)
         self.scrollArea_14 = QScrollArea(self.widget_92)
         self.scrollArea_14.setObjectName(u"scrollArea_14")
         sizePolicy1.setHeightForWidth(self.scrollArea_14.sizePolicy().hasHeightForWidth())
@@ -3468,7 +3663,7 @@ class Ui_MainWindow(object):
         self.scrollArea_14.setWidgetResizable(True)
         self.scrollAreaWidgetContents_15 = QWidget()
         self.scrollAreaWidgetContents_15.setObjectName(u"scrollAreaWidgetContents_15")
-        self.scrollAreaWidgetContents_15.setGeometry(QRect(0, 0, 341, 229))
+        self.scrollAreaWidgetContents_15.setGeometry(QRect(0, 0, 342, 196))
         self.verticalLayout_72 = QVBoxLayout(self.scrollAreaWidgetContents_15)
         self.verticalLayout_72.setObjectName(u"verticalLayout_72")
         self.label_58 = QLabel(self.scrollAreaWidgetContents_15)
@@ -3646,7 +3841,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_71.addWidget(self.fileExportWidget)
 
         self.verticalLayout_71.setStretch(0, 1)
-        self.verticalLayout_71.setStretch(1, 1)
+        self.verticalLayout_71.setStretch(1, 2)
 
         self.horizontalLayout_95.addWidget(self.widget_92)
 
@@ -4072,6 +4267,9 @@ class Ui_MainWindow(object):
         self.startDateDownloadLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Data od", None))
         self.endDateDownloadLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Data do", None))
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"Historia pobieranych plik\u00f3w:", None))
+        self.downladaPrevPageBtn.setText(QCoreApplication.translate("MainWindow", u"<-", None))
+        self.downloadMaxPageLabel.setText(QCoreApplication.translate("MainWindow", u"stron", None))
+        self.downladaNextPageBtn.setText(QCoreApplication.translate("MainWindow", u"->", None))
         self.label_15.setText(QCoreApplication.translate("MainWindow", u"SZCZWG\u00d3\u0141Y", None))
         self.urlStaticLabel.setText(QCoreApplication.translate("MainWindow", u"URL:", None))
         self.urlLabel.setText(QCoreApplication.translate("MainWindow", u"url", None))
@@ -4107,6 +4305,9 @@ class Ui_MainWindow(object):
         self.startDateLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Data od", None))
         self.endDatelineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Data do", None))
         self.label_55.setText(QCoreApplication.translate("MainWindow", u"Historia przegl\u0105danych stron internetowych", None))
+        self.historyBrowserPrevPageBtn.setText(QCoreApplication.translate("MainWindow", u"<-", None))
+        self.historyBrowserMaxPageLabel.setText(QCoreApplication.translate("MainWindow", u"strona", None))
+        self.historyBrowserNextPageBtn.setText(QCoreApplication.translate("MainWindow", u"->", None))
         self.label_61.setText(QCoreApplication.translate("MainWindow", u"SZCZEG\u00d3\u0141Y", None))
         self.label_49.setText(QCoreApplication.translate("MainWindow", u"Nazwa Profilu:", None))
         self.profileNameLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
@@ -4129,6 +4330,9 @@ class Ui_MainWindow(object):
         self.saveLoginUserComboBox.setToolTip("")
 #endif // QT_CONFIG(tooltip)
         self.label_40.setText(QCoreApplication.translate("MainWindow", u"Loginy zapisane w przegl\u0105darkach: ", None))
+        self.loginPrevPageBtn.setText(QCoreApplication.translate("MainWindow", u"<-", None))
+        self.loginMaxPageLabel.setText(QCoreApplication.translate("MainWindow", u"strona", None))
+        self.loginNextPageBtn.setText(QCoreApplication.translate("MainWindow", u"->", None))
         self.label_47.setText(QCoreApplication.translate("MainWindow", u"SZCZEG\u00d3\u0141Y", None))
         self.label_36.setText(QCoreApplication.translate("MainWindow", u"URL:", None))
         self.saveLoginUrlLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
@@ -4142,6 +4346,9 @@ class Ui_MainWindow(object):
         self.startSercharDateLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Data od", None))
         self.endSercharDateLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Data do", None))
         self.label_38.setText(QCoreApplication.translate("MainWindow", u"Historasz wyszukiwanych s\u0142\u00f3w", None))
+        self.sercharPrevPageBtn.setText(QCoreApplication.translate("MainWindow", u"<-", None))
+        self.sercharMaxPageLabel.setText(QCoreApplication.translate("MainWindow", u" \\ Strona", None))
+        self.sercharNextPageBtn.setText(QCoreApplication.translate("MainWindow", u"->", None))
         self.label_43.setText(QCoreApplication.translate("MainWindow", u"SZCZEG\u00d3\u0141Y", None))
         self.label_48.setText(QCoreApplication.translate("MainWindow", u"Fraza:", None))
         self.termLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
@@ -4151,6 +4358,9 @@ class Ui_MainWindow(object):
         self.sercherUrlLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.autofillCalendarBtn.setText("")
         self.label_56.setText(QCoreApplication.translate("MainWindow", u"Zapisane dane autouzupe\u0142nianie w przegl\u0105darkach", None))
+        self.autofilePrevPageBtn.setText(QCoreApplication.translate("MainWindow", u"<-", None))
+        self.autofileMaxPageLabel.setText(QCoreApplication.translate("MainWindow", u"strony", None))
+        self.autofileNextPageBtn.setText(QCoreApplication.translate("MainWindow", u"->", None))
         self.label_42.setText(QCoreApplication.translate("MainWindow", u"SZCZEG\u00d3\u0141Y", None))
         self.label_46.setText(QCoreApplication.translate("MainWindow", u"Nazwa rekordu:", None))
         self.autofillNameLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
