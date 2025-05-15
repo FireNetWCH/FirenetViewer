@@ -42,18 +42,16 @@ class PDFViewer(QGraphicsView):
         self.scene.clear()
         page = self.pdf_document[self.page_number]
 
-        base_dpi = 150  # bazowa jakość
+        base_dpi = 150  
         default_pix = page.get_pixmap(dpi=base_dpi)
         
-        # Jeśli pierwszy raz i mamy parent_wiget, dopasuj zoom_factor
+        
         if self.zoom_factor == 1.0 and self.parent_wiget is not None:
             available_width = self.parent_wiget.width()
             available_height = self.parent_wiget.height()
-
-            # Oszacuj zoom na podstawie rozmiaru okna i strony PDF
             zoom_x = available_width / default_pix.width
             zoom_y = available_height / default_pix.height
-            self.zoom_factor = min(zoom_x, zoom_y)  # zachowujemy proporcje
+            self.zoom_factor = min(zoom_x, zoom_y)
 
         dpi = int(base_dpi * self.zoom_factor)
         pix = page.get_pixmap(dpi=dpi)

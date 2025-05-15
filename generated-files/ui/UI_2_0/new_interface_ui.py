@@ -4076,7 +4076,7 @@ class Ui_MainWindow(object):
 
         self.menuBtn.setDefault(False)
         self.centerMenuPages.setCurrentIndex(4)
-        self.customQStackedWidget.setCurrentIndex(12)
+        self.customQStackedWidget.setCurrentIndex(10)
         self.startDataBtn.setDefault(False)
         self.left_btn.setDefault(True)
         self.rigth_btn.setDefault(True)

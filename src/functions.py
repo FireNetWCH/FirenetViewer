@@ -93,10 +93,12 @@ class GUIFunctions:
         ## Uruchomienie odczytu obrazu dysku
         
          
-        # self.disc_imgae_explorer = DiscViewers(parent=self)
-        # self.ui.tabWidget_2.addTab(self.disc_imgae_explorer,"DISC_IMG")
-        # tab_bar = self.ui.tabWidget_2.tabBar()
-        # tab_bar.setTabButton(0, QTabBar.RightSide, None)  
+        self.disc_imgae_explorer = DiscViewers(parent=self)
+        self.ui.tabWidget_2.addTab(self.disc_imgae_explorer,"DISC_IMG")
+        tab_bar = self.ui.tabWidget_2.tabBar()
+        tab_bar.setTabButton(0, QTabBar.RightSide, None)
+        self.ui.eksploratorImgBtn.clicked.connect(lambda: self.ui.customQStackedWidget.setCurrentIndex(6))
+
     def _connect_signals(self) -> None:
         """Łączy sygnały z odpowiednimi metodami."""
         # Menu (centralne i boczne)
@@ -116,7 +118,6 @@ class GUIFunctions:
         #Left Menu 
         #print(self.ui.mainPages)
         
-        self.ui.eksploratorImgBtn.clicked.connect(lambda: self.ui.customQStackedWidget.setCurrentIndex(4))
 
         # Obsługa wyszukiwania i filtrów
         # self.ui.searchBtn.clicked.connect(self.show_search_results)

@@ -953,7 +953,7 @@
                  <item>
                   <widget class="QCustomQStackedWidget" name="customQStackedWidget">
                    <property name="currentIndex">
-                    <number>12</number>
+                    <number>10</number>
                    </property>
                    <widget class="QWidget" name="page">
                     <layout class="QVBoxLayout" name="verticalLayout_36">
