@@ -5,7 +5,7 @@ from src.ui_interface import Ui_MainWindow
 from Custom_Widgets import *
 from Custom_Widgets.QCustomQToolTip import QCustomQToolTipFilter
 from Custom_Widgets.QAppSettings import QAppSettings
-from PySide6.QtCore import QCoreApplication
+from PySide6.QtCore import QCoreApplication,QTranslator
 
  
 import os
@@ -19,8 +19,14 @@ def get_resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 class MainWindow(QMainWindow):
-    def __init__(self, parent=None):
+    def __init__(self,app,parent=None):
         super().__init__(parent)
+        self.current_language = "en"
+        self.translator = QTranslator(app)
+        self.translator.load("translations_en.qm")
+        self.app = app
+        app.installTranslator(self.translator)
+
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         
@@ -45,7 +51,7 @@ if __name__ == "__main__":
     # app.processEvents()
     app_tooltip_filter = QCustomQToolTipFilter(tailPosition="top-center",duration=1000)
     app.installEventFilter(app_tooltip_filter)
-    window = MainWindow()
+    window = MainWindow(app)
     if getattr(sys, 'frozen', False):
         import pyi_splash # type: ignore
         if getattr(sys, 'frozen', False):

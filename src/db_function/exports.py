@@ -5,7 +5,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import Paragraph,Table, TableStyle,SimpleDocTemplate
 from reportlab.lib.styles import getSampleStyleSheet,ParagraphStyle
 import src.db_function.db_email_function as db_email
-from PySide6.QtCore import QObject, QThread, Signal,Qt
+from PySide6.QtCore import QObject, QThread, Signal,Qt,QCoreApplication
 import re
 import os
 from PySide6.QtWidgets import QFileDialog
@@ -285,7 +285,7 @@ def remove_multi_new_line(text):
 
 def export_to_pdf(self,db_connection,path,sql_name,active_filters,emeils_grout,attachments_options) -> None:
         """Eksportuje emaile oznaczone flagami do pliku PDF."""
-        dir_path = QFileDialog.getExistingDirectory(self.main, "Wybierz folder do zapisu PDF")
+        dir_path = QFileDialog.getExistingDirectory(self.main, QCoreApplication.translate("exports","Wybierz folder do zapisu PDF"))
         if not dir_path:
             return
         if emeils_grout == "1":
@@ -316,7 +316,7 @@ def export_to_pdf(self,db_connection,path,sql_name,active_filters,emeils_grout,a
 
 def export_to_excel(self,db_connection,path,sql_name,active_filters,emeils_grout,attachments_options) -> None:
         """Eksportuje dane oznaczone flagami do tabeli"""
-        file_path = QFileDialog.getExistingDirectory(self.main, "Wybierz folder do zapisu Exela")
+        file_path = QFileDialog.getExistingDirectory(self.main, QCoreApplication.translate("exports","Wybierz folder do zapisu Exela"))
         if not file_path:
             return
         

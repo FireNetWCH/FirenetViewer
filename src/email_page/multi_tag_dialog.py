@@ -3,6 +3,7 @@ import os
 import sqlite3
 import src.db_function.db_email_function as db_email
 import logging
+from PySide6.QtCore import QCoreApplication
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
@@ -14,11 +15,11 @@ class MultiTagInputDialog(QDialog):
         self.path = path
         self.setWindowTitle("Dodaj nową kategorię")
         self.new_tag_input = QLineEdit(self)
-        self.new_tag_input.setPlaceholderText("Wpisz nową kategorię tutaj...")
+        self.new_tag_input.setPlaceholderText(QCoreApplication.translate("multi_tag_dialog","Wpisz nową kategorię tutaj..."))
         
-        self.radio_btn_local = QRadioButton("Dodaj lokalnie")
+        self.radio_btn_local = QRadioButton(QCoreApplication.translate("multi_tag_dialog","Dodaj lokalnie"))
         self.radio_btn_local.setChecked(True)
-        self.radio_btn_global = QRadioButton("Dodaj globalnie")
+        self.radio_btn_global = QRadioButton(QCoreApplication.translate("multi_tag_dialog","Dodaj globalnie"))
 
         self.button_group = QButtonGroup(self)
         self.button_group.addButton(self.radio_btn_local)

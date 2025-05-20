@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import QListWidget, QListWidgetItem, QCheckBox, QPushButton, QVBoxLayout, QDialog
 from src.email_page.multi_tag_dialog import MultiTagInputDialog
 from src.email_page.tag_dialog import TagCrud
+from PySide6.QtCore import QCoreApplication
 class MultiTagSelector(QDialog):
     """Dialog do edycji tagów użytkownika."""
     def __init__(self, user_id=None,sql_name = None, connection=None, parent=None,path =None):
@@ -9,12 +10,12 @@ class MultiTagSelector(QDialog):
         self.connection = connection
         self.path = path
         self.sql_name = sql_name
-        self.setWindowTitle("Wybierz kategorie")
+        self.setWindowTitle(QCoreApplication.translate("multi_tag_selector","Wybierz kategorie"))
         self.tag_list = QListWidget(self)
         self.ok_btn = QPushButton("OK", self)
         self.ok_btn.clicked.connect(self.apply_changes)
-        self.edit_btn = QPushButton("Edycja", self)
-        self.add_btn = QPushButton("Dodaj Kategorie")
+        self.edit_btn = QPushButton(QCoreApplication.translate("multi_tag_selector","Edycja"), self)
+        self.add_btn = QPushButton(QCoreApplication.translate("multi_tag_selector","Dodaj Kategorie"))
 
         self.add_btn.clicked.connect(self.open_add_tag_dialog)
         self.edit_btn.clicked.connect(self.open_tag_crud)
@@ -77,7 +78,7 @@ class MultiTagSelectorMultiEmail(QDialog):
         super().__init__(parent)
         self.user_id = user_id
         self.connection = connection
-        self.setWindowTitle("Wybierz kategorie")
+        self.setWindowTitle(QCoreApplication.translate("multi_tag_selector","Wybierz kategorie"))
         self.tag_list = QListWidget(self)
         self.ok_btn = QPushButton("OK", self)
         self.ok_btn.clicked.connect(self.get_list)

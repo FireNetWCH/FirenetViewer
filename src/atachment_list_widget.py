@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import QWidget, QPushButton, QHBoxLayout, QLabel,QFileDialog,QSizePolicy
 from PySide6.QtGui import QPixmap,QIcon
 from src.viewers.wiget_generator import generator_wiget
+from PySide6.QtCore import QCoreApplication
 import pandas as pd
 import fitz
 import os
@@ -107,7 +108,7 @@ class FileListItem(QWidget):
     
     def copy_file(self,path):
 
-        destination_path, _ = QFileDialog.getSaveFileName(None, "Zapisz plik jako",self.file_name, self.file_name.split('.')[-1])
+        destination_path, _ = QFileDialog.getSaveFileName(None,QCoreApplication.translate("atachment_list", "Zapisz plik jako"),self.file_name, self.file_name.split('.')[-1])
         try:
          if destination_path:
             shutil.copy(path, destination_path)

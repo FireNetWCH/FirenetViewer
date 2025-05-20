@@ -1,0 +1,15 @@
+src/email_page/multi_tag_selector.py
+src/email_page/label_dialog.py
+src/email_page/multi_tag_dialog.py
+src/email_page/context_menu.py 
+src
+src/message_box
+src/message_box/date_warning.py
+src/email_page/selector_tag_sercher.py
+src/email_page/tag_dialog.py
+src/graphs_page/mein_graps_page.py
+src/viewers/not_support_file.py
+generated-files/ui/new_interface.ui
+src/calendar_dialog_widget.py
+src/email_page/export_options.py
+src/db_function/exports.py

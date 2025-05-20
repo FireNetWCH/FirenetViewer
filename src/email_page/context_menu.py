@@ -9,6 +9,7 @@ from src.email_page.main_emeil_table import load_data_from_database
 from src.email_page.multi_tag_selector import MultiTagSelectorMultiEmail
 from src.email_page.main_emeil_table import load_data_from_database
 from src.message_box.date_warning import add_labels_worning
+from PySide6.QtCore import QCoreApplication
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
@@ -33,7 +34,7 @@ class LabelContextMenu(ContextMenu):
     def show(self, pos, context_widget):
         all_labels = db_email.get_all_labels_name(self.db_connection)
         labelContextMenu = QMenu(self.main)
-        submenu = QMenu("Nadaj Etykiete", labelContextMenu)
+        submenu = QMenu(QCoreApplication.translate("context_meny","Nadaj Etykiete"), labelContextMenu)
 
         selected_text = context_widget.selectedText()
         #print(selected_text)
@@ -43,7 +44,7 @@ class LabelContextMenu(ContextMenu):
             action.triggered.connect(lambda checked, value=row[0]: self.add_lebels_to_db(value, selected_text,self.parent))
             submenu.addAction(action)
         
-        add_new_label_action = QAction("+ Dodaj nową", self.main)
+        add_new_label_action = QAction(QCoreApplication.translate("context_meny","+ Dodaj nową"), self.main)
         add_new_label_action.triggered.connect(lambda : self.super_add_label(context_widget))
         labelContextMenu.addMenu(submenu)
         submenu.addAction(add_new_label_action)
@@ -86,7 +87,7 @@ class EditLabelContextMenu(LabelContextMenu):
         all_labels = db_email.get_all_labels_name(self.db_connection)
         labelContextMenu = QMenu(self.main)
 
-        submenu = QMenu("Dodaj etykiete", labelContextMenu)
+        submenu = QMenu(QCoreApplication.translate("context_meny","Dodaj etykiete"), labelContextMenu)
 
         selected_text = context_widget.selectedText()
 
@@ -95,14 +96,14 @@ class EditLabelContextMenu(LabelContextMenu):
             action.triggered.connect(lambda checked, value=row[0]: self.add_lebels_to_db(value, selected_text,self.parent))
             submenu.addAction(action)
 
-        add_new_label_action = QAction("+ Dodaj nową", self.main)
+        add_new_label_action = QAction(QCoreApplication.translate("context_meny","+ Dodaj nową"), self.main)
         add_new_label_action.triggered.connect(lambda: self.show_label_crud(self.parent))
         labelContextMenu.addMenu(submenu)
         submenu.addAction(add_new_label_action)
         labelContextMenu.addMenu(submenu)
         
 
-        action_edit = QAction("Edytuj etykietę", self.main)
+        action_edit = QAction(QCoreApplication.translate("context_meny","Edytuj etykietę"), self.main)
         action_edit.triggered.connect(lambda: self.edit_label(selected_text,self.parent))
         labelContextMenu.addAction(action_edit)
 
@@ -120,7 +121,7 @@ class TableContextMenu(ContextMenu):
 
     def show(self, pos, context_widget):
         labelContextMenu = QMenu(self.parent)
-        set_multi_tag_action = labelContextMenu.addAction("Nadaj kategorie")
+        set_multi_tag_action = labelContextMenu.addAction(QCoreApplication.translate("context_meny","Nadaj kategorie"))
         set_multi_tag_action.triggered.connect(lambda : self.set_multi_tag(self.main.db_connection,context_widget))
         labelContextMenu.exec(context_widget.mapToGlobal(pos))
 

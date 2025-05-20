@@ -1,11 +1,11 @@
 from PySide6.QtWidgets import QListWidget, QListWidgetItem, QCheckBox, QPushButton, QVBoxLayout, QDialog
-from PySide6.QtCore import QSize
+from PySide6.QtCore import QSize,QCoreApplication
 class SekectorTag(QDialog):
     """Dialog do edycji tagów użytkownika."""
     def __init__(self, connection,user_tag, parent=None):
         super().__init__(parent)
         self.connection = connection
-        self.setWindowTitle("Wybierz kategorie")
+        self.setWindowTitle(QCoreApplication.translate("selector_tag_sercher","Wybierz kategorie"))
         self.tag_list = QListWidget(self)
         self.tag_list.setObjectName("sekectorTag")
         self.ok_btn = QPushButton("OK", self)
@@ -24,7 +24,7 @@ class SekectorTag(QDialog):
         self.tag_list.clear()
         default_item = QListWidgetItem(self.tag_list)
         default_item.setSizeHint(QSize(150, 28))
-        default_checkbox = QCheckBox("BEZ KATEGORI")
+        default_checkbox = QCheckBox(QCoreApplication.translate("selector_tag_sercher","BEZ KATEGORI"))
         tag_list = user_tags['tag'].strip("()").replace("'", "").split(',')
         if "#_empty_#" in tag_list:
             default_checkbox.setChecked(True)

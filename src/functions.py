@@ -10,8 +10,6 @@ from PySide6.QtWidgets import (QLineEdit,QApplication,
     QTreeView, QVBoxLayout, QFileDialog,QListWidgetItem, QTreeWidget, QMainWindow,QListWidget,QHeaderView,QSizeGrip
 )
 
-import matplotlib.pyplot as plt
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from reportlab.lib.pagesizes import letter
 
 from PySide6.QtCore import QPropertyAnimation as QAnimation
@@ -96,7 +94,7 @@ class GUIFunctions(QObject):
     def _setup_ui(self,path_database) -> None:
         """Inicjalizacja interfejsu – ustawienia czcionki, motywu oraz połączenia sygnałów."""
         self.enable_column_rearrangement()
-        self.load_product_sans_font()
+        # self.load_product_sans_font()
         self.initialize_app_theme()
         self.display_database(path_database)
         self.display_folders_in_help_page()
@@ -148,7 +146,7 @@ class GUIFunctions(QObject):
         new_label = ScalableLabel(parent=old_label.parent())
         new_label.setObjectName("label_7")
         new_label.setGeometry(old_label.geometry())
-
+        self.ui.label_7 = new_label
         layout = old_label.parentWidget().layout()
         if layout:
             index = layout.indexOf(old_label)
@@ -178,8 +176,23 @@ class GUIFunctions(QObject):
     def debuging(self):
         self.main.showMinimized()
         
-        
-        
+    def change_language(self):
+        print("test")
+        print(self.main.current_language)
+        if self.main.current_language == "en":
+            self.main.translator.load("translations_pl.qm")
+            self.main.current_language = "pl"
+            self.main.app.installTranslator(self.main.translator)
+        else:
+            self.main.translator.load("translations_en.qm")
+            self.main.current_language = "en"
+            self.main.app.installTranslator(self.main.translator)
+        # self.translator = QTranslator(app)
+        # self.translator.load("translations_en.qm")
+        self.main.ui.retranslateUi(self.main)
+        pixmap = QPixmap(get_resource_path("miniLogo.png"))
+        scaled_pixmap = pixmap.scaled(40, 40, Qt.KeepAspectRatio)
+        self.ui.label_23.setPixmap(scaled_pixmap)
     def _connect_signals(self) -> None:
         """Łączy sygnały z odpowiednimi metodami."""
         # Menu (centralne i boczne)
@@ -193,11 +206,11 @@ class GUIFunctions(QObject):
         self.ui.moreBtn.clicked.connect(lambda: self.ui.rightMenu.expandMenu())
         self.ui.profileBtn.clicked.connect(lambda: self.ui.rightMenu.expandMenu())
         self.ui.closeRightMenuBtn.clicked.connect(lambda: self.ui.rightMenu.collapseMenu())
-        
+        self.ui.languageBtn.clicked.connect(lambda: self.change_language())
         
         self.ui.minimalizeBtn.clicked.connect(self.debuging)
         self.ui.restoreBtn.clicked.connect(self.toggle_window_state)
-        self.ui.graphsBtn.clicked.connect(lambda :load_stat(self,self.db_connection))
+        self.ui.graphsBtn.clicked.connect(lambda : load_stat(self,self.db_connection))
         
        
        

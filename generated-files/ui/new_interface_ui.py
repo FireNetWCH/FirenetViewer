@@ -445,6 +445,11 @@ class Ui_MainWindow(object):
         self.horizontalLayout_10.setSpacing(2)
         self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
         self.horizontalLayout_10.setContentsMargins(0, 0, 0, 0)
+        self.languageBtn = QPushButton(self.frame_3)
+        self.languageBtn.setObjectName(u"languageBtn")
+
+        self.horizontalLayout_10.addWidget(self.languageBtn)
+
         self.minimalizeBtn = QPushButton(self.frame_3)
         self.minimalizeBtn.setObjectName(u"minimalizeBtn")
 
@@ -1199,7 +1204,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, -65, 520, 382))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 520, 382))
         sizePolicy1.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents.setSizePolicy(sizePolicy1)
         self.verticalLayout_20 = QVBoxLayout(self.scrollAreaWidgetContents)
@@ -2208,7 +2213,7 @@ class Ui_MainWindow(object):
 
         self.menuBtn.setDefault(False)
         self.centerMenuPages.setCurrentIndex(0)
-        self.mainPages.setCurrentIndex(1)
+        self.mainPages.setCurrentIndex(3)
         self.startDataBtn.setDefault(False)
         self.rightMenuPages.setCurrentIndex(0)
 
@@ -2235,7 +2240,7 @@ class Ui_MainWindow(object):
         self.pst_files_btn.setText(QCoreApplication.translate("MainWindow", u"Dodaj plik .pst", None))
         self.select_directory.setText(QCoreApplication.translate("MainWindow", u"Dodaj katalog", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Help", None))
-        self.label_23.setText(QCoreApplication.translate("MainWindow", u"LOGO", None))
+        self.label_23.setText("")
         self.titleTxt.setText(QCoreApplication.translate("MainWindow", u"FireNet Viewer e-mail ", None))
         self.notificationBtn.setText("")
         self.moreBtn.setText("")
@@ -2243,6 +2248,7 @@ class Ui_MainWindow(object):
         self.searchinp.setPlaceholderText(QCoreApplication.translate("MainWindow", u"search...", None))
         self.label_9.setText("")
         self.searchBtn.setText(QCoreApplication.translate("MainWindow", u"Ctrl+K", None))
+        self.languageBtn.setText(QCoreApplication.translate("MainWindow", u"L", None))
         self.minimalizeBtn.setText("")
         self.restoreBtn.setText("")
         self.closeBtn.setText("")
@@ -2320,7 +2326,7 @@ class Ui_MainWindow(object):
         self.prevEmailTableBtn.setText("")
         self.label_20.setText(QCoreApplication.translate("MainWindow", u"Strona : ", None))
         self.jumpToPagelineEdit.setPlaceholderText("")
-        self.pageNumberLabel.setText(QCoreApplication.translate("MainWindow", u"XXX", None))
+        self.pageNumberLabel.setText("")
 #if QT_CONFIG(tooltip)
         self.nextEmailTableBtn.setToolTip(QCoreApplication.translate("MainWindow", u"Strona Nast\u0119pna", None))
 #endif // QT_CONFIG(tooltip)

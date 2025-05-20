@@ -38,3 +38,11 @@ do dist/main
 **ONE-FILE**
 Przy przygotowywaniu pliku EXE w wersji jedno plikowej należy zmodyfikować dwa pliki (SassCompiler.py i colorsystem.py) z biblioteki Custom_Widgets.
 Należy przed zasobami pobieranymi z plików umieścić funkcję która przy uruchamianiu z EXE wskaże na zasoby umieszczone w folderze tymczasowym tworzonym przez pyInstallera. (Zmodyfikowane pliku są umieszczone w repozytorium można je tylko przekleić.)
+
+**TRANSLACJA**
+-> Z poziomu folderu z projektem pyside6-lupdate @translation.txt -ts translations_pl.ts (w txt muszą znajdować sie ścieżki do plików py/ui kture mają zostać przeskanowane w celu wykrycia tekstu do tłumaczenia)
+-> W narzędziu graficznym Qt linguist (można odpalić np. z CMD) lub recznie usupełniająć plik ts dodajemy tłumaczenia
+-> następnie za pomocą: pyside6-lrelease translations_pl.ts dokonujemy konwerski na plik binarny któr należy wskazać w aplikacji
+
+
+

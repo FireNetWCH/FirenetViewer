@@ -1,12 +1,11 @@
 from PySide6.QtWidgets import (QPushButton, QDialog, QCalendarWidget, QVBoxLayout, QLabel,QHBoxLayout)
 from PySide6.QtGui import (QTextCharFormat, QColor)
-from PySide6.QtCore import (QDate)
+from PySide6.QtCore import (QDate,QCoreApplication)
 from src.message_box import date_warning
-
 class DateRangeDialog(QDialog):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Wybierz datę")
+        self.setWindowTitle(QCoreApplication.translate("calendar_dialog_widget","Wybierz datę"))
         self.layout = QVBoxLayout()
         self.calendar_layout = QHBoxLayout()
         self.last_data_start = QDate()
@@ -25,11 +24,11 @@ class DateRangeDialog(QDialog):
 #     border: 1px solid #D8D8D8;
 #     border-radius: 4px; }
 #   """)
-        self.label1 = QLabel("Wybierz początek zakresu")
+        self.label1 = QLabel(QCoreApplication.translate("calendar_dialog_widget","Wybierz początek zakresu"))
         self.label2 = QLabel("")
 
         self.calendar2 = QCalendarWidget()
-        self.label3 = QLabel("Wybierz koniec zakresu")
+        self.label3 = QLabel(QCoreApplication.translate("calendar_dialog_widget","Wybierz koniec zakresu"))
         self.label4 = QLabel("")
 
         self.calendar_layout.addWidget(self.calendar1)
@@ -46,7 +45,7 @@ class DateRangeDialog(QDialog):
         self.layout.addLayout(self.labels_layout)
 
         self.button_ok = QPushButton("OK")
-        self.button_clear = QPushButton("Wyczść daty")
+        self.button_clear = QPushButton(QCoreApplication.translate("calendar_dialog_widget","Wyczść daty"))
         self.button_cancel = QPushButton("Anuluj")
 
         self.layout.addWidget(self.button_ok)

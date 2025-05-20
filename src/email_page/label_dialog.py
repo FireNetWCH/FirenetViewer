@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QListWidget, QListWidgetItem, QPushButton, QVBoxLayout, QDialog,QLineEdit,QHBoxLayout,QWidget,QRadioButton,QButtonGroup
 from PySide6.QtGui import QIcon
-from PySide6.QtCore import QSize
+from PySide6.QtCore import QSize,QCoreApplication
 from src.db_function.db_email_function import delate_label,updata_label_name,connect_to_database
 import os
 from src.email_page.tag_dialog import DeleteConfirmDialog
@@ -14,11 +14,11 @@ class LabelsCrud(QDialog):
         super().__init__(parent)
         self.connection = connection
         self.path = path
-        self.setWindowTitle("Wybierz etykiete")
+        self.setWindowTitle(QCoreApplication.translate("label_dialog","Wybierz etykiete"))
         self.label_list = QListWidget(self)
         self.label_list.setObjectName("labelCrud")
         self.ok_btn = QPushButton("OK", self)
-        self.add_btn = QPushButton("Dodaj nową etykiete...", self)
+        self.add_btn = QPushButton(QCoreApplication.translate("label_dialog","Dodaj nową etykiete...", self))
         # self.setObjectName("tagger")
 
         self.ok_btn.clicked.connect(self.accept)
@@ -106,10 +106,10 @@ class LabelInputDialog(QDialog):
         self.db_connection = None
         self.setWindowTitle("Dodaj nową etykete")
         self.new_tag_input = QLineEdit(self)
-        self.new_tag_input.setPlaceholderText("Wpisz nową etykete tutaj...")
+        self.new_tag_input.setPlaceholderText(QCoreApplication.translate("label_dialog","Wpisz nową etykete tutaj..."))
 
-        self.radio_local = QRadioButton("Dodaj etykiete loklanie")
-        self.radio_global = QRadioButton("Dodaj etykiete globalnie")
+        self.radio_local = QRadioButton(QCoreApplication.translate("label_dialog","Dodaj etykiete loklanie"))
+        self.radio_global = QRadioButton(QCoreApplication.translate("label_dialog","Dodaj etykiete globalnie"))
         self.radio_local.setChecked(True)
 
         self.button_group = QButtonGroup(self)

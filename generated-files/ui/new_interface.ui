@@ -651,7 +651,7 @@
               <item>
                <widget class="QLabel" name="label_23">
                 <property name="text">
-                 <string>LOGO</string>
+                 <string/>
                 </property>
                </widget>
               </item>
@@ -847,6 +847,13 @@
                   <number>0</number>
                  </property>
                  <item>
+                  <widget class="QPushButton" name="languageBtn">
+                   <property name="text">
+                    <string>L</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
                   <widget class="QPushButton" name="minimalizeBtn">
                    <property name="text">
                     <string/>
@@ -918,7 +925,7 @@
                  <item>
                   <widget class="QCustomQStackedWidget" name="mainPages">
                    <property name="currentIndex">
-                    <number>1</number>
+                    <number>3</number>
                    </property>
                    <widget class="QWidget" name="page">
                     <layout class="QVBoxLayout" name="verticalLayout_36">
@@ -2191,7 +2198,7 @@
                            </sizepolicy>
                           </property>
                           <property name="text">
-                           <string>XXX</string>
+                           <string/>
                           </property>
                          </widget>
                         </item>

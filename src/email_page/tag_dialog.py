@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QListWidget, QListWidgetItem, QPushButton, QVBoxLayout, QDialog,QLineEdit,QHBoxLayout,QWidget,QLabel
-from PySide6.QtCore import QSize
+from PySide6.QtCore import QSize,QCoreApplication
 from PySide6.QtGui import QIcon
 from src.db_function.db_email_function import delate_tag,updata_tag
 from src.email_page.multi_tag_dialog import MultiTagInputDialog
@@ -13,18 +13,18 @@ class TagCrud(QDialog):
         self.connection = connection
         self.sql_name=sql_name
         self.path = path
-        self.setWindowTitle("Wybierz kategorie")
+        self.setWindowTitle(QCoreApplication.translate("selector_tag_sercher","Wybierz kategorie"))
         self.tag_list = QListWidget(self)
         self.tag_list.setObjectName("sekectorTag")
         self.ok_btn = QPushButton("OK", self)
-        self.add_btn = QPushButton("Dodaj nową kategorie...", self)
+        self.add_btn = QPushButton(QCoreApplication.translate("selector_tag_sercher","Dodaj nową kategorie...", self))
         self.setObjectName("tagger")
 
         self.ok_btn.clicked.connect(self.accept)
         self.add_btn.clicked.connect(self.open_add_tag_dialog)
 
         layout = QVBoxLayout(self) 
-        label = QLabel(f"Skrzynki Email: {self.sql_name}")
+        label = QLabel(QCoreApplication.translate("selector_tag_sercher","Skrzynki Email:")+f"{self.sql_name}")
         layout.addWidget(label)      
         layout.addWidget(self.tag_list)
         layout.addWidget(self.add_btn)
@@ -95,12 +95,12 @@ def delete_and_refresh(self, connection, tag_id,tag_name):
 class DeleteConfirmDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("Zakres usunięcia")
+        self.setWindowTitle(QCoreApplication.translate("selector_tag_sercher","Zakres usunięcia"))
         layout = QVBoxLayout()
-        self.label = QLabel("Czy usunąć lokalnie czy globalnie?")
+        self.label = QLabel(QCoreApplication.translate("selector_tag_sercher","Czy usunąć lokalnie czy globalnie?"))
         layout.addWidget(self.label)
-        self.radio_local = QRadioButton("Usuń tylko lokalnie dla tej skrzynki")
-        self.radio_global = QRadioButton("Usuń ze wszystkich skrzynek pocztowych")
+        self.radio_local = QRadioButton(QCoreApplication.translate("selector_tag_sercher","Usuń tylko lokalnie dla tej skrzynki"))
+        self.radio_global = QRadioButton(QCoreApplication.translate("selector_tag_sercher","Usuń ze wszystkich skrzynek pocztowych"))
         self.radio_local.setChecked(True)
 
         self.button_group = QButtonGroup(self)

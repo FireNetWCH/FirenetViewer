@@ -1,11 +1,8 @@
 import src.db_function.db_email_function as db_email
 from PySide6.QtWidgets import QVBoxLayout,QWidget
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from PySide6.QtWidgets import QVBoxLayout, QWidget,QSizePolicy,QScrollArea
 from PySide6.QtWebEngineWidgets import QWebEngineView
-from PySide6.QtCore import QUrl
-from matplotlib.figure import Figure
-import matplotlib.dates as mdates
+from PySide6.QtCore import QUrl,QCoreApplication
 import numpy as np
 from collections import defaultdict
 import pandas as pd
@@ -14,8 +11,16 @@ from pyvis.network import Network
 import os
 import sys
 import logging
+import matplotlib
+matplotlib.rcParams['font.family'] = 'DejaVu Sans'
+matplotlib.rcParams['font.sans-serif'] = ['DejaVu Sans']
 import matplotlib as plt
 import matplotlib.dates as mdates
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+import matplotlib.dates as mdates
+from matplotlib.figure import Figure
+
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
@@ -30,24 +35,26 @@ def get_resource_path(relative_path):
 
 def load_stat(parent,connect):
     try:
+        matplotlib.rcParams['font.family'] = 'DejaVu Sans'
         # QApplication.setAttribute(Qt.AA_DisableHighDpiScaling)
         propaply_onwer = db_email.get_propaply_email_owner_data(connect)
         #print(propaply_onwer)
-        parent.ui.nameLabel.setText(propaply_onwer[0][0])
-        parent.ui.emailLabel.setText(propaply_onwer[0][1])
-        best_sender = db_email.get_best_recipients(connect,propaply_onwer[0][0],propaply_onwer[0][1],1)
-        best_recipients = db_email.get_best_recipients(connect,propaply_onwer[0][0],propaply_onwer[0][1],0)
-        emails = defaultdict(lambda: [0, 0])
-        for email, sender_count, recipients_count in best_sender:
-            emails[email][0] += sender_count
-            emails[email][1] += recipients_count
+        if propaply_onwer[0][0] is not None and propaply_onwer[0][0] is not None:
+            parent.ui.nameLabel.setText(propaply_onwer[0][0])
+            parent.ui.emailLabel.setText(propaply_onwer[0][1])
+            best_sender = db_email.get_best_recipients(connect,propaply_onwer[0][0],propaply_onwer[0][1],1)
+            best_recipients = db_email.get_best_recipients(connect,propaply_onwer[0][0],propaply_onwer[0][1],0)
+            emails = defaultdict(lambda: [0, 0])
+            for email, sender_count, recipients_count in best_sender:
+                emails[email][0] += sender_count
+                emails[email][1] += recipients_count
 
 
-        for email, sender_count, recipients_count in best_recipients:
-            emails[email][0] += sender_count
-            emails[email][1] += recipients_count
+            for email, sender_count, recipients_count in best_recipients:
+                emails[email][0] += sender_count
+                emails[email][1] += recipients_count
 
-        concat_list = [(email, dane[0], dane[1]) for email, dane in emails.items()]
+            concat_list = [(email, dane[0], dane[1]) for email, dane in emails.items()]
 
         # table = parent.ui.bestRecipientsTable
         # table.setRowCount(len(concat_list))
@@ -95,9 +102,9 @@ def load_stat(parent,connect):
         for email, count_sent, count_received in concat_list:
             G.add_node(email)
             if count_sent > 0:
-                G.add_edge(central_node, email, title=f"Wyslano: {count_sent}",label=f"W: {count_sent}")
+                G.add_edge(central_node, email, title=QCoreApplication.translate("main_graps","Wyslano")+f": {count_sent}",label=f"W: {count_sent}")
             if count_received > 0:
-                G.add_edge(email, central_node,title=f"Odebrano: {count_received}",label=f"O: {count_received}")
+                G.add_edge(email, central_node,title=QCoreApplication.translate("main_graps","Odebrano")+f": {count_received}",label=f"O: {count_received}")
 
         net = Network(height='100%', width='100%', directed=True, notebook=False,cdn_resources='in_line')
         net.from_nx(G)
@@ -238,9 +245,9 @@ def load_stat(parent,connect):
         ax.set_xticks(xticks)
         ax.xaxis.set_major_locator(mdates.AutoDateLocator(minticks=5, maxticks=10))
         ax.grid(True, linestyle='--', alpha=0.6)
-        ax.set_ylabel("Liczba wiadomości", fontsize=12)
-        ax.set_xlabel(f"Zakres jednego słupka to : {bin_width_timedelta} dni", fontsize=6)
-        ax.set_title("Histogram wiadomości (50 równych przedziałów czasu)", fontsize=10, fontweight='bold')
+        ax.set_ylabel(QCoreApplication.translate("main_graps","Liczba wiadomości"), fontsize=12)
+        ax.set_xlabel(QCoreApplication.translate("main_graps","Zakres jednego słupka to")+f" : {bin_width_timedelta} dni", fontsize=6)
+        ax.set_title(QCoreApplication.translate("main_graps","Histogram wiadomości (50 równych przedziałów czasu)"), fontsize=10, fontweight='bold')
         ax.tick_params(axis='x', labelsize=10)
         ax.tick_params(axis='y', labelsize=10)
         canvas.draw()

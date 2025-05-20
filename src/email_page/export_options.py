@@ -1,4 +1,5 @@
 from PySide6.QtWidgets import QVBoxLayout, QDialog,QRadioButton,QDialogButtonBox,QCheckBox
+from PySide6.QtCore import QCoreApplication
 class ExportSelector(QDialog):
     """Tworzy okno dialogowe zawierające opcje eksportu wiadomości email"""
     def __init__(self):
@@ -7,16 +8,16 @@ class ExportSelector(QDialog):
         
         layout = QVBoxLayout()
 
-        self.radio1 = QRadioButton("Wiadomości oznaczone flagami")
-        self.radio2 = QRadioButton("Wiadomości spełniające aktualny filtr")
-        self.radio3 = QRadioButton("Wiadomości zaznaczone")
+        self.radio1 = QRadioButton(QCoreApplication.translate("export_options","Wiadomości oznaczone flagami"))
+        self.radio2 = QRadioButton(QCoreApplication.translate("export_options","Wiadomości spełniające aktualny filtr"))
+        self.radio3 = QRadioButton(QCoreApplication.translate("export_options","Wiadomości zaznaczone"))
         self.radio1.setChecked(True)
 
         layout.addWidget(self.radio1)
         layout.addWidget(self.radio2)
         layout.addWidget(self.radio3)
         
-        self.checkBox = QCheckBox("Eksport załączników",tristate=False,)
+        self.checkBox = QCheckBox(QCoreApplication.translate("export_options","Eksport załączników"),tristate=False,)
         self.checkBox.setChecked(True)
        
         self.buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
