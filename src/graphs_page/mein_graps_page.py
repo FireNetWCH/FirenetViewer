@@ -33,28 +33,37 @@ def get_resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 
-def load_stat(parent,connect):
+def load_stat(parent,connect,sql_name):
     try:
-        matplotlib.rcParams['font.family'] = 'DejaVu Sans'
+        
         # QApplication.setAttribute(Qt.AA_DisableHighDpiScaling)
         propaply_onwer = db_email.get_propaply_email_owner_data(connect)
         #print(propaply_onwer)
-        if propaply_onwer[0][0] is not None and propaply_onwer[0][0] is not None:
-            parent.ui.nameLabel.setText(propaply_onwer[0][0])
-            parent.ui.emailLabel.setText(propaply_onwer[0][1])
-            best_sender = db_email.get_best_recipients(connect,propaply_onwer[0][0],propaply_onwer[0][1],1)
-            best_recipients = db_email.get_best_recipients(connect,propaply_onwer[0][0],propaply_onwer[0][1],0)
-            emails = defaultdict(lambda: [0, 0])
-            for email, sender_count, recipients_count in best_sender:
-                emails[email][0] += sender_count
-                emails[email][1] += recipients_count
+        print("SQL:" + sql_name)
+        if len(propaply_onwer) <= 0:
+            print("SQL:" + sql_name)
+            print(sql_name.split(' - ')[0])
+            propaply_onwer = [[None, None]]
+            propaply_onwer[0][0] = sql_name.split(' - ')[0]
+            propaply_onwer[0][1] =sql_name.split(' - ')[0]
+        if len(propaply_onwer) > 0:
+
+            if  propaply_onwer[0][0] is not None and propaply_onwer[0][1] is not None:
+                parent.ui.nameLabel.setText(propaply_onwer[0][0])
+                parent.ui.emailLabel.setText(propaply_onwer[0][1])
+                best_sender = db_email.get_best_recipients(connect,propaply_onwer[0][0],propaply_onwer[0][1],1)
+                best_recipients = db_email.get_best_recipients(connect,propaply_onwer[0][0],propaply_onwer[0][1],0)
+                emails = defaultdict(lambda: [0, 0])
+                for email, sender_count, recipients_count in best_sender:
+                    emails[email][0] += sender_count
+                    emails[email][1] += recipients_count
 
 
-            for email, sender_count, recipients_count in best_recipients:
-                emails[email][0] += sender_count
-                emails[email][1] += recipients_count
+                for email, sender_count, recipients_count in best_recipients:
+                    emails[email][0] += sender_count
+                    emails[email][1] += recipients_count
 
-            concat_list = [(email, dane[0], dane[1]) for email, dane in emails.items()]
+                concat_list = [(email, dane[0], dane[1]) for email, dane in emails.items()]
 
         # table = parent.ui.bestRecipientsTable
         # table.setRowCount(len(concat_list))
@@ -92,90 +101,71 @@ def load_stat(parent,connect):
         # graph_widget.setLayout(grapg_layout)
 
         #$$$$$$$$$$$$$$$$$$$$$
-        
-        graph_widget = parent.ui.widget_30
-        graph_layout = QVBoxLayout()
-        G = nx.DiGraph()
-        central_node = propaply_onwer[0][1]
-        G.add_node(central_node)
-
-        for email, count_sent, count_received in concat_list:
-            G.add_node(email)
-            if count_sent > 0:
-                G.add_edge(central_node, email, title=QCoreApplication.translate("main_graps","Wyslano")+f": {count_sent}",label=f"W: {count_sent}")
-            if count_received > 0:
-                G.add_edge(email, central_node,title=QCoreApplication.translate("main_graps","Odebrano")+f": {count_received}",label=f"O: {count_received}")
-
-        net = Network(height='100%', width='100%', directed=True, notebook=False,cdn_resources='in_line')
-        net.from_nx(G)
-        net.set_options("""
-    {
-    "physics": {
-        "barnesHut": {
-        "gravitationalConstant": -2500,
-        "centralGravity": 0.2,
-        "springLength": 200,
-        "springConstant": 0.04,
-        "damping": 0.09,
-        "avoidOverlap": 1
-        },
-        "stabilization": {
-        "enabled": true,
-        "iterations": 200
-        }
-    },
-    "layout": {
-        "improvedLayout": true
-    },
-    "edges": {
-        "arrows": {
-        "to": { "enabled": true }
-        },
-        "font": {
-        "align": "middle"
-        },
-        "width": 2
-    },
-    "nodes": {
-        "shape": "dot",
-        "size": 20
-    }
-    }
-    """)
-        html_path = os.path.abspath(get_resource_path("graph.html"))
-        html = net.generate_html()  
-
-        with open(html_path, "w", encoding="utf-8") as f:
-            f.write(html)
-        view = QWebEngineView()
-        view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        # view.reload()
-        url = QUrl.fromLocalFile(html_path)
-        # url.setQuery(f"t={QDateTime.currentDateTime().toMSecsSinceEpoch()}")
-
-        view.load(url)
-        # view.reload()
-        
-        graph_layout = parent.ui.widget_30.layout()
-        if graph_layout is None:
-            graph_layout = QVBoxLayout(parent.ui.widget_30)
-            parent.ui.widget_30.setLayout(graph_layout)
-        for i in reversed(range(graph_layout.count())):
-            widget_to_remove = graph_layout.itemAt(i).widget()
-            # print(widget_to_remove)
-            if widget_to_remove:
-                widget_to_remove.setParent(None)
+                print(f"NONE : {propaply_onwer[0][1]}")
                 
-        scroll_area = QScrollArea()
-        scroll_area.setWidgetResizable(True)
-        scroll_area.setWidget(view)
-        graph_layout.addWidget(scroll_area)
-        
+                
+                G = nx.DiGraph()
+                central_node = propaply_onwer[0][1]
+                
+                G.add_node(central_node)
 
-        #QWidget().setLayout(old_layout)
-        graph_widget.setLayout(graph_layout)
-        #parent.ui.widget_30.setLayout(old_layout)
-        #$$$$$$$$$$$$$$$$$$$$$
+                for email, count_sent, count_received in concat_list:
+                    G.add_node(email)
+                    if count_sent > 0:
+                        G.add_edge(central_node, email, title=QCoreApplication.translate("main_graps","Wyslano")+f": {count_sent}",label=f"W: {count_sent}")
+                    if count_received > 0:
+                        G.add_edge(email, central_node,title=QCoreApplication.translate("main_graps","Odebrano")+f": {count_received}",label=f"O: {count_received}")
+
+                net = Network(height='100%', width='100%', directed=True, notebook=False,cdn_resources='in_line')
+                net.from_nx(G)
+                net.set_options("""
+            {
+            "physics": {
+                "barnesHut": {
+                "gravitationalConstant": -2500,
+                "centralGravity": 0.2,
+                "springLength": 200,
+                "springConstant": 0.04,
+                "damping": 0.09,
+                "avoidOverlap": 1
+                },
+                "stabilization": {
+                "enabled": true,
+                "iterations": 200
+                }
+            },
+            "layout": {
+                "improvedLayout": true
+            },
+            "edges": {
+                "arrows": {
+                "to": { "enabled": true }
+                },
+                "font": {
+                "align": "middle"
+                },
+                "width": 2
+            },
+            "nodes": {
+                "shape": "dot",
+                "size": 20
+            }
+            }
+            """)
+                html_path = os.path.abspath(get_resource_path("graph.html"))
+                html = net.generate_html()  
+
+                with open(html_path, "w", encoding="utf-8") as f:
+                    f.write(html)
+                view = parent.ui.startWebEngineView
+                #view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+                # view.reload()
+                url = QUrl.fromLocalFile(html_path)
+                
+
+                view.load(url)
+        
+                #$$$$$$$$$$$$$$$$$$$$$
         group_date = db_email.get_grup_data(connect)
         df = pd.DataFrame(group_date, columns=['date', 'count'])
         date_list = df['date'].tolist()

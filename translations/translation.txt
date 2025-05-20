@@ -13,3 +13,4 @@ generated-files/ui/new_interface.ui
 src/calendar_dialog_widget.py
 src/email_page/export_options.py
 src/db_function/exports.py
+src/label_page/main_label_page.py

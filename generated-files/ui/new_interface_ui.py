@@ -15,6 +15,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
+from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import (QAbstractScrollArea, QApplication, QComboBox, QDockWidget,
     QFrame, QGraphicsView, QHBoxLayout, QHeaderView,
     QLabel, QLayout, QLineEdit, QListView,
@@ -1211,7 +1212,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, -65, 520, 382))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 520, 382))
         sizePolicy1.setHeightForWidth(self.scrollAreaWidgetContents.sizePolicy().hasHeightForWidth())
         self.scrollAreaWidgetContents.setSizePolicy(sizePolicy1)
         self.verticalLayout_20 = QVBoxLayout(self.scrollAreaWidgetContents)
@@ -1969,13 +1970,11 @@ class Ui_MainWindow(object):
         self.horizontalLayout_40 = QHBoxLayout(self.graphWidget)
         self.horizontalLayout_40.setObjectName(u"horizontalLayout_40")
         self.horizontalLayout_40.setContentsMargins(-1, 0, -1, -1)
-        self.widget_30 = QWidget(self.graphWidget)
-        self.widget_30.setObjectName(u"widget_30")
-        self.horizontalLayout_43 = QHBoxLayout(self.widget_30)
-        self.horizontalLayout_43.setObjectName(u"horizontalLayout_43")
-        self.horizontalLayout_43.setContentsMargins(-1, 0, -1, -1)
+        self.startWebEngineView = QWebEngineView(self.graphWidget)
+        self.startWebEngineView.setObjectName(u"startWebEngineView")
+        self.startWebEngineView.setUrl(QUrl(u"about:blank"))
 
-        self.horizontalLayout_40.addWidget(self.widget_30)
+        self.horizontalLayout_40.addWidget(self.startWebEngineView)
 
 
         self.verticalLayout_38.addWidget(self.graphWidget)

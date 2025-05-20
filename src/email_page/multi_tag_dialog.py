@@ -13,7 +13,7 @@ class MultiTagInputDialog(QDialog):
         super().__init__(parent)
         self.db_connection = connection
         self.path = path
-        self.setWindowTitle("Dodaj nową kategorię")
+        self.setWindowTitle(QCoreApplication.translate("multi_tag_dialog","Dodaj nową kategorię"))
         self.new_tag_input = QLineEdit(self)
         self.new_tag_input.setPlaceholderText(QCoreApplication.translate("multi_tag_dialog","Wpisz nową kategorię tutaj..."))
         

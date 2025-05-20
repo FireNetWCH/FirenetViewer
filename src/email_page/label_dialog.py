@@ -18,7 +18,7 @@ class LabelsCrud(QDialog):
         self.label_list = QListWidget(self)
         self.label_list.setObjectName("labelCrud")
         self.ok_btn = QPushButton("OK", self)
-        self.add_btn = QPushButton(QCoreApplication.translate("label_dialog","Dodaj nową etykiete...", self))
+        self.add_btn = QPushButton(QCoreApplication.translate("label_dialog","Dodaj nową etykiete..."), self)
         # self.setObjectName("tagger")
 
         self.ok_btn.clicked.connect(self.accept)
@@ -104,7 +104,7 @@ class LabelInputDialog(QDialog):
         self.connection = connection
         self.path = path
         self.db_connection = None
-        self.setWindowTitle("Dodaj nową etykete")
+        self.setWindowTitle(QCoreApplication.translate("label_dialog","Dodaj nową etykete"))
         self.new_tag_input = QLineEdit(self)
         self.new_tag_input.setPlaceholderText(QCoreApplication.translate("label_dialog","Wpisz nową etykete tutaj..."))
 

@@ -2392,7 +2392,7 @@
                               <property name="geometry">
                                <rect>
                                 <x>0</x>
-                                <y>-65</y>
+                                <y>0</y>
                                 <width>520</width>
                                 <height>382</height>
                                </rect>
@@ -4053,12 +4053,12 @@
                                <number>0</number>
                               </property>
                               <item>
-                               <widget class="QWidget" name="widget_30" native="true">
-                                <layout class="QHBoxLayout" name="horizontalLayout_43">
-                                 <property name="topMargin">
-                                  <number>0</number>
-                                 </property>
-                                </layout>
+                               <widget class="QWebEngineView" name="startWebEngineView">
+                                <property name="url">
+                                 <url>
+                                  <string>about:blank</string>
+                                 </url>
+                                </property>
                                </widget>
                               </item>
                              </layout>
@@ -4492,6 +4492,11 @@
   </widget>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>QWebEngineView</class>
+   <extends>QWidget</extends>
+   <header location="global">QtWebEngineWidgets/QWebEngineView</header>
+  </customwidget>
   <customwidget>
    <class>QCustomSlideMenu</class>
    <extends>QWidget</extends>

@@ -211,7 +211,7 @@ class GUIFunctions(QObject):
         self.ui.languagePlBtn.clicked.connect(lambda: self.set_pl_language())
         self.ui.minimalizeBtn.clicked.connect(self.debuging)
         self.ui.restoreBtn.clicked.connect(self.toggle_window_state)
-        self.ui.graphsBtn.clicked.connect(lambda : load_stat(self,self.db_connection))
+        self.ui.graphsBtn.clicked.connect(lambda : load_stat(self,self.db_connection,self.sql_name))
         
        
        
@@ -828,7 +828,11 @@ class GUIFunctions(QObject):
                 item.setSizeHint(widget.sizeHint())  
                 listAttachments.addItem(item)  
                 listAttachments.setItemWidget(item, widget)
-            listAttachments.itemClicked.disconnect()
+            try:
+                listAttachments.itemClicked.disconnect()
+            except TypeError:
+                pass   
+            #listAttachments.itemClicked.disconnect()
             listAttachments.itemClicked.connect(lambda item: on_item_clicked(item))
             listAttachments.setFixedHeight(60)
         else:

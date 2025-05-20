@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QTableWidgetItem,QAbstractItemView,QPushButton,QHeaderView,QLabel,QListWidget,QListWidgetItem,QComboBox
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt,QCoreApplication
 from PySide6.QtGui import QColor
 import src.db_function.db_email_function as db_email
 import sqlite3
@@ -51,7 +51,7 @@ def load_all_labels(self):
             else:
                 item = QTableWidgetItem(str(cell_data) if cell_data else "")
                 self.ui.LabelTableWidget.setItem(row_idx, col_idx, item)
-        delete_button = QPushButton("Usuń")
+        delete_button = QPushButton(QCoreApplication.translate("main_label_page","Usuń"))
         delete_button.clicked.connect(lambda _, id=label_id: delete_row(self,id))
         delete_button.setFocusPolicy(Qt.NoFocus)
         self.ui.LabelTableWidget.setCellWidget(row_idx, len(row_data), delete_button)
@@ -126,7 +126,11 @@ def load_clicked_email_on_labels(self, row):
         item.setSizeHint(widget.sizeHint())
         listAttachments.addItem(item)
         listAttachments.setItemWidget(item, widget)
-    listAttachments.itemClicked.disconnect()
+    #listAttachments.itemClicked.disconnect()
+    try:
+        listAttachments.itemClicked.disconnect()
+    except TypeError:
+        pass
     listAttachments.itemClicked.connect(on_item_clicked)
     
     listAttachments.setFixedHeight(60)
