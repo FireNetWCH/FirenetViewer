@@ -1860,6 +1860,12 @@ QFrame #frame_11 {
     #mainPagesCont #dataAnalysisPage #listAttachments, #mainPagesCont #dataAnalysisPage #frame_8 {
       border: 1px solid #010000; }
 
+#languageEnBtn:checked {
+  background-color: #26bae3; }
+
+#languagePlBtn:checked {
+  background-color: #26bae3; }
+
 QProgressBar {
   height: 1px;
   border-width: 1px; }

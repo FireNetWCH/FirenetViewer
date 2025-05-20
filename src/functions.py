@@ -176,23 +176,24 @@ class GUIFunctions(QObject):
     def debuging(self):
         self.main.showMinimized()
         
-    def change_language(self):
-        print("test")
-        print(self.main.current_language)
-        if self.main.current_language == "en":
-            self.main.translator.load("translations_pl.qm")
-            self.main.current_language = "pl"
-            self.main.app.installTranslator(self.main.translator)
-        else:
-            self.main.translator.load("translations_en.qm")
-            self.main.current_language = "en"
-            self.main.app.installTranslator(self.main.translator)
-        # self.translator = QTranslator(app)
-        # self.translator.load("translations_en.qm")
+    def set_pl_language(self):
+        self.main.translator.load(get_resource_path("translations/translations_pl.qm"))
+        self.main.current_language = "pl"
+        self.main.app.installTranslator(self.main.translator)
+        self.ui.languagePlBtn.setChecked(True)
+        self.ui.languageEnBtn.setChecked(False)
         self.main.ui.retranslateUi(self.main)
-        pixmap = QPixmap(get_resource_path("miniLogo.png"))
-        scaled_pixmap = pixmap.scaled(40, 40, Qt.KeepAspectRatio)
-        self.ui.label_23.setPixmap(scaled_pixmap)
+        
+        
+    def set_en_language(self):
+        self.main.translator.load(get_resource_path("translations/translations_en.qm"))
+        self.main.current_language = "en"
+        self.main.app.installTranslator(self.main.translator)
+        self.ui.languagePlBtn.setChecked(False)
+        self.ui.languageEnBtn.setChecked(True)
+        self.main.ui.retranslateUi(self.main)
+        
+
     def _connect_signals(self) -> None:
         """Łączy sygnały z odpowiednimi metodami."""
         # Menu (centralne i boczne)
@@ -206,8 +207,8 @@ class GUIFunctions(QObject):
         self.ui.moreBtn.clicked.connect(lambda: self.ui.rightMenu.expandMenu())
         self.ui.profileBtn.clicked.connect(lambda: self.ui.rightMenu.expandMenu())
         self.ui.closeRightMenuBtn.clicked.connect(lambda: self.ui.rightMenu.collapseMenu())
-        self.ui.languageBtn.clicked.connect(lambda: self.change_language())
-        
+        self.ui.languageEnBtn.clicked.connect(lambda: self.set_en_language())
+        self.ui.languagePlBtn.clicked.connect(lambda: self.set_pl_language())
         self.ui.minimalizeBtn.clicked.connect(self.debuging)
         self.ui.restoreBtn.clicked.connect(self.toggle_window_state)
         self.ui.graphsBtn.clicked.connect(lambda : load_stat(self,self.db_connection))
@@ -356,7 +357,9 @@ class GUIFunctions(QObject):
         
         self.ui.fbBtn.setIcon(QIcon(":feather/FFFFFF/feather/facebook.png"))
         self.ui.wwwBtn.setIcon(QIcon(":feather/FFFFFF/font_awesome/solid/rss.png"))
-        
+        self.ui.languageEnBtn.setIcon(QIcon(get_resource_path("translations/gb.svg")))
+        self.ui.languageEnBtn.setChecked(True)
+        self.ui.languagePlBtn.setIcon(QIcon(get_resource_path("translations/pl.svg")))
         # file = QFile(":feather/FFFFFF/feather/activity.png")
 
         # if file.exists():

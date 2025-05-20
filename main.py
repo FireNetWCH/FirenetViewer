@@ -6,8 +6,6 @@ from Custom_Widgets import *
 from Custom_Widgets.QCustomQToolTip import QCustomQToolTipFilter
 from Custom_Widgets.QAppSettings import QAppSettings
 from PySide6.QtCore import QCoreApplication,QTranslator
-
- 
 import os
 import _icons_rc
 def get_resource_path(relative_path):
@@ -23,7 +21,7 @@ class MainWindow(QMainWindow):
         super().__init__(parent)
         self.current_language = "en"
         self.translator = QTranslator(app)
-        self.translator.load("translations_en.qm")
+        self.translator.load(get_resource_path("translations/translations_en.qm"))
         self.app = app
         app.installTranslator(self.translator)
 

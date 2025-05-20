@@ -847,9 +847,22 @@
                   <number>0</number>
                  </property>
                  <item>
-                  <widget class="QPushButton" name="languageBtn">
+                  <widget class="QPushButton" name="languageEnBtn">
                    <property name="text">
-                    <string>L</string>
+                    <string/>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="languagePlBtn">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
                    </property>
                   </widget>
                  </item>
@@ -925,7 +938,7 @@
                  <item>
                   <widget class="QCustomQStackedWidget" name="mainPages">
                    <property name="currentIndex">
-                    <number>3</number>
+                    <number>2</number>
                    </property>
                    <widget class="QWidget" name="page">
                     <layout class="QVBoxLayout" name="verticalLayout_36">
@@ -994,7 +1007,7 @@
                               </sizepolicy>
                              </property>
                              <property name="text">
-                              <string>sql_name</string>
+                              <string/>
                              </property>
                             </widget>
                            </item>
@@ -2118,7 +2131,7 @@
                            </sizepolicy>
                           </property>
                           <property name="text">
-                           <string>Skrzynka</string>
+                           <string/>
                           </property>
                          </widget>
                         </item>
@@ -2379,7 +2392,7 @@
                               <property name="geometry">
                                <rect>
                                 <x>0</x>
-                                <y>0</y>
+                                <y>-65</y>
                                 <width>520</width>
                                 <height>382</height>
                                </rect>
