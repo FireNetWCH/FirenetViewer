@@ -1,6 +1,6 @@
-from PySide6.QtWidgets import QTableWidgetItem,QAbstractItemView,QPushButton,QHeaderView,QLabel,QListWidget,QListWidgetItem,QComboBox
-from PySide6.QtCore import Qt,QCoreApplication
-from PySide6.QtGui import QColor
+from PySide6.QtWidgets import QTableWidgetItem,QAbstractItemView,QPushButton,QHeaderView,QLabel,QListWidget,QListWidgetItem,QComboBox,QToolButton
+from PySide6.QtCore import Qt,QSize
+from PySide6.QtGui import QColor,QIcon
 import src.db_function.db_email_function as db_email
 import sqlite3
 import logging
@@ -51,14 +51,26 @@ def load_all_labels(self):
             else:
                 item = QTableWidgetItem(str(cell_data) if cell_data else "")
                 self.ui.LabelTableWidget.setItem(row_idx, col_idx, item)
-        delete_button = QPushButton(QCoreApplication.translate("main_label_page","Usuń"))
+        delete_button = QPushButton()
+        delete_button.setIcon(QIcon(":feather\\icons\\feather\\trash.png"))
         delete_button.clicked.connect(lambda _, id=label_id: delete_row(self,id))
         delete_button.setFocusPolicy(Qt.NoFocus)
+        # delete_button.setIconSize(QSize(16, 16))
+        delete_button.setStyleSheet("QPushButton { padding: 0px; margin: 0px; border: none; }")
+        # delete_button.setFixedSize(QSize(20, 20))
+        
+
         self.ui.LabelTableWidget.setCellWidget(row_idx, len(row_data), delete_button)
 
-    self.ui.LabelTableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Fixed)
-    self.ui.LabelTableWidget.setColumnWidth(0, 50)
-
+    self.ui.LabelTableWidget.resizeColumnToContents(0)
+    self.ui.LabelTableWidget.resizeColumnToContents(2)
+    self.ui.LabelTableWidget.resizeColumnToContents(3)
+    self.ui.LabelTableWidget.resizeColumnToContents(4)
+    self.ui.LabelTableWidget.horizontalHeader().setSectionResizeMode(4,QHeaderView.Fixed)
+    self.ui.LabelTableWidget.horizontalHeader().moveSection(1, 4)
+    
+    # self.ui.LabelTableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeToContents)
+    self.ui.LabelTableWidget.horizontalHeader().setSectionResizeMode(1,QHeaderView.Stretch)
     logger.info("Dane zostały załadowane do tabeli.")
 
 def label_name_changed(self,db_connection,id_email_label,cb):

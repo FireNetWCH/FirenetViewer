@@ -448,12 +448,14 @@ class Ui_MainWindow(object):
         self.horizontalLayout_10.setContentsMargins(0, 0, 0, 0)
         self.languageEnBtn = QPushButton(self.frame_3)
         self.languageEnBtn.setObjectName(u"languageEnBtn")
+        self.languageEnBtn.setIconSize(QSize(38, 18))
         self.languageEnBtn.setCheckable(True)
 
         self.horizontalLayout_10.addWidget(self.languageEnBtn)
 
         self.languagePlBtn = QPushButton(self.frame_3)
         self.languagePlBtn.setObjectName(u"languagePlBtn")
+        self.languagePlBtn.setIconSize(QSize(38, 18))
         self.languagePlBtn.setCheckable(True)
 
         self.horizontalLayout_10.addWidget(self.languagePlBtn)
@@ -2219,7 +2221,7 @@ class Ui_MainWindow(object):
 
         self.menuBtn.setDefault(False)
         self.centerMenuPages.setCurrentIndex(0)
-        self.mainPages.setCurrentIndex(2)
+        self.mainPages.setCurrentIndex(0)
         self.startDataBtn.setDefault(False)
         self.rightMenuPages.setCurrentIndex(0)
 

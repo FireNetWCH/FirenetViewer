@@ -6,7 +6,8 @@ QMainWindow, #centralwidget{
     background-color: #102339;
     border-radius: 10px;
     border: 3px solid #102339;
-    
+    #meilBoxBtn{background-color: red;}
+    #meilBoxBtn:checked{background-color: pink;}
 }
 #splitter,#widget_8{
     background-color: #102339;
@@ -25,6 +26,7 @@ QMainWindow, #centralwidget{
     border-radius: 2px;
     height: 4px;
     width: 0px;
+    
 }
 QSplitter::handle {
     background-color: #102339;
@@ -77,10 +79,7 @@ QPushButton, QLineEdit, QDateEdit{
         background-color: #102339;
         border: 3px solid #102339;
         color: #102339;}
-    #meilBoxBtn{
-            background-color: red;
-            border-right: 6px solid red;
-        }
+    
         QWidget{
             background-color: #102339;
             border: 3px solid #102339;
@@ -285,6 +284,8 @@ QFrame #frame_11{
             background-color: $COLOR_ACCENT_1;}
         #show_flags_btn:hover {
         background-color: $COLOR_ACCENT_1;}
+
+        
         
         #hederEmailBtn:hover {
             background-color: $COLOR_ACCENT_1;
@@ -302,6 +303,8 @@ QFrame #frame_11{
             background-color: $COLOR_ACCENT_1;}
 #languagePlBtn:checked {
             background-color: $COLOR_ACCENT_1;}
+
+
 
 
 QProgressBar{

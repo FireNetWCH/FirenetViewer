@@ -17,7 +17,7 @@ class TagCrud(QDialog):
         self.tag_list = QListWidget(self)
         self.tag_list.setObjectName("sekectorTag")
         self.ok_btn = QPushButton("OK", self)
-        self.add_btn = QPushButton(QCoreApplication.translate("selector_tag_sercher","Dodaj nową kategorie...", self))
+        self.add_btn = QPushButton(QCoreApplication.translate("selector_tag_sercher","Dodaj nową kategorie..."), self)
         self.setObjectName("tagger")
 
         self.ok_btn.clicked.connect(self.accept)

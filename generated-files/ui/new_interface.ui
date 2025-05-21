@@ -851,6 +851,12 @@
                    <property name="text">
                     <string/>
                    </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>38</width>
+                     <height>18</height>
+                    </size>
+                   </property>
                    <property name="checkable">
                     <bool>true</bool>
                    </property>
@@ -860,6 +866,12 @@
                   <widget class="QPushButton" name="languagePlBtn">
                    <property name="text">
                     <string/>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>38</width>
+                     <height>18</height>
+                    </size>
                    </property>
                    <property name="checkable">
                     <bool>true</bool>
@@ -938,7 +950,7 @@
                  <item>
                   <widget class="QCustomQStackedWidget" name="mainPages">
                    <property name="currentIndex">
-                    <number>2</number>
+                    <number>0</number>
                    </property>
                    <widget class="QWidget" name="page">
                     <layout class="QVBoxLayout" name="verticalLayout_36">

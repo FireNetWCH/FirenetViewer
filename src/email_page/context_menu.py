@@ -9,6 +9,7 @@ from src.email_page.main_emeil_table import load_data_from_database
 from src.email_page.multi_tag_selector import MultiTagSelectorMultiEmail
 from src.email_page.main_emeil_table import load_data_from_database
 from src.message_box.date_warning import add_labels_worning
+from src.email_page.tag_dialog import TagCrud
 from PySide6.QtCore import QCoreApplication
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -122,10 +123,16 @@ class TableContextMenu(ContextMenu):
     def show(self, pos, context_widget):
         labelContextMenu = QMenu(self.parent)
         set_multi_tag_action = labelContextMenu.addAction(QCoreApplication.translate("context_meny","Nadaj kategorie"))
+        add_tag_action = labelContextMenu.addAction(QCoreApplication.translate("context_meny","Dodaj kategorie"))
         set_multi_tag_action.triggered.connect(lambda : self.set_multi_tag(self.main.db_connection,context_widget))
+        add_tag_action.triggered.connect(lambda : self.show_tag_crud())
         labelContextMenu.exec(context_widget.mapToGlobal(pos))
 
-
+    def show_tag_crud(self):
+        dialog = TagCrud(self.main.db_connection,self.main.sql_name,path = self.main.path)
+        if dialog.exec():
+            logger.info(f"Zaktualizowano tagi dla użytkownika")
+            load_data_from_database(self.main)
     def set_multi_tag(self, db_connection, context_widget):
         dialog = MultiTagSelectorMultiEmail(None, connection=db_connection, parent=context_widget)
         query = 'INSERT or IGNORE INTO email_tags (email_id, tag_id) VALUES (?, ?);'
@@ -141,27 +148,6 @@ class TableContextMenu(ContextMenu):
         db_connection.commit()
         load_data_from_database(self.main)
 
-    # def set_multi_tag(self, db_connection, context_widget):
-    #     dialog = MultiTagSelectorMultiEmail(None, connection=db_connection, parent=context_widget)
-    #     query = 'INSERT INTO email_tags (email_id, tag_id) VALUES (?, ?);'
-    #     dialog.load_tags()
-    #     cursor = db_connection.cursor()
-    #     if dialog.exec():
-    #         selected_rows = {item.row() for item in context_widget.selectedItems()}
-    #         print(dialog.tags)
-    #         for row in selected_rows:  
-    #             tag_widget = context_widget.cellWidget(row, 6)  
-    #             id_email = context_widget.item(row, 0) 
-
-    #             tag_names = []
-    #             if tag_widget:  
-    #                 layout = tag_widget.layout()  
-    #                 for i in range(layout.count()):
-    #                     label = layout.itemAt(i).widget()
-    #                     if isinstance(label, ClickableLabel):  
-    #                         tag_names.append(label.text())
-    #                         cursor.execute(query, (id_email.text(),dialog.tags.get(label.text())))
-    #             print(f"Wiersz {row}: tagi={tag_names}, id = {id_email.text() if id_email else 'brak'}")
-    #     db_connection.commit()
+    
 
 

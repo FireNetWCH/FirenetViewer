@@ -77,7 +77,7 @@ class GUIFunctions(QObject):
         self.pom = True
         # config = json.load(config_path)
         # base_path = config['path']
-        self.path = os.getcwd()+"\\SQL"
+        self.path = os.getcwd()+"\\Data"
         self.sql_name = ""
         self.id_selected_email = 0
         self.is_expanded_serch_frame = True
@@ -200,9 +200,9 @@ class GUIFunctions(QObject):
         self.ui.settingsBtn.clicked.connect(lambda: self.ui.centerMenu.expandMenu())
         self.ui.infoBtn.clicked.connect(lambda: self.ui.centerMenu.expandMenu())
         #self.ui.helpBtn.clicked.connect(lambda: self.ui.centerMenu.expandMenu())
-        self.ui.meilBoxBtn.clicked.connect(self.clicket_hamburger )
+        self.ui.meilBoxBtn.clicked.connect(self.clicket_hamburger)
         self.ui.fileBtn.clicked.connect(lambda: self.ui.centerMenu.expandMenu())
-        self.ui.closeCenterMenuBtn.clicked.connect(lambda: self.ui.centerMenu.collapseMenu())
+        self.ui.closeCenterMenuBtn.clicked.connect(self.clicket_hamburger)
         self.ui.notificationBtn.clicked.connect(lambda: self.ui.rightMenu.expandMenu())
         self.ui.moreBtn.clicked.connect(lambda: self.ui.rightMenu.expandMenu())
         self.ui.profileBtn.clicked.connect(lambda: self.ui.rightMenu.expandMenu())
@@ -216,12 +216,12 @@ class GUIFunctions(QObject):
        
        
         #rozciąganie szerokości paska bocznego przy splitter
-        self.ui.closeCenterMenuBtn.clicked.connect(lambda : self.ui.splitter.setSizes([0, 1]))
-        self.ui.fileBtn.clicked.connect(lambda : self.ui.splitter.setSizes([1, 2]))
-        self.ui.settingsBtn.clicked.connect(lambda : self.ui.splitter.setSizes([1, 2]))
-        self.ui.infoBtn.clicked.connect(lambda : self.ui.splitter.setSizes([1, 2]))
+        # self.ui.closeCenterMenuBtn.clicked.connect(lambda : self.ui.splitter.setSizes([0, 1]))
+        # self.ui.fileBtn.clicked.connect(lambda : self.ui.splitter.setSizes([1, 2]))
+        # self.ui.settingsBtn.clicked.connect(lambda : self.ui.splitter.setSizes([1, 2]))
+        # self.ui.infoBtn.clicked.connect(lambda : self.ui.splitter.setSizes([1, 2]))
         #self.ui.helpBtn.clicked.connect(lambda : self.ui.splitter.setSizes([1, 2]))
-        self.ui.meilBoxBtn.clicked.connect(lambda : self.ui.splitter.setSizes([1, 2]))
+        # self.ui.meilBoxBtn.clicked.connect(lambda : self.ui.splitter.setSizes([1, 2]))
 
         # Obsługa wyszukiwania i filtrów
         self.ui.searchBtn.clicked.connect(self.show_search_results)
@@ -336,7 +336,13 @@ class GUIFunctions(QObject):
         self.ui.clearBtn.setIcon(QIcon(":material_design/icons/material_design/hide_source.png"))
         self.ui.show_table_btn.setIcon(QIcon(":feather/icons/feather/rotate-cw.png"))
         self.ui.leftMenu.setStyleSheet("background-color: #102339; border: 3px solid #102339;")
+        
+        self.ui.meilBoxBtn.setStyleSheet("""
+            
+            QPushButton#meilBoxBtn:checked{background-color: #102339;border-radius: 0px; font-weight: bold; border-top: 2px solid #102339; border-left: 5px solid #ffffff;}
+			QPushButton#meilBoxBtn{background-color: #102339;border-radius: 0px; font-weight: normal; border-top: 2px solid transparent; border-left: 5px solid transparent;border-bottom: 6px solid transparent;}
 
+        """)
         self.ui.homeBtn.setIcon(QIcon(":feather/FFFFFF/feather/home.png"))
         self.ui.infoBtn.setIcon(QIcon(":feather/FFFFFF/feather/activity.png"))
         self.ui.dataBtn.setIcon(QIcon(":feather/FFFFFF/feather/mail.png"))
@@ -481,8 +487,17 @@ class GUIFunctions(QObject):
 
 
     def clicket_hamburger(self):
-        self.ui.centerMenu.expandMenu()
-        self.ui.meilBoxBtn.setCheckable(True)
+        sizes = self.ui.splitter.sizes()
+        
+        if sizes[0] > 0:
+           self.ui.centerMenu.collapseMenu()
+           self.ui.splitter.setSizes([0, 1])
+           self.ui.meilBoxBtn.setChecked(False)
+        else:
+            self.ui.centerMenu.expandMenu()
+            self.ui.splitter.setSizes([1, 2])
+            self.ui.meilBoxBtn.setChecked(True)
+
     def open_label_page(self):
         load_all_labels(self)
         self.ui.mainPages.setCurrentIndex(0)
@@ -662,13 +677,13 @@ class GUIFunctions(QObject):
             print("zamknięto polaczenie")
         self.current_page = 0
         # print(self.path)
-        db_path = os.path.join(self.path,item.text().removesuffix('.sqlite'),item.text())
+        db_path = os.path.join(self.path,item.text().removesuffix('.fnd'),item.text())
         print(db_path)
         
-        db_email_function.connect_to_database(self,db_path+".sqlite")
+        db_email_function.connect_to_database(self,db_path+".fnd")
         
         sql_name = db_path.split('\\')[-1]
-        sql_name = sql_name.removesuffix('.sqlite')
+        sql_name = sql_name.removesuffix('.fnd')
         self.sql_name = sql_name
         self.ui.dataAnalysisPage.findChild(QLabel,"sqlEmailDbName").setText(sql_name)
         load_color_dictionery(self)
@@ -1154,19 +1169,19 @@ class GUIFunctions(QObject):
                 for sq_file in list_file:
                     if os.path.isfile(os.path.join(path_to_dir,file,sq_file)) :
                         _, ext = os.path.splitext(sq_file.name.lower())
-                        if ext == '.sqlite':
-                            sql_list_file.append(sq_file.name.removesuffix('.sqlite'))
+                        if ext == '.fnd':
+                            sql_list_file.append(sq_file.name.removesuffix('.fnd'))
 
 
         if self.db_connection is None and len(sql_list_file) > 0 :
             try:
                 #db_path = os.path.join(self.path,item.text().removesuffix('.sqlite'),item.text())
                 # print(f"sql_list[0]: {sql_list_file[0]}")
-                db_email_function.connect_to_database(self,path_to_dir+"\\"+sql_list_file[0].removesuffix('.sqlite')+"\\"+sql_list_file[0]+".sqlite")
+                db_email_function.connect_to_database(self,path_to_dir+"\\"+sql_list_file[0].removesuffix('.fnd')+"\\"+sql_list_file[0]+".fnd")
                 load_color_dictionery(self)
                 load_data_from_database(self)
                 
-                self.sql_name =sql_list_file[0].removesuffix('.sqlite')
+                self.sql_name =sql_list_file[0].removesuffix('.fnd')
                 
                 self.ui.dataAnalysisPage.findChild(QLabel,"sqlEmailDbName").setText(self.sql_name)
                 

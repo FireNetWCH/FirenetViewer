@@ -1648,6 +1648,10 @@ QMainWindow, #centralwidget {
   background-color: #102339;
   border-radius: 10px;
   border: 3px solid #102339; }
+  QMainWindow #meilBoxBtn, #centralwidget #meilBoxBtn {
+    background-color: red; }
+  QMainWindow #meilBoxBtn:checked, #centralwidget #meilBoxBtn:checked {
+    background-color: pink; }
 
 #splitter, #widget_8 {
   background-color: #102339;
@@ -1709,10 +1713,6 @@ QPushButton, QLineEdit, QDateEdit {
   background-color: #102339;
   border: 3px solid #102339;
   color: #102339; }
-
-#leftMenu #meilBoxBtn, #widget_3 #meilBoxBtn, #widget #meilBoxBtn, #widget_2 #meilBoxBtn, #verticalSpacer #meilBoxBtn, #widget #meilBoxBtn {
-  background-color: red;
-  border-right: 6px solid red; }
 
 #leftMenu QWidget, #widget_3 QWidget, #widget QWidget, #widget_2 QWidget, #verticalSpacer QWidget, #widget QWidget {
   background-color: #102339;

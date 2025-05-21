@@ -91,345 +91,338 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="960"/>
+        <location filename="generated-files/ui/new_interface.ui" line="972"/>
         <source>            Ustawienia Etykiet            </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="997"/>
-        <location filename="generated-files/ui/new_interface.ui" line="2121"/>
+        <location filename="generated-files/ui/new_interface.ui" line="1009"/>
+        <location filename="generated-files/ui/new_interface.ui" line="2133"/>
         <source>Skrzynka: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="1065"/>
-        <location filename="generated-files/ui/new_interface.ui" line="2320"/>
-        <location filename="generated-files/ui/new_interface.ui" line="4414"/>
+        <location filename="generated-files/ui/new_interface.ui" line="1077"/>
+        <location filename="generated-files/ui/new_interface.ui" line="2332"/>
+        <location filename="generated-files/ui/new_interface.ui" line="4426"/>
         <source>Id</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="1070"/>
+        <location filename="generated-files/ui/new_interface.ui" line="1082"/>
         <source>Tekst</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="1075"/>
+        <location filename="generated-files/ui/new_interface.ui" line="1087"/>
         <source>Etykieta</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="1080"/>
+        <location filename="generated-files/ui/new_interface.ui" line="1092"/>
         <source>Id meila</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="1085"/>
+        <location filename="generated-files/ui/new_interface.ui" line="1097"/>
         <source>Usuwanie</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="1109"/>
-        <location filename="generated-files/ui/new_interface.ui" line="2374"/>
+        <location filename="generated-files/ui/new_interface.ui" line="1121"/>
+        <location filename="generated-files/ui/new_interface.ui" line="2386"/>
         <source>E-mail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="1247"/>
+        <location filename="generated-files/ui/new_interface.ui" line="1259"/>
         <source>Pokarz nagłowek</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="1284"/>
-        <location filename="generated-files/ui/new_interface.ui" line="2552"/>
+        <location filename="generated-files/ui/new_interface.ui" line="1296"/>
+        <location filename="generated-files/ui/new_interface.ui" line="2564"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Nadawca:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="1358"/>
-        <location filename="generated-files/ui/new_interface.ui" line="2626"/>
+        <location filename="generated-files/ui/new_interface.ui" line="1370"/>
+        <location filename="generated-files/ui/new_interface.ui" line="2638"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Odbiorca:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="1429"/>
-        <location filename="generated-files/ui/new_interface.ui" line="2815"/>
+        <location filename="generated-files/ui/new_interface.ui" line="1441"/>
+        <location filename="generated-files/ui/new_interface.ui" line="2827"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Data wysłania:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="1497"/>
-        <location filename="generated-files/ui/new_interface.ui" line="2883"/>
+        <location filename="generated-files/ui/new_interface.ui" line="1509"/>
+        <location filename="generated-files/ui/new_interface.ui" line="2895"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Temat:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="1562"/>
+        <location filename="generated-files/ui/new_interface.ui" line="1574"/>
         <source>Fraza: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="1751"/>
-        <location filename="generated-files/ui/new_interface.ui" line="2265"/>
+        <location filename="generated-files/ui/new_interface.ui" line="1763"/>
+        <location filename="generated-files/ui/new_interface.ui" line="2277"/>
         <source>Szukaj</source>
         <translatorcomment>Szukaj</translatorcomment>
         <translation type="unfinished">Szukaj</translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="1794"/>
-        <location filename="generated-files/ui/new_interface.ui" line="2325"/>
+        <location filename="generated-files/ui/new_interface.ui" line="1806"/>
+        <location filename="generated-files/ui/new_interface.ui" line="2337"/>
         <source>Nadawca</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="1804"/>
-        <location filename="generated-files/ui/new_interface.ui" line="2330"/>
+        <location filename="generated-files/ui/new_interface.ui" line="1816"/>
+        <location filename="generated-files/ui/new_interface.ui" line="2342"/>
         <source>Odbiorca</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="1811"/>
+        <location filename="generated-files/ui/new_interface.ui" line="1823"/>
         <source>W temacie</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="1818"/>
+        <location filename="generated-files/ui/new_interface.ui" line="1830"/>
         <source>W treści</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="1834"/>
+        <location filename="generated-files/ui/new_interface.ui" line="1846"/>
         <source>Zakres czasowy wiadomości</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="1862"/>
+        <location filename="generated-files/ui/new_interface.ui" line="1874"/>
         <source>Data od</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="1875"/>
+        <location filename="generated-files/ui/new_interface.ui" line="1887"/>
         <source>Data Do</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="1885"/>
+        <location filename="generated-files/ui/new_interface.ui" line="1897"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pokaż wszystkie zaznaczone flagi&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="1905"/>
+        <location filename="generated-files/ui/new_interface.ui" line="1917"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pokaż całą tabelę&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="1918"/>
+        <location filename="generated-files/ui/new_interface.ui" line="1930"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Wyszyść filtry&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="1943"/>
+        <location filename="generated-files/ui/new_interface.ui" line="1955"/>
         <source>Wybierz kategorie do sortowania</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="1946"/>
-        <location filename="generated-files/ui/new_interface.ui" line="2350"/>
-        <location filename="generated-files/ui/new_interface.ui" line="3321"/>
+        <location filename="generated-files/ui/new_interface.ui" line="1958"/>
+        <location filename="generated-files/ui/new_interface.ui" line="2362"/>
+        <location filename="generated-files/ui/new_interface.ui" line="3333"/>
         <source>Kategorie</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="1998"/>
+        <location filename="generated-files/ui/new_interface.ui" line="2010"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Eksportuj do PDF&apos;a&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="2015"/>
+        <location filename="generated-files/ui/new_interface.ui" line="2027"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Eksportuj do excel&apos;a&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="2029"/>
+        <location filename="generated-files/ui/new_interface.ui" line="2041"/>
         <source>P/U</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="2057"/>
+        <location filename="generated-files/ui/new_interface.ui" line="2069"/>
         <source>TextLabel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="997"/>
-        <location filename="generated-files/ui/new_interface.ui" line="2121"/>
-        <source>Skrzynka: </source>
-        <oldsource>Skrzynka</oldsource>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="generated-files/ui/new_interface.ui" line="2178"/>
+        <location filename="generated-files/ui/new_interface.ui" line="2190"/>
         <source>Strona poprzednia</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="2194"/>
+        <location filename="generated-files/ui/new_interface.ui" line="2206"/>
         <source>Strona : </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="2230"/>
+        <location filename="generated-files/ui/new_interface.ui" line="2242"/>
         <source>Strona Następna</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="2262"/>
+        <location filename="generated-files/ui/new_interface.ui" line="2274"/>
         <source>Pokarz/Ukryj belkę szukaj</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="2335"/>
+        <location filename="generated-files/ui/new_interface.ui" line="2347"/>
         <source>Temat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="2340"/>
+        <location filename="generated-files/ui/new_interface.ui" line="2352"/>
         <source>Data nadani</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="2345"/>
+        <location filename="generated-files/ui/new_interface.ui" line="2357"/>
         <source>Flagi</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="2515"/>
+        <location filename="generated-files/ui/new_interface.ui" line="2527"/>
         <source>Pokaż nagłowek</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="2691"/>
+        <location filename="generated-files/ui/new_interface.ui" line="2703"/>
         <source>CC:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="2747"/>
+        <location filename="generated-files/ui/new_interface.ui" line="2759"/>
         <source>BCC:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="3408"/>
+        <location filename="generated-files/ui/new_interface.ui" line="3420"/>
         <source>Etykiety</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="3492"/>
+        <location filename="generated-files/ui/new_interface.ui" line="3504"/>
         <source>Kontakt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="3548"/>
+        <location filename="generated-files/ui/new_interface.ui" line="3560"/>
         <source>Sprawdź ofertę</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="3592"/>
+        <location filename="generated-files/ui/new_interface.ui" line="3604"/>
         <source>Tutorial</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="3605"/>
+        <location filename="generated-files/ui/new_interface.ui" line="3617"/>
         <source>YT</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="3636"/>
+        <location filename="generated-files/ui/new_interface.ui" line="3648"/>
         <source>Odwiedź też</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="3719"/>
+        <location filename="generated-files/ui/new_interface.ui" line="3731"/>
         <source>Analiza danych</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="3751"/>
+        <location filename="generated-files/ui/new_interface.ui" line="3763"/>
         <source>Właściciel skrzynki:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="3764"/>
+        <location filename="generated-files/ui/new_interface.ui" line="3776"/>
         <source>Nazwa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="3777"/>
+        <location filename="generated-files/ui/new_interface.ui" line="3789"/>
         <source>Adres Email</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="3841"/>
+        <location filename="generated-files/ui/new_interface.ui" line="3853"/>
         <source>Liczba załączników:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="3857"/>
-        <location filename="generated-files/ui/new_interface.ui" line="3916"/>
-        <location filename="generated-files/ui/new_interface.ui" line="3975"/>
+        <location filename="generated-files/ui/new_interface.ui" line="3869"/>
+        <location filename="generated-files/ui/new_interface.ui" line="3928"/>
+        <location filename="generated-files/ui/new_interface.ui" line="3987"/>
         <source>X</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="3900"/>
+        <location filename="generated-files/ui/new_interface.ui" line="3912"/>
         <source>Liczba Odbiorców:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="3959"/>
+        <location filename="generated-files/ui/new_interface.ui" line="3971"/>
         <source>Liczba Wiadomości:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="3997"/>
+        <location filename="generated-files/ui/new_interface.ui" line="4009"/>
         <source>Najczęstsze konwersacje użytkownika:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="4059"/>
+        <location filename="generated-files/ui/new_interface.ui" line="4071"/>
         <source>about:blank</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="4136"/>
+        <location filename="generated-files/ui/new_interface.ui" line="4148"/>
         <source>Right Menu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="4164"/>
+        <location filename="generated-files/ui/new_interface.ui" line="4176"/>
         <source>Notifications</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="4184"/>
+        <location filename="generated-files/ui/new_interface.ui" line="4196"/>
         <source>Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="4222"/>
+        <location filename="generated-files/ui/new_interface.ui" line="4234"/>
         <source>Copyright FireNet®2025</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="4283"/>
+        <location filename="generated-files/ui/new_interface.ui" line="4295"/>
         <source>Nagłówek wiadomości e-mail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="4401"/>
+        <location filename="generated-files/ui/new_interface.ui" line="4413"/>
         <source>ID Wiadomości: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="generated-files/ui/new_interface.ui" line="4457"/>
+        <location filename="generated-files/ui/new_interface.ui" line="4469"/>
         <source>Header</source>
         <translation type="unfinished"></translation>
     </message>
@@ -460,29 +453,34 @@
 <context>
     <name>context_meny</name>
     <message>
-        <location filename="src/email_page/context_menu.py" line="37"/>
+        <location filename="src/email_page/context_menu.py" line="38"/>
         <source>Nadaj Etykiete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/email_page/context_menu.py" line="47"/>
-        <location filename="src/email_page/context_menu.py" line="99"/>
+        <location filename="src/email_page/context_menu.py" line="48"/>
+        <location filename="src/email_page/context_menu.py" line="100"/>
         <source>+ Dodaj nową</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/email_page/context_menu.py" line="90"/>
+        <location filename="src/email_page/context_menu.py" line="91"/>
         <source>Dodaj etykiete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/email_page/context_menu.py" line="106"/>
+        <location filename="src/email_page/context_menu.py" line="107"/>
         <source>Edytuj etykietę</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="src/email_page/context_menu.py" line="124"/>
+        <location filename="src/email_page/context_menu.py" line="125"/>
         <source>Nadaj kategorie</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/email_page/context_menu.py" line="126"/>
+        <source>Dodaj kategorie</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -604,14 +602,6 @@ być datą wcześniejszą niż data początkowa</source>
     </message>
 </context>
 <context>
-    <name>main_label_page</name>
-    <message>
-        <location filename="src/label_page/main_label_page.py" line="54"/>
-        <source>Usuń</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>multi_tag_dialog</name>
     <message>
         <location filename="src/email_page/multi_tag_dialog.py" line="16"/>
@@ -672,6 +662,11 @@ być datą wcześniejszą niż data początkowa</source>
     <message>
         <location filename="src/email_page/selector_tag_sercher.py" line="27"/>
         <source>BEZ KATEGORI</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="src/email_page/tag_dialog.py" line="20"/>
+        <source>Dodaj nową kategorie...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
