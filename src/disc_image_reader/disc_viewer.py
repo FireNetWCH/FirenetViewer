@@ -2,7 +2,8 @@ from PySide6.QtWidgets import QWidget,QFileSystemModel,QVBoxLayout,QTreeView,QLi
 from PySide6.QtCore import QSize
 from src.viewers.explorer_function import view_cleaer,MetaDataTableWiget
 from src.disc_image_reader.ewf_info import EWFImgInfo
-from src.disc_image_reader.image_file_model import TSKFileSystemModel
+from src.disc_image_reader.image_file_tree_model import TSKFileSystemTreeModel
+from src.disc_image_reader.image_file_list_model import TSKFileSystemListModel
 import pytsk3
 import pyewf
 import os
@@ -26,52 +27,83 @@ class DiscViewers(QWidget):
         first_partition = partitions[nr_partycji]
         print(first_partition)
         self.fs = pytsk3.FS_Info(img, offset=first_partition.start * 512)
-        self.model = TSKFileSystemModel(self.fs)
+        self.model = TSKFileSystemListModel(file_system = self.fs)
 
         # ODPALANIE NA MODEL LISTY
         
-        # self.list_view = QListView(self)
-        # self.list_view.setModel(self.model)
-        # self.list_view.setViewMode(QListView.IconMode) 
-        # self.list_view.setIconSize(QSize(64, 64)) 
-        # self.list_view.setResizeMode(QListView.Adjust) 
-        # self.list_view.setGridSize(QSize(100, 100))
-        # self.list_view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        # self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        # self.list_view.doubleClicked.connect(lambda index: self.itemDoubleClicked(index, parent))
-        # ##### self.list_view.clicked.connect(lambda index: self.itemOneClicked(index,parent))
-        # layout = QVBoxLayout(self)
-        # layout.addWidget(self.list_view)
-        # self.setLayout(layout)
-        # KONIEC
-        self.tree_view = QTreeView(self)
-        self.tree_view.setModel(self.model)
-        self.tree_view.setAnimated(True)
-        self.tree_view.setHeaderHidden(True)
-        self.tree_view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.list_view = QListView(self)
+        self.list_view.setModel(self.model)
+        self.list_view.setViewMode(QListView.IconMode) 
+        self.list_view.setIconSize(QSize(64, 64)) 
+        self.list_view.setResizeMode(QListView.Adjust) 
+        self.list_view.setGridSize(QSize(100, 100))
+        self.list_view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self.tree_view.doubleClicked.connect(lambda index: self.itemDoubleClicked(index, parent))
-        self.tree_view.clicked.connect(self.print_entries)
+        self.list_view.doubleClicked.connect(lambda index: self.itemDoubleClicked(index, parent))
+        #self.list_view.clicked.connect(lambda index: self.itemOneClicked(index,parent))
         layout = QVBoxLayout(self)
-        layout.addWidget(self.tree_view)
+        layout.addWidget(self.list_view)
         self.setLayout(layout)
+        # KONIEC
+
+        # DRZEWO START
+        # self.tree_view = QTreeView(self)
+        # self.tree_view.setModel(self.model)
+        # self.tree_view.setAnimated(True)
+        # self.tree_view.setHeaderHidden(True)
+        # self.tree_view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        # self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        # self.tree_view.doubleClicked.connect(lambda index: self.itemDoubleClicked(index, parent))
+        # self.tree_view.clicked.connect(self.print_entries)
+        # layout = QVBoxLayout(self)
+        # layout.addWidget(self.tree_view)
+        # self.setLayout(layout)
+        # DRZEWO END 
 
     # def set_directory(self, dir_path):
     #     self.file_system_model.setRootPath(dir_path)
     #     self.list_view.setRootIndex(self.file_system_model.index(dir_path))
 
-    def prevItem(self,parent):
+    def prevItem(self, parent):
+    # Przejdź do katalogu wyżej
+        if "/" in self.model.folder_path.strip("/"):
+            self.model.folder_path = self.model.folder_path.rsplit("/", 1)[0]
+            if self.model.folder_path == "":
+                self.model.folder_path = "/"
+        else:
+            self.model.folder_path = "/"
+        self.model.load_entreis()
+        self.model.layoutChanged.emit()
+        parent.img_path = self.model.folder_path
+        parent.ui.pathImageLabel.setText(parent.img_path)
+
+    def prevItemTree(self,parent):
         parent.img_path = parent.img_path.rsplit("/", 1)[0]
         parent.ui.pathImageLabel.setText(parent.img_path)
         self.tree_view.setRootIndex(self.model.parent(self.tree_view.rootIndex()))
-        
 
-    def itemDoubleClicked(self,index,parent):
+    def itemDoubleClicked(self, index, parent):
+        row = index.row()
+        if 0 <= row < len(self.model.entries):
+            item = self.model.entries[row]
+            print(item)
+            if item[1].info.name.type == pytsk3.TSK_FS_NAME_TYPE_DIR:
+                self.model.folder_path = item[0]
+                self.model.load_entreis()
+                self.model.layoutChanged.emit()
+                parent.img_path = item[0]
+                parent.ui.pathImageLabel.setText(parent.img_path)
+            else:
+                import src.viewers.display_chenger as g
+                g.display_file_content(parent, item, 1, self.fs)
+
+    def itemDoubleClickedTree(self,index,parent):
         """Obsługuje kliknięcie elementu – jeśli katalog, przechodzi do niego."""
         item = index.internalPointer()
+        print(item)
         if item[1].info.name.type == pytsk3.TSK_FS_NAME_TYPE_DIR:
             self.tree_view.setRootIndex(index)
-            print(item[1].info.name.name.decode())
+            #print(item[1].info.name.name.decode())
             parent.img_path = f"{parent.img_path}/{item[1].info.name.name.decode()}"
             parent.ui.pathImageLabel.setText(parent.img_path)
             
@@ -80,25 +112,27 @@ class DiscViewers(QWidget):
             item = index.internalPointer()
             g.display_file_content(parent,item,1,self.fs)
             
+            
 
     def print_entries(self, index):
         # Wypisuje słownik entries z modelu do konsoli
         for key, val_list in self.model.entries.items():
-            print(f"Ścieżka: {key}")
+            #print(f"Ścieżka: {key}")
             for val in val_list:
                 try:
                     name = val[1].info.name.name.decode() if val[1].info.name.name else "<brak nazwy>"
                     addr = val[1].info.name.meta_addr
-                    print(f"  - {name} fullpath{val[0]}")
+                    # print(f"  - {name} fullpath{val[0]}")
                     #print(f"  - {name} (addr: {addr}) fullpath{val[0]}")
                 except Exception as e:
                     print(f"  - Błąd odczytu: {e}")
-        # import pprint
-        # pprint.pprint(self.model.entries)
-    # def itemOneClicked(self,index,parent):
-    #     file_path = self.file_system_model.filePath(index)
-    #     meta_data_table_wiget = MetaDataTableWiget(file_path)
-    #     self.setMetadataRightWidget(parent,meta_data_table_wiget)
+        import pprint
+        pprint.pprint(self.model.entries)
+
+    def itemOneClicked(self,index,parent):
+        file_path = self.file_system_model.filePath(index)
+        #meta_data_table_wiget = MetaDataTableWiget(file_path)
+        # self.setMetadataRightWidget(parent,meta_data_table_wiget)
         
 
     # def setMetadataRightWidget(self,context,wiget):

@@ -20,9 +20,10 @@ from PySide6.QtWidgets import (QAbstractItemView, QAbstractScrollArea, QApplicat
     QDockWidget, QFrame, QGridLayout, QHBoxLayout,
     QHeaderView, QLabel, QLayout, QLineEdit,
     QListView, QListWidget, QListWidgetItem, QMainWindow,
-    QProgressBar, QPushButton, QScrollArea, QSizePolicy,
-    QSpacerItem, QSplitter, QTabWidget, QTableWidget,
-    QTableWidgetItem, QTreeView, QVBoxLayout, QWidget)
+    QProgressBar, QPushButton, QRadioButton, QScrollArea,
+    QSizePolicy, QSpacerItem, QSplitter, QTabWidget,
+    QTableWidget, QTableWidgetItem, QTreeView, QVBoxLayout,
+    QWidget)
 
 from Custom_Widgets.QCustomQPushButton import QCustomQPushButton
 from Custom_Widgets.QCustomQStackedWidget import QCustomQStackedWidget
@@ -3622,22 +3623,93 @@ class Ui_MainWindow(object):
         self.horizontalLayout_103.setSpacing(0)
         self.horizontalLayout_103.setObjectName(u"horizontalLayout_103")
         self.horizontalLayout_103.setContentsMargins(0, 0, 0, 0)
-        self.label_60 = QLabel(self.widget_101)
+
+        self.verticalLayout_70.addWidget(self.widget_101)
+
+        self.widget_109 = QWidget(self.page_3)
+        self.widget_109.setObjectName(u"widget_109")
+        sizePolicy6.setHeightForWidth(self.widget_109.sizePolicy().hasHeightForWidth())
+        self.widget_109.setSizePolicy(sizePolicy6)
+        self.horizontalLayout_111 = QHBoxLayout(self.widget_109)
+        self.horizontalLayout_111.setSpacing(3)
+        self.horizontalLayout_111.setObjectName(u"horizontalLayout_111")
+        self.horizontalLayout_111.setContentsMargins(0, 0, 0, 0)
+        self.label_60 = QLabel(self.widget_109)
         self.label_60.setObjectName(u"label_60")
         sizePolicy6.setHeightForWidth(self.label_60.sizePolicy().hasHeightForWidth())
         self.label_60.setSizePolicy(sizePolicy6)
 
-        self.horizontalLayout_103.addWidget(self.label_60)
+        self.horizontalLayout_111.addWidget(self.label_60)
 
-        self.exportFileTypeLabel = QLabel(self.widget_101)
+        self.exportFileTypeLabel = QLabel(self.widget_109)
         self.exportFileTypeLabel.setObjectName(u"exportFileTypeLabel")
         sizePolicy6.setHeightForWidth(self.exportFileTypeLabel.sizePolicy().hasHeightForWidth())
         self.exportFileTypeLabel.setSizePolicy(sizePolicy6)
 
-        self.horizontalLayout_103.addWidget(self.exportFileTypeLabel)
+        self.horizontalLayout_111.addWidget(self.exportFileTypeLabel)
+
+        self.radioBtnWidget = QWidget(self.widget_109)
+        self.radioBtnWidget.setObjectName(u"radioBtnWidget")
+        sizePolicy6.setHeightForWidth(self.radioBtnWidget.sizePolicy().hasHeightForWidth())
+        self.radioBtnWidget.setSizePolicy(sizePolicy6)
+        self.horizontalLayout_112 = QHBoxLayout(self.radioBtnWidget)
+        self.horizontalLayout_112.setSpacing(3)
+        self.horizontalLayout_112.setObjectName(u"horizontalLayout_112")
+        self.horizontalLayout_112.setContentsMargins(0, 0, 0, 0)
+        self.tableRadioButton = QRadioButton(self.radioBtnWidget)
+        self.tableRadioButton.setObjectName(u"tableRadioButton")
+        self.tableRadioButton.setChecked(True)
+
+        self.horizontalLayout_112.addWidget(self.tableRadioButton)
+
+        self.galeryRadioButton = QRadioButton(self.radioBtnWidget)
+        self.galeryRadioButton.setObjectName(u"galeryRadioButton")
+
+        self.horizontalLayout_112.addWidget(self.galeryRadioButton)
 
 
-        self.verticalLayout_70.addWidget(self.widget_101)
+        self.horizontalLayout_111.addWidget(self.radioBtnWidget)
+
+
+        self.verticalLayout_70.addWidget(self.widget_109)
+
+        self.widget_108 = QWidget(self.page_3)
+        self.widget_108.setObjectName(u"widget_108")
+        sizePolicy6.setHeightForWidth(self.widget_108.sizePolicy().hasHeightForWidth())
+        self.widget_108.setSizePolicy(sizePolicy6)
+        self.horizontalLayout_110 = QHBoxLayout(self.widget_108)
+        self.horizontalLayout_110.setSpacing(3)
+        self.horizontalLayout_110.setObjectName(u"horizontalLayout_110")
+        self.horizontalLayout_110.setContentsMargins(0, 0, 0, 0)
+        self.prevExportPageBtn = QPushButton(self.widget_108)
+        self.prevExportPageBtn.setObjectName(u"prevExportPageBtn")
+        sizePolicy6.setHeightForWidth(self.prevExportPageBtn.sizePolicy().hasHeightForWidth())
+        self.prevExportPageBtn.setSizePolicy(sizePolicy6)
+
+        self.horizontalLayout_110.addWidget(self.prevExportPageBtn)
+
+        self.numberExportFileLineEdit = QLineEdit(self.widget_108)
+        self.numberExportFileLineEdit.setObjectName(u"numberExportFileLineEdit")
+        sizePolicy6.setHeightForWidth(self.numberExportFileLineEdit.sizePolicy().hasHeightForWidth())
+        self.numberExportFileLineEdit.setSizePolicy(sizePolicy6)
+
+        self.horizontalLayout_110.addWidget(self.numberExportFileLineEdit)
+
+        self.exportFileMaxPageLabel = QLabel(self.widget_108)
+        self.exportFileMaxPageLabel.setObjectName(u"exportFileMaxPageLabel")
+        self.exportFileMaxPageLabel.setFrameShape(QFrame.Shape.Box)
+
+        self.horizontalLayout_110.addWidget(self.exportFileMaxPageLabel)
+
+        self.nextExportPageBtn = QPushButton(self.widget_108)
+        self.nextExportPageBtn.setObjectName(u"nextExportPageBtn")
+        sizePolicy6.setHeightForWidth(self.nextExportPageBtn.sizePolicy().hasHeightForWidth())
+        self.nextExportPageBtn.setSizePolicy(sizePolicy6)
+
+        self.horizontalLayout_110.addWidget(self.nextExportPageBtn)
+
+
+        self.verticalLayout_70.addWidget(self.widget_108)
 
         self.widget_93 = QWidget(self.page_3)
         self.widget_93.setObjectName(u"widget_93")
@@ -3647,6 +3719,14 @@ class Ui_MainWindow(object):
         self.exportFileTableWidget.setObjectName(u"exportFileTableWidget")
 
         self.horizontalLayout_95.addWidget(self.exportFileTableWidget)
+
+        self.galeryListView = QListView(self.widget_93)
+        self.galeryListView.setObjectName(u"galeryListView")
+        self.galeryListView.setIconSize(QSize(100, 100))
+        self.galeryListView.setGridSize(QSize(150, 150))
+        self.galeryListView.setViewMode(QListView.ViewMode.IconMode)
+
+        self.horizontalLayout_95.addWidget(self.galeryListView)
 
         self.widget_92 = QWidget(self.widget_93)
         self.widget_92.setObjectName(u"widget_92")
@@ -3663,7 +3743,7 @@ class Ui_MainWindow(object):
         self.scrollArea_14.setWidgetResizable(True)
         self.scrollAreaWidgetContents_15 = QWidget()
         self.scrollAreaWidgetContents_15.setObjectName(u"scrollAreaWidgetContents_15")
-        self.scrollAreaWidgetContents_15.setGeometry(QRect(0, 0, 342, 196))
+        self.scrollAreaWidgetContents_15.setGeometry(QRect(0, 0, 185, 196))
         self.verticalLayout_72 = QVBoxLayout(self.scrollAreaWidgetContents_15)
         self.verticalLayout_72.setObjectName(u"verticalLayout_72")
         self.label_58 = QLabel(self.scrollAreaWidgetContents_15)
@@ -4076,7 +4156,7 @@ class Ui_MainWindow(object):
 
         self.menuBtn.setDefault(False)
         self.centerMenuPages.setCurrentIndex(4)
-        self.customQStackedWidget.setCurrentIndex(10)
+        self.customQStackedWidget.setCurrentIndex(12)
         self.startDataBtn.setDefault(False)
         self.left_btn.setDefault(True)
         self.rigth_btn.setDefault(True)
@@ -4379,6 +4459,11 @@ class Ui_MainWindow(object):
         self.exportFileEndDateLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Data do", None))
         self.label_60.setText(QCoreApplication.translate("MainWindow", u"Pliki ", None))
         self.exportFileTypeLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.tableRadioButton.setText(QCoreApplication.translate("MainWindow", u"Tabela", None))
+        self.galeryRadioButton.setText(QCoreApplication.translate("MainWindow", u"Galeria", None))
+        self.prevExportPageBtn.setText(QCoreApplication.translate("MainWindow", u"<-", None))
+        self.exportFileMaxPageLabel.setText("")
+        self.nextExportPageBtn.setText(QCoreApplication.translate("MainWindow", u"->", None))
         self.label_58.setText(QCoreApplication.translate("MainWindow", u"SZCZEG\u00d3\u0141Y", None))
         self.label_59.setText(QCoreApplication.translate("MainWindow", u"Nazwa:", None))
         self.fieleExportNameLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))

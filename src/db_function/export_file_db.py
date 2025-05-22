@@ -51,11 +51,12 @@ class database_file_export_menager:
             print(f"Błąd podczas pobierania listy przeglądarek zawierających historie: {e}")
             return None
         
-    def get_contents_from_table(self,table_name,filters):
+    def get_contents_from_table(self,table_name,filters,limit,ofset):
         """Pobiera zawartość ze wskazanej tabeli wyeksportowanych plików"""
         try:
-            self.cursor.execute(f"SELECT id, file_name,file_size, date_created FROM {table_name} {self.generate_filters_query_part(filters)} ORDER BY date_created LIMIT 100")
-            print(f"SELECT id, file_name,file_size, date_created FROM {table_name} {self.generate_filters_query_part(filters)} ORDER BY date_created LIMIT 100")
+            
+            self.cursor.execute(f"SELECT id, file_name,file_size, date_created FROM {table_name} {self.generate_filters_query_part(filters)} ORDER BY date_created LIMIT {limit} OFFSET {ofset}")
+            print(f"SELECT id, file_name,file_size, date_created FROM {table_name} {self.generate_filters_query_part(filters)} ORDER BY date_created LIMIT {limit} OFFSET {ofset}")
             return self.cursor.fetchall()
         except sqlite3.Error as e:
             logger.error(f"Błąd podczas pobierania zawartości tabeli {table_name}: {e}")
@@ -71,6 +72,7 @@ class database_file_export_menager:
             logger.error(f"Błąd podczas pobierania szczegolow exportowanego pliki o id:{id} z tabeli {table_name}: {e}")
             print(f"Błąd podczas pobierania szczegolow exportowanego pliki o id:{id} z tabeli {table_name}: {e}")
             return None
+        
     def get_deteils_export_file(self,id,table_name):
         """Pobiera szczegóły wskazango pliku z wybranej tabeli """
         try:
@@ -113,3 +115,25 @@ class database_file_export_menager:
             return part_query
         
         return part_query
+    
+    def get_count_row(self,table_name):
+        """Pobiera ilość rekordów w skazannej bazy danych"""
+        try:
+            self.cursor.execute(f"SELECT count() from {table_name}  ")
+            return self.cursor.fetchall()
+        except sqlite3.Error as e:
+            logger.error(f"Błąd podczas pobierania ilość rekordów w skazannej tabeli {table_name}: {e}")
+            print(f"Błąd podczas pobierania ilość rekordów w skazannej tabeli {table_name}: {e}")
+            return None
+    
+    def get_img_galery(self,table_name,filters,limit,ofset):
+        """Pobiera zawartość ze wskazanej tabeli wyeksportowanych plików"""
+        try:
+            self.cursor.execute(f"SELECT id, file_name,file_size, date_created,thumbnail_path FROM exported_images {self.generate_filters_query_part(filters)} ORDER BY date_created LIMIT {limit} OFFSET {ofset}")
+            print(f"SELECT id, file_name,file_size, date_created,thumbnail_path FROM exported_images{self.generate_filters_query_part(filters)} ORDER BY date_created LIMIT {limit} OFFSET {ofset}")
+            return self.cursor.fetchall()
+        except sqlite3.Error as e:
+            logger.error(f"Błąd podczas pobierania zawartości tabeli exported_images do galeri: {e}")
+            print(f"Błąd podczas pobierania zawartości tabeli exported_images do galeri: {e}")
+            return None
+        

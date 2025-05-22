@@ -792,3 +792,223 @@
 [2025-05-15 12:48:11] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
 [2025-05-15 12:50:44] WARNING: Cannot open "./fonts/..." for reading.
 [2025-05-15 12:50:44] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-15 13:00:20] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-15 13:00:20] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 06:10:57] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 06:10:58] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 06:13:18] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 06:13:18] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 06:17:22] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 06:17:22] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 06:18:51] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 06:18:51] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 06:20:11] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 06:20:11] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 06:24:12] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 06:24:12] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 06:26:24] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 06:26:24] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 06:27:23] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 06:27:23] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 06:28:51] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 06:28:51] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 06:30:13] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 06:30:13] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 06:30:50] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 06:30:50] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 06:31:21] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 06:31:21] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 06:32:54] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 06:32:55] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 06:33:43] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 06:33:44] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 06:37:00] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 06:37:01] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 06:38:00] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 06:38:00] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 06:40:21] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 06:40:22] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 06:41:22] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 06:41:22] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 06:54:21] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 06:54:21] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 06:56:03] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 06:56:03] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 06:59:43] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 06:59:43] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 07:01:11] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 07:01:11] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 07:01:38] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 07:01:38] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 07:02:25] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 07:02:25] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 07:06:31] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 07:06:31] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 07:09:23] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 07:09:23] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 07:10:04] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 07:10:04] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 07:11:13] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 07:11:13] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 07:12:28] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 07:12:29] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 07:17:45] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 07:17:45] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 07:18:31] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 07:18:31] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 07:19:19] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 07:19:19] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 07:20:13] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 07:20:14] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 07:24:20] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 07:24:20] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 07:25:44] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 07:25:45] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 07:27:59] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 07:27:59] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 07:29:09] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 07:29:09] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 07:34:31] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 07:34:31] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 07:43:23] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 07:43:23] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 07:47:49] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 07:47:49] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-19 07:49:06] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-19 07:49:06] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-20 11:21:50] WARNING: Cannot open "./fonts/..." for reading.
+[2025-05-20 11:21:51] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-20 11:24:49] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-20 11:26:11] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-20 11:36:41] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-20 11:38:15] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-20 11:39:34] WARNING: Corrupt JPEG data: premature end of data segment
+[2025-05-20 12:23:49] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-21 10:52:28] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-21 11:52:39] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-21 12:09:39] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-21 12:18:15] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-21 12:19:20] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-21 12:23:01] WARNING: Error with Permissions-Policy header: Unrecognized feature: 'ch-ua-form-factors'.
+[2025-05-21 12:29:18] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-21 12:29:57] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-21 12:37:41] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-21 13:26:55] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-21 13:27:39] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-21 13:30:16] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-21 13:34:03] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-21 13:34:50] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-21 13:35:39] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-21 13:37:20] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-21 13:37:56] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-21 13:40:34] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-21 13:57:15] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-21 13:58:55] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-21 14:00:07] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-21 14:01:01] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-21 14:02:04] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-21 14:02:53] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-21 14:03:27] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-21 14:04:58] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-21 14:05:31] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 06:21:56] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 06:26:37] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 06:30:21] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 06:32:19] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 06:33:26] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 07:03:28] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 07:03:44] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 07:04:57] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 07:07:11] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 07:10:05] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 07:13:52] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 07:16:52] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 07:18:42] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 07:20:28] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 07:21:46] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 07:32:54] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 07:35:07] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 07:35:53] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 07:36:28] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 08:16:07] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 08:24:00] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 08:24:00] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 08:32:16] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 08:33:47] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 08:35:50] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 08:36:34] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 08:54:39] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 09:08:23] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 09:09:43] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 09:13:13] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 09:13:59] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 09:15:16] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 09:16:45] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 09:18:17] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 09:19:09] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 09:20:14] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 09:41:25] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 09:45:42] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 09:47:10] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 09:47:43] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 09:48:44] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 09:48:44] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 09:48:44] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 09:48:44] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 09:48:44] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 09:48:44] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 09:48:45] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 09:48:45] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 09:48:45] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 09:48:45] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 09:48:45] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 09:48:45] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:19:32] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 10:20:21] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 10:22:50] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:22:50] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:22:50] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:22:50] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:22:50] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:22:50] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:22:50] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:22:50] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:22:50] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:22:50] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:22:50] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:22:50] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:23:05] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 10:23:45] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:23:45] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:23:45] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:23:45] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:23:45] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:23:45] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:23:45] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:23:45] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:23:45] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:23:45] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:23:45] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:23:45] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:28:08] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 10:28:22] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 10:33:45] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 10:34:17] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 10:40:18] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 10:43:15] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 10:43:34] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 10:47:13] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 10:49:09] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 10:52:44] WARNING: QLayout: Attempting to add QLayout "" to MainWindow "MainWindow", which already has a layout
+[2025-05-22 10:53:27] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:53:27] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:53:27] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:53:27] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:53:27] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:53:27] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:53:27] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:53:27] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:53:27] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:53:27] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:53:27] INFO: libpng warning: iCCP: known incorrect sRGB profile
+[2025-05-22 10:53:27] INFO: libpng warning: iCCP: known incorrect sRGB profile

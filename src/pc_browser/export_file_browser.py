@@ -1,15 +1,13 @@
 import src.db_function.pc_db as pc_db
 from PySide6.QtWidgets import QTableWidgetItem,QTableWidget, QHeaderView,QVBoxLayout,QLayout
 from PySide6.QtCore import Qt,QTimer
+from PySide6.QtGui import QIcon
 import pandas as pd
 import fitz
 import os
-import shutil
-import logging
-import sys 
 import io
-
-from typing import Any, List, Dict, Optional
+import math
+from typing import Dict
 from urllib.parse import urlparse
 from datetime import datetime
 from PySide6.QtGui import QStandardItemModel, QStandardItem,QPixmap
@@ -24,6 +22,10 @@ class export_file_browser:
         self.parent = parent
         self.focus_file_type = None
         self.export_file_gui_done = False
+        self.offset = 0
+        self.limit = 100
+        self.page_number = 0
+        self.page_max_number = 0
         self.file_storage = "D:\\DaneDoTestow\\Wyeksportowane pliki\\Pliki użytkowników"
         self.table_dict : Dict[str, str] = {}
         self.export_file_filters : Dict[str,str] = {"file_name":"", "file_size": "", "start_date":"", "end_date":""}
@@ -65,22 +67,55 @@ class export_file_browser:
         if not self.export_file_gui_done:
             self.export_init_gui()
             self.export_file_gui_done = True
-        rows = self.db_menager.get_contents_from_table(self.table_dict[self.focus_file_type],self.export_file_filters)
-        self.parent.ui.exportFileTableWidget.setRowCount(0)
-        self.parent.ui.exportFileTableWidget.setColumnCount(0)
-        self.parent.ui.exportFileTableWidget.setColumnCount(4)
-        self.parent.ui.exportFileTableWidget.setHorizontalHeaderLabels(["Id","Nazwa Pliku","Rozmiar","Data utworzenia"])
-       
-        for row in rows:
-            row_position = self.parent.ui.exportFileTableWidget.rowCount()
-            self.parent.ui.exportFileTableWidget.insertRow(row_position)
-            for i, value in enumerate(row):
-                item = QTableWidgetItem(str(value))
-                self.parent.ui.exportFileTableWidget.setItem(row_position, i, item)
-        self.parent.ui.exportFileTableWidget.verticalHeader().setVisible(False)                
-        self.parent.ui.exportFileTableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        if self.focus_file_type != "Obrazy":
+            rows = self.db_menager.get_contents_from_table(self.table_dict[self.focus_file_type],self.export_file_filters,self.limit,self.offset)
+            self.parent.ui.exportFileTableWidget.setRowCount(0)
+            self.parent.ui.exportFileTableWidget.setColumnCount(0)
+            self.parent.ui.exportFileTableWidget.setColumnCount(4)
+            self.parent.ui.exportFileTableWidget.setHorizontalHeaderLabels(["Id","Nazwa Pliku","Rozmiar","Data utworzenia"])
+        
+            for row in rows:
+                row_position = self.parent.ui.exportFileTableWidget.rowCount()
+                self.parent.ui.exportFileTableWidget.insertRow(row_position)
+                for i, value in enumerate(row):
+                    item = QTableWidgetItem(str(value))
+                    self.parent.ui.exportFileTableWidget.setItem(row_position, i, item)
+            self.parent.ui.exportFileTableWidget.verticalHeader().setVisible(False)                
+            self.parent.ui.exportFileTableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        else:
+            if self.parent.ui.tableRadioButton.isChecked():
+                self.parent.ui.exportFileTableWidget.show()
+                self.parent.ui.galeryListView.hide()
+                rows = self.db_menager.get_contents_from_table(self.table_dict[self.focus_file_type],self.export_file_filters,self.limit,self.offset)
+                self.parent.ui.exportFileTableWidget.setRowCount(0)
+                self.parent.ui.exportFileTableWidget.setColumnCount(0)
+                self.parent.ui.exportFileTableWidget.setColumnCount(4)
+                self.parent.ui.exportFileTableWidget.setHorizontalHeaderLabels(["Id","Nazwa Pliku","Rozmiar","Data utworzenia"])
+                for row in rows:
+                    row_position = self.parent.ui.exportFileTableWidget.rowCount()
+                    self.parent.ui.exportFileTableWidget.insertRow(row_position)
+                    for i, value in enumerate(row):
+                        item = QTableWidgetItem(str(value))
+                        self.parent.ui.exportFileTableWidget.setItem(row_position, i, item)
+                self.parent.ui.exportFileTableWidget.verticalHeader().setVisible(False)                
+                self.parent.ui.exportFileTableWidget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+            else:
+                self.parent.ui.exportFileTableWidget.hide()
+                self.parent.ui.galeryListView.show()
+                rows = self.db_menager.get_img_galery(self.table_dict[self.focus_file_type],self.export_file_filters,self.limit,self.offset)
+                self.model = QStandardItemModel()
 
-    def load_deteils_export_file(self,row,col):    
+                for file in rows:
+                    icon = QIcon(os.path.join(self.file_storage,file[4]))  
+                    item = QStandardItem(icon, file[1])
+                    item.setData(file[0], Qt.UserRole)
+                    # print(os.path.join(self.file_storage,file[4]),file[1])
+                    item.setEditable(False) 
+                    self.model.appendRow(item)
+
+                self.parent.ui.galeryListView.setModel(self.model)
+
+    def load_deteils_export_file(self,row,col = None):    
         id = self.parent.ui.exportFileTableWidget.item(row, 0).text()
         if self.focus_file_type != "Pozostałe":
             row = self.db_menager.get_full_deteils_export_file(id,self.table_dict[self.focus_file_type])
@@ -151,7 +186,12 @@ class export_file_browser:
         self.parent.ui.exportFileCalendarBtn.clicked.connect(lambda : self.serch_by_date_start(self.parent.ui.exportFileStartDateLineEdit,self.parent.ui.exportFileEndDateLineEdit,self.export_file_filters,"start_date","end_date"))
         self.parent.ui.exportFileStartDateLineEdit.textChanged.connect(lambda :self.update_data_filter(self.export_file_filters,"start_date","end_date",self.load_exported_file,self.parent.ui.exportFileStartDateLineEdit,self.parent.ui.exportFileEndDateLineEdit))
         self.parent.ui.exportFileEndDateLineEdit.textChanged.connect(lambda:self.update_data_filter(self.export_file_filters,"start_date","end_date",self.load_exported_file,self.parent.ui.exportFileStartDateLineEdit,self.parent.ui.exportFileEndDateLineEdit))
-    
+        self.parent.ui.nextExportPageBtn.clicked.connect(lambda : self.next_page(self.load_exported_file))
+        self.parent.ui.prevExportPageBtn.clicked.connect(lambda : self.prev_page(self.load_exported_file))
+        self.parent.ui.tableRadioButton.toggled.connect(self.load_exported_file)
+        self.parent.ui.galeryRadioButton.toggled.connect(self.load_exported_file)
+        self.parent.ui.galeryListView.clicked.connect(self.load_deteils_img_galery)
+
     def update_filter(self,filter_list,filter_key,load_function,line_edit):
         filter_list[filter_key] = line_edit.text()
         load_function()
@@ -160,6 +200,23 @@ class export_file_browser:
         list_filter[stert_key] = start_line_edit.text()
         list_filter[end_key] = end_line_edit.text()
         load_function()
+    
+    def next_page(self,loading_function):
+        # print(self.page_max_number)
+        # print(self.offset/ self.limit)
+        self.offset = self.offset + self.limit
+        if (self.offset/ self.limit)  < self.page_max_number:
+            loading_function()
+        else:
+            self.offset = self.offset-self.limit
+        #self.page_number = math.ceil(count_row[0][0]/self.parent.page_limit)
+        self.parent.ui.numberExportFileLineEdit.setText(f"{math.ceil(self.offset/self.limit)+1}")
+
+    def prev_page(self,loading_function):
+        if self.offset > 0:
+            self.offset = self.offset - self.limit
+            loading_function()
+        self.parent.ui.numberExportFileLineEdit.setText(f"{math.ceil(self.offset/self.limit)+1}")
 
     def serch_by_date_start(self,start_data_lineEdit,end_data_lineEdit,list_filter,start_key,end_key):
         """Otwiera okno dialogowe do wyboru zakresu dat."""
@@ -198,4 +255,40 @@ class export_file_browser:
         else:
             end_data_lineEdit.setText("")
 
-    
+    def load_deteils_img_galery(self,index):    
+        item = self.model.itemFromIndex(index)
+        id = item.data(Qt.UserRole) 
+        row = self.db_menager.get_full_deteils_export_file(id,self.table_dict[self.focus_file_type])
+
+
+        layout = self.parent.ui.fileExportWidget.findChild(QLayout, "contentLayout")
+        if layout is not None:
+            while layout.count():
+                item = layout.takeAt(0)
+                widget_to_remove = item.widget()
+                if widget_to_remove is not None:
+                    widget_to_remove.setParent(None)
+        else:
+            layout = QVBoxLayout()
+            layout.setObjectName("contentLayout")
+            self.parent.ui.fileExportWidget.setLayout(layout)
+
+        ext = row[0][1].split(".")[-1]
+        path = os.path.join(self.file_storage, row[0][1])
+
+        if ext in ['jpg','jpeg','png','gif','bmp','ppm']:
+            pix_map = QPixmap(path)
+            widget = generator_wiget(pix_map,ext,widget = self.parent.ui.fileExportWidget)
+
+        layout.addWidget(widget)
+        print(row)
+        self.parent.ui.fieleExportNameLabel.setText(row[0][2])
+        self.parent.ui.fileExportPathLabel.setText(row[0][3])
+        self.parent.ui.fileExportSizeLabel.setText(row[0][4])
+        self.parent.ui.fileExportCreateDateLabel.setText(row[0][5])
+        self.parent.ui.fileExportDateModyficatinLabel.setText(row[0][6])
+        self.parent.ui.fileExportDateAccessLabel.setText(row[0][7])
+        if self.focus_file_type != "Pozostałe":
+            self.parent.ui.fileExportMetadataLabel.setText(row[0][8])
+        else: 
+            self.parent.ui.fileExportMetadataLabel.setText("Brak metadanych")

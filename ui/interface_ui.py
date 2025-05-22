@@ -3639,6 +3639,44 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_70.addWidget(self.widget_101)
 
+        self.widget_108 = QWidget(self.page_3)
+        self.widget_108.setObjectName(u"widget_108")
+        sizePolicy6.setHeightForWidth(self.widget_108.sizePolicy().hasHeightForWidth())
+        self.widget_108.setSizePolicy(sizePolicy6)
+        self.horizontalLayout_110 = QHBoxLayout(self.widget_108)
+        self.horizontalLayout_110.setSpacing(3)
+        self.horizontalLayout_110.setObjectName(u"horizontalLayout_110")
+        self.horizontalLayout_110.setContentsMargins(0, 0, 0, 0)
+        self.prevExportPageBtn = QPushButton(self.widget_108)
+        self.prevExportPageBtn.setObjectName(u"prevExportPageBtn")
+        sizePolicy6.setHeightForWidth(self.prevExportPageBtn.sizePolicy().hasHeightForWidth())
+        self.prevExportPageBtn.setSizePolicy(sizePolicy6)
+
+        self.horizontalLayout_110.addWidget(self.prevExportPageBtn)
+
+        self.numberExportFileLineEdit = QLineEdit(self.widget_108)
+        self.numberExportFileLineEdit.setObjectName(u"numberExportFileLineEdit")
+        sizePolicy6.setHeightForWidth(self.numberExportFileLineEdit.sizePolicy().hasHeightForWidth())
+        self.numberExportFileLineEdit.setSizePolicy(sizePolicy6)
+
+        self.horizontalLayout_110.addWidget(self.numberExportFileLineEdit)
+
+        self.maxPageLabel = QLabel(self.widget_108)
+        self.maxPageLabel.setObjectName(u"maxPageLabel")
+        self.maxPageLabel.setFrameShape(QFrame.Shape.Box)
+
+        self.horizontalLayout_110.addWidget(self.maxPageLabel)
+
+        self.nextExportPageBtn = QPushButton(self.widget_108)
+        self.nextExportPageBtn.setObjectName(u"nextExportPageBtn")
+        sizePolicy6.setHeightForWidth(self.nextExportPageBtn.sizePolicy().hasHeightForWidth())
+        self.nextExportPageBtn.setSizePolicy(sizePolicy6)
+
+        self.horizontalLayout_110.addWidget(self.nextExportPageBtn)
+
+
+        self.verticalLayout_70.addWidget(self.widget_108)
+
         self.widget_93 = QWidget(self.page_3)
         self.widget_93.setObjectName(u"widget_93")
         self.horizontalLayout_95 = QHBoxLayout(self.widget_93)
@@ -4379,6 +4417,9 @@ class Ui_MainWindow(object):
         self.exportFileEndDateLineEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Data do", None))
         self.label_60.setText(QCoreApplication.translate("MainWindow", u"Pliki ", None))
         self.exportFileTypeLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
+        self.prevExportPageBtn.setText(QCoreApplication.translate("MainWindow", u"<-", None))
+        self.maxPageLabel.setText("")
+        self.nextExportPageBtn.setText(QCoreApplication.translate("MainWindow", u"->", None))
         self.label_58.setText(QCoreApplication.translate("MainWindow", u"SZCZEG\u00d3\u0141Y", None))
         self.label_59.setText(QCoreApplication.translate("MainWindow", u"Nazwa:", None))
         self.fieleExportNameLabel.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))

@@ -232,7 +232,7 @@ class database_pc_manager:
                         else:
                             part_query += f" AND {key} > '{value}'"
                 elif (key == "start_date"):
-                    print("start_date")
+                    # print("start_date")
                     if value != "":
                         if one_filter:
                             part_query += f" WHERE first_visit_date > '{value}' "
@@ -240,7 +240,7 @@ class database_pc_manager:
                         else:
                             part_query = part_query +f" AND first_visit_date > '{value}' "
                 elif (key == "end_date"):
-                    print("end_date")
+                    #$ print("end_date")
                     if value != "":
                         if one_filter:
                             part_query += f" WHERE first_visit_date < '{value} "

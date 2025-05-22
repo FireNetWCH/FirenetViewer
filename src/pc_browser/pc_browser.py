@@ -50,9 +50,9 @@ class pc_browser:
         
         rows = self.db_menager.get_device_info()
         if rows:
-            print(rows)
+            #print(rows)
             for row in rows:
-                print(row)
+                #print(row)
                 row_position = self.parent.ui.deviceInfoTableWidget.rowCount()
                 self.parent.ui.deviceInfoTableWidget.insertRow(row_position)
                 for i, value in enumerate(row):
@@ -276,7 +276,7 @@ class pc_browser:
                 self.parent.ui.countVisit.setText("Brak liczby wizyt")
 
     def generate_pc_tree(self,file_branch):
-        print("generate")
+        # print("generate")
         model = QStandardItemModel()
         model.setHorizontalHeaderLabels(["Zawartość systemu"])
 
@@ -316,7 +316,7 @@ class pc_browser:
         self.parent.ui.pcTree.clicked.connect(self.on_tree_item_clicked)
 
     def on_tree_item_clicked(self, index):
-        print("Clicked item index:", index)
+        # print("Clicked item index:", index)
         item = self.parent.ui.pcTree.model().itemFromIndex(index)
         # self.parent.ui.sercherWebEngineView.setHtml("")
         # self.parent.ui.historyWebEngineView.setHtml("")
@@ -358,6 +358,17 @@ class pc_browser:
                 self.parent.file_export_browser.focus_file_type = item_name
                 if self.parent.ui.customQStackedWidget.currentIndex() != 12:
                     self.parent.ui.customQStackedWidget.setCurrentIndex(12)
+                if item_name != "Obrazy":
+                    self.parent.ui.radioBtnWidget.hide()
+                else:
+                    self.parent.ui.radioBtnWidget.show()
+                    self.parent.ui.tableRadioButton.setChecked(True)
+                
+                self.parent.file_export_browser.offset = 0
+                self.parent.file_export_browser.page_number = 0
+                self.parent.file_export_browser.page_max_number = self.parent.file_export_browser.db_menager.get_count_row(self.parent.file_export_browser.table_dict[item_name])[0][0]/self.parent.file_export_browser.limit
+                self.parent.ui.exportFileMaxPageLabel.setText(f"\ {math.ceil(self.parent.file_export_browser.page_max_number)}")
+                self.parent.ui.numberExportFileLineEdit.setText(f"{self.parent.file_export_browser.page_number+1}")
                 self.parent.file_export_browser.load_exported_file()
     def set_item_combo_box(self, list_values,combo_box):
         combo_box.clear()
@@ -432,7 +443,7 @@ class pc_browser:
         browser_name = browser_name.replace(" ","_")
         rows = self.db_menager.get_logins_deteils(browser_name+"_logins",id)
         if rows:
-            print(rows)
+            # print(rows)
             if rows[0][1] is not None:
                 self.parent.ui.saveLoginUrlLabel.setText(str(rows[0][1]))
             else:
@@ -491,7 +502,7 @@ class pc_browser:
         browser_name = browser_name.replace(" ","_")
         rows = self.db_menager.get_sercher_deteils(browser_name+"_searchhistory",id)
         if rows:
-            print(rows)
+            # print(rows)
             if rows[0][1] is not None:
                 self.parent.ui.sercherUrlLabel.setText(str(rows[0][1]))
                 self.parent.ui.sercherWebEngineView.load(QUrl(str(rows[0][1])))
@@ -545,7 +556,7 @@ class pc_browser:
         browser_name = browser_name.replace(" ","_")
         rows = self.db_menager.get_autofill_deteils(browser_name+"_autofill",id)
         if rows:
-            print(rows)
+            # print(rows)
             if rows[0][1] is not None:
                 self.parent.ui.autofillNameLabel.setText(str(rows[0][1]))
             else:
@@ -641,6 +652,7 @@ class pc_browser:
         self.parent.ui.downladaNextPageBtn.clicked.connect(lambda :  self.next_page(self.load_borowser_download_history))
         self.key_filter_browser_download_history = KeyPressFilterTableBrowsers(self.parent.ui.networkBrowserTable, self.load_download_deteils,self.load_download_deteils)
         self.parent.ui.networkBrowserTable.installEventFilter(self.key_filter_browser_download_history)
+
         
     def update_profile_name_filter(self,profil_como_box,ladder_function):
         if profil_como_box.currentText() == "Wszystkie":
@@ -739,5 +751,5 @@ class pc_browser:
         count_row = self.db_menager.get_download_count_row(self.db_menager.get_browser_table_type_list(teble_type),filers,self.history_browser_marge_filters,part_query_generator)
         max_page.setText(f"/ {math.ceil(count_row[0][0]/self.parent.page_limit)}")
         self.parent.page_number = math.ceil(count_row[0][0]/self.parent.page_limit)
-        print(f"TEST:{math.ceil(self.parent.page_ofset/self.parent.page_limit)+1}")
+        # print(f"TEST:{math.ceil(self.parent.page_ofset/self.parent.page_limit)+1}")
         line_edit.setText(f"{math.ceil(self.parent.page_ofset/self.parent.page_limit)+1}")

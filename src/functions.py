@@ -70,10 +70,10 @@ class GUIFunctions:
     def _setup_ui(self) -> None:
         """Inicjalizacja interfejsu – ustawienia czcionki, motywu oraz połączenia sygnałów."""
         self.enable_column_rearrangement()
-        self.load_product_sans_font()
+        # self.load_product_sans_font()
         self.initialize_app_theme()
         self._connect_signals()
-        self.inicialize_pc_file_export_browser()
+        self.inicialize_pc_and_file_export_browser()
         # Konfiguracja widoku drzewa katalogów
         self.ui.select_directory.clicked.connect(self.select_directory)
         self.file_system_model = QFileSystemModel()
@@ -164,12 +164,12 @@ class GUIFunctions:
         #self.ui.dataBtn.hide()
         pass
     
-    def inicialize_pc_file_export_browser(self):
+    def inicialize_pc_and_file_export_browser(self):
         first_path = "C:\\Users\\firenet\\FirenetViewer\\pc_storage\\sqlite\\os_extraction.db"
         first_path_file_export_db = "D:\\DaneDoTestow\\Wyeksportowane pliki\\Pliki użytkowników\\file_exports_by_type.db"
         self.os_db_menager = database_pc_manager(first_path)
         self.file_export_db_menager = database_file_export_menager(first_path_file_export_db)
-
+        self.ui.galeryListView.hide()
         self.ui.customQStackedWidget.setCurrentIndex(5)
         self.pc_browser = pc_browser(first_path,self,self.os_db_menager)
         self.file_export_browser = export_file_browser(self,self.file_export_db_menager)
