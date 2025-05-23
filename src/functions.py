@@ -3,10 +3,10 @@ import logging
 from typing import Any, List, Dict, Optional
 import pandas as pd
 from PySide6.QtCore import Qt, QSettings, QDir, QPoint,QDate
-from PySide6.QtGui import QFont, QFontDatabase, QAction,QIcon
+from PySide6.QtGui import QFont, QFontDatabase, QAction,QIcon,QStandardItemModel,QStandardItem
 from PySide6.QtWidgets import (
     QCheckBox, QPushButton, QGraphicsScene, QTableWidgetItem, QMenu, QFileSystemModel,
-    QTreeView, QVBoxLayout, QFileDialog, QMainWindow,QTabBar
+    QTreeView, QVBoxLayout, QFileDialog, QMainWindow,QTabBar,QListWidgetItem
 )
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -22,11 +22,19 @@ from src.multi_tag_selector import MultiTagSelector
 from src.viewers.display_chenger import display_file_content
 from src.viewers.explorer_function import prev_item,histor_stack
 from src.viewers.dir_viewers import DirViewers
-from src.disc_image_reader.disc_viewer import DiscViewers
+
 from src.style_app import style_app
 from src.db_function.pc_db import database_pc_manager
 from src.db_function.export_file_db import database_file_export_menager
+from src.disc_image_reader.ewf_info import EWFImgInfo
+from src.disc_image_reader.image_file_tree_model import TSKFileSystemTreeModel
+from src.disc_image_reader.image_file_list_model import TSKFileSystemListModel
+from src.disc_image_reader.disc_viewer_explorator import DiscViewersExplorator
+from src.disc_image_reader.disc_viewer_tree import DiscViewersTree
+import pytsk3
+import pyewf
 
+import json
 import sys,os
 from src.pc_browser.key_press_filter import KeyPressFilterTableBrowsers
 logger = logging.getLogger(__name__)
@@ -53,10 +61,13 @@ class GUIFunctions:
         self.page_limit = 100
         self.page_number = 0
         self.page_ofset = 0
+
+        self.disc_img = None
         
         self.columns_hidden: List[bool] = [False] * 6
         self.filtering_active: bool = False
         self.current_sort_order: Dict[int, Any] = {}
+        self.partition_dictionery: Dict[str,int] = {}
         self.histor = histor_stack()
         self.back_hisotry = histor_stack()
         self.active_path =""
@@ -90,14 +101,15 @@ class GUIFunctions:
         tab_bar = self.ui.reportsPage.findChild(QWidget,"function_bar").findChild(QWidget,"tabWidget").tabBar()
         tab_bar.setTabButton(0, QTabBar.RightSide, None)
 
-        ## Uruchomienie odczytu obrazu dysku
-        
-         
-        self.disc_imgae_explorer = DiscViewers(parent=self)
-        self.ui.tabWidget_2.addTab(self.disc_imgae_explorer,"DISC_IMG")
+        #Dodanie pierwszej strony do eksploratora obrazu dyskowego
+        widget = QWidget()
+        self.ui.tabWidget_2.addTab(widget,"DISC_IMG")
         tab_bar = self.ui.tabWidget_2.tabBar()
         tab_bar.setTabButton(0, QTabBar.RightSide, None)
         self.ui.eksploratorImgBtn.clicked.connect(lambda: self.ui.customQStackedWidget.setCurrentIndex(6))
+        
+         
+        
 
     def _connect_signals(self) -> None:
         """Łączy sygnały z odpowiednimi metodami."""
@@ -105,7 +117,7 @@ class GUIFunctions:
         self.ui.settingsBtn.clicked.connect(lambda: self.ui.centerMenu.expandMenu())
         self.ui.infoBtn.clicked.connect(lambda: self.ui.centerMenu.expandMenu())
         self.ui.helpBtn.clicked.connect(lambda: self.ui.centerMenu.expandMenu())
-        self.ui.fileBtn.clicked.connect(lambda: self.ui.centerMenu.expandMenu())
+        self.ui.fileBtn.clicked.connect(self.disc_load)
         self.ui.closeCenterMenuBtn.clicked.connect(lambda: self.ui.centerMenu.collapseMenu())
         self.ui.notificationBtn.clicked.connect(lambda: self.ui.rightMenu.expandMenu())
         self.ui.moreBtn.clicked.connect(lambda: self.ui.rightMenu.expandMenu())
@@ -158,12 +170,82 @@ class GUIFunctions:
         style =  style_app(self)
         style.set_style()
         
-        self._tymczasowe_ukrycie()
+        
 
-    def _tymczasowe_ukrycie(self):
-        #self.ui.dataBtn.hide()
-        pass
-    
+    def disc_load(self):
+        self.ui.centerMenu.expandMenu()
+        if self.disc_img == None:
+            file_config = open(".\\config.json")
+            config = json.load(file_config)
+            base_path = config['path']
+            nr_partycji = config['numer_partycji']
+            filename = os.listdir(base_path)
+            for i in range(len(filename)):
+                filename[i] = os.path.join(base_path, filename[i])
+            ewf_handle = pyewf.handle()
+            ewf_handle.open(filename)
+            img = EWFImgInfo(ewf_handle)
+            self.disc_img = img
+            volume = pytsk3.Volume_Info(img)
+            partitions = list(volume)
+            first_partition = partitions[nr_partycji]
+            print(first_partition)
+            self.fs = pytsk3.FS_Info(img, offset=first_partition.start * 512)
+            self.model = TSKFileSystemListModel(file_system = self.fs)
+            volume = pytsk3.Volume_Info(img)
+        #volume = pytsk3.tsk_vs_open(img)
+            partitions = list(volume)
+            basic_partitions = []
+            model = QStandardItemModel()
+            self.disc_imgae_explorer = DiscViewersExplorator(parent=self)
+            self.disc_imgae_tree = DiscViewersTree(parent=self)
+            self.main.ui.imageDiscTreeView.clicked.connect(self.disc_imgae_tree.itemOneClicked)
+            for partition in volume:
+                print(f"volume: {partition.addr}, Rozmiar: {partition.len}, Nazwa: {partition.desc}")
+                if partition.desc == b"Basic data partition":
+                    basic_partitions.append(partition)
+            i = 1        
+            for part in basic_partitions:
+                item = QStandardItem(str(i)+". "+ str(part.desc))
+                self.partition_dictionery[str(i)+". "+ str(part.desc)] =  part.addr
+                item.setData(part, Qt.UserRole)
+                model.appendRow(item)
+                i = i+1
+            print(self.partition_dictionery) 
+            self.ui.partitionListListView.setModel(model)
+            self.ui.partitionListListView.clicked.connect(self.display_disc_img)
+        else:
+            self.disc_imgae_explorer = DiscViewersExplorator(parent=self)
+            self.disc_imgae_tree = DiscViewersTree(parent=self)
+
+    def display_disc_img(self,index):
+        """Funkcja wyswietla zawartość wybranej partycji w drzewie i eksploratorze """
+        model = self.ui.partitionListListView.model()
+        item = model.itemFromIndex(index)
+        print(item.text())
+        partition = item.data(Qt.UserRole)
+        volume = pytsk3.Volume_Info(self.disc_img)
+        partitions = list(volume)
+        first_partition = partitions[self.partition_dictionery[item.text()]]
+
+        self.fs = pytsk3.FS_Info(self.disc_img, offset=first_partition.start* 512)
+        self.disc_imgae_explorer = DiscViewersExplorator(parent=self)
+        self.disc_imgae_tree = DiscViewersTree(parent=self)
+
+        if self.ui.tabWidget_2.count() > 0:
+            # Zamień widżet w pierwszej karcie
+            self.ui.tabWidget_2.removeTab(0)
+            self.ui.tabWidget_2.insertTab(0, self.disc_imgae_explorer, "DISC_IMG")
+            self.ui.tabWidget_2.setCurrentIndex(0)
+        else:
+            self.ui.tabWidget_2.addTab(self.disc_imgae_explorer, "DISC_IMG")
+            self.ui.tabWidget_2.setCurrentIndex(0)
+        tab_bar = self.ui.tabWidget_2.tabBar()
+        tab_bar.setTabButton(0, QTabBar.RightSide, None)
+
+        self.ui.imageDiscTreeView.setModel(self.disc_imgae_tree.model)
+        
+        
     def inicialize_pc_and_file_export_browser(self):
         first_path = "C:\\Users\\firenet\\FirenetViewer\\pc_storage\\sqlite\\os_extraction.db"
         first_path_file_export_db = "D:\\DaneDoTestow\\Wyeksportowane pliki\\Pliki użytkowników\\file_exports_by_type.db"

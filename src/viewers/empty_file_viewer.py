@@ -2,10 +2,10 @@ from PySide6.QtWidgets import QWidget,QLabel,QVBoxLayout
 from PySide6.QtCore import Qt
 
 class EmptyFileView(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self,text, parent=None):
         super().__init__(parent)
-
-        self.label = QLabel("Ten plik jest pusty.")
+        
+        self.label = QLabel(text)
         self.label.setAlignment(Qt.AlignCenter)  
         layout = QVBoxLayout(self)
         layout.addWidget(self.label)

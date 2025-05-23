@@ -9,9 +9,10 @@ import pyewf
 import os
 import traceback
 import json
-class DiscViewers(QWidget):
+class DiscViewersExplorator(QWidget):
     def __init__(self,parent = None):
         super().__init__()
+        self.parent = parent
         file_config = open(".\\config.json")
         config = json.load(file_config)
         base_path = config['path']
@@ -22,15 +23,23 @@ class DiscViewers(QWidget):
         ewf_handle = pyewf.handle()
         ewf_handle.open(filename)
         img = EWFImgInfo(ewf_handle)
-        volume = pytsk3.Volume_Info(img)
+        volume = pytsk3.Volume_Info(self.parent.disc_img)
         partitions = list(volume)
         first_partition = partitions[nr_partycji]
-        print(first_partition)
+        #print(first_partition)
         self.fs = pytsk3.FS_Info(img, offset=first_partition.start * 512)
-        self.model = TSKFileSystemListModel(file_system = self.fs)
+        self.model = TSKFileSystemListModel(file_system = self.parent.fs)
 
-        # ODPALANIE NA MODEL LISTY
-        
+
+        volume = pytsk3.Volume_Info(img)
+        #volume = pytsk3.tsk_vs_open(img)
+        partitions = list(volume)
+        basic_partitions = []
+        for partition in volume:
+            # print(f"volume: {partition.addr}, Rozmiar: {partition.len}, Nazwa: {partition.desc}")
+            if partition.desc == b"Basic data partition":
+                basic_partitions.append(partition)
+
         self.list_view = QListView(self)
         self.list_view.setModel(self.model)
         self.list_view.setViewMode(QListView.IconMode) 
@@ -44,21 +53,8 @@ class DiscViewers(QWidget):
         layout = QVBoxLayout(self)
         layout.addWidget(self.list_view)
         self.setLayout(layout)
-        # KONIEC
 
-        # DRZEWO START
-        # self.tree_view = QTreeView(self)
-        # self.tree_view.setModel(self.model)
-        # self.tree_view.setAnimated(True)
-        # self.tree_view.setHeaderHidden(True)
-        # self.tree_view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        # self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        # self.tree_view.doubleClicked.connect(lambda index: self.itemDoubleClicked(index, parent))
-        # self.tree_view.clicked.connect(self.print_entries)
-        # layout = QVBoxLayout(self)
-        # layout.addWidget(self.tree_view)
-        # self.setLayout(layout)
-        # DRZEWO END 
+    
 
     # def set_directory(self, dir_path):
     #     self.file_system_model.setRootPath(dir_path)
@@ -134,7 +130,15 @@ class DiscViewers(QWidget):
         #meta_data_table_wiget = MetaDataTableWiget(file_path)
         # self.setMetadataRightWidget(parent,meta_data_table_wiget)
         
-
+    def init_partition_tree():
+        file_config = open(".\\config.json")
+        config = json.load(file_config)
+        base_path = config['path']
+        basic_partitions = []
+        for partition in volume:
+            print(f"volume: {partition.addr}, Rozmiar: {partition.len}, Nazwa: {partition.desc}")
+            if partition.desc == b"Basic data partition":
+                basic_partitions.append(partition)
     # def setMetadataRightWidget(self,context,wiget):
     #     layout_rm = context.ui.rightMenu.layout()
     #     if layout_rm is None:

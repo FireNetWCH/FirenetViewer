@@ -11,10 +11,11 @@ class TSKFileSystemListModel(QAbstractListModel):
         self.icon_provider = QFileIconProvider()
         self.entries = []
         self.fs = file_system
-        self.img_path = "/" 
         self.load_entreis()
 
     def load_entreis(self):
+        print("laduje encje")
+        print(self.folder_path)
         self.entries = []
         for entry in self.fs.open_dir(path = self.folder_path):
             name = entry.info.name.name.decode()

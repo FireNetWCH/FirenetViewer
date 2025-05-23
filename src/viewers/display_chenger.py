@@ -5,6 +5,7 @@ from src.viewers.dir_viewers import display_dir_content
 from src.viewers.docx_viewers import display_docx_content
 from src.viewers.table_viewers import display_table_content
 from src.viewers.txt_viewers import display_txt_content
+from src.viewers.wiget_generator import generator_wiget
 from src.viewers.not_support_file import NotSupportFileView
 from src.viewers.empty_file_viewer import EmptyFileView
 from src.firenet_viewer_widget.downloadButtona import downloadButton
@@ -12,6 +13,7 @@ from src.disc_image_reader.download_menager import download_manager
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QWidget
 from PySide6.QtCore import Qt
+import fitz
 import pytsk3
 import os
 import io
@@ -94,46 +96,81 @@ def display_file_content(self, file_path,history_flag = 1,file_system = None) ->
         
         else:
             try:
-                print(file_path)
-                _, ext = os.path.splitext(file_path.info.name.name.decode().lower())
-                if ext in ['.jpg','.jpeg','.png','.gif','.bmp','.ppm']:
-                    file_hoke = file_system.open_meta(file_path.info.name.meta_addr)
+                _, ext = os.path.splitext(file_path[1].info.name.name.decode().lower())
+
+                if ext in ['.mp3','.mp4','.avi','.mkv','.mov','.wmv','.flv','.ogv']:
+                    file_hoke = file_path[1]
+                    file_data = file_hoke.read_random(0,file_hoke.info.meta.size)
+                    pdf_vido = generator_wiget(file_data,'mp4',file_path[1].info.name.name.decode().lower())
+
+                    dm = download_manager(file_path[1])
+                    download_buttona = downloadButton(file_path[1].info.name.name.decode().lower(),lambda: dm.download_file_img())
+                    pdf_vido.layout().addWidget(download_buttona, alignment=Qt.AlignCenter)
+
+                    q_tab = self.ui.tabWidget_2
+                    q_tab.addTab(pdf_vido,"Multimedia")
+                    q_tab.setCurrentWidget(pdf_vido)
+
+                elif ext == '.pdf':
+                    file_hoke = file_path[1]
+                    file_data = file_hoke.read_random(0,file_hoke.info.meta.size)
+                    pdf_file = fitz.open(stream=file_data, filetype="pdf")
+                    pdf_widget = generator_wiget(pdf_file,'pdf',file_path[1].info.name.name.decode().lower(),self.ui.tabWidget_2)
+                    
+                    dm = download_manager(file_path[1])
+                    download_buttona = downloadButton(file_path[1].info.name.name.decode().lower(),lambda: dm.download_file_img())
+                    pdf_widget.layout().addWidget(download_buttona, alignment=Qt.AlignCenter)
+
+                    q_tab = self.ui.tabWidget_2
+                    q_tab.addTab(pdf_widget,"PDF")
+                    q_tab.setCurrentWidget(pdf_widget)
+                
+                elif ext in ['.jpg','.jpeg','.png','.gif','.bmp','.ppm']:
+                    file_hoke = file_path[1]
                     file_data = file_hoke.read_random(0,file_hoke.info.meta.size)
                     pixmap = QPixmap()
                     pixmap.loadFromData(file_data)
-                    display_img_content(self,pixmap)
+                    img_widget = generator_wiget(pixmap,'jpg',file_path[1].info.name.name.decode().lower(),self.ui.tabWidget_2)
+                    
+                    dm = download_manager(file_path[1])
+                    download_buttona = downloadButton(file_path[1].info.name.name.decode().lower(),lambda: dm.download_file_img())
+                    img_widget.layout().addWidget(download_buttona, alignment=Qt.AlignCenter)
+                    
                     q_tab = self.ui.tabWidget_2
-                    tab_content = display_img_content(self,pixmap)
-                    dm = download_manager(file_path)
-                    download_buttona = downloadButton(file_path.info.name.name.decode().lower(),lambda: dm.download_file_img())
-                    q_tab = self.ui.tabWidget_2
-                    tab_content.layout().addWidget(download_buttona, alignment=Qt.AlignCenter)
-                    q_tab.addTab(tab_content,"IMG")
-                    q_tab.setCurrentWidget(tab_content)
+                    q_tab.addTab(img_widget,"IMG")
+                    q_tab.setCurrentWidget(img_widget)
 
                 elif ext in ['.txt', '.py', '.log']:
-                    file_hoke = file_system.open_meta(file_path.info.name.meta_addr)
+                    print(file_path[1].info.name.meta_addr)
+                    file_hoke = file_path[1]
+                    
                     if file_hoke.info.meta.size > 0: 
                         file_data = file_hoke.read_random(0,file_hoke.info.meta.size)
                         txt = file_data.decode("utf-8")     
+                        
+                        
+                        txt_widget = generator_wiget(txt,'txt',name = file_path[1].info.name.name.decode().lower())
+
+                        dm = download_manager(file_path[1])
+                        download_buttona = downloadButton(file_path[1].info.name.name.decode().lower(),lambda: dm.download_file_img())
+                        
+                        
+                        txt_widget.layout().addWidget(download_buttona, alignment=Qt.AlignCenter)
                         q_tab = self.ui.tabWidget_2
-                        tab_content = display_txt_content(self,txt)
-                        dm = download_manager(file_path)
-                        download_buttona = downloadButton(file_path.info.name.name.decode().lower(),lambda: dm.download_file_img())
-                        q_tab = self.ui.tabWidget_2
-                        tab_content.layout().addWidget(download_buttona, alignment=Qt.AlignCenter)
-                        q_tab.addTab(tab_content,"TXT")
-                        q_tab.setCurrentWidget(tab_content)
+                        q_tab.addTab(txt_widget,"TXT")
+                        q_tab.setCurrentWidget(txt_widget)
+
+
                     else:
-                        tab_content = EmptyFileView()
-                        dm = download_manager(file_path)
-                        download_buttona = downloadButton(file_path.info.name.name.decode().lower(),lambda: dm.download_file_img())
+                        tab_content = EmptyFileView("Ten plik jest pusty.")
+                        dm = download_manager(file_path[1])
+                        download_buttona = downloadButton(file_path[1].info.name.name.decode().lower(),lambda: dm.download_file_img())
                         q_tab = self.ui.tabWidget_2
                         tab_content.layout().addWidget(download_buttona, alignment=Qt.AlignCenter)
                         q_tab.addTab(tab_content,"Empty Fiel")
                         q_tab.setCurrentWidget(tab_content)
                 elif ext in['.csv','.xlsx','.xls','.odf','.ods','.xlsm','.xlsb']:
-                    file_hoke = file_system.open_meta(file_path.info.name.meta_addr)
+                    #file_hoke = file_system.open_meta(file_path[1].info.name.meta_addr)
                     file_data = file_hoke.read_random(0,file_hoke.info.meta.size)
                     if file_data is None:
                         return None
@@ -152,20 +189,20 @@ def display_file_content(self, file_path,history_flag = 1,file_system = None) ->
                         print(f"Nieobsługiwane rozszerzenie: {ext}")
                         return None
                     tab_content = display_table_content(self, df,ext)
-                    dm = download_manager(file_path)
-                    download_buttona = downloadButton(file_path.info.name.name.decode().lower(),lambda: dm.download_file_img())
+                    dm = download_manager(file_path[1])
+                    download_buttona = downloadButton(file_path[1].info.name.name.decode().lower(),lambda: dm.download_file_img())
                     q_tab = self.ui.tabWidget_2
                     tab_content.layout().addWidget(download_buttona, alignment=Qt.AlignCenter)
                     q_tab.addTab(tab_content,"EXEL")
                     q_tab.setCurrentWidget(tab_content)
                 else:
                     tab_content = NotSupportFileView()
-                    dm = download_manager(file_path)
-                    download_buttona = downloadButton(file_path.info.name.name.decode().lower(),lambda: dm.download_file_img())
+                    dm = download_manager(file_path[1])
+                    download_buttona = downloadButton(file_path[1].info.name.name.decode().lower(),lambda: dm.download_file_img())
                     q_tab = self.ui.tabWidget_2
                     tab_content.layout().addWidget(download_buttona, alignment=Qt.AlignCenter)
                     q_tab.addTab(tab_content,"Not Suport Fiel")
                     q_tab.setCurrentWidget(tab_content)
 
             except Exception as e:
-                print(f"Bład w PyTSK3 w display_chebger.py : {e}")
+                print(f"Bład w PyTSK3 w display_chebnger.py : {e}")
